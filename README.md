@@ -3,11 +3,35 @@ The front-end for www.shredindex.com
 
 # Getting started
 
-To be added...
+### Clone the repository
 
-## Setup
+```
+git clone https://github.com/underflip/shredindex-frontend.git
+```
 
-To be added...
+### Install dependencies
+
+```
+npm install
+```
+
+### Build the resources
+
+```
+npm run build
+```
+
+### Use entry point
+
+Based on your local environment, point traffic to `<project-folder>/public/index.html`
+
+## Development
+
+### Watch
+
+```
+npm run watch
+```
 
 # Contributors
 
