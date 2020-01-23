@@ -1,9 +1,12 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const Copy = require('copy-webpack-plugin');
+
+const development = 'development';
 
 module.exports = {
-  mode: 'development',
+  mode: development,
   entry: {
     app: [
       '@babel/polyfill',
@@ -57,5 +60,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
+    new Copy([
+      { from: 'src/dev/patterns.html', to: '../' },
+    ]),
   ],
 };
