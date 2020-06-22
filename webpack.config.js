@@ -1,14 +1,23 @@
+const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const Copy = require('copy-webpack-plugin');
+const dotenv = require('dotenv');
 
 const development = 'development';
+
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
   mode: development,
   entry: {
-    app: [
+    'js/app': [
       '@babel/polyfill',
       './src/js/app.js',
     ],
@@ -21,13 +30,8 @@ module.exports = {
   module: {
     rules: [
       {
-        // Only run `.js` and `.jsx` files through Babel
-        test: /\.js?$/,
-        // skip the files in the node_modules directory
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        // Options to configure the babel. here we have set up the preset.
-        // this can be replaced with .babelrc file
-        // presets: ['@babel/preset-env'],
         use: [
           {
             loader: 'babel-loader',
@@ -63,5 +67,6 @@ module.exports = {
     new Copy([
       { from: 'src/dev/patterns.html', to: '../' },
     ]),
+    new webpack.DefinePlugin(envKeys),
   ],
 };
