@@ -7,10 +7,10 @@ import ReactDOM from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home';
-import t_en from './lang/en.json';
+import langEn from './lang/en.json';
 
 const t = {
-  en: t_en,
+  en: langEn,
 };
 
 const locale = 'en';

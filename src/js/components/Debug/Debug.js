@@ -27,8 +27,6 @@ const Debug = () => {
     : <p>Graphql server health check failed</p>;
 };
 
-const Skeleton = () => {
-  return <p>Loading...</p>;
-};
+const Skeleton = () => <p>Loading...</p>;
 
 export default Debug;
