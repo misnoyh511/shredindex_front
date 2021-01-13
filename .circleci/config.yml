@@ -1,17 +1,14 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@3.0.0
   codecov: codecov/codecov@1.1.0
 
 jobs:
   build-and-test:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node
     steps:
       - checkout
-      - node/install:
-          node-version: latest
       - run: npm install
       - run: npm run lint
       - run: npm test
@@ -21,10 +18,4 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - /pulls\/.*/
+      - build-and-test
