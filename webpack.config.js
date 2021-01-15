@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
-const Copy = require('copy-webpack-plugin');
 const dotenv = require('dotenv');
 
 const development = 'development';
@@ -64,9 +63,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new Copy([
-      { from: 'src/dev/patterns.html', to: '../' },
-    ]),
     new webpack.DefinePlugin(envKeys),
   ],
 };

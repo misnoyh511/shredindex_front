@@ -1,0 +1,17 @@
+// Here you can add other styles
+
+// Buttons
+button {
+  text-decoration: none !important;
+
+  &:focus {
+    outline: none !important;
+  }
+}
+
+// Cards
+.card-header {
+  button:focus {
+    box-shadow: none !important;
+  }
+}
