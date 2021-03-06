@@ -4,3 +4,5 @@ infrastructure
 .env
 coverage
 .idea/
+debug.log
+cypress.env.json
