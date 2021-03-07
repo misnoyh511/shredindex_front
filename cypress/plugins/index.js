@@ -18,4 +18,10 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+
+  if (config.env.baseUrl !== undefined) {
+    config.baseUrl = config.env.baseUrl;
+  }
+
+  return config;
+};
