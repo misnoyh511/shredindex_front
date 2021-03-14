@@ -1,5 +1,6 @@
 node_modules
-public/dist
+public/dist/
+public/index.html
 infrastructure
 .env
 coverage

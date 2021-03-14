@@ -18,11 +18,11 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 module.exports = {
   mode: development,
   entry: {
-    'js/app': [
+    'dist/js/app': [
       '@babel/polyfill',
       './src/js/app.js',
     ],
-    'css/style': './src/scss/style.scss',
+    'dist/css/style': './src/scss/style.scss',
   },
   devServer: {
     contentBase: './public',
@@ -31,11 +31,44 @@ module.exports = {
     overlay: true,
   },
   output: {
-    path: path.resolve(__dirname, 'public/dist'),
+    path: path.resolve(__dirname, 'public/'),
     filename: '[name].js',
   },
   module: {
     rules: [
+      {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'dist/images/',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65,
+              },
+              optipng: {
+                enabled: true,
+              },
+              pngquant: {
+                quality: '65-90',
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              webp: {
+                quality: 75,
+              },
+            },
+          },
+        ],
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -66,11 +99,14 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg'],
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: './public/index.html',
-      filename: './index.html',
+      title: 'Shred Index',
+      template: 'src/index.html',
     }),
     new FixStyleOnlyEntriesPlugin(),
     new MiniCssExtractPlugin({

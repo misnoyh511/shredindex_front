@@ -6,6 +6,7 @@
     },
     "extends": [
         "plugin:react/recommended",
+        "plugin:cypress/recommended",
         "airbnb"
     ],
     "globals": {
@@ -21,7 +22,8 @@
     },
     "plugins": [
         "react",
-        "jest"
+        "jest",
+        "cypress"
     ],
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
