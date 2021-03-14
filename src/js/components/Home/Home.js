@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import Header from '../Header/Header';
 import SidebarNav from '../Sidebar/SidebarNav';
 import ViewContext from '../ViewContext/ViewContext';
+import TheSupporters from "../Footer/TheSupporters";
+import TheFooter from "../Footer/TheFooter";
 
 export default function Home() {
   const [toggleNav, setToggleNav] = useState(false);
@@ -30,6 +32,8 @@ export default function Home() {
           </div>
         </div>
       </ViewContext.Provider>
+      <TheSupporters/>
+      <TheFooter/>
     </div>
   );
 }
