@@ -3,8 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import Header from '../Header/Header';
 import SidebarNav from '../Sidebar/SidebarNav';
 import ViewContext from '../ViewContext/ViewContext';
-import TheSupporters from "../Footer/TheSupporters";
-import TheFooter from "../Footer/TheFooter";
+import Footer from '../Footer/Footer';
+import SupportBanner from '../SupportBanner/SupportBanner';
+import FooterNav from "../FooterNav/FooterNav";
 
 export default function Home() {
   const [toggleNav, setToggleNav] = useState(false);
@@ -30,10 +31,11 @@ export default function Home() {
               </p>
             </div>
           </div>
+          <SupportBanner />
+          <Footer />
+          <FooterNav />
         </div>
       </ViewContext.Provider>
-      <TheSupporters/>
-      <TheFooter/>
     </div>
   );
 }
