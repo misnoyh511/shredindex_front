@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SupportService = [
+const SupportItems = [
   {
     name: 'Reddit',
     url: 'https://www.reddit.com/r/skiing/comments/dbafm7/so_i_have_been_building_this_what_do_you_guys',
@@ -33,4 +33,4 @@ const SupportService = [
   },
 ];
 
-export default SupportService;
+export default SupportItems;

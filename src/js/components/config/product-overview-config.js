@@ -3,7 +3,7 @@ const ProductOverview = {
     name: 'ShredIndex',
     url: 'https://shredindex.com/',
   },
-  underFlip: {
+  underflip: {
     name: 'UnderFlip',
     url: 'https://www.producthunt.com/posts/shred-index',
   },

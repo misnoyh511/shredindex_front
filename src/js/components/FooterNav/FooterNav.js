@@ -10,25 +10,23 @@ import {
 import NavConfig from '../config/nav-config';
 
 const FooterNav = () => (
-  <>
-    <CRow>
-      <CCol xs="12">
-        <CCard className="bg-gradient-dark m-0 border-0">
-          <CCardBody>
-            <CNav className="justify-content-center">
-              <FooterNavList />
-            </CNav>
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
-  </>
+  <CRow>
+    <CCol xs="12">
+      <CCard className="bg-gradient-dark m-0 border-0">
+        <CCardBody>
+          <CNav className="justify-content-center">
+            <FooterNavList />
+          </CNav>
+        </CCardBody>
+      </CCard>
+    </CCol>
+  </CRow>
 );
 
-export default FooterNav;
-
-const FooterNavList = () => NavConfig.map((item) => (
-  <CNavLink key={item.path} to={item.path} className="text-light">
-    {item.name}
+const FooterNavList = () => NavConfig.map((nav) => (
+  <CNavLink key={nav.path} to={nav.path} className="text-light">
+    {nav.name}
   </CNavLink>
 ));
+
+export default FooterNav;
