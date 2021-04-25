@@ -33,6 +33,38 @@ Based on your local environment, point traffic to `<project-folder>/public/index
 npm run watch
 ```
 
+### Tests
+
+Unit tests
+
+```yaml
+npm run test:jest
+```
+
+e2e tests
+
+```yaml
+npm run test:cypress
+```
+
+Or to run a full test suite, with combined coverage:
+
+```yaml
+npm run test:full
+```
+
+This will run `test:jest`, `test:e2e`, and `coverage` in one go.
+
+#### Reports - What's going on in the background?
+
+There are a set of reporting scripts in `package.json`, these are used by `npm run coverage` to do general housekeeping to organise the coverage reports from jest and cypress, merge them, and then produce a new coverage report.
+
+The scripts are:
+
+- `reports:copy`
+- `reports:combine`
+- `reports:coverage`
+
 # Contributors
 
 (Thomas Hansen)[https://github.com/krank3n]

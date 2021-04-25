@@ -6,12 +6,20 @@ orbs:
 jobs:
   build-and-test:
     docker:
-      - image: circleci/node
+      - image: cypress/included:7.1.0
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v2-npm-{{ checksum "package-lock.json" }}
       - run: npm install
+      - save_cache:
+          key: v2-npm-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+            - /root/.cache/Cypress
       - run: npm run lint
-      - run: npm test
+      - run: npm run tests
       - codecov/upload:
           file: ./coverage/clover.xml
 

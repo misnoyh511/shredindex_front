@@ -3,7 +3,15 @@ public/dist/
 public/index.html
 infrastructure
 .env
-coverage
 .idea/
 debug.log
+
+# Tests and coverage reports
 cypress.env.json
+cypress/screenshots/
+cypress/videos/
+.nyc_output/
+cypress-coverage/
+jest-coverage/
+reports/
+coverage/

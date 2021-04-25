@@ -10,10 +10,16 @@ const development = 'development';
 
 const env = dotenv.config().parsed;
 
-const envKeys = Object.keys(env).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
-}, {});
+let envKeys = {};
+
+if (env) {
+  envKeys = Object.keys(env)
+    .reduce((prev, next) => {
+      // eslint-disable-next-line no-param-reassign
+      prev[`process.env.${next}`] = JSON.stringify(env[next]);
+      return prev;
+    }, {});
+}
 
 module.exports = {
   mode: development,
