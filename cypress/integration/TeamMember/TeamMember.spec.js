@@ -1,4 +1,8 @@
 describe('Header', () => {
+  before(() => {
+    cy.visit('/');
+  });
+
   it('Contains team members', () => {
     cy.get('.team-members-banner');
   });

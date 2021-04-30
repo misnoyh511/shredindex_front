@@ -1,4 +1,7 @@
 describe('Footer', () => {
+  before(() => {
+    cy.visit('/');
+  });
 
   it('Contains a nav link', () => {
     cy.get('.nav-link');

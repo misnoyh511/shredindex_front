@@ -1,4 +1,8 @@
 describe('Header', () => {
+  before(() => {
+    cy.visit('/');
+  });
+
   it('Contains supporters', () => {
     cy.get('.supporters');
   });
