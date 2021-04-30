@@ -1,8 +1,9 @@
 import { CImg } from '@coreui/react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const TeamMember = (props) => {
-  const { imgSrc, path, name } = props.member;
+  const { member: { imgSrc, path, name } } = props;
   return (
     <div className="m-auto p-4 d-flex align-items-center">
       <div>
@@ -16,7 +17,7 @@ const TeamMember = (props) => {
       </div>
       <div className="p-4">
         <span className="mr-1 font-weight-bold">
-          <a href={path} target="_blank" rel="noopener">
+          <a href={path} target="_blank" rel="noreferrer">
             {name}
           </a>
         </span>
@@ -24,4 +25,13 @@ const TeamMember = (props) => {
     </div>
   );
 };
+
+TeamMember.propTypes = {
+  member: PropTypes.shape({
+    imgSrc: PropTypes.string.isRequired,
+    path: PropTypes.number.isRequired,
+    name: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
 export default TeamMember;

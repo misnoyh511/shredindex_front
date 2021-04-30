@@ -3,10 +3,6 @@ const ProductOverview = {
     name: 'ShredIndex',
     url: 'https://shredindex.com/',
   },
-  underflip: {
-    name: 'UnderFlip',
-    url: 'https://www.producthunt.com/posts/shred-index',
-  },
 };
 
 export default ProductOverview;

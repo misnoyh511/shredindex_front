@@ -5,7 +5,7 @@ import SidebarNav from '../Sidebar/SidebarNav';
 import ViewContext from '../ViewContext/ViewContext';
 import Footer from '../Footer/Footer';
 import SupportBanner from '../SupportBanner/SupportBanner';
-import FooterNav from "../FooterNav/FooterNav";
+import FooterNav from '../FooterNav/FooterNav';
 
 export default function Home() {
   const [toggleNav, setToggleNav] = useState(false);
