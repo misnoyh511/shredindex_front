@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { CCol, CRow } from '@coreui/react';
 import { rgbToHex } from '@coreui/utils/src';
 
-export default { title: 'Colors' };
+export default { title: 'CoreUI/Colors' };
 
 const ThemeView = () => {
   const [color, setColor] = useState('rgb(255, 255, 255)');

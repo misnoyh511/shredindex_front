@@ -1,40 +1,49 @@
 describe('Header', () => {
   beforeEach(() => {
-    cy.visit('/');
-  });
-  it('Contains a nav item', () => {
-    cy.get('.c-header-nav-item');
-  });
-  it('Has a toggler button', () => {
-    cy.get('.c-header-toggler').get('.c-header-toggler-icon');
+    cy.visit('/iframe.html?id=shred-index-components-header--header');
   });
 
-  context('mobile resolution', () => {
-    beforeEach(() => {
-      // run these tests as if in a desktop
-      // browser with a 720p monitor
-      cy.viewport(990, 720);
-    });
-    it('Mobile Hidden', () => {
-      cy.get('.d-md-down-none').should('not.be.visible');
-    });
-    it('Full resolution shown', () => {
-      cy.get('.d-lg-none').should('be.visible');
+  context('All devices', () => {
+    it('Displays the app logo', () => {
+      cy.get('.header__logo').should('exist');
+      cy.get('.header__logo-link').should('have.attr', 'href', '/');
+      cy.get('.header__logo-image').should('have.attr', 'src')
+        .then((src) => {
+          expect(src)
+            .to
+            .contain('images/logo.svg');
+        });
     });
   });
 
-  context('full resolution', () => {
-    beforeEach(() => {
-      // run these tests as if in a mobile browser
-      // and ensure our responsive UI is correct
+  context('Mobile devices', () => {
+    before(() => {
+      cy.viewport(375, 667);
+    });
+
+    it('Should provide navigation', () => {
+      cy.get('.header__toggler').should('be.visible');
+
+      cy.get('.header__toggler').click();
+
+      cy.get('.sidebar-nav').should('be.visible');
+
+      cy.get('.sidebar-nav__item').should('have.length.greaterThan', 0).should('be.visible');
+
+      cy.get('.c-sidebar-backdrop').click({ force: true });
+
+      cy.get('.sidebar-nav').should('be.hidden');
+    });
+  });
+
+  context('Desktop devices', () => {
+    before(() => {
       cy.viewport(1280, 720);
     });
 
-    it('Mobile Hidden', () => {
-      cy.get('.d-md-down-none').should('be.visible');
-    });
-    it('Full resolution shown', () => {
-      cy.get('.d-lg-none').should('not.be.visible');
+    it('Should provide navigation', () => {
+      cy.get('.header-nav__item').should('have.length.greaterThan', 0).should('be.visible');
     });
   });
+
 });
