@@ -1,26 +1,61 @@
-import React, { useContext } from 'react';
+import CIcon from '@coreui/icons-react';
 import {
   CHeader,
+  CHeaderBrand,
+  CHeaderNav,
+  CHeaderNavItem,
+  CHeaderNavLink,
+  CImg,
   CToggler,
 } from '@coreui/react';
-import HeaderNavigation from '../HeaderNavigation/HeaderNavigation';
+import React, { useContext } from 'react';
+import { FormattedMessage } from 'react-intl';
+import Logo from '../../../images/logo.svg';
+import NavConfig from '../config/nav-config';
 import SubHeader from '../SubHeader/SubHeader';
-
 import ViewContext from '../ViewContext/ViewContext';
 
 const Header = () => {
-  const { toggleNav, setToggleNav } = useContext(ViewContext);
+  const { showSidebar, setShowSidebar } = useContext(ViewContext);
   return (
-    <CHeader withSubheader>
+    <CHeader withSubheader className="header">
       <CToggler
         inHeader
-        className="ml-md-3 d-lg-none"
-        onClick={() => setToggleNav(!toggleNav)}
+        className="header__toggler ml-md-3 d-lg-none"
+        onClick={() => setShowSidebar(!showSidebar)}
       />
-      <HeaderNavigation />
+      <CHeaderBrand className="header__logo px-3 mx-auto mx-lg-0">
+        <CHeaderNavLink className="header__logo-link" to="/">
+          <CImg src={Logo} className="header__logo-image" name="logo" height="28" alt="Logo" />
+        </CHeaderNavLink>
+      </CHeaderBrand>
+      <HeaderNav />
       <SubHeader />
     </CHeader>
   );
+};
+
+const HeaderNav = () => (
+  <CHeaderNav className="header-nav d-md-down-none mr-auto">
+    <HeaderNavItems />
+  </CHeaderNav>
+);
+
+const HeaderNavItems = () => {
+  const filtered = NavConfig.filter((item) => item.path !== '/');
+
+  return (
+    filtered.map((item) => (
+      <CHeaderNavItem key={item.path} className="header-nav__item px-3">
+        <CHeaderNavLink className="header-nav__link" to={item.path}>
+          <CIcon content={item.icon} className="header-nav__icon mr-2" />
+          <FormattedMessage
+            id={item.name}
+            defaultMessage={item.name}
+          />
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+    )));
 };
 
 export default Header;

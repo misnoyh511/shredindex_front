@@ -5,7 +5,7 @@ import {
 import CIcon from '@coreui/icons-react';
 import { freeSet } from '@coreui/icons';
 
-export default { title: 'Icons' };
+export default { title: 'CoreUI/Icons' };
 const toKebabCase = (str) => str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
   .toLowerCase();
 

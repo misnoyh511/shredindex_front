@@ -41,7 +41,7 @@ import {
 } from '@coreui/icons';
 import React from 'react';
 
-export default { title: 'Buttons' };
+export default { title: 'CoreUI/Buttons' };
 
 export const Buttons = () => (
   <>

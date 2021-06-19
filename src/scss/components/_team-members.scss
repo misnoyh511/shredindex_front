@@ -1,0 +1,8 @@
+.team-members {
+  &__member-image {
+    width: 4.5rem;
+    border-color: var(--primary);
+    border-width: 3px;
+    border-style: solid;
+  }
+}

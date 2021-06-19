@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default { title: 'Typography' };
+export default { title: 'CoreUI/Typography' };
 
 export const Typography = () => (
   <>

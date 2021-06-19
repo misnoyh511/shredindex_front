@@ -1,0 +1,19 @@
+.support-banner {
+  background: linear-gradient(to right, $body-bg 0%, $gray-400 25%, $gray-400 75%, $body-bg 100%) !important;
+
+  &__supporter {
+    text-align: center;
+    margin: auto;
+    height: auto;
+    display: flex;
+  }
+
+  &__supporter-image {
+    width: 7rem;
+
+    &:hover {
+      opacity: .5;
+      transition-duration: .1s;
+    }
+  }
+}
