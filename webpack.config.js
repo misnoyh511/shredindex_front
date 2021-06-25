@@ -35,10 +35,12 @@ module.exports = {
     open: true,
     port: 3000,
     overlay: true,
+    historyApiFallback: true,
   },
   output: {
     path: path.resolve(__dirname, 'public/'),
     filename: '[name].js',
+    publicPath: '/',
   },
   module: {
     rules: [
