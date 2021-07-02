@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
-    "lint": "eslint src/",
+    "lint": "stylelint src/**/*.scss && eslint src/",
     "storybook": "start-storybook -p 9009",
     "storybook:ci": "start-storybook -p 9009 --ci",
     "test:cypress": "cypress run",
@@ -61,6 +61,8 @@
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "start-server-and-test": "^1.12.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2",
