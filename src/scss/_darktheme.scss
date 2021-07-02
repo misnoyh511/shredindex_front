@@ -7,8 +7,8 @@ $headings-font-family: roboto;
 $font-family-base: nunito;
 
 // CoreUI Colors
-$white: #ffffff;
-$black: #000000;
+$white: #fff;
+$black: #000;
 
 $gray-base: #f1f4f8;
 $gray-100: #101d25;
@@ -24,18 +24,18 @@ $gray-900: #f1f4f8;
 $grays: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $grays: map-merge(
-    (
-      "100": $gray-100,
-      "200": $gray-200,
-      "300": $gray-300,
-      "400": $gray-400,
-      "500": $gray-500,
-      "600": $gray-600,
-      "700": $gray-700,
-      "800": $gray-800,
-      "900": $gray-900
-    ),
-    $grays
+  (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900
+  ),
+  $grays
 );
 
 $primary-base: #4eb5a6;
@@ -54,12 +54,10 @@ $primary: #4dc5b3;
 $primary-50: #70d8c9;
 $primary-25: #92f9ea;
 
-
 $primary-gradient: (
   "start": $primary,
   "stop": $primary-dark
 );
-
 
 $secondary-base: #9b5776;
 
@@ -81,7 +79,6 @@ $secondary-gradient: (
   "start": $secondary,
   "stop": $secondary-dark
 );
-
 
 $danger-dark: #d93737;
 $danger: #e55353;
@@ -136,17 +133,17 @@ $pink: #ff68ae;
 $theme-colors: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
-    (
-      "primary": $primary,
-      "secondary": $secondary-25,
-      "success": $success,
-      "info": $info,
-      "warning": $warning,
-      "danger": $danger,
-      "light": $light,
-      "dark": $dark
-    ),
-    $theme-colors
+  (
+    "primary": $primary,
+    "secondary": $secondary-25,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark
+  ),
+  $theme-colors
 );
 
 // Set a specific jump point for requesting color jumps
@@ -162,25 +159,24 @@ $yiq-text-light: $white;
 $yiq-theme-map: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $yiq-theme-map: map-merge(
-    (
-      default: (
-        "yiq-text-dark": $yiq-text-dark,
-        "yiq-text-light": $yiq-text-light
-      )
-    ),
-    $yiq-theme-map
+  (
+    default: (
+      "yiq-text-dark": $yiq-text-dark,
+      "yiq-text-light": $yiq-text-light
+    )
+  ),
+  $yiq-theme-map
 );
 
 // TODO: Move to better place
 // Characters which are escaped by the escape-svg function
 $escaped-characters: (
-    ("<", "%3c"),
-    (">", "%3e"),
-    ("#", "%23"),
-    ("(", "%28"),
-    (")", "%29"),
+  ("<", "%3c"),
+  (">", "%3e"),
+  ("#", "%23"),
+  ("(", "%28"),
+  (")", "%29"),
 );
-
 
 // Body
 $body-bg: $gray-200;
@@ -191,16 +187,16 @@ $hr-border-color: $gray-600;
 // Header
 $header-light-bg: $gray-500;
 $header-light-color: $body-color;
-$header-light-hover-color: rgba($body-color, .7);
-$header-light-active-color: rgba($body-color, .9);
-$header-light-disabled-color: rgba($body-color, .3);
+$header-light-hover-color: rgba($body-color, 0.7);
+$header-light-active-color: rgba($body-color, 0.9);
+$header-light-disabled-color: rgba($body-color, 0.3);
 
 // Sub Header
 $subheader-light-bg: $gray-500;
 $subheader-light-color: $body-color;
-$subheader-light-hover-color: rgba($body-color, .7);
-$subheader-light-active-color: rgba($body-color, .9);
-$subheader-light-disabled-color: rgba($body-color, .3);
+$subheader-light-hover-color: rgba($body-color, 0.7);
+$subheader-light-active-color: rgba($body-color, 0.9);
+$subheader-light-disabled-color: rgba($body-color, 0.3);
 
 // Breadcrumbs
 $breadcrumb-active-color: $gray-800;
@@ -233,7 +229,11 @@ $popover-header-color: $gray-900;
 
 // Sidebar
 $sidebar-dark-bg: $gray-500;
-.c-sidebar, .card, .c-header, .modal-content {
+
+.c-sidebar,
+.card,
+.c-header,
+.modal-content {
   background: linear-gradient(45deg, #283c49, #39576b) !important;
 }
 
@@ -274,7 +274,3 @@ $table-head-color: $gray-800;
 
 // List Group
 $list-group-border-color: $border-color;
-
-
-
-
