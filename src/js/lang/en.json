@@ -1,7 +1,7 @@
 {
     "shredindex.app.TITLE": "Shred Index",
     "shredindex.app.SUBTITLE": "Live your best adventure lifestyle",
-    "shredindex.app.COMPANY": "Underflip",
-    "shredindex.app.PRODUCT": "ShredIndex",
-    "shredindex.app.FOOTER": "Developed by"
+    "shredindex.resort.DESCRIPTION": "Description",
+    "shredindex.ratings.RATINGS": "Ratings",
+    "shredindex.statistics.STATISTICS": "Statistics"
 }

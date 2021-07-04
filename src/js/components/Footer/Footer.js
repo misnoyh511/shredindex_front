@@ -59,10 +59,12 @@ const TeamMembers = () => {
   return teamMembers
     .sort((a, b) => (a.sort_order > b.sort_order ? 1 : -1))
     .map((member) => {
-      const { url, name, image: { path } } = member;
+      const {
+        url, name, image: { path }, sort_order,
+      } = member;
 
       return (
-        <div className="team-members__member m-auto p-4">
+        <div className="team-members__member m-auto p-4" key={sort_order}>
           <a href={url} className="team-members__member-link d-flex align-items-center" target="_blank" rel="noopener noreferrer">
             {path && (
               <div>

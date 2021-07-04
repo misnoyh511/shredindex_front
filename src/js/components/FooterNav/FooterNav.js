@@ -1,13 +1,8 @@
-import React from 'react';
 import {
-  CRow,
-  CCol,
-  CCard,
-  CCardBody,
-  CNav,
-  CNavLink,
+  CCard, CCardBody, CCol, CNav, CNavLink, CRow,
 } from '@coreui/react';
-import NavConfig from '../config/nav-config';
+import React from 'react';
+import routingConfig from '../config/routing-config';
 
 const FooterNav = () => (
   <CRow>
@@ -23,7 +18,7 @@ const FooterNav = () => (
   </CRow>
 );
 
-const FooterNavList = () => NavConfig.map((nav) => (
+const FooterNavList = () => routingConfig.map((nav) => (
   <CNavLink key={nav.path} to={nav.path} className="text-light">
     {nav.name}
   </CNavLink>

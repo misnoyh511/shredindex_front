@@ -2,6 +2,9 @@
   "name": "shredindex.frontend",
   "version": "2.0.0",
   "description": "The front-end for www.shredindex.com",
+  "engines": {
+    "node": "^14.x"
+  },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
@@ -58,7 +61,6 @@
     "jest": "^25.5.4",
     "loader": "^2.1.1",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "start-server-and-test": "^1.12.1",
     "stylelint": "^13.13.1",
@@ -85,6 +87,7 @@
     "css-loader": "^5.2.5",
     "graphql": "^14.7.0",
     "graphql-tag": "^2.11.0",
+    "node-sass": "^4.14.1",
     "normalize-scss": "^7.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
@@ -108,7 +111,8 @@
     "report-dir": "cypress-coverage",
     "exclude": [
       "src/stories/coreui/*.js",
-      "src/stories/index.stories.js"
+      "src/stories/index.stories.js",
+      "src/js/components/Resorts/Resorts.js"
     ]
   }
 }

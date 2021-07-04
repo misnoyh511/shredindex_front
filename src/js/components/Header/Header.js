@@ -11,7 +11,7 @@ import {
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Logo from '../../../images/logo.svg';
-import NavConfig from '../config/nav-config';
+import routingConfig from '../config/routing-config';
 import SubHeader from '../SubHeader/SubHeader';
 import ViewContext from '../ViewContext/ViewContext';
 
@@ -42,7 +42,7 @@ const HeaderNav = () => (
 );
 
 const HeaderNavItems = () => {
-  const filtered = NavConfig.filter((item) => item.path !== '/');
+  const filtered = routingConfig.filter((item) => item.showInMenu);
 
   return (
     filtered.map((item) => (

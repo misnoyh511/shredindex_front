@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
+import { CFade } from '@coreui/react';
 import { gql } from 'apollo-boost';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,16 +15,16 @@ const Preloader = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="preloader d-flex min-vh-100 justify-content-center align-items-center">
+      <CFade className="preloader d-flex min-vh-100 justify-content-center align-items-center">
         <div className="preloader__content">Loading...</div>
-      </div>
+      </CFade>
     );
   }
 
   return (
-    <>
+    <CFade>
       { children }
-    </>
+    </CFade>
   );
 };
 

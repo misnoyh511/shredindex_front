@@ -2,14 +2,15 @@ import CIcon from '@coreui/icons-react';
 import {
   CHeaderBrand,
   CHeaderNavLink,
-  CImg, CNavLink,
+  CImg,
+  CNavLink,
   CSidebar,
   CSidebarMinimizer,
   CSidebarNav,
 } from '@coreui/react';
 import React, { useContext } from 'react';
 import Logo from '../../../images/logo.svg';
-import NavConfig from '../config/nav-config';
+import routingConfig from '../config/routing-config';
 import ViewContext from '../ViewContext/ViewContext';
 
 const SidebarNav = () => {
@@ -34,13 +35,13 @@ const SidebarNav = () => {
 };
 
 const SidebarNavItems = () => {
-  const filtered = NavConfig.filter((item) => item.path !== '/');
+  const filtered = routingConfig.filter((item) => item.showInMenu);
 
-  return filtered.map((item) => (
-    <li key={item.path} className="sidebar-nav__item c-sidebar-nav-item">
-      <CNavLink to={item.path} className="sidebar-nav__link c-sidebar-nav-link">
-        <CIcon content={item.icon} className="sidebar-nav__icon mr-2" />
-        {item.name}
+  return filtered.map(({ path, icon, name }) => (
+    <li key={path} className="sidebar-nav__item c-sidebar-nav-item">
+      <CNavLink to={path} className="sidebar-nav__link c-sidebar-nav-link">
+        <CIcon content={icon} className="sidebar-nav__icon mr-2" />
+        {name}
       </CNavLink>
     </li>
   ));

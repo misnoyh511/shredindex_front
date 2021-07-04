@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/react-hooks';
+import { CContainer } from '@coreui/react';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
@@ -11,6 +12,8 @@ import FooterNav from './components/FooterNav/FooterNav';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Preloader from './components/Preloader/Preloader';
+import Resort from './components/Resort/Resort';
+import Resorts from './components/Resorts/Resorts';
 import SidebarNav from './components/SidebarNav/SidebarNav';
 import SupportBanner from './components/SupportBanner/SupportBanner';
 import ViewContext from './components/ViewContext/ViewContext';
@@ -46,9 +49,15 @@ const App = () => {
                 <div className="c-wrapper">
                   <Header />
                   <div className="c-body">
-                    <Switch>
-                      <Route path="/" component={Home} />
-                    </Switch>
+                    <main className="c-main">
+                      <CContainer>
+                        <Switch>
+                          <Route exact path="/" component={Home} />
+                          <Route exact path="/resorts/:urlSegment" component={Resort} />
+                          <Route exact path="/resorts" component={Resorts} />
+                        </Switch>
+                      </CContainer>
+                    </main>
                   </div>
                   <SupportBanner />
                   <Footer />
