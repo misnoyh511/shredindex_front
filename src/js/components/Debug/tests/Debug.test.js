@@ -1,7 +1,8 @@
-import React from 'react';
+import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { MockedProvider, wait } from '@apollo/react-testing';
+import wait from 'waait';
 import Debug, { QUERY_HEALTH_CHECK } from '../Debug';
 
 const mocks = {
@@ -37,14 +38,11 @@ describe('Test <Debug />', () => {
 
     expect(wrapper.html()).toContain('Loading...');
 
-    // Comply with "not wrapped in act()" warning
-    await act(async () => {
-      // Wait for the GraphQL response data
-      await wait(0);
+    // Warning: An update to Debug inside a test was not wrapped in act(...).
+    await act(wait);
 
-      wrapper.update(); // Update the wrapper to reflect the new context
-      expect(wrapper.html()).toContain('Graphql server health check succeeded');
-    });
+    wrapper.update();
+    expect(wrapper.html()).toContain('Graphql server health check succeeded');
   });
 
   it('fails a graphql healthcheck', async () => {
@@ -54,15 +52,10 @@ describe('Test <Debug />', () => {
       </MockedProvider>,
     );
 
-    expect(wrapper.html()).toContain('Loading...');
+    // Warning: An update to Debug inside a test was not wrapped in act(...).
+    await act(wait);
 
-    // Comply with "not wrapped in act()" warning
-    await act(async () => {
-      // Wait for the GraphQL response data
-      await wait(0);
-
-      wrapper.update(); // Update the wrapper to reflect the new context
-      expect(wrapper.html()).toContain('Graphql server health check failed');
-    });
+    wrapper.update();
+    expect(wrapper.html()).toContain('Graphql server health check failed');
   });
 });

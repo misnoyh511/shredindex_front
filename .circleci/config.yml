@@ -6,7 +6,7 @@ orbs:
 jobs:
   build-and-test:
     docker:
-      - image: cypress/included:7.1.0
+      - image: cypress/included:9.5.0
     steps:
       - checkout
       - restore_cache:

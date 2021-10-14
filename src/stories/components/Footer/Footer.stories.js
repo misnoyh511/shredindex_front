@@ -1,6 +1,8 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
+import { IntlProvider } from 'react-intl';
 import FooterComponent, { QUERY_SETTINGS, QUERY_TEAM_MEMBERS } from '../../../js/components/Footer/Footer';
+import langEn from '../../../js/lang/en.json';
 
 export default {
   title: 'Shred index/components/Footer',
@@ -54,7 +56,9 @@ export const Footer = () => {
 
   return (
     <MockedProvider mocks={[mocks.settings, mocks.teamMembers]} addTypename={false}>
-      <FooterComponent />
+      <IntlProvider locale="en" message={langEn}>
+        <FooterComponent />
+      </IntlProvider>
     </MockedProvider>
   );
 };

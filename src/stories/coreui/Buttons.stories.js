@@ -16,7 +16,6 @@ import React from 'react';
 export default { title: 'CoreUI/Buttons' };
 
 export const Buttons = () => (
-
   <CRow>
     <CCol xs={12}>
       <CCard className="mb-4">

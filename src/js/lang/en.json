@@ -1,7 +1,15 @@
 {
     "shredindex.app.TITLE": "Shred Index",
     "shredindex.app.SUBTITLE": "Live your best adventure lifestyle",
+    "shredindex.app.N/A": "n/a",
     "shredindex.resort.DESCRIPTION": "Description",
+    "shredindex.resort.LOCATION_UNKNOWN": "Location unknown",
+    "shredindex.ratinglist.RATINGS": "Ratings",
+    "shredindex.ratinglist.HIGHLIGHTS": "Highlights",
+    "shredindex.ratinglist.LOWLIGHTS": "Lowlights",
+    "shredindex.ratinglist.RESORT_IS_UNRATED": "Resort is unrated",
+    "shredindex.commentcard.RESORT_HAS_NO_COMMENTS": "Resort has no comments",
+    "shredindex.resortcard.GO_TO_RESORT": "Go To Resort",
     "shredindex.ratings.RATINGS": "Ratings",
     "shredindex.statistics.STATISTICS": "Statistics"
 }

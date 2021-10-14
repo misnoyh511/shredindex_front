@@ -1,8 +1,10 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
+import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import ResortComponent, { QUERY_RESORT } from '../../js/components/Resort/Resort';
+import langEn from '../../js/lang/en.json';
 
 export default {
   title: 'Shred index/components/Resort',
@@ -44,7 +46,7 @@ export const Resort = () => {
             ratings: [
               {
                 id: '2',
-                title: 'Total Shred Score',
+                title: 'Digital Nomad Score',
                 value: 76,
                 __typename: 'Rating',
               },
@@ -74,11 +76,13 @@ export const Resort = () => {
 
   return (
     <MemoryRouter initialEntries={['resorts/pipedream']}>
-      <Route exact path="resorts/:urlSegment">
-        <MockedProvider mocks={[mocks.resortByUrlSegment]} addTypename={false}>
-          <ResortComponent />
-        </MockedProvider>
-      </Route>
+      <IntlProvider locale="en" message={langEn}>
+        <Route exact path="resorts/:urlSegment">
+          <MockedProvider mocks={[mocks.resortByUrlSegment]} addTypename={false}>
+            <ResortComponent />
+          </MockedProvider>
+        </Route>
+      </IntlProvider>
     </MemoryRouter>
   );
 };

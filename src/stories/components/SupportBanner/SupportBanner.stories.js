@@ -1,6 +1,8 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
+import { IntlProvider } from 'react-intl';
 import SupportBannerComponent, { QUERY_SUPPORTERS } from '../../../js/components/SupportBanner/SupportBanner';
+import langEn from '../../../js/lang/en.json';
 
 export default {
   title: 'Shred index/components/Support Banner',
@@ -69,7 +71,9 @@ export const SupportBanner = () => {
 
   return (
     <MockedProvider mocks={[mocks.supporters]} addTypename={false}>
-      <SupportBannerComponent />
+      <IntlProvider locale="en" message={langEn}>
+        <SupportBannerComponent />
+      </IntlProvider>
     </MockedProvider>
   );
 };

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import { CFooter, CImage } from '@coreui/react';
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
@@ -54,7 +54,8 @@ const TeamMembers = () => {
     return <></>;
   }
 
-  const { teamMembers } = data;
+  // We want to sort, but we can't mutate the data directly, so let's make a clone
+  const teamMembers = [...data.teamMembers];
 
   return teamMembers
     .sort((a, b) => (a.sort_order > b.sort_order ? 1 : -1))

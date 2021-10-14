@@ -13,7 +13,7 @@ const dataProvider = {
   },
   ratings: [
     {
-      title: 'Total Shred Score',
+      title: 'Digital Nomad Score',
       value: 76,
     },
   ],
@@ -54,9 +54,9 @@ describe('Resort', () => {
     cy.get('.resort__description-content').should('contain.text', 'Perpendicular curves to the ceiling for maximum air time');
   });
 
-  it('Should render a rating Total Shred Score', () => {
+  it('Should render a rating Digital Nomad Score', () => {
     cy.get('.resort-rating__label')
-      .should('contain', 'Total Shred Score');
+      .should('contain', 'Digital Nomad Score');
   });
 
   it('Rating should have a value', () => {

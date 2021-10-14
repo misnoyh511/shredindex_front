@@ -1,7 +1,6 @@
 import { CImage } from '@coreui/react';
-import { gql } from 'apollo-boost';
 import React from 'react';
-import { useQuery } from 'react-apollo';
+import { gql, useQuery } from '@apollo/client';
 
 export const QUERY_SUPPORTERS = gql`
   {
@@ -32,7 +31,8 @@ const Supporters = () => {
     return <></>;
   }
 
-  const { supporters } = data;
+  // We want to sort, but we can't mutate the data directly, so let's make a clone
+  const supporters = [...data.supporters];
 
   return supporters
     .sort((a, b) => (a.sort_order > b.sort_order ? 1 : -1))

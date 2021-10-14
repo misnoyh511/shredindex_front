@@ -1,6 +1,64 @@
+.c-sidebar,
+.c-header,
+.modal-content {
+  background: linear-gradient(45deg, #283c49, #39576b) !important;
+}
+
 //Inputs
 input {
   border-style: hidden;
+}
+
+// Backgrounds
+.gray-300-bg {
+  background-color: $gray-300;
+}
+
+// Borders
+.border-radius {
+  &-small {
+    border-radius: 0.2rem;
+  }
+
+  &-medium {
+    border-radius: 0.5rem;
+  }
+
+  &-large {
+    border-radius: 1rem;
+  }
+}
+
+// Opacity
+.opacity {
+  &-100 {
+    opacity: 1;
+  }
+
+  &-80 {
+    opacity: 0.8;
+  }
+
+  &-60 {
+    opacity: 0.6;
+  }
+
+  &-40 {
+    opacity: 0.4;
+  }
+
+  &-20 {
+    opacity: 0.2;
+  }
+}
+
+// Buttons
+button {
+  text-decoration: none !important;
+
+  &:focus {
+    outline: none !important;
+  }
 }
 
 // Cards
@@ -31,5 +89,5 @@ input {
 }
 
 .sidebar {
-  background-color: $gray-100;
+  background-color: $gray-200;
 }

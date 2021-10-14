@@ -1,11 +1,16 @@
-import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import { Link } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import React from 'react';
+import ResortCard from '../ResortCard/ResortCard';
 
 export const QUERY_RESORTS = gql`
   {
-    resorts {
+    resorts(
+      orderBy: {
+        type_name: "total_score",
+        direction: "desc"
+      }
+    ) {
       data {
         id
         title
@@ -24,15 +29,9 @@ const Resorts = () => {
 
   const { resorts: { data: resorts } } = data;
 
-  return (
-    resorts.map(({ id, url_segment, title }) => (
-      <div key={id} className="px-3">
-        <Link className="resort-link" to={`resorts/${url_segment}`}>
-          {title}
-        </Link>
-      </div>
-    ))
-  );
+  return resorts.map(({ id, url_segment }) => (
+    <ResortCard key={id} resortId={id} urlSegment={url_segment} />
+  ));
 };
 
 export default Resorts;

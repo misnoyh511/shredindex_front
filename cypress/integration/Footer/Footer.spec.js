@@ -18,7 +18,7 @@ describe('Footer', () => {
 
   context('All devices', () => {
     it('Should show a copyright message', () => {
-      cy.get('.footer__copyright').should('contain', 'Copyright 2021 Shred Index');
+      cy.get('.footer__copyright').should('contain', 'Copyright 2022 Shred Index');
     });
 
     it('Should render a link', () => {

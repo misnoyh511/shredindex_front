@@ -1,0 +1,68 @@
+@import "flickityCarousel";
+
+.carousel {
+  overflow: hidden;
+
+  &__image {
+    min-width: 100%;
+    min-height: 100%;
+    width: 100%;
+    max-width: 120%;
+    max-height: 120%;
+    object-fit: cover;
+
+    &--no-images {
+      min-height: 8.7rem;
+      min-width: 100%;
+      width: 100%;
+      max-width: 120%;
+      max-height: 120%;
+      object-fit: cover;
+    }
+  }
+
+  &__comment {
+    height: 8.15rem !important;
+
+    &--no-comments {
+      height: 2.15rem !important;
+    }
+  }
+
+  &__comment-background {
+    min-width: 100%;
+    width: 15rem;
+    max-width: 176%;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 0;
+  }
+
+  &__comment-text {
+    display: -webkit-box;
+    font-size: small;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    margin: .2rem;
+  }
+
+  &__author {
+    display: block;
+    bottom: 1.2rem;
+    margin-left: auto;
+    right: 0;
+    font-size: x-small;
+    font-weight: bold;
+    padding: 0.2rem 0.8rem;
+    border-bottom-right-radius: 0.5rem;
+    position: relative;
+    height: 1.5625rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: inherit;
+    text-align: right;
+  }
+}

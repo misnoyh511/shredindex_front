@@ -1,6 +1,5 @@
 import React from 'react';
-import { gql } from 'apollo-boost';
-import { useQuery } from 'react-apollo';
+import { gql, useQuery } from '@apollo/client';
 
 export const QUERY_HEALTH_CHECK = gql`
   {
