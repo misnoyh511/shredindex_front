@@ -1,8 +1,12 @@
-// If you want to override variables do it here
+// Import CoreUI functions
+@import "~@coreui/coreui/scss/functions";
+
+// Import Variable Changes
 @import "darktheme";
 
-// Import CoreUI styles
+// Import CoreUI Styles
 @import "~@coreui/coreui/scss/coreui.scss";
+@import "~@coreui/coreui/scss/mixins";
 
 // If you want to add something do it here
 @import "custom";

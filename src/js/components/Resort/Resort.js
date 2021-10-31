@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { FormattedMessage } from 'react-intl';
 import { useParams } from 'react-router';
 import {
-  CCard, CCardBody, CCardHeader, CCollapse,
+  CCard, CCardBody, CCardHeader,
 } from '@coreui/react';
 import ResortHeader from '../ResortHeader/ResortHeader';
 import Ratings from '../Ratings/Ratings';
@@ -76,7 +76,7 @@ const Resort = () => {
   return (
     <div className="resort">
       <ResortHeader resort={resort} />
-      <CCard className="resort__description-card">
+      <CCard className="resort__description-card mb-4">
         <CCardHeader>
           <h3 className="resort__description-title h6">
             <FormattedMessage
@@ -85,11 +85,9 @@ const Resort = () => {
             />
           </h3>
         </CCardHeader>
-        <CCollapse show>
-          <CCardBody>
-            <p className="resort__description-content mb-0">{description}</p>
-          </CCardBody>
-        </CCollapse>
+        <CCardBody>
+          <p className="resort__description-content mb-0">{description}</p>
+        </CCardBody>
       </CCard>
       <Ratings ratings={ratings} />
       <Statistics statistics={numerics} generics={generics} />

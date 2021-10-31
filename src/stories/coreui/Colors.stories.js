@@ -80,42 +80,6 @@ export const Colors = () => (
           </CRow>
         </div>
       </div>
-      <div className="card">
-        <div className="card-header">
-          Grays
-        </div>
-        <div className="card-body">
-          <CRow className="mb-3">
-            <ThemeColor className="bg-gray-100">
-              <h6>Gray 100 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-200">
-              <h6>Gray 200 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-300">
-              <h6>Gray 300 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-400">
-              <h6>Gray 400 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-500">
-              <h6>Gray 500 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-600">
-              <h6>Gray 600 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-700">
-              <h6>Gray 700 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-800">
-              <h6>Gray 800 Color</h6>
-            </ThemeColor>
-            <ThemeColor className="bg-gray-900">
-              <h6>Gray 900 Color</h6>
-            </ThemeColor>
-          </CRow>
-        </div>
-      </div>
     </div>
   </>
 );

@@ -1,4 +1,4 @@
-import { CImg } from '@coreui/react';
+import { CImage } from '@coreui/react';
 import { gql } from 'apollo-boost';
 import React from 'react';
 import { useQuery } from 'react-apollo';
@@ -45,7 +45,7 @@ const Supporters = () => {
         <div className="support-banner__supporter m-auto p-3" key={sort_order}>
           <a href={url} className="support-banner__supporter-link" rel="noopener noreferrer">
             {path && (
-              <CImg
+              <CImage
                 src={path}
                 className="support-banner__supporter-image opacity-3"
                 alt={name}

@@ -12,7 +12,7 @@ const toKebabCase = (str) => str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2'
 const getIconsView = (iconset) => Object.entries(iconset)
   .map(([name, value]) => (
     <CCol className="mb-5" xs="6" sm="4" md="3" xl="2" key={name}>
-      <CIcon content={value} size="2xl" />
+      <CIcon icon={value} size="xl" />
       <div>{toKebabCase(name)}</div>
     </CCol>
   ));

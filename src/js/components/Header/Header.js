@@ -3,11 +3,13 @@ import {
   CHeader,
   CHeaderBrand,
   CHeaderNav,
-  CHeaderNavItem,
-  CHeaderNavLink,
-  CImg,
-  CToggler,
+  CNavItem,
+  CNavLink,
+  CImage,
+  CHeaderToggler,
+  CContainer,
 } from '@coreui/react';
+import { cilMenu } from '@coreui/icons';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Logo from '../../../images/logo.svg';
@@ -18,25 +20,26 @@ import ViewContext from '../ViewContext/ViewContext';
 const Header = () => {
   const { showSidebar, setShowSidebar } = useContext(ViewContext);
   return (
-    <CHeader withSubheader className="header">
-      <CToggler
-        inHeader
-        className="header__toggler ml-md-3 d-lg-none"
-        onClick={() => setShowSidebar(!showSidebar)}
-      />
-      <CHeaderBrand className="header__logo px-3 mx-auto mx-lg-0">
-        <CHeaderNavLink className="header__logo-link" to="/">
-          <CImg src={Logo} className="header__logo-image" name="logo" height="28" alt="Logo" />
-        </CHeaderNavLink>
-      </CHeaderBrand>
-      <HeaderNav />
+    <CHeader className="mb-4">
+      <CContainer fluid>
+        <CHeaderToggler
+          className="header__toggler ps-1 d-lg-none"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          <CIcon icon={cilMenu} size="lg" />
+        </CHeaderToggler>
+        <CHeaderBrand className="header__logo px-3 mx-auto mx-lg-0" href="/">
+          <CImage src={Logo} className="header__logo-image" name="logo" height="28" alt="Logo" />
+        </CHeaderBrand>
+        <HeaderNav />
+      </CContainer>
       <SubHeader />
     </CHeader>
   );
 };
 
 const HeaderNav = () => (
-  <CHeaderNav className="header-nav d-md-down-none mr-auto">
+  <CHeaderNav className="header-nav d-none d-md-flex me-auto">
     <HeaderNavItems />
   </CHeaderNav>
 );
@@ -46,15 +49,15 @@ const HeaderNavItems = () => {
 
   return (
     filtered.map((item) => (
-      <CHeaderNavItem key={item.path} className="header-nav__item px-3">
-        <CHeaderNavLink className="header-nav__link" to={item.path}>
-          <CIcon content={item.icon} className="header-nav__icon mr-2" />
+      <CNavItem key={item.path} className="header-nav__item px-3">
+        <CNavLink className="header-nav__link" href={item.path}>
+          <CIcon icon={item.icon} className="header-nav__icon me-2" />
           <FormattedMessage
             id={item.name}
             defaultMessage={item.name}
           />
-        </CHeaderNavLink>
-      </CHeaderNavItem>
+        </CNavLink>
+      </CNavItem>
     )));
 };
 

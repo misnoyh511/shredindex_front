@@ -59,7 +59,7 @@ $primary-gradient: (
   "stop": $primary-dark
 );
 
-$secondary-base: #9b5776;
+$secondary-base: #dc5b91;
 
 $secondary-100: #f3b6d0;
 $secondary-200: #da98b5;
@@ -72,9 +72,9 @@ $secondary-800: #622741;
 $secondary-900: #531f36;
 
 $secondary-dark: #803a5a;
-$secondary: #924b6b;
-$secondary-50: #9b5776;
-$secondary-25: #a86282;
+$secondary: #db558d;
+$secondary-50: #db6693;
+$secondary-25: #ec8cb9;
 $secondary-gradient: (
   "start": $secondary,
   "stop": $secondary-dark
@@ -122,9 +122,9 @@ $light-gradient: (
   "stop": $gray-400
 );
 
-$dark: $gray-300;
+$dark: $gray-100;
 $dark-gradient: (
-  "start": $gray-300,
+  "start": $gray-200,
   "stop": $gray-100
 );
 
@@ -234,7 +234,7 @@ $sidebar-dark-bg: $gray-500;
 .card,
 .c-header,
 .modal-content {
-  background: linear-gradient(45deg, #283c49, #39576b) !important;
+  background: linear-gradient(45deg, $gray-300, $gray-400) !important;
 }
 
 // DropDown

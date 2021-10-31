@@ -46,9 +46,9 @@ const App = () => {
             <div className="c-app c-default-layout">
               <ViewContext.Provider value={{ showSidebar, setShowSidebar }}>
                 <SidebarNav />
-                <div className="c-wrapper">
+                <div className="wrapper d-flex flex-column min-vh-100">
                   <Header />
-                  <div className="c-body">
+                  <div className="body flex-grow-1 px-3">
                     <main className="c-main">
                       <CContainer>
                         <Switch>

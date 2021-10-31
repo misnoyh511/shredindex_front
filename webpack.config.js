@@ -3,7 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const dotenv = require('dotenv');
 
 const development = 'development';
@@ -31,10 +31,8 @@ module.exports = {
     'dist/css/style': './src/scss/style.scss',
   },
   devServer: {
-    contentBase: './public',
     open: true,
     port: 3000,
-    overlay: true,
     historyApiFallback: true,
   },
   output: {
@@ -44,6 +42,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
@@ -108,7 +111,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg'],
+    extensions: ['.js', '.jsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg', '*', '.mjs', '.json', '.gql', '.graphql'],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -116,7 +119,7 @@ module.exports = {
       title: 'Shred Index',
       template: 'src/index.html',
     }),
-    new FixStyleOnlyEntriesPlugin(),
+    new RemoveEmptyScriptsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),

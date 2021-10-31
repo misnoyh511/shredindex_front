@@ -18,7 +18,7 @@ const ResortHeader = (props) => {
   } = props;
 
   return (
-    <CCard className="resort-header p-4">
+    <CCard className="resort-header p-4 mb-4">
       <h1 className="resort-header__title display-5 text-center" color="secondary">{title}</h1>
       <div className="resort-header__location text-center mb-2">
         {(state && state.name) && <span className="resort-header__state-name">{`${state.name} | `}</span>}

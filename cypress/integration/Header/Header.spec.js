@@ -6,7 +6,7 @@ describe('Header', () => {
   context('All devices', () => {
     it('Displays the app logo', () => {
       cy.get('.header__logo').should('exist');
-      cy.get('.header__logo-link').should('have.attr', 'href', '/');
+      cy.get('.header__logo').should('have.attr', 'href', '/');
       cy.get('.header__logo-image').should('have.attr', 'src')
         .then((src) => {
           expect(src)
@@ -30,7 +30,7 @@ describe('Header', () => {
 
       cy.get('.sidebar-nav__item').should('have.length.greaterThan', 0).should('be.visible');
 
-      cy.get('.c-sidebar-backdrop').click({ force: true });
+      cy.get('.sidebar-backdrop').click({ force: true });
 
       cy.get('.sidebar-nav').should('be.hidden');
     });
@@ -44,6 +44,13 @@ describe('Header', () => {
     it('Should provide navigation', () => {
       cy.get('.header-nav__item').should('have.length.greaterThan', 0).should('be.visible');
     });
-  });
 
+    it('Should provide breadcrumbs', () => {
+      cy.get('.breadcrumb-item').should('have.length.greaterThan', 0).should('be.visible');
+    });
+
+    it('Should display Breadcrumbs with title case', () => {
+      cy.get('.breadcrumb-item').should('contain.text', 'Home');
+    });
+  });
 });

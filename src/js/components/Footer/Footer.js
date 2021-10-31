@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
-import { CFooter, CImg } from '@coreui/react';
+import { CFooter, CImage } from '@coreui/react';
 import { gql } from 'apollo-boost';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -68,11 +68,9 @@ const TeamMembers = () => {
           <a href={url} className="team-members__member-link d-flex align-items-center" target="_blank" rel="noopener noreferrer">
             {path && (
               <div>
-                <CImg
+                <CImage
                   src={path}
                   className="team-members__member-image c-avatar-img developer-avatar round"
-                  width="120"
-                  height="120"
                   role="presentation"
                 />
               </div>
