@@ -25,7 +25,6 @@ module.exports = {
   mode: development,
   entry: {
     'dist/js/app': [
-      '@babel/polyfill',
       './src/js/app.js',
     ],
     'dist/css/style': './src/scss/style.scss',
