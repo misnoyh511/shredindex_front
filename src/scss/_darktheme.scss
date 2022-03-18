@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 // Variable overrides
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700;800;900&family=Roboto:wght@100;300;500;700;900&display=swap');
@@ -22,7 +24,6 @@ $gray-800: #bdd3df;
 $gray-900: #f1f4f8;
 
 $grays: ();
-// stylelint-disable-next-line scss/dollar-variable-default
 $grays: map-merge(
   (
     "100": $gray-100,
@@ -137,7 +138,6 @@ $rating-100: #a6f0d6;
 $pink: #ff68ae;
 
 $theme-colors: ();
-// stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
   (
     "primary": $primary,
@@ -168,7 +168,6 @@ $yiq-text-dark: $gray-900;
 $yiq-text-light: $white;
 
 $yiq-theme-map: ();
-// stylelint-disable-next-line scss/dollar-variable-default
 $yiq-theme-map: map-merge(
   (
     default: (
@@ -280,3 +279,4 @@ $table-head-color: $gray-800;
 
 // List Group
 $list-group-border-color: $border-color;
+/* stylelint-enable */
