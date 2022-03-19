@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import HeaderComponent from '../../../js/components/Header/Header';
 import SidebarNav from '../../../js/components/SidebarNav/SidebarNav';
@@ -12,10 +12,11 @@ export default {
 
 export const Header = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const viewData = useMemo(() => ({ showSidebar, setShowSidebar }), [showSidebar]);
 
   return (
     <IntlProvider locale="en" message={langEn}>
-      <ViewContext.Provider value={{ showSidebar, setShowSidebar }}>
+      <ViewContext.Provider value={viewData}>
         <SidebarNav />
         <HeaderComponent />
       </ViewContext.Provider>

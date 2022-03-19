@@ -1,37 +1,37 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "jest": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:cypress/recommended",
+    "airbnb"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+        "jsx": true
     },
-    "extends": [
-        "plugin:react/recommended",
-        "plugin:cypress/recommended",
-        "airbnb"
-    ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-  "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 2018,
-        "sourceType": "module",
-        "allowImportExportEverywhere": true
-    },
-    "plugins": [
-        "react",
-        "jest",
-        "cypress"
-    ],
-
-    "rules": {
-        "react/jsx-props-no-spreading": 0,
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-        "camelcase": [0]
-    }
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+    "react",
+    "jest",
+    "cypress"
+  ],
+  "rules": {
+    "react/jsx-props-no-spreading": 0,
+    "react/function-component-definition": [1, { "namedComponents": "arrow-function" }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "camelcase": [0]
+  }
 }

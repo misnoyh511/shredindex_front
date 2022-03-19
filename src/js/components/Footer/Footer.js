@@ -30,7 +30,7 @@ const Footer = () => {
   const { loading, data } = useQuery(QUERY_SETTINGS);
 
   if (loading) {
-    return <></>;
+    return null;
   }
 
   const { settings: { copyright_message } } = data;
@@ -51,7 +51,7 @@ const TeamMembers = () => {
   const { loading, data } = useQuery(QUERY_TEAM_MEMBERS);
 
   if (loading) {
-    return <></>;
+    return null;
   }
 
   // We want to sort, but we can't mutate the data directly, so let's make a clone

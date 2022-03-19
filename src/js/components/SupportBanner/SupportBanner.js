@@ -28,7 +28,7 @@ const Supporters = () => {
   const { loading, data } = useQuery(QUERY_SUPPORTERS);
 
   if (loading) {
-    return <></>;
+    return null;
   }
 
   // We want to sort, but we can't mutate the data directly, so let's make a clone

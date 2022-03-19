@@ -65,7 +65,7 @@ query ResortByURLSegment($url_segment: String!) {
 }
 `;
 
-function ResortCard({ resortId, urlSegment }) {
+const ResortCard = ({ resortId, urlSegment }) => {
   const [collapsed, setToggled] = useResortCardToggledState(resortId);
 
   const { loading, error, data } = useQuery(
@@ -105,7 +105,7 @@ function ResortCard({ resortId, urlSegment }) {
       </CCard>
     </div>
   );
-}
+};
 
 ResortCard.propTypes = {
   resortId: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import { CContainer } from '@coreui/react';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
@@ -22,6 +22,7 @@ const locale = 'en';
 
 const App = ({ suspenseQuery }) => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const viewData = useMemo(() => ({ showSidebar, setShowSidebar }), [showSidebar]);
 
   // Force suspense to wait until our suspense query is resolved
   suspenseQuery.read();
@@ -30,7 +31,7 @@ const App = ({ suspenseQuery }) => {
     <BrowserRouter>
       <IntlProvider locale={locale} message={t[locale]}>
         <div className="c-app c-default-layout">
-          <ViewContext.Provider value={{ showSidebar, setShowSidebar }}>
+          <ViewContext.Provider value={viewData}>
             <SidebarNav />
             <div className="wrapper d-flex flex-column min-vh-100">
               <Header />

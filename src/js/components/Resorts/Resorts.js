@@ -24,7 +24,7 @@ const Resorts = () => {
   const { loading, data } = useQuery(QUERY_RESORTS);
 
   if (loading) {
-    return <></>;
+    return null;
   }
 
   const { resorts: { data: resorts } } = data;

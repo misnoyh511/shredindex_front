@@ -14,9 +14,7 @@ const TestSuspenseQuery = ({ queries, callback }) => {
     callback(query);
   }
 
-  return (
-    <></>
-  );
+  return <div>This is a debugging component</div>;
 };
 
 TestSuspenseQuery.propTypes = {
