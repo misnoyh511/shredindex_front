@@ -1,11 +1,9 @@
-import {
-  CHeaderDivider, CContainer, CBreadcrumb, CBreadcrumbItem,
-} from '@coreui/react';
+import { CBreadcrumb, CBreadcrumbItem, CContainer } from '@coreui/react';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import routingConfig from '../config/routing-config';
 
-const SubHeader = () => {
+const SecondaryHeader = () => {
   const currentLocation = useLocation().pathname;
 
   const getRouteName = (pathname, routes) => {
@@ -29,24 +27,23 @@ const SubHeader = () => {
   };
 
   const breadcrumbs = getBreadcrumbs(currentLocation);
+
   return (
-    <>
-      <CHeaderDivider />
-      <CContainer fluid>
-        <CBreadcrumb className="m-0 ms-2">
-          <CBreadcrumbItem href="/">Home</CBreadcrumbItem>
-          {breadcrumbs.map((breadcrumb) => (
-            <CBreadcrumbItem
-              {...(breadcrumb.active ? { active: true } : { href: breadcrumb.pathname })}
-              key={breadcrumb.key}
-            >
-              {breadcrumb.name}
-            </CBreadcrumbItem>
-          ))}
-        </CBreadcrumb>
-      </CContainer>
-    </>
+    <CContainer fluid className="secondary-header">
+      <CBreadcrumb className="secondary-header__breadcrumbs m-0 ms-2">
+        <CBreadcrumbItem className="secondary-header__breadcrumb-item" href="/">Home</CBreadcrumbItem>
+        {breadcrumbs.map((breadcrumb) => (
+          <CBreadcrumbItem
+            className="secondary-header__breadcrumb-item"
+            {...(breadcrumb.active ? { active: true } : { href: breadcrumb.pathname })}
+            key={breadcrumb.key}
+          >
+            {breadcrumb.name}
+          </CBreadcrumbItem>
+        ))}
+      </CBreadcrumb>
+    </CContainer>
   );
 };
 
-export default SubHeader;
+export default SecondaryHeader;

@@ -12,7 +12,7 @@ const routingConfig = [
   },
   {
     name: 'Resorts',
-    path: '/Resorts',
+    path: '/resorts',
     exact: true,
     showInMenu: true,
     icon: cilHome,

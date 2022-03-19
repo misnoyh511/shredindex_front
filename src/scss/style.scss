@@ -12,7 +12,13 @@
 // If you want to add something do it here
 @import "custom";
 
+// Utilities
+@import "utils/skeleton";
+
 // Component styles
+@import "components/header";
+@import "components/header-nav";
+@import "components/secondary-header";
 @import "components/support-banner";
 @import "components/footer";
 @import "components/team-members";

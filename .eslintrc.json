@@ -13,18 +13,21 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+  "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
         },
         "ecmaVersion": 2018,
-        "sourceType": "module"
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
     },
     "plugins": [
         "react",
         "jest",
         "cypress"
     ],
+
     "rules": {
         "react/jsx-props-no-spreading": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

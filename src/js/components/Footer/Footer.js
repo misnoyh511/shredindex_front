@@ -36,7 +36,7 @@ const Footer = () => {
   const { settings: { copyright_message } } = data;
 
   return (
-    <CFooter fixed={false} className="footer p-4 h-auto d-block">
+    <CFooter className="footer p-4 h-auto d-block">
       <div className="footer__copyright d-flex justify-content-center">
         <ReactMarkdown>{ copyright_message }</ReactMarkdown>
       </div>

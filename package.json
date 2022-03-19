@@ -38,6 +38,7 @@
     "@storybook/manager-webpack5": "^6.4.18",
     "@storybook/react": "^6.5.0-alpha.48",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",
@@ -119,7 +120,8 @@
     "exclude": [
       "src/stories/coreui/*.js",
       "src/stories/index.stories.js",
-      "src/js/components/Resorts/Resorts.js"
+      "src/js/components/Resorts/Resorts.js",
+      "src/index.js"
     ]
   }
 }

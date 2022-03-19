@@ -24,8 +24,8 @@ if (env) {
 module.exports = {
   mode: development,
   entry: {
-    'dist/js/app': [
-      './src/js/app.js',
+    'dist/js/index': [
+      './src/js/index.js',
     ],
     'dist/css/style': './src/scss/style.scss',
   },

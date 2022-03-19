@@ -1,0 +1,14 @@
+.header-nav {
+  &__item {
+    &--skeleton {
+      width: 20rem;
+      height: 2rem;
+
+      @extend .skeleton;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+}

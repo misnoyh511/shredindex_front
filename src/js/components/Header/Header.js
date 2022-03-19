@@ -1,39 +1,40 @@
+import { cilMenu } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
-  CHeader,
-  CHeaderBrand,
-  CHeaderNav,
-  CNavItem,
-  CNavLink,
-  CImage,
-  CHeaderToggler,
   CContainer,
+  CHeader,
+  CHeaderDivider,
+  CHeaderNav,
+  CHeaderToggler,
+  CImage,
+  CNavItem,
 } from '@coreui/react';
-import { cilMenu } from '@coreui/icons';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import Logo from '../../../images/logo.svg';
 import routingConfig from '../config/routing-config';
-import SubHeader from '../SubHeader/SubHeader';
+import SecondaryHeader from '../SecondaryHeader/SecondaryHeader';
 import ViewContext from '../ViewContext/ViewContext';
 
 const Header = () => {
   const { showSidebar, setShowSidebar } = useContext(ViewContext);
   return (
-    <CHeader className="mb-4">
-      <CContainer fluid>
+    <CHeader className="header mb-4">
+      <CContainer fluid className="header__container-main">
         <CHeaderToggler
-          className="header__toggler ps-1 d-lg-none"
+          className="header__toggler ps-1 d-md-none"
           onClick={() => setShowSidebar(!showSidebar)}
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CHeaderBrand className="header__logo px-3 mx-auto mx-lg-0" href="/">
+        <Link className="header__logo px-3 mx-auto mx-md-0" to="/">
           <CImage src={Logo} className="header__logo-image" name="logo" height="28" alt="Logo" />
-        </CHeaderBrand>
+        </Link>
         <HeaderNav />
       </CContainer>
-      <SubHeader />
+      <CHeaderDivider />
+      <SecondaryHeader />
     </CHeader>
   );
 };
@@ -50,13 +51,13 @@ const HeaderNavItems = () => {
   return (
     filtered.map((item) => (
       <CNavItem key={item.path} className="header-nav__item px-3">
-        <CNavLink className="header-nav__link" href={item.path}>
+        <Link className="header-nav__link" to={item.path}>
           <CIcon icon={item.icon} className="header-nav__icon me-2" />
           <FormattedMessage
             id={item.name}
             defaultMessage={item.name}
           />
-        </CNavLink>
+        </Link>
       </CNavItem>
     )));
 };

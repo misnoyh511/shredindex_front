@@ -1,0 +1,8 @@
+.secondary-header {
+  &__breadcrumbs-skeleton {
+    width: 8rem;
+    height: 1.5rem;
+
+    @extend .skeleton;
+  }
+}
