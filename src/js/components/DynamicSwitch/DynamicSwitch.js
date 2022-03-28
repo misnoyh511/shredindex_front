@@ -41,6 +41,7 @@ const DynamicSwitch = () => {
 
   const { cmsPages } = data;
 
+  /* istanbul ignore if */
   if (!cmsPages || !cmsPages.length) {
     throw new Error('Application failed to establish routing. CMS pages data missing.');
   }

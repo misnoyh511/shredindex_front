@@ -28,6 +28,7 @@ const DynamicLayout = ({ url }) => {
 
   const { cmsPage } = data;
 
+  /* istanbul ignore if */
   if (!cmsPage) {
     // eslint-disable-next-line no-console
     console.warn('404 Layout not found');
@@ -36,14 +37,7 @@ const DynamicLayout = ({ url }) => {
 
   const { cmsPage: { layout, meta_title, meta_description } } = data;
 
-  const Component = layouts[layout];
-
-  if (!React.isValidElement(<Component />)) {
-    throw new Error(
-      `Unable to render layout for name "${layout}".
-            The layouts.${layout} is not a React component.`,
-    );
-  }
+  const Component = layouts[layout]; // React will warn us if this isn't a valid component
 
   return (
     <>
