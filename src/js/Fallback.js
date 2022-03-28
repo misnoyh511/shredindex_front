@@ -1,12 +1,7 @@
 import { cilMenu } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import {
-  CBreadcrumb,
-  CContainer,
-  CHeader,
-  CHeaderDivider,
-  CHeaderNav,
-  CImage,
+  CContainer, CHeader, CHeaderNav, CImage,
 } from '@coreui/react';
 import React from 'react';
 import Logo from '../images/logo.svg';
@@ -25,12 +20,6 @@ const Fallback = () => (
           <CHeaderNav className="header-nav d-none d-md-flex me-auto">
             <li className="nav-item header-nav__item header-nav__item--skeleton mx-3" />
           </CHeaderNav>
-        </CContainer>
-        <CHeaderDivider />
-        <CContainer fluid className="secondary-header">
-          <CBreadcrumb className="secondary-header__breadcrumbs m-0 ms-2">
-            <div className="secondary-header__breadcrumbs-skeleton" />
-          </CBreadcrumb>
         </CContainer>
       </CHeader>
     </div>

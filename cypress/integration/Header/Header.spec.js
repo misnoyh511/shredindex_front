@@ -23,16 +23,13 @@ describe('Header', () => {
 
     it('Should provide navigation', () => {
       cy.get('.header__toggler').should('be.visible');
-
       cy.get('.header__toggler').click();
-
       cy.get('.sidebar-nav').should('be.visible');
-
       cy.get('.sidebar-nav__item').should('have.length.greaterThan', 0).should('be.visible');
-
       cy.get('.sidebar-backdrop').click({ force: true });
-
       cy.get('.sidebar-nav').should('be.hidden');
+      cy.get('.sidebar-nav__link').contains('Foo').should('exist');
+      cy.get('.sidebar-nav__link').contains('Bar').should('exist');
     });
   });
 
@@ -43,14 +40,8 @@ describe('Header', () => {
 
     it('Should provide navigation', () => {
       cy.get('.header-nav__item').should('have.length.greaterThan', 0).should('be.visible');
-    });
-
-    it('Should provide breadcrumbs', () => {
-      cy.get('.breadcrumb-item').should('have.length.greaterThan', 0).should('be.visible');
-    });
-
-    it('Should display Breadcrumbs with title case', () => {
-      cy.get('.breadcrumb-item').should('contain.text', 'Home');
+      cy.get('.header-nav__link').contains('Foo').should('exist');
+      cy.get('.header-nav__link').contains('Bar').should('exist');
     });
   });
 });

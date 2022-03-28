@@ -1,9 +1,10 @@
 import React from 'react';
-import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import ResortComponent, { QUERY_RESORT } from '../../js/components/Resort/Resort';
+import NoCacheMockedProvider
+  from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../js/lang/en.json';
 
 export default {
@@ -77,10 +78,10 @@ export const Resort = () => {
   return (
     <MemoryRouter initialEntries={['resorts/pipedream']}>
       <IntlProvider locale="en" message={langEn}>
-        <Route exact path="resorts/:urlSegment">
-          <MockedProvider mocks={[mocks.resortByUrlSegment]} addTypename={false}>
+        <Route exact path="resorts/:url_segment">
+          <NoCacheMockedProvider mocks={[mocks.resortByUrlSegment]}>
             <ResortComponent />
-          </MockedProvider>
+          </NoCacheMockedProvider>
         </Route>
       </IntlProvider>
     </MemoryRouter>

@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
-import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import wait from 'waait';
 import { QUERY_HEALTH_CHECK } from '../../components/Debug/Debug';
+import NoCacheMockedProvider
+, { noCacheMockClient } from '../../components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
+import suspenseQuery from '../../utility/suspense-query';
 import TestSuspenseQuery from './TestSuspenseQuery';
 
 const mocks = {
@@ -23,38 +25,101 @@ const mocks = {
       query: QUERY_HEALTH_CHECK,
     },
     result: {
+      data: {
+        healthCheck: false,
+      },
       errors: [],
     },
   },
 };
 
-const queries = [
-  gql`
-    {
-      healthCheck
-    }`,
-];
-
 describe('useSuspenseQuery hook', () => {
   it('Supplies a promise', () => {
     let actual;
 
+    const queries = [
+      gql`
+      {
+        healthCheck
+      }`,
+    ];
+
     mount(
-      <MockedProvider mocks={[mocks.healthCheckSuccess]} addTypename={false}>
+      <NoCacheMockedProvider mocks={[mocks.healthCheckSuccess]}>
         <TestSuspenseQuery queries={queries} callback={(query) => { actual = query; }} />
-      </MockedProvider>,
+      </NoCacheMockedProvider>,
     );
 
     expect(actual.read).toThrow(Promise);
   });
 
-  it('Supplies queries successfully', async () => {
+  it('Throws errors', () => {
     let actual;
 
+    const queries = [
+      gql`
+      {
+        healthCheck
+      }`,
+    ];
+
     mount(
-      <MockedProvider mocks={[mocks.healthCheckSuccess]} addTypename={false}>
+      <NoCacheMockedProvider mocks={[mocks.healthCheckError]}>
         <TestSuspenseQuery queries={queries} callback={(query) => { actual = query; }} />
-      </MockedProvider>,
+      </NoCacheMockedProvider>,
+    );
+
+    expect(actual.read).toThrowError();
+  });
+
+  it('Catches malformed query shapes', () => {
+    const client = noCacheMockClient();
+    const queries = [
+      {
+        arbitrary: 'bad query item shape',
+      },
+    ];
+
+    try {
+      suspenseQuery(client, queries);
+      // Fail the test if code continues to here without an error
+      expect(true).toBeFalsy();
+    } catch (e) {
+      expect(e.message).toContain('have the "query" property with a gql DocumentNode');
+    }
+  });
+
+  it('Catches invalid query values', () => {
+    const client = noCacheMockClient();
+    const queries = [
+      {
+        query: 'bad query item query value',
+      },
+    ];
+
+    try {
+      suspenseQuery(client, queries);
+      // Fail the test if code continues to here without an error
+      expect(true).toBe(false);
+    } catch (e) {
+      expect(e.message).toContain('have the "query" property with a gql DocumentNode');
+    }
+  });
+
+  it('Queries document nodes successfully', async () => {
+    let actual;
+
+    const queries = [
+      gql`
+      {
+        healthCheck
+      }`,
+    ];
+
+    mount(
+      <NoCacheMockedProvider mocks={[mocks.healthCheckSuccess]}>
+        <TestSuspenseQuery queries={queries} callback={(query) => { actual = query; }} />
+      </NoCacheMockedProvider>,
     );
 
     expect(actual.read).toThrow(Promise);
@@ -62,21 +127,13 @@ describe('useSuspenseQuery hook', () => {
     // Warning: An update to Debug inside a test was not wrapped in act(...).
     await act(wait);
 
-    const { data: { healthCheck }, loading } = actual.read()[0];
+    expect(actual.read().length).toBeGreaterThanOrEqual(1);
 
-    expect(healthCheck).toBeTruthy();
-    expect(loading).toBeFalsy();
-  });
+    ((payload) => {
+      const { data: { healthCheck }, loading } = payload;
 
-  it('Supplies throws errors', async () => {
-    let actual;
-
-    mount(
-      <MockedProvider mocks={[mocks.healthCheckError]} addTypename={false}>
-        <TestSuspenseQuery queries={queries} callback={(query) => { actual = query; }} />
-      </MockedProvider>,
-    );
-
-    expect(actual.read).toThrowError();
+      expect(healthCheck).toBeTruthy();
+      expect(loading).toBeFalsy();
+    })(actual.read()[0]);
   });
 });

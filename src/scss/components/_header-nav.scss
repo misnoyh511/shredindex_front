@@ -10,5 +10,14 @@
 
   &__link {
     text-decoration: none;
+
+    &--current {
+      color: $white;
+
+      &:hover {
+        color: $white;
+        cursor: auto;
+      }
+    }
   }
 }

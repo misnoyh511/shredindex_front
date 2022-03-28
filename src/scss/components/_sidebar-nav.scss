@@ -1,0 +1,14 @@
+.sidebar-nav {
+  &__link {
+    &--current.nav-link {
+      background: $gray-100;
+      color: $primary;
+
+      &:hover {
+        color: $primary;
+        background: $gray-100;
+        cursor: auto;
+      }
+    }
+  }
+}

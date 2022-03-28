@@ -1,8 +1,8 @@
-import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import wait from 'waait';
+import NoCacheMockedProvider from '../../tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import Debug, { QUERY_HEALTH_CHECK } from '../Debug';
 
 const mocks = {
@@ -31,9 +31,9 @@ const mocks = {
 describe('Test <Debug />', () => {
   it('succeeds a graphql healthcheck', async () => {
     const wrapper = mount(
-      <MockedProvider mocks={[mocks.healthCheckSuccess]} addTypename={false}>
+      <NoCacheMockedProvider mocks={[mocks.healthCheckSuccess]}>
         <Debug />
-      </MockedProvider>,
+      </NoCacheMockedProvider>,
     );
 
     expect(wrapper.html()).toContain('Loading...');
@@ -47,9 +47,9 @@ describe('Test <Debug />', () => {
 
   it('fails a graphql healthcheck', async () => {
     const wrapper = mount(
-      <MockedProvider mocks={[mocks.healthCheckFailed]} addTypename={false}>
+      <NoCacheMockedProvider mocks={[mocks.healthCheckFailed]}>
         <Debug />
-      </MockedProvider>,
+      </NoCacheMockedProvider>,
     );
 
     // Warning: An update to Debug inside a test was not wrapped in act(...).

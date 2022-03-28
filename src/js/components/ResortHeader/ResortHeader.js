@@ -30,16 +30,16 @@ const ResortHeader = (props) => {
 
 ResortHeader.propTypes = {
   resort: PropTypes.shape({
-    location: {
-      country: {
+    location: PropTypes.shape({
+      country: PropTypes.shape({
         name: PropTypes.string,
         code: PropTypes.string,
-      },
-      state: {
+      }),
+      state: PropTypes.shape({
         name: PropTypes.string,
         code: PropTypes.string,
-      },
-    }.isRequired,
+      }),
+    }).isRequired,
     url_segment: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
