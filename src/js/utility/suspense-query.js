@@ -14,7 +14,22 @@ const suspenseQuery = (client, queries) => {
   let result;
 
   // Setup queries
-  const mapped = queries.map((query) => client.query({ query, fetchPolicy }));
+  const mapped = queries.map((query) => {
+    if (Object.prototype.hasOwnProperty.call(query, 'kind')) {
+      // Assume the query is gql DocumentNode
+      return client.query({ query, fetchPolicy });
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(query, 'query')
+      || !Object.prototype.hasOwnProperty.call(query.query, 'kind')
+    ) {
+      throw new Error('Suspense query items must be either a gql DocumentNode '
+        + 'or have the "query" property with a gql DocumentNode');
+    }
+
+    // Assume query is passing arguments for a client's query options
+    return client.query({ ...query, fetchPolicy });
+  });
 
   // Batch queries in a promise.all
   const suspender = Promise.all(mapped)

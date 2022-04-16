@@ -3,6 +3,7 @@ import { CFooter, CImage } from '@coreui/react';
 import { gql } from '@apollo/client';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import FooterMenuMain from '../FooterMenuMain/FooterMenuMain';
 
 export const QUERY_SETTINGS = gql`
   {
@@ -43,6 +44,7 @@ const Footer = () => {
       <div className="footer__team-members d-flex flex-wrap">
         <TeamMembers />
       </div>
+      <FooterMenuMain />
     </CFooter>
   );
 };

@@ -11,7 +11,7 @@ import ResortCardBody from '../ResortCardBody/ResortCardBody';
 import ResortCardHeader from '../ResortCardHeader/ResortCardHeader';
 import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
 
-export const QUERY_RESORTCARD = gql`
+export const QUERY_RESORT_BY_URL_SEGMENT = gql`
 query ResortByURLSegment($url_segment: String!) {
   resortByUrlSegment(url_segment: $url_segment) {
     id
@@ -69,7 +69,7 @@ const ResortCard = ({ resortId, urlSegment }) => {
   const [collapsed, setToggled] = useResortCardToggledState(resortId);
 
   const { loading, error, data } = useQuery(
-    QUERY_RESORTCARD,
+    QUERY_RESORT_BY_URL_SEGMENT,
     {
       variables: { url_segment: urlSegment },
     },
@@ -100,7 +100,7 @@ const ResortCard = ({ resortId, urlSegment }) => {
         </CCardBody>
         {/* eslint-disable-next-line react/jsx-no-bind */}
         <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setToggled(!collapsed)}>
-          <ResortCardFooter url={url} collapsed={!collapsed} />
+          <ResortCardFooter url={url} urlSegment={urlSegment} collapsed={!collapsed} />
         </CCardFooter>
       </CCard>
     </div>

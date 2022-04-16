@@ -1,7 +1,10 @@
 import React from 'react';
-import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
-import SupportBannerComponent, { QUERY_SUPPORTERS } from '../../../js/components/SupportBanner/SupportBanner';
+import SupportBannerComponent, {
+  QUERY_SUPPORTERS,
+} from '../../../js/components/SupportBanner/SupportBanner';
+import NoCacheMockedProvider
+  from '../../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../../js/lang/en.json';
 
 export default {
@@ -70,10 +73,10 @@ export const SupportBanner = () => {
   };
 
   return (
-    <MockedProvider mocks={[mocks.supporters]} addTypename={false}>
+    <NoCacheMockedProvider mocks={[mocks.supporters]}>
       <IntlProvider locale="en" message={langEn}>
         <SupportBannerComponent />
       </IntlProvider>
-    </MockedProvider>
+    </NoCacheMockedProvider>
   );
 };

@@ -2,9 +2,9 @@ import { CContainer } from '@coreui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import DynamicSwitch from './components/DynamicSwitch/DynamicSwitch';
 import Footer from './components/Footer/Footer';
-import FooterNav from './components/FooterNav/FooterNav';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Resort from './components/Resort/Resort';
@@ -20,9 +20,15 @@ const t = {
 
 const locale = 'en';
 
+const layouts = {
+  home: Home,
+  resorts: Resorts,
+  resort: Resort,
+};
+
 const App = ({ suspenseQuery }) => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const viewData = useMemo(() => ({ showSidebar, setShowSidebar }), [showSidebar]);
+  const viewData = useMemo(() => ({ showSidebar, setShowSidebar, layouts }), [showSidebar]);
 
   // Force suspense to wait until our suspense query is resolved
   suspenseQuery.read();
@@ -38,17 +44,12 @@ const App = ({ suspenseQuery }) => {
               <div className="body flex-grow-1 px-3">
                 <main className="c-main">
                   <CContainer>
-                    <Switch>
-                      <Route exact path="/" component={Home} />
-                      <Route exact path="/resorts/:urlSegment" component={Resort} />
-                      <Route exact path="/resorts" component={Resorts} />
-                    </Switch>
+                    <DynamicSwitch />
                   </CContainer>
                 </main>
               </div>
               <SupportBanner />
               <Footer />
-              <FooterNav />
             </div>
           </ViewContext.Provider>
         </div>

@@ -65,6 +65,10 @@ The scripts are:
 - `reports:combine`
 - `reports:coverage`
 
+### Adding new pages/views
+
+The routes and views rendered by this frontend are driven by page-data from the CMS. To add new views, you will also need to add pages to the CMS (there is an explanation in the backend README on how to do this).
+
 # Contributors
 
 (Thomas Hansen)[https://github.com/krank3n]

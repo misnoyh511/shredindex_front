@@ -1,10 +1,11 @@
-import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
-import ResortCardComponent, { QUERY_RESORTCARD } from '../../js/components/ResortCard/ResortCard';
+import ResortCardComponent, { QUERY_RESORT_BY_URL_SEGMENT } from '../../js/components/ResortCard/ResortCard';
 import ResortCardSkeleton from '../../js/components/SkeletonState/ResortCardSkeleton';
+import NoCacheMockedProvider
+  from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../js/lang/en.json';
 
 export default {
@@ -35,7 +36,7 @@ export const ResortCard = (args) => {
   const mocks = {
     resortByUrlSegment: {
       request: {
-        query: QUERY_RESORTCARD,
+        query: QUERY_RESORT_BY_URL_SEGMENT,
         variables: {
           url_segment: 'tokyo-megaplex',
         },
@@ -166,7 +167,7 @@ export const ResortCard = (args) => {
   const mocksNoData = {
     resortByUrlSegment: {
       request: {
-        query: QUERY_RESORTCARD,
+        query: QUERY_RESORT_BY_URL_SEGMENT,
         variables: {
           url_segment: 'tokyo-megaplex',
         },
@@ -196,7 +197,7 @@ export const ResortCard = (args) => {
   const mocksMinimalData = {
     resortByUrlSegment: {
       request: {
-        query: QUERY_RESORTCARD,
+        query: QUERY_RESORT_BY_URL_SEGMENT,
         variables: {
           url_segment: 'tokyo-megaplex',
         },
@@ -247,50 +248,30 @@ export const ResortCard = (args) => {
     return <ResortCardSkeleton />;
   }
 
-  if (cardState === 'Minimal Data') {
-    return (
-      <MemoryRouter initialEntries={['resorts/tokyo-megaplex']}>
-        <IntlProvider locale="en" message={langEn}>
-          <Route exact path="resorts/:urlSegment">
-            <MockedProvider mocks={[mocksMinimalData.resortByUrlSegment]} addTypename={false}>
-              <ResortCardComponent
-                resortId={mocks.resortByUrlSegment.result.data.resortByUrlSegment.id}
-                urlSegment={mocks.resortByUrlSegment.request.variables.url_segment}
-              />
-            </MockedProvider>
-          </Route>
-        </IntlProvider>
-      </MemoryRouter>
-    );
-  }
+  let mock;
 
-  if (cardState === 'No Data') {
-    return (
-      <MemoryRouter initialEntries={['resorts/tokyo-megaplex']}>
-        <IntlProvider locale="en" message={langEn}>
-          <Route exact path="resorts/:urlSegment">
-            <MockedProvider mocks={[mocksNoData.resortByUrlSegment]} addTypename={false}>
-              <ResortCardComponent
-                resortId={mocks.resortByUrlSegment.result.data.resortByUrlSegment.id}
-                urlSegment={mocks.resortByUrlSegment.request.variables.url_segment}
-              />
-            </MockedProvider>
-          </Route>
-        </IntlProvider>
-      </MemoryRouter>
-    );
+  switch (cardState) {
+    case 'Minimal Data':
+      mock = mocksMinimalData.resortByUrlSegment;
+      break;
+    case 'No Data':
+      mock = mocksNoData.resortByUrlSegment;
+      break;
+    default:
+      mock = mocks.resortByUrlSegment;
+      break;
   }
 
   return (
     <MemoryRouter initialEntries={['resorts/tokyo-megaplex']}>
       <IntlProvider locale="en" message={langEn}>
         <Route exact path="resorts/:urlSegment">
-          <MockedProvider mocks={[mocks.resortByUrlSegment]} addTypename={false}>
+          <NoCacheMockedProvider mocks={[mock]}>
             <ResortCardComponent
               resortId={mocks.resortByUrlSegment.result.data.resortByUrlSegment.id}
               urlSegment={mocks.resortByUrlSegment.request.variables.url_segment}
             />
-          </MockedProvider>
+          </NoCacheMockedProvider>
         </Route>
       </IntlProvider>
     </MemoryRouter>
