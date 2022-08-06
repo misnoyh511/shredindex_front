@@ -13,6 +13,10 @@
     background-color: $gray-500;
   }
 
+  .error-help {
+    max-width: 300px;
+  }
+
   &__wrap{
     max-width: 67.5rem;
     width: 36rem;
@@ -172,11 +176,14 @@
 
   &__image-carousel {
     height: 8.25rem;
+
+    .flickity-viewport {
+      height: 100%
+    }
   }
 
   &__comment-carousel {
     display: flex;
-    max-width: 13.563rem;
     height: 7.1875rem;
     overflow: hidden;
     height: -webkit-fill-available;
@@ -219,22 +226,6 @@
   }
 
   &--skeleton {
-    &:nth-child(2) {
-      opacity: 0.80;
-    }
-
-    &:nth-child(3) {
-      opacity: 0.60;
-    }
-
-    &:nth-child(4) {
-      opacity: 0.40;
-    }
-
-    &:nth-child(5) {
-      opacity: 0.20;
-    }
-
     .skeleton-card__header {
       .skeleton-rating-header {
         height: 2.1875rem;
@@ -412,12 +403,6 @@
   }
 }
 
-.resort-card {
-  .error-help {
-    max-width: 300px;
-  }
-}
-
 @media (min-width: 576px) and (max-width: 1920px) {
   .resort-card__sub-ratings-list,
   .skeleton-sub-rating-wrap {
@@ -428,6 +413,5 @@
 @media (min-width: 1920px) {
   .resort-card__wrap {
     max-width: 67.5rem !important;
-    width: 100% !important;
   }
 }

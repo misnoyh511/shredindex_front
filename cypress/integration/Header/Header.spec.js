@@ -11,7 +11,7 @@ describe('Header', () => {
         .then((src) => {
           expect(src)
             .to
-            .contain('images/logo.svg');
+            .contains('.svg');
         });
     });
   });

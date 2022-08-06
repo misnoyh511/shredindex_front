@@ -1,106 +1,38 @@
-import { useQuery } from '@apollo/react-hooks';
 import {
-  CCard, CCardBody, CCardFooter, CCardHeader,
+  CCard, CCardBody, CCardFooter, CCardHeader, CLink,
 } from '@coreui/react';
-import { gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useResortCardToggledState from '../../hooks/useResortCardToggledState';
 import ResortCardFooter from '../ResorctCardFooter/ResortCardFooter';
 import ResortCardBody from '../ResortCardBody/ResortCardBody';
 import ResortCardHeader from '../ResortCardHeader/ResortCardHeader';
-import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
 
-export const QUERY_RESORT_BY_URL_SEGMENT = gql`
-query ResortByURLSegment($url_segment: String!) {
-  resortByUrlSegment(url_segment: $url_segment) {
-    id
-    title
-    url_segment
-    url
-    description
-    location {
-      id
-      city
-      country {
-        id
-        code
-        name
-      }
-      state {
-        id
-        code
-        name
-      }
-    }
-    total_score {
-      value
-    }
-    highlights {
-      id
-      title
-      value
-    }
-    lowlights {
-      id
-      title
-      value
-    }
-    resort_images {
-      id
-      name
-      alt
-      sort_order
-      image {
-        path
-        content_type
-      }
-    }
-    comments {
-      id
-      comment
-      author
-    }
-  }
-}
-`;
+const ResortCard = ({ resortData }) => {
+  const [collapsed, setToggled] = useResortCardToggledState(resortData.id);
 
-const ResortCard = ({ resortId, urlSegment }) => {
-  const [collapsed, setToggled] = useResortCardToggledState(resortId);
-
-  const { loading, error, data } = useQuery(
-    QUERY_RESORT_BY_URL_SEGMENT,
-    {
-      variables: { url_segment: urlSegment },
-    },
-  );
-
-  if (loading) {
-    return <ResortCardSkeleton />;
-  }
-
-  const {
-    resortByUrlSegment: resort,
-  } = data;
-
-  if (!resort || error) {
+  if (!resortData) {
     throw new Error('Resort failed to load');
   }
 
-  const { title, url, total_score } = resort;
+  const {
+    title, url, url_segment, total_score, affiliate_url,
+  } = resortData;
 
   return (
     <div className="resort-card d-flex justify-content-center">
       <CCard className={`${!collapsed ? 'collapsed' : 'full-expanded'} resort-card__wrap`}>
         <CCardHeader className="resort-card__header-wrap pb-0">
-          <ResortCardHeader title={title} totalScore={total_score} />
+          <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
+            <ResortCardHeader title={title} totalScore={total_score} />
+          </CLink>
         </CCardHeader>
         <CCardBody className="resort-card__body-wrap pt-0 pb-0">
-          <ResortCardBody resort={resort} collapsed={!collapsed} />
+          <ResortCardBody resort={resortData} collapsed={!collapsed} />
         </CCardBody>
         {/* eslint-disable-next-line react/jsx-no-bind */}
         <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setToggled(!collapsed)}>
-          <ResortCardFooter url={url} urlSegment={urlSegment} collapsed={!collapsed} />
+          <ResortCardFooter url={url} urlSegment={url_segment} collapsed={!collapsed} />
         </CCardFooter>
       </CCard>
     </div>
@@ -108,8 +40,7 @@ const ResortCard = ({ resortId, urlSegment }) => {
 };
 
 ResortCard.propTypes = {
-  resortId: PropTypes.string.isRequired,
-  urlSegment: PropTypes.string.isRequired,
+  resortData: PropTypes.shape().isRequired,
 };
 
 export default ResortCard;

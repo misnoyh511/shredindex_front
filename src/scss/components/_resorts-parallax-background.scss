@@ -1,0 +1,20 @@
+.resorts-parallax-background {
+  z-index: -1;
+
+  &__image {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+
+  svg path {
+    transform: translateY(calc(var(--scrollPos, 0) * var(--offset, 0)));
+    transition: transform 0.125s;
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.ranked-resort-result-count {
+  &__results-text {
+    color: $gray-800;
+  }
+
+  &__list-info {
+    max-width: 100%;
+    width: 36rem;
+    margin: auto;
+  }
+}

@@ -9,9 +9,21 @@ input {
   border-style: hidden;
 }
 
+// Links
+.link-unstyled,
+.link-unstyled:link,
+.link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 // Backgrounds
 .gray-300-bg {
   background-color: $gray-300;
+}
+
+.gray-400-bg {
+  background-color: $gray-400;
 }
 
 // Borders
@@ -90,4 +102,23 @@ button {
 
 .sidebar {
   background-color: $gray-200;
+}
+
+// Pagination
+.page-item {
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+
+  user-select: none;
+
+  &.disabled .page-link {
+    border-color: #263b45;
+    background-color: #2b414d;
+    color: #636d7c;
+  }
+
+  &.active .page-link {
+    color: $gray-300;
+  }
 }

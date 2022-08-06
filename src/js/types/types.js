@@ -34,10 +34,10 @@ export const imageType = shape({
   id: string.isRequired,
   name: string.isRequired,
   alt: string.isRequired,
-  image: {
+  image: shape({
     path: string.isRequired,
     content_type: string.isRequired,
-  },
+  }).isRequired,
 });
 
 export const resortType = shape({

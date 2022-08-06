@@ -47,7 +47,19 @@ module.exports = {
         type: 'javascript/auto',
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.svg$/,
+        use: [{
+          loader: '@svgr/webpack',
+        },
+        {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'dist/images/',
+          },
+        }],
+      },
+      {
+        test: /\.(gif|png|jpe?g)$/i,
         use: [
           {
             loader: 'file-loader',

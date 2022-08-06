@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
+import { Route } from 'react-router';
 import DynamicSwitch from './components/DynamicSwitch/DynamicSwitch';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -35,25 +37,27 @@ const App = ({ suspenseQuery }) => {
 
   return (
     <BrowserRouter>
-      <IntlProvider locale={locale} message={t[locale]}>
-        <div className="c-app c-default-layout">
-          <ViewContext.Provider value={viewData}>
-            <SidebarNav />
-            <div className="wrapper d-flex flex-column min-vh-100">
-              <Header />
-              <div className="body flex-grow-1 px-3">
-                <main className="c-main">
-                  <CContainer>
-                    <DynamicSwitch />
-                  </CContainer>
-                </main>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <IntlProvider locale={locale} message={t[locale]}>
+          <div className="c-app c-default-layout">
+            <ViewContext.Provider value={viewData}>
+              <SidebarNav />
+              <div className="wrapper d-flex flex-column min-vh-100">
+                <Header />
+                <div className="body flex-grow-1 px-3">
+                  <main className="c-main">
+                    <CContainer>
+                      <DynamicSwitch />
+                    </CContainer>
+                  </main>
+                </div>
+                <SupportBanner />
+                <Footer />
               </div>
-              <SupportBanner />
-              <Footer />
-            </div>
-          </ViewContext.Provider>
-        </div>
-      </IntlProvider>
+            </ViewContext.Provider>
+          </div>
+        </IntlProvider>
+      </QueryParamProvider>
     </BrowserRouter>
   );
 };

@@ -1,37 +1,14 @@
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from '@apollo/client';
 import React from 'react';
-import ResortCard from '../ResortCard/ResortCard';
+import RankedResortList from '../RankedResortList/RankedResortList';
+import ResortsParallaxBackground from '../ResortsParallaxBackground/ResortsParallaxBackground';
 
-export const QUERY_RESORTS = gql`
-  {
-    resorts(
-      orderBy: {
-        type_name: "total_score",
-        direction: "desc"
-      }
-    ) {
-      data {
-        id
-        title
-        url_segment
-      }
-    }
-  }
-`;
-
-const Resorts = () => {
-  const { loading, data } = useQuery(QUERY_RESORTS);
-
-  if (loading) {
-    return null;
-  }
-
-  const { resorts: { data: resorts } } = data;
-
-  return resorts.map(({ id, url_segment }) => (
-    <ResortCard key={id} resortId={id} urlSegment={url_segment} />
-  ));
-};
+const Resorts = () => (
+  <div className="resorts">
+    <div className="ranked-resort-list row">
+      <ResortsParallaxBackground />
+      <RankedResortList cardLimit={5} />
+    </div>
+  </div>
+);
 
 export default Resorts;

@@ -17,8 +17,8 @@ export const QUERY_SUPPORTERS = gql`
 `;
 
 const SupportBanner = () => (
-  <div className="container">
-    <div className="support-banner p-4 d-flex align-items-center flex-wrap">
+  <div className="support-banner">
+    <div className="container p-4 d-flex align-items-center flex-wrap">
       <Supporters />
     </div>
   </div>

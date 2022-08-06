@@ -2,6 +2,7 @@ import React from 'react';
 import Flickity from 'react-flickity-component';
 import { FormattedMessage } from 'react-intl';
 import { CImage } from '@coreui/react';
+import { arrayOf } from 'prop-types';
 import { commentType } from '../../types/types';
 import resortCardMountains from '../../../images/resort-card-comment-background.svg';
 import flickityOptions from '../config/flickity-options';
@@ -61,7 +62,7 @@ const ResortCardCommentCarousel = ({ comments }) => {
 };
 
 ResortCardCommentCarousel.propTypes = {
-  comments: commentType.isRequired,
+  comments: arrayOf(commentType.isRequired).isRequired,
 };
 
 export default ResortCardCommentCarousel;
