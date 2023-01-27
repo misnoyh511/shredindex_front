@@ -2,9 +2,9 @@ const flickityOptions = {
   initialIndex: 2,
   wrapAround: true,
   prevNextButtons: true,
-  pageDots: true,
   fullscreen: true,
   selectedAttraction: 0.2,
+  accessibility: true,
   friction: 0.8,
   arrowShape: {
     x0: 20,

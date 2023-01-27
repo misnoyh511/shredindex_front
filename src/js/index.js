@@ -1,6 +1,7 @@
-import { gql, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  gql, HttpLink, InMemoryCache, ApolloClient,
+} from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient from 'apollo-client';
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { QUERY_CMS_PAGES } from './components/DynamicSwitch/DynamicSwitch';
