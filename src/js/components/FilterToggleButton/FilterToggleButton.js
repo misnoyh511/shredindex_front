@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CTooltip } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import PropTypes from 'prop-types';
+import useRankedResortFiltersToggleButtonState from '../../hooks/useRankedResortFiltersToggleButtonState';
 
 const FilterToggleButton = ({
-  label, tooltip, children, className,
+  id, label, tooltip, children, className,
 }) => {
-  const [toggleOn, setToggleOn] = useState(false);
-
-  const hideContainer = () => {
-    setToggleOn(false);
-  };
-
-  const showContainer = () => {
-    if (!toggleOn) {
-      setToggleOn(true);
-    }
-  };
+  const [toggleOn, setToggleOn] = useRankedResortFiltersToggleButtonState(id);
 
   return (
     <div className={`filter-toggle-button ${className}`}>
       <div
-        onClick={showContainer}
-        onKeyPress={showContainer}
+        onClick={() => {
+          if (!toggleOn) {
+            setToggleOn(true);
+          }
+        }}
+        onKeyPress={() => {
+          if (!toggleOn) {
+            setToggleOn(true);
+          }
+        }}
         role="button"
         tabIndex={0}
         className={`btn btn-light filter-toggle-button__frame
@@ -51,8 +50,8 @@ const FilterToggleButton = ({
             && (
             <div className="filter-toggle-button__frame-header-right-align d-inline-flex justify-content-end gap-2">
               <div
-                onClick={hideContainer}
-                onKeyPress={hideContainer}
+                onClick={() => setToggleOn(false)}
+                onKeyPress={() => setToggleOn(false)}
                 role="button"
                 tabIndex={0}
                 className="filter-toggle-button__frame-header-close ps-2 pe-1 fw-bold"
@@ -89,6 +88,7 @@ FilterToggleButton.defaultProps = {
 };
 
 FilterToggleButton.propTypes = {
+  id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.string.isRequired,
   children: PropTypes.node,

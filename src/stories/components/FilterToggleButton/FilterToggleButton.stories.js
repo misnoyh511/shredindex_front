@@ -7,13 +7,6 @@ import FilterToggleButtonComponent from '../../../js/components/FilterToggleButt
 export default {
   title: 'Shred index/components/Filter Toggle Button',
   component: FilterToggleButtonComponent,
-  argTypes: {
-    cardState: {
-      name: 'Card state',
-      options: ['Full', 'Loading', 'Minimal Data', 'No Data'],
-      control: { type: 'select' },
-    },
-  },
 };
 
 export const FilterToggleButton = () => (
@@ -26,6 +19,7 @@ export const FilterToggleButton = () => (
           </CCardHeader>
           <CCardBody>
             <FilterToggleButtonComponent
+              id="1"
               label="Has a terrain park"
               tooltip="Big airs, smooth rails and delicious tricks"
               className="no-child"
@@ -48,8 +42,14 @@ export const FilterToggleButton = () => (
               A form input can be added as a child within the filter button toggle.
             </p>
             <FilterToggleButtonComponent
+              id="2"
               label="Snow Quality"
-              tooltip="The finest, temperature and lastability of the snow"
+              tooltip={(
+                <div>
+                  <h4>Snow Quality</h4>
+                  <strong>The finest, temperature and lastability of the snow</strong>
+                </div>
+                )}
               className="with-child"
             >
               <CFormLabel htmlFor="basic-url">Range Slider</CFormLabel>
