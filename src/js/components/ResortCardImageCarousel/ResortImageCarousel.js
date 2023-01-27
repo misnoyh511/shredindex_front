@@ -26,7 +26,7 @@ const ResortImageCarousel = ({ images }) => {
           <img key={id} className="carousel__image" src={image.path} alt={alt} />
         ))
           : (
-            <img className="carousel__image--no-images" src={resortImagePlaceholder} alt="shred-index-resort-placeholder" />
+            [<img key="1" className="carousel__image--no-images" src={resortImagePlaceholder} alt="shred-index-resort-placeholder" />]
           )}
       </Flickity>
     </div>
