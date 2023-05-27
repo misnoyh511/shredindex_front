@@ -8,12 +8,12 @@ import ResortCard from '../ResortCard/ResortCard';
 import Pagination, { paginationSize } from '../Pagination/Pagination';
 import ResortCardError from '../ResortCardError/ResortCardError';
 import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
-import FilterMenu from '../FilterMenu/FilterMenu';
+import RankedResortFilterMenu from '../RankedResortFilterMenu/RankedResortFilterMenu';
 import useQueryResorts from '../../hooks/useQueryResorts';
 import useWindowDimensions from '../../hooks/getWindowDimensions';
 import RankedResortResultCount from '../RankedResortResultCount/RankedResortResultCount';
 import breakpoints from '../config/breakpoints';
-import FilterMenuSkeleton from '../FilterMenu/FilterMenuSkeleton';
+import RankedResortFilterMenuSkeleton from '../RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
 import RankedResortResultCountSkeleton from '../RankedResortResultCount/RankedResortResultCountSkeleton';
 
 const RankedResortList = ({ query, cardLimit }) => {
@@ -49,7 +49,7 @@ const RankedResortList = ({ query, cardLimit }) => {
     return (
       <div className="ranked-resort-list">
         <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
-          <FilterMenuSkeleton />
+          <RankedResortFilterMenuSkeleton />
         </div>
         <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
           <RankedResortResultCountSkeleton />
@@ -80,7 +80,7 @@ const RankedResortList = ({ query, cardLimit }) => {
   return (
     <div className="ranked-resort-list">
       <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
-        <FilterMenu />
+        <RankedResortFilterMenu />
       </div>
       <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
         <RankedResortResultCount total={total} currentPage={currentPage} lastPage={lastPage} />

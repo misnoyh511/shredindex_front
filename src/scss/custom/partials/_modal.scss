@@ -1,0 +1,87 @@
+.modal {
+  .modal-content {
+    background-color: $gray-300;
+    border-radius: 0;
+
+    .modal-header {
+      padding: 1.35rem 1rem;
+
+      .btn-close {
+        height: 0.625rem;
+        width: 0.625rem;
+        background-color: $gray-500;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' class='icon icon-xl' role='img'%3E%3Cpolygon fill='%23fff' points='497.333 239.999 80.092 239.999 176.087 144.004 153.46 121.377 18.837 256 153.46 390.623 176.087 367.996 80.09 271.999 497.333 271.999 497.333 239.999' class='ci-primary'%3E%3C/polygon%3E%3C/svg%3E");
+        opacity: 0.7;
+        border-radius: 50%;
+        margin-right: 0;
+        position: absolute;
+        right: 1rem;
+        padding: 1rem;
+        transition-duration: $card-animation-transition-time;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    .modal-footer {
+      padding: 1.35rem 1rem;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+
+  .modal {
+    &.filter-tray {
+      .modal-dialog {
+        max-width: 55rem !important;
+      }
+    }
+
+    .modal-content {
+      border-radius: 1rem !important;
+
+      .modal-header {
+        padding: 1.5rem 2rem;
+
+        .btn-close {
+          right: 2rem;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' class='icon icon-xl' role='img'%3E%3Cpolygon fill='%23ffffff' points='427.314 107.313 404.686 84.687 256 233.373 107.314 84.687 84.686 107.313 233.373 256 84.686 404.687 107.314 427.313 256 278.627 404.686 427.313 427.314 404.687 278.627 256 427.314 107.313' class='ci-primary'%3E%3C/polygon%3E%3C/svg%3E");
+        }
+      }
+
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .modal-footer {
+        padding: 1.5rem 2rem;
+      }
+    }
+  }
+}
+
+.modal-backdrop {
+  background-color: $gray-600;
+}
+
+@keyframes fly-up {
+  from {
+    top: 100%;
+  }
+
+  to {
+    top: 0;
+  }
+}
+
+.modal {
+  animation: fly-up 0.2s ease-in-out;
+}
+
+@media (min-width: 576px) {
+  .modal {
+    animation: none;
+  }
+}

@@ -129,6 +129,8 @@ $dark-gradient: (
   "stop": $gray-100
 );
 
+$bg-gradient-gray: linear-gradient(45deg, #283c49, #39576b) !important;
+
 $rating-20: #f0a5a6;
 $rating-40: #f7c99e;
 $rating-60: #e0d69b;
@@ -142,6 +144,7 @@ $theme-colors: map-merge(
   (
     "primary": $primary,
     "secondary": $secondary-50,
+    "secondary-25": $secondary-25,
     "success": $success,
     "info": $info,
     "warning": $warning,
@@ -156,6 +159,13 @@ $theme-colors: map-merge(
   ),
   $theme-colors
 );
+
+
+
+@media (min-width: 576px) {
+  $modal-scale-transform: scale(1);
+  $modal-fade-transform: translate(0, 50px);
+}
 
 // Set a specific jump point for requesting color jumps
 $theme-color-interval: 8%;
@@ -228,6 +238,10 @@ $card-animation-transition-time: 0.3s;
 
 // Modal
 $modal-content-bg: $gray-400;
+
+@media (max-width: 576px) {
+  $modal-fade-transform: translate(0, 50px);
+}
 
 // Toast
 $toast-background-color: $gray-400;

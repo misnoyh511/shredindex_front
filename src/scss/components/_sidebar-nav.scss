@@ -1,3 +1,11 @@
+.c-sidebar {
+  background: $bg-gradient-gray;
+}
+
+.sidebar {
+  background-color: $gray-200;
+}
+
 .sidebar-nav {
   &__link {
     &--current.nav-link {

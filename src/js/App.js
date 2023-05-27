@@ -1,6 +1,7 @@
 import { CContainer } from '@coreui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
+import { RecoilRoot } from 'recoil';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
@@ -39,23 +40,25 @@ const App = ({ suspenseQuery }) => {
     <BrowserRouter>
       <QueryParamProvider ReactRouterRoute={Route}>
         <IntlProvider locale={locale} message={t[locale]}>
-          <div className="c-app c-default-layout">
-            <ViewContext.Provider value={viewData}>
-              <SidebarNav />
-              <div className="wrapper d-flex flex-column min-vh-100">
-                <Header />
-                <div className="body flex-grow-1 px-3">
-                  <main className="c-main">
-                    <CContainer>
-                      <DynamicSwitch />
-                    </CContainer>
-                  </main>
+          <RecoilRoot>
+            <div className="c-app c-default-layout">
+              <ViewContext.Provider value={viewData}>
+                <SidebarNav />
+                <div className="wrapper d-flex flex-column min-vh-100">
+                  <Header />
+                  <div className="body flex-grow-1 px-3">
+                    <main className="c-main">
+                      <CContainer>
+                        <DynamicSwitch />
+                      </CContainer>
+                    </main>
+                  </div>
+                  <SupportBanner />
+                  <Footer />
                 </div>
-                <SupportBanner />
-                <Footer />
-              </div>
-            </ViewContext.Provider>
-          </div>
+              </ViewContext.Provider>
+            </div>
+          </RecoilRoot>
         </IntlProvider>
       </QueryParamProvider>
     </BrowserRouter>
