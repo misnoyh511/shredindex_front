@@ -10,7 +10,9 @@
 @import "~@coreui/coreui/scss/mixins";
 
 // If you want to add something do it here
-@import "custom";
+@import "custom/custom";
+@import "custom/partials/forms";
+@import "custom/partials/modal";
 
 // Utilities
 @import "utils/skeleton";

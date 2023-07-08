@@ -1,14 +1,3 @@
-.c-sidebar,
-.c-header,
-.modal-content {
-  background: linear-gradient(45deg, #283c49, #39576b) !important;
-}
-
-// Inputs
-input {
-  border-style: hidden;
-}
-
 // Links
 .link-unstyled,
 .link-unstyled:link,
@@ -71,6 +60,12 @@ button {
   &:focus {
     outline: none !important;
   }
+
+  &.rounded-pill {
+    font-size: 0.875rem !important;
+    padding: 0.666rem 1.6rem;
+    font-weight: 500 !important;
+  }
 }
 
 // Cards
@@ -100,10 +95,6 @@ button {
   background-color: unset;
 }
 
-.sidebar {
-  background-color: $gray-200;
-}
-
 // Pagination
 .page-item {
   &:not(.disabled) {
@@ -121,4 +112,17 @@ button {
   &.active .page-link {
     color: $gray-300;
   }
+}
+
+// Scroll bar
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  background: $gray-200;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $gray-400;
 }
