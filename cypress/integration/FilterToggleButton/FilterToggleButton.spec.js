@@ -86,12 +86,58 @@ describe('FilterToggleButton', () => {
   });
 
   it('Has a tool-tip icon', () => {
-    cy.get('.info-tooltip').should('contain.text', '?');
+    cy.get('.info-icon').should('contain.text', '?');
   });
 
   it('Has a tool-tip ', () => {
     cy.get('.with-child .info-tooltip').trigger('mouseover');
     cy.wait(100);
     cy.get('.tooltip').should('be.visible');
+  });
+
+  it('Ensures the tooltip has the right size and positions in the DOM', () => {
+    cy.get('.info-tooltip').should('have.css', 'font-size', '16px');
+    cy.get('.info-tooltip').should('have.css', 'margin-left', '8px');
+    cy.get('.info-tooltip').should('have.css', 'position', 'static');
+  });
+
+  it('Ensures toggle button and tooltip works with multiple instances', () => {
+    cy.get('.filter-toggle-button').should('have.length', 2);
+    cy.get('.info-tooltip').should('have.length', 2);
+    cy.get('.filter-toggle-button').first().click();
+    cy.get('.info-tooltip').first().trigger('mouseover');
+    cy.get('.tooltip').first().should('be.visible');
+  });
+
+  it('Ensures handleClose works with keypress', () => {
+    cy.get('.no-child .filter-toggle-button__frame').click();
+    cy.get('.no-child .filter-toggle-button__frame--filter-on').should('exist');
+    cy.get('.no-child .filter-toggle-button__frame-header-close').trigger('keypress', { keyCode: 13 });
+    cy.wait(2000);
+    cy.get('.no-child .filter-toggle-button__frame--filter-on').should('not.exist');
+  });
+
+  it('Ensures handleToggle works with keypress', () => {
+    cy.get('.no-child .filter-toggle-button__frame--filter-off').trigger('keypress', { keyCode: 13 });
+    cy.wait(2000);
+    cy.get('.no-child .filter-toggle-button__frame--filter-on').should('exist');
+  });
+
+  it('Has a close icon that responds to clicks', () => {
+    cy.get('.no-child .filter-toggle-button__frame').click();
+    cy.get('.no-child .filter-toggle-button__frame--filter-on').should('exist');
+    cy.get('.no-child .filter-toggle-button__frame-header-close').click();
+    cy.wait(500);
+    cy.get('.no-child .filter-toggle-button__frame--filter-off').should('exist');
+  });
+
+  it('renders the correct label', () => {
+    cy.get('.filter-toggle-button.no-child .filter-toggle-button__frame-header-title').then(($label) => {
+      expect($label.text()).to.equal('Has a terrain park');
+    });
+  });
+
+  it('Ensures the provided classname is applied', () => {
+    cy.get('.filter-toggle-button.with-child').should('have.class', 'with-child');
   });
 });

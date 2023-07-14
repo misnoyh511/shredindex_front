@@ -9,6 +9,10 @@ export default {
   component: FilterToggleButtonComponent,
 };
 
+const updateFormStory = (id, toggle) => {
+  console.log('id', id, 'toggleOn', toggle);
+};
+
 export const FilterToggleButton = () => (
   <>
     <CRow>
@@ -23,6 +27,7 @@ export const FilterToggleButton = () => (
               label="Has a terrain park"
               tooltip="Big airs, smooth rails and delicious tricks"
               className="no-child"
+              updateForm={updateFormStory}
             />
           </CCardBody>
         </CCard>
@@ -51,6 +56,7 @@ export const FilterToggleButton = () => (
                 </div>
                 )}
               className="with-child"
+              updateForm={updateFormStory}
             >
               <CFormLabel htmlFor="basic-url">Range Slider</CFormLabel>
               <CFormRange steps={10} />
