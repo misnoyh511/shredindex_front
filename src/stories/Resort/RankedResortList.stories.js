@@ -43,6 +43,7 @@ export const RankedResortList = (args) => {
         variables: {
           first: 5,
           page: 1,
+          filter: [{ type_name: 'snow_quality', operator: '>', value: '1' }],
         },
       },
       result: {

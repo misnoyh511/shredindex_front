@@ -1,37 +1,55 @@
 import { useEffect, useState } from 'react';
 
-/**
- * Reference a ranked resort filter toggleOn state from local storage
- *
- * @param {string} rankedResortFilterId
- * @return {[boolean, function]}
- */
-const useRankedResortFiltersToggleButtonState = (rankedResortFilterId) => {
+const useRankedResortFiltersToggleButtonState = (toggleID, onChange) => {
   const storeToggleOn = (collapsed) => {
-    const currentState = localStorage.getItem('rankedResortFilterToggleState') || 'io'; // e.g "io_1_2_3_4_5"
-    // Get the state without the current resort's id
-    const newStateArray = currentState.split('_').filter((id) => id !== rankedResortFilterId);
+    const currentState = localStorage.getItem('rankedResortFilterToggleState') || 'io';
+    const newStateArray = currentState.split('_').filter((id) => id !== toggleID);
 
     if (collapsed) {
-      newStateArray.push(rankedResortFilterId);
+      newStateArray.push(toggleID);
     }
 
     localStorage.setItem('rankedResortFilterToggleState', newStateArray.join('_'));
   };
 
-  const storedAsToggleOn = () => {
-    const currentState = localStorage.getItem('rankedResortFilterToggleState') || ''; // e.g "1_2_3_4_5"
+  const storeInputData = (data) => {
+    const currentData = JSON.parse(localStorage.getItem('rankedResortFilterDataState') || '{}');
+    if (!currentData.hasOwnProperty(toggleID)) {
+      currentData[toggleID] = { toggleID, filters: [] };
+    }
+    currentData[toggleID].filters.push(data);
+    localStorage.setItem('rankedResortFilterDataState', JSON.stringify(currentData));
+  };
 
-    return currentState.split('_').some((id) => id === rankedResortFilterId);
+  const storedAsToggleOn = () => {
+    const currentState = localStorage.getItem('rankedResortFilterToggleState') || '';
+    return currentState.split('_').some((id) => id === toggleID);
+  };
+
+  const storedInputData = () => {
+    const currentData = JSON.parse(localStorage.getItem('rankedResortFilterDataState') || '{}');
+    return currentData.hasOwnProperty(toggleID) ? currentData[toggleID].filters : [];
   };
 
   const [toggleOn, setToggleOn] = useState(storedAsToggleOn());
+  const [inputData, setInputData] = useState(storedInputData());
 
   useEffect(() => {
     storeToggleOn(toggleOn);
   }, [toggleOn]);
 
-  return [toggleOn, setToggleOn];
+  useEffect(() => {
+    if (onChange) {
+      onChange(inputData);
+    }
+  }, [inputData]);
+
+  const setInput = (data) => {
+    setInputData((prev) => [...prev, data]);
+    storeInputData(data);
+  };
+
+  return [toggleOn, setToggleOn, inputData, setInput];
 };
 
 export default useRankedResortFiltersToggleButtonState;

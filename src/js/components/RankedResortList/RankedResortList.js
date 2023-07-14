@@ -3,6 +3,7 @@ import {
   withQueryParams,
   NumberParam,
 } from 'use-query-params';
+import { JsonParam } from 'serialize-query-params/lib/params';
 import PropTypes from 'prop-types';
 import ResortCard from '../ResortCard/ResortCard';
 import Pagination, { paginationSize } from '../Pagination/Pagination';
@@ -17,9 +18,12 @@ import RankedResortFilterMenuSkeleton from '../RankedResortFilterMenu/RankedReso
 import RankedResortResultCountSkeleton from '../RankedResortResultCount/RankedResortResultCountSkeleton';
 
 const RankedResortList = ({ query, cardLimit }) => {
-  const { page: num } = query;
+  const {
+    page: num,
+    filters: filtersArray,
+  } = query;
   const { width } = useWindowDimensions();
-  const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1);
+  const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1, filtersArray);
   const [maxPageState] = useState({ key: '', maxPages: 0 });
   const key = [cardLimit].join('-');
 
@@ -102,10 +106,16 @@ const RankedResortList = ({ query, cardLimit }) => {
 RankedResortList.propTypes = {
   query: PropTypes.shape({
     page: PropTypes.number,
+    filters: PropTypes.arrayOf(PropTypes.shape({
+      type_name: PropTypes.string,
+      operator: PropTypes.string,
+      value: PropTypes.string,
+    })),
   }).isRequired,
   cardLimit: PropTypes.number.isRequired,
 };
 
 export default withQueryParams({
   page: NumberParam,
+  filters: JsonParam,
 }, RankedResortList);

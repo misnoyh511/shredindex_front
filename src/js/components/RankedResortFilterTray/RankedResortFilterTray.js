@@ -1,30 +1,47 @@
+import React, { useState } from 'react';
+import { useRecoilState, atom } from 'recoil';
 import {
   CModal,
   CModalHeader,
   CModalTitle,
   CModalFooter,
-  CModalBody,
+  CModalBody, CButton,
 } from '@coreui/react';
-import React from 'react';
+
 import { FormattedMessage } from 'react-intl';
-import { atom, useRecoilState } from 'recoil';
-import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
+import { withQueryParams } from 'use-query-params';
+import { JsonParam } from 'serialize-query-params/lib/params';
+import RankedResortFilters, { currentFilterState } from '../RankedResortFilters/RankedResortFilters';
 
 export const showFilterTrayState = atom({
   key: 'showFilterTrayState',
   default: false,
 });
 
-const RankedResortFilterTray = () => {
-  const [visible, setVisible] = useRecoilState(showFilterTrayState);
+export const toggledFilterState = atom({
+  key: 'showToggledFiltersState',
+  default: [],
+});
 
-  const handleClose = () => {
-    setVisible(false);
+const RankedResortFilterTray = ({
+  setQuery,
+}) => {
+  const [visible, setVisible] = useRecoilState(showFilterTrayState);
+  const [formData, setFormData] = useRecoilState(currentFilterState);
+
+  const handleClose = () => setVisible(false);
+
+  if (!visible) return null;
+
+  const onSubmit = () => {
+    const activeFilters = formData.filter(
+      (item) => item.toggleOn,
+    ).map((item) => item.filters).flat();
+    console.log('activeFilters', activeFilters);
+    setQuery({ filters: activeFilters });
   };
 
-  if (!visible) {
-    return null;
-  }
+  const resetFilters = () => setFilters([]);
 
   return (
     <CModal
@@ -32,7 +49,7 @@ const RankedResortFilterTray = () => {
       fullscreen="lg"
       scrollable
       visible={visible}
-      onClose={() => handleClose()}
+      onClose={handleClose}
     >
       <CModalHeader>
         <CModalTitle className="h4 text-center mx-auto w-100 fw-bold">
@@ -45,9 +62,16 @@ const RankedResortFilterTray = () => {
       <CModalBody>
         <RankedResortFilters />
       </CModalBody>
-      <CModalFooter className="justify-content-between" />
+      <CModalFooter className="justify-content-between">
+        <CButton className="text-white" shape="rounded-pill" color="secondary" onClick={() => { handleClose(); resetFilters(); }}>
+          Clear All
+        </CButton>
+        <CButton className="text-white" shape="rounded-pill" color="warning" onClick={() => { onSubmit(); handleClose(); }}>View</CButton>
+      </CModalFooter>
     </CModal>
   );
 };
 
-export default RankedResortFilterTray;
+export default withQueryParams({
+  filters: JsonParam,
+}, RankedResortFilterTray);
