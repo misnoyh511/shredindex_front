@@ -3,13 +3,13 @@ import {
 } from '@coreui/react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useResortCardToggledState from '../../hooks/useResortCardToggledState';
+import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
 import ResortCardFooter from '../ResorctCardFooter/ResortCardFooter';
 import ResortCardBody from '../ResortCardBody/ResortCardBody';
 import ResortCardHeader from '../ResortCardHeader/ResortCardHeader';
 
 const ResortCard = ({ resortData }) => {
-  const [collapsed, setToggled] = useResortCardToggledState(resortData.id);
+  const [collapsed, setCollapsed] = useLocalStorageDrivenBooleanState('resortCollapsed', resortData.id);
 
   if (!resortData) {
     throw new Error('Resort failed to load');
@@ -31,7 +31,7 @@ const ResortCard = ({ resortData }) => {
           <ResortCardBody resort={resortData} collapsed={!collapsed} />
         </CCardBody>
         {/* eslint-disable-next-line react/jsx-no-bind */}
-        <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setToggled(!collapsed)}>
+        <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setCollapsed(!collapsed)}>
           <ResortCardFooter url={url} urlSegment={url_segment} collapsed={!collapsed} />
         </CCardFooter>
       </CCard>

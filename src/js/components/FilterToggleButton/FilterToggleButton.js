@@ -3,24 +3,12 @@ import { CTooltip } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import PropTypes from 'prop-types';
-import useRankedResortFiltersToggleButtonState from '../../hooks/useRankedResortFiltersToggleButtonState';
+import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
 
 const FilterToggleButton = ({
-  id, label, tooltip, children, className, updateForm,
+  id, label, tooltip, children, className,
 }) => {
-  const [toggleOn, setToggleOn] = useRankedResortFiltersToggleButtonState(id);
-
-  const handleToggle = async () => {
-    if (!toggleOn) {
-      setToggleOn(true);
-      await updateForm(id, true);
-    }
-  };
-
-  const handleClose = async () => {
-    setToggleOn(false);
-    await updateForm(id, false);
-  };
+  const [engaged, setEngaged] = useLocalStorageDrivenBooleanState('filterEngaged', id);
 
   function isFunction(value) {
     return !!(value && value.constructor && value.call && value.apply);
@@ -29,19 +17,19 @@ const FilterToggleButton = ({
   return (
     <div id={id} className={`filter-toggle-button ${className}`}>
       <div
-        onClick={handleToggle}
-        onKeyPress={handleToggle}
+        onClick={() => { setEngaged(!engaged); }}
+        onKeyPress={() => { setEngaged(!engaged); }}
         role="button"
         tabIndex={0}
         className={`btn btn-light filter-toggle-button__frame
-      ${!toggleOn ? 'filter-toggle-button__frame--filter-off' : 'filter-toggle-button__frame--filter-on'}`}
+      ${!engaged ? 'filter-toggle-button__frame--filter-off' : 'filter-toggle-button__frame--filter-on'}`}
       >
         <div className="filter-toggle-button__frame-header d-inline-flex w-100">
           <div className="filter-toggle-button__frame-header-left-align d-inline-flex gap-2 w-100">
             <div className="filter-toggle-button__frame-header-title fw-bold">
               {label}
             </div>
-            {toggleOn && (
+            {engaged && (
               <CTooltip content={tooltip}>
                 <div className="info-tooltip ms-1 border-radius-large">
                   <span className="info-icon small">?</span>
@@ -49,11 +37,11 @@ const FilterToggleButton = ({
               </CTooltip>
             )}
           </div>
-          {toggleOn && (
+          {engaged && (
             <div className="filter-toggle-button__frame-header-right-align d-inline-flex justify-content-end gap-2">
               <div
-                onClick={handleClose}
-                onKeyPress={handleClose}
+                onClick={() => { setEngaged(false); }}
+                onKeyPress={() => { setEngaged(false); }}
                 role="button"
                 tabIndex={0}
                 className="filter-toggle-button__frame-header-close ps-2 pe-1 fw-bold"
@@ -63,13 +51,13 @@ const FilterToggleButton = ({
             </div>
           )}
         </div>
-        {toggleOn && children && (
+        {engaged && children && (
           <div className="filter-toggle-button__frame-body p-4 bg-dark">
-            {isFunction(children) ? children(id, toggleOn) : children}
+            {isFunction(children) ? children(id, engaged) : children}
           </div>
         )}
       </div>
-      {!toggleOn && (
+      {!engaged && (
         <CTooltip content={tooltip}>
           <div className="info-tooltip ms-2 border-radius-large">
             <span className="info-icon fw-bold small">?</span>
@@ -91,7 +79,6 @@ FilterToggleButton.propTypes = {
   tooltip: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   className: PropTypes.string,
-  updateForm: PropTypes.func.isRequired,
 };
 
 export default FilterToggleButton;
