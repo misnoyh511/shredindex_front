@@ -12,11 +12,12 @@ import Fallback from './Fallback';
 import { queryStaticMenu } from './hooks/useStaticMenu';
 import useSuspenseQuery from './hooks/useSuspenseQuery';
 import queryCMSPage from './utility/query-cms-page';
+import '@fontsource/plus-jakarta-sans';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: process.env.GRAPHQL_URI,
+    uri: 'http://localhost:8080/graphql',
   }),
 });
 

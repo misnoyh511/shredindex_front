@@ -1,5 +1,6 @@
 import React from "react";
-import { addDecorator } from "@storybook/react";
 import { MemoryRouter } from "react-router";
 
-addDecorator(story => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>);
+export default {
+  decorators: [story => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>],
+};
