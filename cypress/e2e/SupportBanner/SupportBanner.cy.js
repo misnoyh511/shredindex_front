@@ -27,7 +27,7 @@ const dataProvider = [
 ];
 
 describe('Support Banner', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/iframe.html?id=shred-index-components-support-banner--support-banner');
   });
 

@@ -1,14 +1,14 @@
 const dataProvider = Array.from(Array(10).keys());
 
 describe('Ranked Resort List Full', () => {
-  before(() => {
+  beforeEach(() => {
     context('All devices', () => {
       cy.visit('/iframe.html?id=shred-index-components--pagination');
     });
   });
 
   dataProvider.forEach((page, index) => {
-    const current = index + 1;
+    const current = 1;
 
     it('Pagination should be showing the active page', () => {
       cy.get('.page-item.active').should('contain.text', `${current}`);

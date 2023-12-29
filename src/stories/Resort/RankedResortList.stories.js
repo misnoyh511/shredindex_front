@@ -16,8 +16,8 @@ import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
 import RankedResortFilterMenuSkeleton from '../../js/components/RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
 import RankedResortResultCountSkeleton
   from '../../js/components/RankedResortResultCount/RankedResortResultCountSkeleton';
-import resortOne from '../../../cypress/integration/RankedResortList/dummyResortOne';
-import resortTwo from '../../../cypress/integration/RankedResortList/dummyResortTwo';
+import resortOne from '../../../cypress/e2e/RankedResortList/dummyResortOne';
+import resortTwo from '../../../cypress/e2e/RankedResortList/dummyResortTwo';
 
 export default {
   title: 'Shred index/components',
