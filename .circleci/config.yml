@@ -2,11 +2,10 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.3.0
-  cypress: cypress-io/cypress@3.2.1
 jobs:
   build-and-test:
     docker:
-      - image: cypress/included:13.6.1
+      - image: cypress/included:9.5.0
     steps:
       - checkout
       - restore_cache:
