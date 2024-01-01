@@ -125,9 +125,6 @@ module.exports = {
     extensions: ['.js', '.jsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg', '*', '.mjs', '.json', '.gql', '.graphql'],
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-    }),
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       title: 'Shred Index',
