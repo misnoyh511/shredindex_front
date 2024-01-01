@@ -5,7 +5,7 @@ orbs:
 jobs:
   build-and-test:
     docker:
-      - image: cimg/go:1.18.1
+      - image: cypress/included:12.3.0
     steps:
       - checkout
       - restore_cache:
