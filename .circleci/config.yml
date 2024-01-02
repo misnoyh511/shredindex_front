@@ -17,8 +17,13 @@ jobs:
           paths:
             - node_modules
             - /root/.cache/Cypress
-      - run: npm storybook:ci
-      - wait-on: 'http://localhost:9009'
+      - run:
+          name: start-storybook-and-test
+          yarn: true
+          requires:
+            - cypress-install
+          start: npm storybook
+          wait-on: 'http://localhost:9009'
       - run: npm run lint
       - run: npm run tests
       - codecov/upload:
