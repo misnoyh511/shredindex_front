@@ -19,8 +19,6 @@ jobs:
             - /root/.cache/Cypress
       - run:
           name: start-storybook-and-test
-          requires:
-            - cypress-install
           start: npm storybook
           wait-on: 'http://localhost:9009'
       - run: npm run lint
