@@ -19,7 +19,6 @@ jobs:
             - /root/.cache/Cypress
       - run:
           name: start-storybook-and-test
-          yarn: true
           requires:
             - cypress-install
           start: npm storybook
