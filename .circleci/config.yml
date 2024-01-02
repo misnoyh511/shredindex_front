@@ -18,7 +18,6 @@ jobs:
             - node_modules
             - /root/.cache/Cypress
       - run: npm storybook:ci
-      - wait-on: 'http://localhost:9009'
       - run: npm run lint
       - run: npm run tests
       - codecov/upload:
