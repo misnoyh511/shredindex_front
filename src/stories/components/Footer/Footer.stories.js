@@ -7,10 +7,12 @@ import FooterComponent, {
 import NoCacheMockedProvider
   from '../../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../../js/lang/en.json';
+import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components/Footer',
   component: FooterComponent,
+  decorators: [withRouter],
 };
 
 export const Footer = () => {

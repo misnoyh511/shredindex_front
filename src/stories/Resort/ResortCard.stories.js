@@ -5,10 +5,12 @@ import ResortCardSkeleton from '../../js/components/SkeletonState/ResortCardSkel
 import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
 import langEn from '../../js/lang/en.json';
 import NoCacheMockedProvider from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
+import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components',
   component: ResortCardComponent,
+  decorators: [withRouter],
   argTypes: {
     cardState: {
       name: 'Card state',

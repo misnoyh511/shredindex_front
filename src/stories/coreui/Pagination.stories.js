@@ -2,12 +2,14 @@ import React from 'react';
 import {
   QueryParamProvider,
 } from 'use-query-params';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import PaginationComponent from '../../js/components/Pagination/Pagination';
+import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components',
   component: PaginationComponent,
+  decorators: [withRouter],
 };
 
 export const Pagination = () => {
@@ -18,14 +20,12 @@ export const Pagination = () => {
   };
 
   return (
-    <MemoryRouter initialEntries={['?page=1']}>
-      <QueryParamProvider ReactRouterRoute={Route}>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
         <PaginationComponent
           paginationTabLimit={mocks.paginationTabLimit}
           size={mocks.size}
           lastPage={mocks.lastPage}
         />
       </QueryParamProvider>
-    </MemoryRouter>
   );
 };

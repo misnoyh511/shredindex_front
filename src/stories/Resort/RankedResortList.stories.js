@@ -1,9 +1,10 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { Route } from 'react-router-dom';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import {
   QueryParamProvider,
 } from 'use-query-params';
@@ -28,6 +29,14 @@ export default {
       options: ['Full', 'Loading', 'Error'],
       control: { type: 'select' },
     },
+  },
+  parameters: {
+    reactRouter: reactRouterParameters({
+      location: {
+        pathParams: { first: '2', page: '1' },
+      },
+      routing: { path: '/resorts/?page=:page' },
+    }),
   },
 };
 
@@ -164,14 +173,12 @@ export const RankedResortList = (args) => {
     return (
       <IntlProvider locale="en" message={langEn}>
         <RecoilRoot>
-          <QueryParamProvider ReactRouterRoute={Route}>
             <MockedProvider
               mocks={[mocks.resortsError]}
               addTypename={false}
             >
               <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
             </MockedProvider>
-          </QueryParamProvider>
         </RecoilRoot>
       </IntlProvider>
     );
@@ -181,7 +188,7 @@ export const RankedResortList = (args) => {
     <MemoryRouter initialEntries={['?first=2', '?page=1']}>
       <IntlProvider locale="en" message={langEn}>
         <RecoilRoot>
-          <QueryParamProvider ReactRouterRoute={Route}>
+          <QueryParamProvider adapter={ReactRouter6Adapter}>
             <MockedProvider
               mocks={[
                 mocks.resortsPage1,
@@ -190,7 +197,7 @@ export const RankedResortList = (args) => {
               ]}
               addTypename={false}
             >
-              <QueryParamProvider ReactRouterRoute={Route}>
+              <QueryParamProvider adapter={ReactRouter6Adapter}>
                 <ResortsParallaxBackground />
                 <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
               </QueryParamProvider>

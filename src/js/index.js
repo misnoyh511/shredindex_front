@@ -3,7 +3,7 @@ import {
 } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import React, { lazy, Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { QUERY_CMS_PAGES } from './components/DynamicSwitch/DynamicSwitch';
 import { QUERY_SETTINGS, QUERY_TEAM_MEMBERS } from './components/Footer/Footer';
 import { menuCode as footerMenuCode } from './components/FooterMenuMain/FooterMenuMain';
@@ -52,9 +52,10 @@ const Index = () => {
   );
 };
 
-ReactDOM.render(
+const container = document.getElementById('app');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
   <ApolloProvider client={client}>
     <Index />
   </ApolloProvider>,
-  document.getElementById('app'),
 );

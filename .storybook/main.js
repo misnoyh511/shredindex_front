@@ -5,6 +5,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
+    "storybook-addon-react-router-v6",
     "@storybook/addon-interactions",
   ],
   framework: '@storybook/react-webpack5',

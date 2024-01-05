@@ -7,10 +7,12 @@ import SidebarNav from '../../../js/components/SidebarNav/SidebarNav';
 import ViewContext from '../../../js/components/ViewContext/ViewContext';
 import { QUERY_STATIC_MENU } from '../../../js/hooks/useStaticMenu';
 import langEn from '../../../js/lang/en.json';
+import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components/Header',
   component: HeaderComponent,
+  decorators: [withRouter],
 };
 
 export const Header = () => {
