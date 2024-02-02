@@ -3,8 +3,8 @@ import {
   QueryParamProvider,
 } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import PaginationComponent from '../../js/components/Pagination/Pagination';
 import { withRouter } from 'storybook-addon-react-router-v6';
+import PaginationComponent from '../../js/components/Pagination/Pagination';
 
 export default {
   title: 'Shred index/components',
@@ -20,12 +20,12 @@ export const Pagination = () => {
   };
 
   return (
-      <QueryParamProvider adapter={ReactRouter6Adapter}>
-        <PaginationComponent
-          paginationTabLimit={mocks.paginationTabLimit}
-          size={mocks.size}
-          lastPage={mocks.lastPage}
-        />
-      </QueryParamProvider>
+    <QueryParamProvider adapter={ReactRouter6Adapter}>
+      <PaginationComponent
+        paginationTabLimit={mocks.paginationTabLimit}
+        size={mocks.size}
+        lastPage={mocks.lastPage}
+      />
+    </QueryParamProvider>
   );
 };

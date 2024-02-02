@@ -1,6 +1,6 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
+import { reactRouterParameters } from 'storybook-addon-react-router-v6';
 import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
@@ -173,12 +173,12 @@ export const RankedResortList = (args) => {
     return (
       <IntlProvider locale="en" message={langEn}>
         <RecoilRoot>
-            <MockedProvider
-              mocks={[mocks.resortsError]}
-              addTypename={false}
-            >
-              <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
-            </MockedProvider>
+          <MockedProvider
+            mocks={[mocks.resortsError]}
+            addTypename={false}
+          >
+            <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
+          </MockedProvider>
         </RecoilRoot>
       </IntlProvider>
     );

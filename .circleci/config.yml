@@ -17,7 +17,6 @@ jobs:
           paths:
             - node_modules
             - /root/.cache/Cypress
-      - run: npm run storybook
       - run: npm run lint
       - run: npm run tests
       - codecov/upload:

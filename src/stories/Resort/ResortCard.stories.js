@@ -1,11 +1,11 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { withRouter } from 'storybook-addon-react-router-v6';
 import ResortCardComponent from '../../js/components/ResortCard/ResortCard';
 import ResortCardSkeleton from '../../js/components/SkeletonState/ResortCardSkeleton';
 import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
 import langEn from '../../js/lang/en.json';
 import NoCacheMockedProvider from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
-import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components',

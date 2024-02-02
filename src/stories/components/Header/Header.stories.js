@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/react-testing';
 import React, { useMemo, useState } from 'react';
+import { withRouter } from 'storybook-addon-react-router-v6';
 import { IntlProvider } from 'react-intl';
 import HeaderComponent from '../../../js/components/Header/Header';
 import { menuCode as headerMenuCode } from '../../../js/components/HeaderMenuMain/HeaderMenuMain';
@@ -7,7 +8,6 @@ import SidebarNav from '../../../js/components/SidebarNav/SidebarNav';
 import ViewContext from '../../../js/components/ViewContext/ViewContext';
 import { QUERY_STATIC_MENU } from '../../../js/hooks/useStaticMenu';
 import langEn from '../../../js/lang/en.json';
-import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components/Header',

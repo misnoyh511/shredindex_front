@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { withRouter } from 'storybook-addon-react-router-v6';
 import FooterComponent, {
   QUERY_SETTINGS,
   QUERY_TEAM_MEMBERS,
@@ -7,7 +8,6 @@ import FooterComponent, {
 import NoCacheMockedProvider
   from '../../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../../js/lang/en.json';
-import { withRouter } from 'storybook-addon-react-router-v6';
 
 export default {
   title: 'Shred index/components/Footer',
