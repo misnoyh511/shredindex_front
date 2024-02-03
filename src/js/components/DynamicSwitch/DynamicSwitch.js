@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import DynamicLayout from '../DynamicLayout/DynamicLayout';
 
 /**
@@ -49,13 +49,16 @@ const DynamicSwitch = () => {
   return (
     <>
       <ScrollToTop />
-      <Switch>
+      <Routes>
         {cmsPages.map(({ url }) => (
-          <Route exact key={url} path={url}>
-            <DynamicLayout url={url} />
-          </Route>
+          <Route
+            exact
+            key={url}
+            path={url}
+            element={<DynamicLayout url={url} />}
+          />
         ))}
-      </Switch>
+      </Routes>
     </>
   );
 };

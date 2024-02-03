@@ -1,10 +1,23 @@
 const path = require('path');
 
 module.exports = {
-  addons: ['@storybook/addon-essentials'],
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/addon-onboarding",
+    "storybook-addon-react-router-v6",
+    "@storybook/addon-interactions",
+  ],
+  framework: '@storybook/react-webpack5',
   stories: ['../src/**/*.stories.[tj]s'],
   core: {
-    builder: "webpack5",
+    builder: {
+      name: '@storybook/builder-webpack5',
+      options: {
+        fsCache: true,
+        lazyCompilation: true,
+      },
+    },
   },
   webpackFinal: async (config) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'

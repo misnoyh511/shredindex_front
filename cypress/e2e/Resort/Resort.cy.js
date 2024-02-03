@@ -32,7 +32,7 @@ const dataProvider = {
 };
 
 describe('Resort', () => {
-  beforeEach(() => {
+  before(() => {
     context('All devices', () => {
       cy.visit('/iframe.html?id=shred-index-components-resort--resort');
     });
@@ -60,8 +60,8 @@ describe('Resort', () => {
   });
 
   it('Rating should have a value', () => {
-    cy.get('.rating__value').within(($rating) => {
-      cy.get('.progress-bar').should('have.attr', 'aria-valuenow', '76');
+    cy.get('.rating__value').within(() => {
+      cy.get('.progress').should('have.attr', 'aria-valuenow', '76');
     });
   });
 
@@ -71,8 +71,8 @@ describe('Resort', () => {
   });
 
   it('Should render a numeric value "Average Annual Snowfall"', () => {
-    cy.get('.statistic__value').within(($statistic) => {
-      cy.get('.progress-bar').should('have.attr', 'aria-valuenow', '10');
+    cy.get('.statistic__value').within(() => {
+      cy.get('.progress').should('have.attr', 'aria-valuenow', '10');
     });
   });
 

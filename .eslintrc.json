@@ -7,7 +7,8 @@
   "extends": [
     "plugin:react/recommended",
     "plugin:cypress/recommended",
-    "airbnb"
+    "airbnb",
+    "plugin:storybook/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -16,7 +17,7 @@
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
-        "jsx": true
+      "jsx": true
     },
     "ecmaVersion": "latest",
     "sourceType": "module",
@@ -29,9 +30,36 @@
   ],
   "rules": {
     "react/jsx-props-no-spreading": 0,
-    "react/function-component-definition": [1, { "namedComponents": "arrow-function" }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "camelcase": [0]
+    "react/function-component-definition": [
+      1,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "camelcase": [
+      0
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

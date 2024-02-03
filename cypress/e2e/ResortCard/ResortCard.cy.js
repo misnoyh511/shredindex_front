@@ -112,7 +112,7 @@ const mocksMinimalData = {
 };
 
 describe('Resort Card Full Expanded', () => {
-  before(() => {
+  beforeEach(() => {
     context('Full Expanded', () => {
       cy.visit('/iframe.html?id=shred-index-components--resort-card');
     });

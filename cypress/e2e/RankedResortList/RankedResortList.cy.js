@@ -51,7 +51,7 @@ describe('Ranked Resort List Full', () => {
   });
 
   context('Mobile devices', () => {
-    before(() => {
+    beforeEach(() => {
       cy.viewport(375, 667);
     });
 
@@ -61,7 +61,7 @@ describe('Ranked Resort List Full', () => {
   });
 
   context('Greater than mobile', () => {
-    after(() => {
+    afterEach(() => {
       cy.viewport(375, 667);
     });
 
@@ -100,7 +100,7 @@ describe('Ranked Resort List Full', () => {
 });
 
 describe('Ranked Resort List Error', () => {
-  before(() => {
+  beforeEach(() => {
     context('All devices', () => {
       cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Error');
     });
@@ -116,7 +116,7 @@ describe('Ranked Resort List Error', () => {
 });
 
 describe('Ranked Resort List Loading', () => {
-  before(() => {
+  beforeEach(() => {
     context('All devices', () => {
       cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Loading');
     });
