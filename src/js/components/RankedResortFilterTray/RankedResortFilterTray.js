@@ -7,20 +7,16 @@ import {
   CModalFooter,
   CModalBody, CButton,
 } from '@coreui/react';
-
 import { FormattedMessage } from 'react-intl';
 import { withQueryParams } from 'use-query-params';
-import { JsonParam } from 'serialize-query-params/lib/params';
-import RankedResortFilters, { currentFilterState } from '../RankedResortFilters/RankedResortFilters';
+import { JsonParam } from 'serialize-query-params';
+import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
+import { currentFilterState } from '../RankedResortFilters/useQueryFilters';
+
 
 export const showFilterTrayState = atom({
   key: 'showFilterTrayState',
   default: false,
-});
-
-export const toggledFilterState = atom({
-  key: 'showToggledFiltersState',
-  default: [],
 });
 
 const RankedResortFilterTray = ({
@@ -41,7 +37,7 @@ const RankedResortFilterTray = ({
     setQuery({ filters: activeFilters });
   };
 
-  const resetFilters = () => setFilters([]);
+  const resetFilters = () => {setQuery({ filters: [] }); setFormData([])}
 
   return (
     <CModal
@@ -55,7 +51,7 @@ const RankedResortFilterTray = ({
         <CModalTitle className="h4 text-center mx-auto w-100 fw-bold">
           <FormattedMessage
             id="shredindex.filter.FILTERS"
-            defaultMessage="RankedResortFilters"
+            defaultMessage="Filters"
           />
         </CModalTitle>
       </CModalHeader>

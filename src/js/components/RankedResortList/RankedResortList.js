@@ -3,7 +3,7 @@ import {
   withQueryParams,
   NumberParam,
 } from 'use-query-params';
-import { JsonParam } from 'serialize-query-params/lib/params';
+import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
 import ResortCard from '../ResortCard/ResortCard';
 import Pagination, { paginationSize } from '../Pagination/Pagination';

@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CTooltip } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import PropTypes from 'prop-types';
-import useRankedResortFiltersToggleButtonState from '../../hooks/useRankedResortFiltersToggleButtonState';
 
 const FilterToggleButton = ({
-  id, label, tooltip, children, className, updateForm,
+  id, label, tooltip, children, className, updateForm, toggle
 }) => {
-  const [toggleOn, setToggleOn] = useRankedResortFiltersToggleButtonState(id);
+  const [toggleOn, setToggleOn] = useState(toggle);
 
   const handleToggle = async () => {
     if (!toggleOn) {
@@ -33,12 +32,12 @@ const FilterToggleButton = ({
         onKeyPress={handleToggle}
         role="button"
         tabIndex={0}
-        className={`btn btn-light filter-toggle-button__frame
+        className={`btn btn-dark filter-toggle-button__frame
       ${!toggleOn ? 'filter-toggle-button__frame--filter-off' : 'filter-toggle-button__frame--filter-on'}`}
       >
         <div className="filter-toggle-button__frame-header d-inline-flex w-100">
           <div className="filter-toggle-button__frame-header-left-align d-inline-flex gap-2 w-100">
-            <div className="filter-toggle-button__frame-header-title fw-bold">
+            <div className="filter-toggle-button__frame-header-title">
               {label}
             </div>
             {toggleOn && (

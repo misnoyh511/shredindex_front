@@ -38,6 +38,11 @@ query Resorts($first: Int! $page: Int! $filter: [Filter!]){
         title
         value
       }
+      numerics {
+        id
+        title
+        value
+      }
       highlights {
         id
         title

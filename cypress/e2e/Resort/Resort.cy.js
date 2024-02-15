@@ -59,7 +59,7 @@ describe('Resort', () => {
       .should('contain', 'Digital Nomad Score');
   });
 
-  it('Rating should have a value', () => {
+  it('Statistic should have a value', () => {
     cy.get('.rating__value').within(() => {
       cy.get('.progress').should('have.attr', 'aria-valuenow', '76');
     });

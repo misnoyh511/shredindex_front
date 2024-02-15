@@ -10,6 +10,7 @@
     "shredindex.filter.SCORES": "Scores",
     "shredindex.filter.STATS": "Statistics",
     "shredindex.filter.FEATURES": "Features",
+    "shredindex.filterdescription.SNOW_QUALITY": "Features",
     "shredindex.resort.DESCRIPTION": "Description",
     "shredindex.resort.LOCATION_UNKNOWN": "Location unknown",
     "shredindex.ratinglist.RATINGS": "Ratings",

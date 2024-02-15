@@ -5,6 +5,11 @@
   display: flex;
   align-items: center;
 
+  &__skeleton {
+    margin-top: 2rem;
+    min-width: 16rem;
+  }
+
   .info-tooltip {
     cursor: help;
     background-color: $info;
@@ -19,6 +24,11 @@
       margin: 0.532rem;
     }
   }
+
+  .filter-toggle-button__skeleton {
+    min-width: 16rem;
+  }
+
 
   .filter-toggle-button__frame {
     border-style: solid;
@@ -35,6 +45,11 @@
       cursor: auto;
       overflow: hidden;
 
+      &:active {
+        background-color: $primary;
+        color: $gray-200;
+      }
+
       .info-tooltip {
         background-color: $dark;
         color: $white;
@@ -46,6 +61,10 @@
 
       .filter-toggle-button__frame-header {
         padding: 0.563rem 1rem;
+
+        &-title {
+          font-weight: 600;
+        }
 
         &-close {
           cursor: pointer;
@@ -59,6 +78,7 @@
       .filter-toggle-button__frame-body {
         color: $white;
         text-align: left;
+        background-color: $gray-300 !important;
       }
 
       &:focus {
