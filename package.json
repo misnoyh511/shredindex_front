@@ -13,7 +13,7 @@
     "storybook:ci": "storybook dev -p 9009 --ci --quiet",
     "test:cypress": "cypress run",
     "test:jest": "jest --coverage",
-    "test:e2e": "cross-env NODE_ENV=e2e start-test storybook:ci http://localhost:9009 test:cypress",
+    "test:e2e": "cross-env NODE_ENV=e2e && start-test storybook:ci http://localhost:9009 test:cypress",
     "reports:copy": "mkdir reports || true && cp jest-coverage/coverage-final.json reports/coverage-jest.json && cp cypress-coverage/coverage-final.json reports/coverage-cypress.json",
     "reports:combine": "npx nyc merge reports && mkdir .nyc_output || true && mv coverage.json .nyc_output/out.json",
     "reports:coverage": "npx nyc report --reporter clover --reporter text --report-dir coverage",
