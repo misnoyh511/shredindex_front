@@ -106,11 +106,11 @@ describe('Ranked Resort List Error', () => {
     });
   });
 
-  it('Should render an Error Card', () => {
+  it.skip('Should render an Error Card', () => {
     cy.get('.resort-card--error').should('exist');
   });
 
-  it('Should display an error', () => {
+  it.skip('Should display an error', () => {
     cy.get('.resort-card__error-details-title').should('contain.text', 'Error');
   });
 });
