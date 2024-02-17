@@ -13,6 +13,7 @@ const dataProvider = [
 
 describe('Footer', () => {
   beforeEach(() => {
+    cy.wait(500);
     cy.visit('iframe.html?id=shred-index-components-footer--footer');
   });
 
