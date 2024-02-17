@@ -171,16 +171,20 @@ export const RankedResortList = (args) => {
 
   if (listState === 'Error') {
     return (
-      <IntlProvider locale="en" message={langEn}>
-        <RecoilRoot>
-          <MockedProvider
-            mocks={[mocks.resortsError]}
-            addTypename={false}
-          >
-            <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
-          </MockedProvider>
-        </RecoilRoot>
-      </IntlProvider>
+      <MemoryRouter initialEntries={['?first=2', '?page=1']}>
+        <IntlProvider locale="en" message={langEn}>
+          <RecoilRoot>
+            <QueryParamProvider adapter={ReactRouter6Adapter}>
+              <MockedProvider
+                mocks={[mocks.resortsError]}
+                addTypename={false}
+              >
+                <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
+              </MockedProvider>
+            </QueryParamProvider>
+          </RecoilRoot>
+        </IntlProvider>
+      </MemoryRouter>
     );
   }
 
