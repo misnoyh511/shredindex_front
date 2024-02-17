@@ -10,7 +10,7 @@
     "build": "webpack",
     "lint": "stylelint src/**/*.scss && eslint src/",
     "storybook": "storybook dev -p 6006",
-    "storybook:ci": "storybook dev -p 9009 --ci --quiet",
+    "storybook:ci": "storybook dev -p 6006 --ci --quiet",
     "test:cypress": "cypress run",
     "test:jest": "jest --coverage",
     "test:e2e": "cross-env NODE_ENV=e2e && start-test storybook:ci http://localhost:9009 test:cypress",
