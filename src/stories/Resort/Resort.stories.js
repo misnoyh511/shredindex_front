@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import ResortComponent, { QUERY_RESORT } from '../../js/components/Resort/Resort';
 import NoCacheMockedProvider
   from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
@@ -76,13 +76,19 @@ export const Resort = () => {
   };
 
   return (
-    <MemoryRouter initialEntries={['resorts/pipedream']}>
+    <MemoryRouter initialEntries={['/resorts/pipedream']}>
       <IntlProvider locale="en" message={langEn}>
-        <Route exact path="resorts/:url_segment">
-          <NoCacheMockedProvider mocks={[mocks.resortByUrlSegment]}>
-            <ResortComponent />
-          </NoCacheMockedProvider>
-        </Route>
+        <Routes>
+          <Route
+            exact
+            path="resorts/:url_segment"
+            element={(
+              <NoCacheMockedProvider mocks={[mocks.resortByUrlSegment]}>
+                <ResortComponent />
+              </NoCacheMockedProvider>
+  )}
+          />
+        </Routes>
       </IntlProvider>
     </MemoryRouter>
   );
