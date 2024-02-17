@@ -1,4 +1,5 @@
 import '../src/scss/style.scss';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
 export const reactRouterDecorator = ({Story, path}) => {
@@ -8,5 +9,5 @@ export const reactRouterDecorator = ({Story, path}) => {
         <Route path={path ? path : '/*'} element={<Story />} />
       </Routes>
     </MemoryRouter>
-  );
+  )
 };

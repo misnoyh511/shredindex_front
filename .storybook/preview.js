@@ -1,4 +1,8 @@
 import '../src/scss/style.scss';
 
-export default {
+
+const preview= {
+  // The default value of the theme arg for all stories
 };
+
+export default preview;

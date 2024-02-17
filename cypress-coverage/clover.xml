@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1704679131906" clover="3.2.0">
+  <project timestamp="1704679131906" name="All files">
+    <metrics statements="144" coveredstatements="139" conditionals="39" coveredconditionals="35" methods="39" coveredmethods="38" elements="222" coveredelements="212" complexity="0" loc="144" ncloc="144" packages="17" files="25" classes="25"/>
+    <package name=".storybook">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="preview.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/.storybook/preview.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="6" count="529" type="stmt"/>
+      </file>
+    </package>
+    <package name="cypress.e2e.RankedResortList">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="dummyResortOne.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/cypress/e2e/RankedResortList/dummyResortOne.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="41" type="stmt"/>
+      </file>
+      <file name="dummyResortTwo.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/cypress/e2e/RankedResortList/dummyResortTwo.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="41" type="stmt"/>
+      </file>
+    </package>
+    <package name="cypress.support">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="commands.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/cypress/support/commands.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="e2e.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/cypress/support/e2e.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="src.js.components.Debug">
+      <metrics statements="10" coveredstatements="9" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="2"/>
+      <file name="Debug.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/Debug/Debug.js">
+        <metrics statements="10" coveredstatements="9" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="2"/>
+        <line num="4" count="30" type="stmt"/>
+        <line num="10" count="30" type="stmt"/>
+        <line num="11" count="60" type="stmt"/>
+        <line num="13" count="60" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="30" type="stmt"/>
+        <line num="17" count="30" type="cond" truecount="1" falsecount="1"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="22" count="30" type="stmt"/>
+        <line num="24" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="30" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.components.DynamicLayout">
+      <metrics statements="12" coveredstatements="12" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
+      <file name="DynamicLayout.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/DynamicLayout/DynamicLayout.js">
+        <metrics statements="12" coveredstatements="12" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="15" count="30" type="stmt"/>
+        <line num="16" count="150" type="stmt"/>
+        <line num="17" count="150" type="stmt"/>
+        <line num="18" count="150" type="stmt"/>
+        <line num="25" count="150" type="cond" truecount="4" falsecount="0"/>
+        <line num="26" count="90" type="stmt"/>
+        <line num="29" count="60" type="stmt"/>
+        <line num="32" count="60" type="cond" truecount="1" falsecount="0"/>
+        <line num="38" count="60" type="stmt"/>
+        <line num="40" count="60" type="stmt"/>
+        <line num="42" count="60" type="stmt"/>
+        <line num="54" count="30" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.components.DynamicLink">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="DynamicLink.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/DynamicLink/DynamicLink.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="10" count="15" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="17" count="15" type="stmt"/>
+        <line num="24" count="15" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.components.DynamicSwitch">
+      <metrics statements="14" coveredstatements="14" conditionals="5" coveredconditionals="5" methods="6" coveredmethods="6"/>
+      <file name="DynamicSwitch.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/DynamicSwitch/DynamicSwitch.js">
+        <metrics statements="14" coveredstatements="14" conditionals="5" coveredconditionals="5" methods="6" coveredmethods="6"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="13" count="30" type="stmt"/>
+        <line num="15" count="30" type="stmt"/>
+        <line num="16" count="30" type="stmt"/>
+        <line num="23" count="30" type="stmt"/>
+        <line num="26" count="15" type="stmt"/>
+        <line num="35" count="15" type="stmt"/>
+        <line num="36" count="62" type="stmt"/>
+        <line num="38" count="60" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="30" type="stmt"/>
+        <line num="42" count="30" type="stmt"/>
+        <line num="45" count="30" type="cond" truecount="3" falsecount="0"/>
+        <line num="49" count="30" type="stmt"/>
+        <line num="54" count="60" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.components.ViewContext">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="ViewContext.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/ViewContext/ViewContext.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="45" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.components.tests.NoCacheMockedProvider">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="NoCacheMockedProvider.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="6" count="75" type="stmt"/>
+        <line num="13" count="75" type="stmt"/>
+        <line num="14" count="167" type="stmt"/>
+        <line num="15" count="165" type="stmt"/>
+        <line num="29" count="75" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.hooks">
+      <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
+      <file name="useQueryResorts.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/hooks/useQueryResorts.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="4" count="86" type="stmt"/>
+        <line num="75" count="91" type="stmt"/>
+      </file>
+      <file name="useStaticMenu.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/hooks/useStaticMenu.js">
+        <metrics statements="15" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="6" count="36" type="stmt"/>
+        <line num="21" count="114" type="stmt"/>
+        <line num="29" count="36" type="stmt"/>
+        <line num="30" count="114" type="stmt"/>
+        <line num="31" count="114" type="stmt"/>
+        <line num="37" count="114" type="stmt"/>
+        <line num="39" count="114" type="stmt"/>
+        <line num="41" count="81" type="cond" truecount="2" falsecount="0"/>
+        <line num="43" count="51" type="stmt"/>
+        <line num="46" count="30" type="stmt"/>
+        <line num="49" count="30" type="stmt"/>
+        <line num="50" count="60" type="stmt"/>
+        <line num="51" count="60" type="stmt"/>
+        <line num="53" count="60" type="stmt"/>
+        <line num="59" count="114" type="stmt"/>
+      </file>
+      <file name="useSuspenseQuery.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/hooks/useSuspenseQuery.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="8" count="15" type="stmt"/>
+        <line num="9" count="45" type="stmt"/>
+        <line num="11" count="45" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.hooks.tests">
+      <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <file name="TestSuspenseQuery.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/hooks/tests/TestSuspenseQuery.js">
+        <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="9" count="15" type="stmt"/>
+        <line num="10" count="45" type="stmt"/>
+        <line num="13" count="45" type="cond" truecount="1" falsecount="1"/>
+        <line num="14" count="45" type="stmt"/>
+        <line num="17" count="45" type="stmt"/>
+        <line num="20" count="15" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.js.utility">
+      <metrics statements="23" coveredstatements="19" conditionals="10" coveredconditionals="8" methods="6" coveredmethods="5"/>
+      <file name="query-cms-page.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/utility/query-cms-page.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="45" type="stmt"/>
+        <line num="19" count="255" type="stmt"/>
+      </file>
+      <file name="suspense-query.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/js/utility/suspense-query.js">
+        <metrics statements="21" coveredstatements="17" conditionals="10" coveredconditionals="8" methods="5" coveredmethods="4"/>
+        <line num="1" count="15" type="stmt"/>
+        <line num="7" count="15" type="stmt"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="13" count="75" type="stmt"/>
+        <line num="17" count="75" type="stmt"/>
+        <line num="18" count="75" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="45" type="stmt"/>
+        <line num="23" count="30" type="cond" truecount="3" falsecount="1"/>
+        <line num="26" count="30" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="35" count="45" type="stmt"/>
+        <line num="37" count="45" type="stmt"/>
+        <line num="38" count="45" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="45" count="45" type="stmt"/>
+        <line num="47" count="75" type="cond" truecount="2" falsecount="0"/>
+        <line num="48" count="45" type="stmt"/>
+        <line num="49" count="30" type="cond" truecount="1" falsecount="1"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="52" count="30" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.stories.RankedResortFilter">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="RankedResortFilterTray.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/RankedResortFilter/RankedResortFilterTray.stories.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="12" count="13" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
+      </file>
+      <file name="RankedResortFilters.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/RankedResortFilter/RankedResortFilters.stories.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="19" type="stmt"/>
+        <line num="12" count="19" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.stories.Resort">
+      <metrics statements="30" coveredstatements="30" conditionals="9" coveredconditionals="9" methods="5" coveredmethods="5"/>
+      <file name="RankedResortList.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/Resort/RankedResortList.stories.js">
+        <metrics statements="12" coveredstatements="12" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="34" count="32" type="stmt"/>
+        <line num="35" count="32" type="stmt"/>
+        <line num="36" count="32" type="stmt"/>
+        <line num="37" count="32" type="stmt"/>
+        <line num="39" count="32" type="stmt"/>
+        <line num="145" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="146" count="9" type="stmt"/>
+        <line num="155" count="45" type="stmt"/>
+        <line num="156" count="45" type="stmt"/>
+        <line num="163" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="164" count="4" type="stmt"/>
+        <line num="180" count="19" type="stmt"/>
+      </file>
+      <file name="Resort.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/Resort/Resort.stories.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="78" count="10" type="stmt"/>
+      </file>
+      <file name="ResortCard.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/Resort/ResortCard.stories.js">
+        <metrics statements="15" coveredstatements="15" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="26" count="54" type="stmt"/>
+        <line num="27" count="54" type="stmt"/>
+        <line num="28" count="54" type="stmt"/>
+        <line num="142" count="54" type="stmt"/>
+        <line num="164" count="54" type="stmt"/>
+        <line num="206" count="54" type="cond" truecount="2" falsecount="0"/>
+        <line num="207" count="2" type="stmt"/>
+        <line num="212" count="52" type="cond" truecount="3" falsecount="0"/>
+        <line num="214" count="5" type="stmt"/>
+        <line num="215" count="5" type="stmt"/>
+        <line num="217" count="4" type="stmt"/>
+        <line num="218" count="4" type="stmt"/>
+        <line num="220" count="43" type="stmt"/>
+        <line num="221" count="43" type="stmt"/>
+        <line num="224" count="52" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.stories.components.Footer">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Footer.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/components/Footer/Footer.stories.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="16" count="33" type="stmt"/>
+        <line num="17" count="33" type="stmt"/>
+        <line num="61" count="33" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.stories.components.Header">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="Header.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/components/Header/Header.stories.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="16" count="15" type="stmt"/>
+        <line num="17" count="21" type="stmt"/>
+        <line num="46" count="21" type="stmt"/>
+        <line num="47" count="21" type="stmt"/>
+        <line num="49" count="21" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.stories.components.SupportBanner">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="SupportBanner.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/components/SupportBanner/SupportBanner.stories.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="15" count="9" type="stmt"/>
+        <line num="16" count="9" type="stmt"/>
+        <line num="75" count="9" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
