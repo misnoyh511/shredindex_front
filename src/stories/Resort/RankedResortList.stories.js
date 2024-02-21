@@ -46,13 +46,13 @@ export const RankedResortList = (args) => {
   const maxPages = 10;
 
   const mocks = {
-    resortsPage1: {
+    resortsPage1WithFilter: {
       request: {
         query: QUERY_RESORTS,
         variables: {
           first: 5,
           page: 1,
-          filter: [{ type_name: 'snow_quality', operator: '>', value: '1' }],
+          filter: undefined,
         },
       },
       result: {
@@ -193,10 +193,9 @@ export const RankedResortList = (args) => {
     <MemoryRouter initialEntries={['?first=2', '?page=1']}>
       <IntlProvider locale="en" message={langEn}>
         <RecoilRoot>
-          <QueryParamProvider adapter={ReactRouter6Adapter}>
             <MockedProvider
               mocks={[
-                mocks.resortsPage1,
+                mocks.resortsPage1WithFilter,
                 mocks.resortsPage2,
                 mocks.resortsPage3,
               ]}
@@ -207,7 +206,6 @@ export const RankedResortList = (args) => {
                 <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
               </QueryParamProvider>
             </MockedProvider>
-          </QueryParamProvider>
         </RecoilRoot>
       </IntlProvider>
     </MemoryRouter>

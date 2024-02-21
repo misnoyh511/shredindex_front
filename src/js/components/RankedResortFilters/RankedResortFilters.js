@@ -117,15 +117,17 @@ const RankedResortFilters = () => {
                     {item.filters.map((slider, index) => (
                       <RangeSlider
                         key={slider.type_name + slider.operator}
-                        id={slider.type_name + `_${index}`}
+                        id={`${slider.type_name  }_${index}`}
                         min={0}
                         max={100}
                         steps={10}
                         toggleOn={toggleOn}
                         value={getFormValue(id, slider.type_name, slider.operator)}
                         onChange={(e) => {
-                          updateForm(id, toggleOn, slider.type_name, slider.operator, e.target.value);
-                        }}
+                          if (item.filters && item.filters[0]) {
+                            updateForm(id, toggleOn, item.filters[0].type_name, item.filters[0].operator, e.target.value);
+                          }}
+                        }
                       />))
                     }
                   </>

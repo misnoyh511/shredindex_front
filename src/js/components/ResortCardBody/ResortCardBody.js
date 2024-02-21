@@ -47,7 +47,7 @@ const ResortCardBody = ({
       </div>
     </div>
     <div className="resort-card__content-wrap">
-      {numerics.length > 1 && (
+      {numerics?.length > 1 && (
         <div className="resort-card__content-1 mb-2 d-flex">
           <div className="w-100">
             <NumericList
