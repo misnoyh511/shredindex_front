@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { useRecoilState } from 'recoil';
 import FilterToggleButton from '../FilterToggleButton/FilterToggleButton';
 import RangeSlider from '../RangeSlider/RangeSlider';
-import useQueryFilters, { currentFilterState } from './useQueryFilters';
+import useQueryFilters, { currentFilterState } from '../../hooks/useQueryFilters';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
 
 const RankedResortFilters = () => {
@@ -177,7 +177,7 @@ const RankedResortFilters = () => {
                       key={slider.type_name + slider.operator}
                       id={slider.type_name + `_${index}`}
                       min={0}
-                      max={100}
+                      max={item.max_value}
                       steps={10}
                       toggleOn={toggleOn}
                       value={getFormValue(id, slider.type_name, slider.operator)}

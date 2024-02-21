@@ -10,6 +10,9 @@ export const QUERY_FILTERS = gql`
       title
       category
       unit_id
+      numeric {
+        max_value
+      }
     }
   }
 `;
@@ -22,8 +25,7 @@ function getCurrentFilterFromUrl() {
   try {
     const filters = params.get('filters');
     if (filters) {
-      const parsedFilters = JSON.parse(filters)
-      console.log('parsedFilters,', parsedFilters);
+      const parsedFilters = JSON.parse(filters);
 
       if (parsedFilters?.length >= 1) {
 
@@ -80,7 +82,6 @@ const UseQueryFilters = () => {
     let newNumerics = []
     let newGenerics = []
     if(data) {
-      console.log('data', data);
       let scores = data.filters.filter((item) => (item?.category === "Underflip\\Resorts\\Models\\Rating"));
       let numerics = data.filters.filter((item) => (item?.category === "Underflip\\Resorts\\Models\\Numeric"));
       let generics = data.filters.filter((item) => (item?.category === "Underflip\\Resorts\\Models\\Generic"));
@@ -95,11 +96,11 @@ const UseQueryFilters = () => {
             operator: '>',
             value: '0',
           },
-            {
-              type_name: score.name,
-              operator: '<',
-              value: '100',
-            }],
+          {
+            type_name: score.name,
+            operator: '<',
+            value: '100',
+          }],
         }
 
         currentFilter.forEach(current => {
@@ -117,16 +118,17 @@ const UseQueryFilters = () => {
           label: numeric.title,
           filterToggleButtonID: numeric.name + 'ToggleButton',
           toggleOn: false,
+          max_value: numeric.numeric.max_value || null,
           filters: [{
             type_name: numeric.name,
             operator: '>',
             value: '0',
           },
-            {
-              type_name: numeric.name,
-              operator: '<',
-              value: '100',
-            }],
+          {
+            type_name: numeric.name,
+            operator: '<',
+            value: numeric.numeric.max_value || '100',
+          }],
         }
 
         currentFilter.forEach(current => {

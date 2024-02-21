@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
 import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
-import { currentFilterState } from '../RankedResortFilters/useQueryFilters';
+import { currentFilterState } from '../../hooks/useQueryFilters';
 
 
 export const showFilterTrayState = atom({

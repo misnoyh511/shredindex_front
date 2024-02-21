@@ -7,65 +7,45 @@ $sub-rating-border: $sub-rating-line-width solid;
 
 .statistic {
   position: relative;
-  height: 1.5625rem;
+  height: 2rem;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-weight: 600;
 
   &__number-big {
     font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__number-bar-wrap {
+    margin-bottom: .2rem;
+  }
+
+  &__number-small {
+    font-size: .5rem;
   }
 
   &__is-100 {
     margin-left: -0.1rem;
   }
 
-  &__number-wrap {
-    position: absolute;
-    font-family: $headings-font-family;
-    height: 1.5625rem;
-    padding: 0.05rem 0.28rem 0 0.65rem;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0.1875rem;
-      height: 100%;
-      width: 50%;
-      transform: skewX(-17deg);
-      border-top-left-radius: 0.37rem;
-      border-bottom-left-radius: 0.7rem;
-      border-top: $sub-rating-border;
-      border-bottom: $sub-rating-border;
-      border-left: $sub-rating-border;
+  &__icon-wrap {
+    & svg {
+      height: 1.5rem !important;
+      width: 1.5rem !important;
     }
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      height: 78%;
-      width: 50%;
-      transform: skewX(22deg);
-      border-top-right-radius: 0.37rem;
-      border-top: $sub-rating-border;
-      border-right: $sub-rating-border;
-    }
-
-    .statistic__number-small {
-      font-size: xx-small;
-    }
   }
 
   &__title {
     position: relative;
-    line-height: 2;
+    line-height: 1;
+    margin-top: 0.3rem;
     font-weight: 500;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     text-wrap: nowrap;
   }
 
@@ -73,13 +53,13 @@ $sub-rating-border: $sub-rating-line-width solid;
     font-size: .6rem;
     font-weight: normal;
     color: $gray-800;
+    margin-left: 0.2rem;
   }
 
   &__int {
-    padding-left: 3.2rem;
+    padding-left: 1.2rem;
     position: relative;
     font-size: 0.8rem;
-    line-height: 2;
     font-weight: 500;
     display: block;
     overflow: hidden;
@@ -87,21 +67,18 @@ $sub-rating-border: $sub-rating-line-width solid;
   }
 
   &__number-border {
-    display: inline-flex;
-    position: absolute;
-    bottom: 0;
+    display: block;
+    position: relative;
+    bottom: auto;
     font-weight: 600;
-    width: 3rem;
-    height: 1.5625rem;
   }
 
   &__bar-container {
     width: 100%;
     height: $sub-rating-line-width;
     position: absolute;
-    bottom: 0;
+    right: 2px;
     background-color: $gray-300;
-    margin-left: 0.625rem;
     width: -webkit-fill-available;
   }
 
@@ -111,71 +88,71 @@ $sub-rating-border: $sub-rating-line-width solid;
 
   &__border {
     &--na {
-      border-color: $gray-300;
-      color: $gray-300;
+      border-color: $info;
+      color: $info;
     }
 
     &--0 {
-      border-color: $rating-20;
-      color: $rating-20;
+      border-color: $info;
+      color: $info;
 
     }
 
     &--20 {
-      border-color: $rating-20;
-      color: $rating-20;
+      border-color: $info;
+      color: $info;
 
     }
 
     &--40 {
-      border-color: $rating-40;
-      color: $rating-40;
+      border-color: $info;
+      color: $info;
 
     }
 
     &--60 {
-      border-color: $rating-60;
-      color: $rating-60;
+      border-color: $info;
+      color: $info;
     }
 
     &--80 {
-      border-color: $rating-80;
-      color: $rating-80;
+      border-color: $info;
+      color: $info;
     }
 
     &--100 {
-      border-color: $rating-100;
-      color: $rating-100;
+      border-color: $info;
+      color: $info;
     }
   }
 
   &__bar {
     &--na {
-      background-color: $gray-300;
+      background-color: $info;
     }
 
     &--0 {
-      background-color: $rating-20;
+      background-color: $info;
     }
 
     &--20 {
-      background-color: $rating-20;
+      background-color: $info;
     }
 
     &--40 {
-      background-color: $rating-40;
+      background-color: $info;
     }
 
     &--60 {
-      background-color: $rating-60;
+      background-color: $info;
     }
 
     &--80 {
-      background-color: $rating-80;
+      background-color: $info;
     }
 
     &--100 {
-      background-color: $rating-100;
+      background-color: $info;
     }
   }
 
@@ -186,64 +163,5 @@ $sub-rating-border: $sub-rating-line-width solid;
     margin-left: -2px;
     top: -1px;
     border-radius: 50%;
-  }
-
-  &--total-statistic {
-    height: 2.1875rem;
-
-    .statistic {
-      &__number-wrap {
-        padding: 0.18rem 0.3rem 0 0.8rem;
-        height: 2.1875rem;
-
-        &::before {
-          border-top-left-radius: 0.5rem;
-          border-bottom-left-radius: 0.7rem;
-          border-top: $total-rating-border;
-          border-bottom: $total-rating-border;
-          border-left: $total-rating-border;
-        }
-
-        &::after {
-          border-top-right-radius: 0.5rem;
-          border-top: $total-rating-border;
-          border-right: $total-rating-border;
-        }
-      }
-
-      &__title {
-        font-family: $headings-font-family;
-        font-size: 1.1875rem;
-        font-weight: bold;
-        padding-left: 3.8rem;
-        line-height: 1.8;
-      }
-
-      &__number-big {
-        font-size: 1.25rem;
-      }
-
-      &__number-border {
-        width: 3.5rem;
-        height: 2.1875rem;
-      }
-
-      &__bar-container {
-        height: $total-rating-line-width;
-        margin-left: 0.5rem;
-      }
-
-      &__bar {
-        height: $total-rating-line-width;
-      }
-
-      &__bar-indicator {
-        height: $total-rating-indicator-size;
-        width: $total-rating-indicator-size;
-        position: absolute;
-        top: -1px;
-        border-radius: 50%;
-      }
-    }
   }
 }

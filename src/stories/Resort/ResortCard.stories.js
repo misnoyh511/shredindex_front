@@ -76,6 +76,23 @@ export const ResortCard = (args) => {
               value: 55.3,
             },
           ],
+          numerics: [
+            {
+              id: '1',
+              title: 'Average Annual Snowfall',
+              value: 12,
+            },
+            {
+              id: '2',
+              title: 'Skiable Terrain',
+              value: 1234,
+            },
+            {
+              id: '3',
+              title: 'Vertical Drop',
+              value: 1234,
+            },
+          ],
           lowlights: [
             {
               id: '2',

@@ -42,6 +42,8 @@ query Resorts($first: Int! $page: Int! $filter: [Filter!]){
         id
         title
         value
+        unit
+        max_value
       }
       highlights {
         id

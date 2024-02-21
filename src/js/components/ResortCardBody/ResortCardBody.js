@@ -47,16 +47,18 @@ const ResortCardBody = ({
       </div>
     </div>
     <div className="resort-card__content-wrap">
-      <div className="resort-card__content-1 mb-2 d-flex">
-        <div className="w-100">
-          <NumericList
-            labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
-            label="Statistics"
-            numerics={numerics.filter((item) => ['Average Annual Snowfall','Vertical Drop','Skiable Terrain'].includes(item.title))}
-            affiliateUrl={affiliate_url}
-          />
+      {numerics.length > 1 && (
+        <div className="resort-card__content-1 mb-2 d-flex">
+          <div className="w-100">
+            <NumericList
+              labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
+              label="Statistics"
+              numerics={numerics?.filter((item) => ['Average Annual Snowfall', 'Vertical Drop', 'Skiable Terrain'].includes(item.title))}
+              affiliateUrl={affiliate_url}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="resort-card__content-1 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">
           {!isDifferentRatings(highlights, lowlights)
@@ -90,7 +92,7 @@ const ResortCardBody = ({
             />
           )}
         </div>
-        <ResortCardCommentCarousel comments={comments}/>
+        <ResortCardCommentCarousel comments={comments} />
       </div>
     </div>
   </div>

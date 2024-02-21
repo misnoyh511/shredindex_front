@@ -25,9 +25,9 @@ const NumericList = ({
           <FormattedMessage id={labelMessageId} defaultMessage={label} />
         </div>
         <div className="numeric-list__list">
-          {numerics.map(({ id, title, value }) => (
+          {numerics.map(({ id, title, value, max_value, unit }) => (
             <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
-              <Statistic title={title} statistic={value} />
+              <Statistic title={title} statistic={value} maxValue={max_value} unit={unit} />
             </div>
           ))}
         </div>
