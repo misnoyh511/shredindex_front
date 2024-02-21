@@ -107,6 +107,17 @@
     }
   }
 
+  .numeric-list__list {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+
+    .numeric-list__numeric {
+      overflow: hidden;
+    }
+  }
+
   &__sub-ratings-list {
     width: 50%;
 

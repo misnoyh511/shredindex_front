@@ -1,9 +1,10 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { reactRouterParameters } from 'storybook-addon-react-router-v6';
 import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { Route } from 'react-router-dom';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import {
   QueryParamProvider,
 } from 'use-query-params';
@@ -16,8 +17,8 @@ import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
 import RankedResortFilterMenuSkeleton from '../../js/components/RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
 import RankedResortResultCountSkeleton
   from '../../js/components/RankedResortResultCount/RankedResortResultCountSkeleton';
-import resortOne from '../../../cypress/integration/RankedResortList/dummyResortOne';
-import resortTwo from '../../../cypress/integration/RankedResortList/dummyResortTwo';
+import resortOne from '../../../cypress/e2e/RankedResortList/dummyResortOne';
+import resortTwo from '../../../cypress/e2e/RankedResortList/dummyResortTwo';
 
 export default {
   title: 'Shred index/components',
@@ -29,6 +30,14 @@ export default {
       control: { type: 'select' },
     },
   },
+  parameters: {
+    reactRouter: reactRouterParameters({
+      location: {
+        pathParams: { first: '2', page: '1' },
+      },
+      routing: { path: '/resorts/?page=:page' },
+    }),
+  },
 };
 
 export const RankedResortList = (args) => {
@@ -37,12 +46,13 @@ export const RankedResortList = (args) => {
   const maxPages = 10;
 
   const mocks = {
-    resortsPage1: {
+    resortsPage1WithFilter: {
       request: {
         query: QUERY_RESORTS,
         variables: {
           first: 5,
           page: 1,
+          filter: undefined,
         },
       },
       result: {
@@ -162,18 +172,20 @@ export const RankedResortList = (args) => {
 
   if (listState === 'Error') {
     return (
-      <IntlProvider locale="en" message={langEn}>
-        <RecoilRoot>
-          <QueryParamProvider ReactRouterRoute={Route}>
-            <MockedProvider
-              mocks={[mocks.resortsError]}
-              addTypename={false}
-            >
-              <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
-            </MockedProvider>
-          </QueryParamProvider>
-        </RecoilRoot>
-      </IntlProvider>
+      <MemoryRouter initialEntries={['?first=2', '?page=1']}>
+        <IntlProvider locale="en" message={langEn}>
+          <RecoilRoot>
+            <QueryParamProvider adapter={ReactRouter6Adapter}>
+              <MockedProvider
+                mocks={[mocks.resortsError]}
+                addTypename={false}
+              >
+                <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
+              </MockedProvider>
+            </QueryParamProvider>
+          </RecoilRoot>
+        </IntlProvider>
+      </MemoryRouter>
     );
   }
 
@@ -181,21 +193,19 @@ export const RankedResortList = (args) => {
     <MemoryRouter initialEntries={['?first=2', '?page=1']}>
       <IntlProvider locale="en" message={langEn}>
         <RecoilRoot>
-          <QueryParamProvider ReactRouterRoute={Route}>
             <MockedProvider
               mocks={[
-                mocks.resortsPage1,
+                mocks.resortsPage1WithFilter,
                 mocks.resortsPage2,
                 mocks.resortsPage3,
               ]}
               addTypename={false}
             >
-              <QueryParamProvider ReactRouterRoute={Route}>
+              <QueryParamProvider adapter={ReactRouter6Adapter}>
                 <ResortsParallaxBackground />
                 <RankedResortListComponent cardLimit={cardLimit} maxPages={maxPages} />
               </QueryParamProvider>
             </MockedProvider>
-          </QueryParamProvider>
         </RecoilRoot>
       </IntlProvider>
     </MemoryRouter>

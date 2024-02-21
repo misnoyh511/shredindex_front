@@ -1,5 +1,8 @@
-import React from "react";
-import { addDecorator } from "@storybook/react";
-import { MemoryRouter } from "react-router";
+import '../src/scss/style.scss';
 
-addDecorator(story => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>);
+
+const preview= {
+  // The default value of the theme arg for all stories
+};
+
+export default preview;

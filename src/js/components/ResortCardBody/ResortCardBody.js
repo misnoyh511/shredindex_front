@@ -7,6 +7,7 @@ import RatingList from '../RatingList/RatingList';
 import ResortCardCommentCarousel from '../ResortCardCommentCarousel/ResortCardCommentCarousel';
 import ResortImageCarousel from '../ResortCardImageCarousel/ResortImageCarousel';
 import ResortCardLocation from '../ResortCardLocation/ResortCardLocation';
+import NumericList from '../StatisticList/NumericList';
 
 const isDifferentRatings = (a, b) => a.every(({ id }) => b.find((i) => i.id === id));
 
@@ -15,6 +16,7 @@ const ResortCardBody = ({
     affiliate_url,
     location,
     description,
+    numerics,
     highlights,
     lowlights,
     resort_images,
@@ -45,6 +47,18 @@ const ResortCardBody = ({
       </div>
     </div>
     <div className="resort-card__content-wrap">
+      {numerics?.length > 1 && (
+        <div className="resort-card__content-1 mb-2 d-flex">
+          <div className="w-100">
+            <NumericList
+              labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
+              label="Statistics"
+              numerics={numerics?.filter((item) => ['Average Annual Snowfall', 'Vertical Drop', 'Skiable Terrain'].includes(item.title))}
+              affiliateUrl={affiliate_url}
+            />
+          </div>
+        </div>
+      )}
       <div className="resort-card__content-1 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">
           {!isDifferentRatings(highlights, lowlights)
@@ -64,7 +78,7 @@ const ResortCardBody = ({
               />
             )}
         </div>
-        <ResortImageCarousel images={resort_images} />
+        <ResortImageCarousel images={resort_images}/>
       </div>
       <div className="resort-card__content-2 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">
@@ -72,7 +86,8 @@ const ResortCardBody = ({
             <RatingList
               labelMessageId="shredindex.ratinglist.LOWLIGHTS"
               label="Lowlights"
-              ratings={lowlights.slice().sort((a, b) => (a.value > b.value ? -1 : 1))}
+              ratings={lowlights.slice()
+                .sort((a, b) => (a.value > b.value ? -1 : 1))}
               affiliateUrl={affiliate_url}
             />
           )}

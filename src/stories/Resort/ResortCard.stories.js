@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { withRouter } from 'storybook-addon-react-router-v6';
 import ResortCardComponent from '../../js/components/ResortCard/ResortCard';
 import ResortCardSkeleton from '../../js/components/SkeletonState/ResortCardSkeleton';
 import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
@@ -9,6 +10,7 @@ import NoCacheMockedProvider from '../../js/components/tests/NoCacheMockedProvid
 export default {
   title: 'Shred index/components',
   component: ResortCardComponent,
+  decorators: [withRouter],
   argTypes: {
     cardState: {
       name: 'Card state',
@@ -72,6 +74,29 @@ export const ResortCard = (args) => {
               id: '7',
               title: 'Sexy Bitches',
               value: 55.3,
+            },
+          ],
+          numerics: [
+            {
+              id: '1',
+              title: 'Average Annual Snowfall',
+              value: 12,
+              unit: 'meters',
+              max_value: 24,
+            },
+            {
+              id: '2',
+              title: 'Skiable Terrain',
+              value: 1234,
+              unit: 'meters',
+              max_value: 11300,
+            },
+            {
+              id: '3',
+              title: 'Vertical Drop',
+              value: 1234,
+              unit: 'meters',
+              max_value: 1300,
             },
           ],
           lowlights: [

@@ -17,7 +17,7 @@ describe('Header', () => {
   });
 
   context('Mobile devices', () => {
-    before(() => {
+    beforeEach(() => {
       cy.viewport(375, 667);
     });
 
