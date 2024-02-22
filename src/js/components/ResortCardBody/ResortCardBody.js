@@ -78,7 +78,7 @@ const ResortCardBody = ({
               />
             )}
         </div>
-        <ResortImageCarousel images={resort_images}/>
+        <ResortImageCarousel images={resort_images} />
       </div>
       <div className="resort-card__content-2 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">

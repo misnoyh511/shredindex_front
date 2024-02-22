@@ -12,16 +12,26 @@ import useQueryFilters, { currentFilterState } from '../../hooks/useQueryFilters
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
 
 const RankedResortFilters = () => {
-  const { loading, error, scoreFilters, numericFilters, genericFilters } = useQueryFilters();
+  const {
+    loading, error, scoreFilters, numericFilters, genericFilters,
+  } = useQueryFilters();
   const [formData, setFormData] = useRecoilState(currentFilterState);
-  const [showMoreScores, setShowMoreScores] = useState(false);
+  const [showMoreRatings, setShowMoreRatings] = useState(false);
   const [showMoreNumerics, setShowMoreNumerics] = useState(false);
   const [showMoreGenerics, setShowMoreGenerics] = useState(false);
-  const toolTip = <FormattedMessage id={'shredindex.filter.SCORES'} description={'shredindex.filter.SCORES'}/>;
+
+  const getTooltip = (label) => {
+    const formattedLabel = label.toUpperCase().replace(/ /g, '_');
+    return (
+      <FormattedMessage
+        id={`shredindex.filterdescription.${formattedLabel}`}
+        description={`shredindex.filterdescription.${formattedLabel}`}
+        defaultMessage="NO_DESCRIPTION"
+      />
+    );
+  };
 
   const handleFindIndex = (filterToggleButtonID, type_name, operator) => {
-    console.log('filterToggleButtonID, type_name, operator', filterToggleButtonID, type_name, operator);
-
     const indexArray = formData.findIndex((el) => el.filterToggleButtonID === filterToggleButtonID);
     const index = formData[indexArray]?.filters.findIndex(
       (el) => el.type_name === type_name && el.operator === operator,
@@ -70,25 +80,30 @@ const RankedResortFilters = () => {
 
   const getFormValue = (filterToggleButtonID, type_name, operator) => {
     const { indexArray, index } = handleFindIndex(filterToggleButtonID, type_name, operator);
-    console.log('indexArray index', indexArray, index )
-    // console.log('getFormValue', index !== -1 ? formData[indexArray].filters[index].value : '')
     return index !== -1 ? formData[indexArray].filters[index].value : '';
   };
 
-  console.log('formData', formData);
-  console.log('scoreFilters', scoreFilters);
+  if (loading) {
+    return (
+      <>
+        <CFormLabel className="form-label filters__scores">
+          <FormattedMessage
+            id="shredindex.filter.SCORES"
+            defaultMessage="Scores"
+          />
+        </CFormLabel>
+        <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
+      </>
+    );
+  }
 
-  if(loading){
-    return <>
-      <CFormLabel className="form-label filters__scores">
-        <FormattedMessage
-          id="shredindex.filter.SCORES"
-          defaultMessage="Scores"
-        />
-      </CFormLabel>
-      <FilterToggleButtonSkeleton />
-      <FilterToggleButtonSkeleton />
-    </>
+  if (error) {
+    return (
+      <p>
+        Error Loading filters
+      </p>
+    );
   }
 
   return (
@@ -96,28 +111,28 @@ const RankedResortFilters = () => {
       <CRow>
         <CFormLabel className="form-label filters__scores">
           <FormattedMessage
-            id="shredindex.filter.SCORES"
-            defaultMessage="Scores"
+            id="shredindex.filter.Ratings"
+            defaultMessage="Ratings"
           />
         </CFormLabel>
-        {scoreFilters?.map((item, index) => (
-          <>
-            {(showMoreScores || index < 5) && (
+        {scoreFilters?.map((item, filterIndex) => (
+          <div>
+            {(showMoreRatings || filterIndex < 5) && (
               <FilterToggleButton
                 key={item.filterToggleButtonID}
                 label={item.label}
                 className="mt-4"
                 id={item.filterToggleButtonID}
                 updateForm={updateForm}
-                tooltip={toolTip}
+                tooltip={getTooltip(item.label)}
                 toggle={item.toggleOn}
               >
                 {(id, toggleOn) => (
                   <>
-                    {item.filters.map((slider, index) => (
+                    {item.filters.map((slider, sliderIndex) => (
                       <RangeSlider
                         key={slider.type_name + slider.operator}
-                        id={`${slider.type_name  }_${index}`}
+                        id={`${slider.type_name}_${sliderIndex}`}
                         min={0}
                         max={100}
                         steps={10}
@@ -125,86 +140,100 @@ const RankedResortFilters = () => {
                         value={getFormValue(id, slider.type_name, slider.operator)}
                         onChange={(e) => {
                           if (item.filters && item.filters[0]) {
-                            updateForm(id, toggleOn, item.filters[0].type_name, item.filters[0].operator, e.target.value);
-                          }}
-                        }
-                      />))
-                    }
+                            updateForm(
+                              id,
+                              toggleOn,
+                              slider.type_name,
+                              slider.operator,
+                              e.target.value,
+                            );
+                          }
+                        }}
+                      />
+                    ))}
                   </>
                 )}
               </FilterToggleButton>
             )}
-          </>
+          </div>
         ))}
-        <div className={'d-flex justify-content-center align-content-center'}>
+        <div className="d-flex justify-content-center align-content-center">
           <CButton
-            id={'showMoreNumeric'}
+            id="showMoreRatings"
             className="mt-4 align-content-center "
-            onClick={(e) => setShowMoreScores(prevState => !prevState)}
-            label={'Show more'}
+            onClick={() => setShowMoreRatings((prevState) => !prevState)}
+            label="Show more"
             variant="outline"
             color="light"
             shape="rounded-pill"
           >
-            {showMoreScores ?
-              <span>Show less stats -</span>
-              : <span>Show more stats +</span>}
+            {showMoreRatings
+              ? <span>Show less ratings -</span>
+              : <span>Show more ratings +</span>}
           </CButton>
         </div>
       </CRow>
-      <hr className="form-hr"/>
       <CRow>
+        <hr className="form-hr" />
         <CFormLabel className="form-label filters__stats">
           <FormattedMessage
             id="shredindex.filter.STATS"
             defaultMessage="Stats"
           />
         </CFormLabel>
-          {numericFilters?.map((item, index) => (
-            <>
-            {(showMoreNumerics || index < 5) && (
-            <FilterToggleButton
-              key={item.filterToggleButtonID}
-              label={item.label}
-              className="mt-4"
-              id={item.filterToggleButtonID}
-              updateForm={updateForm}
-              tooltip={toolTip}
-              toggle={item.toggleOn}
-            >
-              {(id, toggleOn) => (
-                <>
-                  {item.filters.map((slider, index) => (
-                    <RangeSlider
-                      key={slider.type_name + slider.operator}
-                      id={slider.type_name + `_${index}`}
-                      min={0}
-                      max={item.max_value}
-                      steps={10}
-                      toggleOn={toggleOn}
-                      value={getFormValue(id, slider.type_name, slider.operator)}
-                      onChange={(e) => {
-                        updateForm(id, toggleOn, slider.type_name, slider.operator, e.target.value);
-                      }}
-                    />))
-                  }
-                </>
-              )}
-            </FilterToggleButton>
+        {numericFilters?.map((item, filterIndex) => (
+          <div>
+            {(showMoreNumerics || filterIndex < 5) && (
+              <FilterToggleButton
+                key={item.filterToggleButtonID}
+                label={item.label}
+                className="mt-4"
+                id={item.filterToggleButtonID}
+                updateForm={updateForm}
+                tooltip={getTooltip(item.label)}
+                toggle={item.toggleOn}
+              >
+                {(id, toggleOn) => (
+                  <>
+                    {item.filters.map((slider, sliderIndex) => (
+                      <RangeSlider
+                        key={slider.type_name + slider.operator}
+                        id={`${slider.type_name}_${sliderIndex}`}
+                        min={0}
+                        max={item.max_value}
+                        steps={10}
+                        toggleOn={toggleOn}
+                        value={getFormValue(id, slider.type_name, slider.operator)}
+                        onChange={(e) => {
+                          if (item.filters && item.filters[0]) {
+                            updateForm(
+                              id,
+                              toggleOn,
+                              slider.type_name,
+                              slider.operator,
+                              e.target.value,
+                            );
+                          }
+                        }}
+                      />
+                    ))}
+                  </>
+                )}
+              </FilterToggleButton>
             )}
-            </>
-          ))}
-        <div className={'d-flex justify-content-center align-content-center'}>
+          </div>
+        ))}
+        <div className="d-flex justify-content-center align-content-center">
           <CButton
-            id={'showMoreNumeric'}
+            id="showMoreNumeric"
             className="mt-4"
-            onClick={(e) => setShowMoreNumerics(prevState => !prevState)}
-            label={'Show more'}
+            onClick={() => setShowMoreNumerics((prevState) => !prevState)}
+            label="Show more"
             variant="outline"
             shape="rounded-pill"
           >
-            {showMoreNumerics ?
-              <span>Show less stats -</span>
+            {showMoreNumerics
+              ? <span>Show less stats -</span>
               : <span>Show more stats +</span>}
           </CButton>
         </div>
@@ -217,35 +246,41 @@ const RankedResortFilters = () => {
           defaultMessage="Must have features"
         />
       </CFormLabel>
-      {genericFilters?.map((item, index) => (
-        <>
-          {(showMoreNumerics || index < 5) && (
+      {genericFilters?.map((item, filterIndex) => (
+        <div>
+          {(showMoreGenerics || filterIndex < 5) && (
             <FilterToggleButton
               key={item.filterToggleButtonID}
               label={item.label}
               className="mt-4"
               id={item.filterToggleButtonID}
               updateForm={updateForm}
-              tooltip={toolTip}
+              tooltip={getTooltip(item.label)}
               toggle={item.toggleOn}
-              onChange={(e) => {
-                updateForm(id, toggleOn, slider.filter[0].type_name, slider.filter[0].operator, e.target.filter[0].value);
+              onChange={() => {
+                updateForm(
+                  item.id,
+                  item.toggleOn,
+                  item.filter[0].type_name,
+                  '=',
+                  item.toggleOn ? 'yes' : 'no',
+                );
               }}
             />
           )}
-        </>
+        </div>
       ))}
-      <div className={'d-flex justify-content-center align-content-center'}>
+      <div className="d-flex justify-content-center align-content-center">
         <CButton
-          id={'showMoreGenerics'}
+          id="showMoreGenerics"
           className="mt-4 "
-          onClick={(e) => setShowMoreGenerics(prevState => !prevState)}
-          label={'Show more'}
+          onClick={() => setShowMoreGenerics((prevState) => !prevState)}
+          label="Show more"
           variant="outline"
           shape="rounded-pill"
         >
-          {showMoreGenerics ?
-            <span>Show less features -</span>
+          {showMoreGenerics
+            ? <span>Show less features -</span>
             : <span>Show more features +</span>}
         </CButton>
       </div>

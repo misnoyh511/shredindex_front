@@ -14,21 +14,6 @@ export default {
   component: FiltersComponent,
 };
 
-const MOCKED_FILTERS = [
-  {
-    filterToggleButtonID: '1',
-    label: 'Filter1',
-    toggleOn: true,
-    filters: [{ type_name: 'Type1', operator: '>', value: '30' }],
-  },
-  {
-    filterToggleButtonID: '2',
-    label: 'Filter2',
-    toggleOn: false,
-    filters: [{ type_name: 'Type2', operator: '<', value: '50' }],
-  },
-];
-
 export const MockedFilters = [
   {
     request: {
@@ -43,8 +28,8 @@ export const MockedFilters = [
             category: 'Underflip\\Resorts\\Models\\Rating',
             unit_id: 'inches',
             numeric: {
-              max_value: 500
-            }
+              max_value: 500,
+            },
           },
           {
             name: 'Runs',
@@ -52,8 +37,8 @@ export const MockedFilters = [
             category: 'Underflip\\Resorts\\Models\\Numeric',
             unit_id: 'runs',
             numeric: {
-              max_value: 150
-            }
+              max_value: 150,
+            },
           },
           {
             name: 'Elevation',
@@ -61,20 +46,20 @@ export const MockedFilters = [
             category: 'Underflip\\Resorts\\Models\\Numeric',
             unit_id: 'feet',
             numeric: {
-              max_value: 10000
-            }
+              max_value: 10000,
+            },
           },
           {
             name: 'Night Skiing',
             title: 'Night Skiing Available',
             category: 'Underflip\\Resorts\\Models\\Generic',
             unit_id: 'yes/no',
-            numeric: null
-          }
-        ]
+            numeric: null,
+          },
+        ],
       },
-    }
-  }
+    },
+  },
 ];
 
 export const Filters = () => (

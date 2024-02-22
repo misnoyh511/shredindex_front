@@ -8,8 +8,6 @@ import Statistic from '../Statistic/Statistic';
 const NumericList = ({
   numerics, label, labelMessageId, affiliateUrl,
 }) => {
-
-  console.log('numerics', numerics);
   if (numerics?.length < 1) {
     return (
       <div className="resort-card__small-label user-select-none">
@@ -25,7 +23,9 @@ const NumericList = ({
           <FormattedMessage id={labelMessageId} defaultMessage={label} />
         </div>
         <div className="numeric-list__list">
-          {numerics.map(({ id, title, value, max_value, unit }) => (
+          {numerics.map(({
+            id, title, value, max_value, unit,
+          }) => (
             <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
               <Statistic title={title} statistic={value} maxValue={max_value} unit={unit} />
             </div>
