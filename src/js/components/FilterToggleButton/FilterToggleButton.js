@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { CTooltip } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import PropTypes from 'prop-types';
 
 const FilterToggleButton = ({
-  id, label, tooltip, children, className, updateForm, toggle
+  id, label, tooltip, children, className, updateForm, toggle,
 }) => {
   const [toggleOn, setToggleOn] = useState(toggle);
 
@@ -51,6 +51,7 @@ const FilterToggleButton = ({
           {toggleOn && (
             <div className="filter-toggle-button__frame-header-right-align d-inline-flex justify-content-end gap-2">
               <div
+                aria-label="filter-toggle-button"
                 onClick={handleClose}
                 onKeyPress={handleClose}
                 role="button"
@@ -91,6 +92,7 @@ FilterToggleButton.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   className: PropTypes.string,
   updateForm: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
 };
 
 export default FilterToggleButton;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import {
   withQueryParams,
   NumberParam,
@@ -24,13 +24,13 @@ const RankedResortList = ({ query, cardLimit }) => {
   } = query;
   const { width } = useWindowDimensions();
   const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1, filtersArray);
-  const [maxPageState] = useState({ key: '', maxPages: 0 });
+  const maxPageState = useRef({ key: '', maxPages: 0 });
   const key = [cardLimit].join('-');
 
-  if (maxPageState.key !== key) {
+  if (maxPageState.current.key !== key) {
     // Update state without re-render
-    maxPageState.key = key;
-    maxPageState.maxPages = 0;
+    maxPageState.current.key = key;
+    maxPageState.current.maxPages = 0;
   }
 
   if (error) {
@@ -65,7 +65,7 @@ const RankedResortList = ({ query, cardLimit }) => {
         </div>
         <Pagination
           currentPage={num}
-          lastPage={maxPageState.maxPages}
+          lastPage={maxPageState.current.maxPages}
           size={width > breakpoints.sm ? paginationSize.lg : paginationSize.sm}
         />
       </div>
@@ -74,11 +74,8 @@ const RankedResortList = ({ query, cardLimit }) => {
 
   const { resorts: { data: resorts, paginatorInfo: { currentPage, lastPage, total } } } = data;
 
-  if (maxPageState.maxPages !== lastPage) {
-    // Capture max pages for state
-    // (also updates if lastPage has changed behind the scenes)
-    // Update state without re-render
-    maxPageState.maxPages = lastPage;
+  if (maxPageState.current.maxPages !== lastPage) {
+    maxPageState.current.maxPages = lastPage;
   }
 
   return (
@@ -96,7 +93,7 @@ const RankedResortList = ({ query, cardLimit }) => {
       </div>
       <Pagination
         currentPage={currentPage}
-        lastPage={maxPageState.maxPages}
+        lastPage={maxPageState.current.maxPages}
         size={width > breakpoints.sm ? paginationSize.lg : paginationSize.sm}
       />
     </div>

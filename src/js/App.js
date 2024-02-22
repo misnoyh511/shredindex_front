@@ -39,7 +39,7 @@ const App = ({ suspenseQuery }) => {
   return (
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
-        <IntlProvider locale={locale} message={t[locale]}>
+        <IntlProvider locale={locale} messages={t[locale]}>
           <RecoilRoot>
             <div className="c-app c-default-layout">
               <ViewContext.Provider value={viewData}>

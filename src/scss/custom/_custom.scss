@@ -6,6 +6,13 @@
   text-decoration: inherit;
 }
 
+// ToolTips
+.tooltip-inner,
+.tooltip-arrow,
+.tooltip-arrow ::before {
+  color: $gray-900;
+}
+
 // Backgrounds
 .gray-300-bg {
   background-color: $gray-300;

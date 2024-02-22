@@ -14,7 +14,7 @@ const useRankedResortFiltersToggleButtonState = (toggleID, onChange) => {
 
   const storeInputData = (data) => {
     const currentData = JSON.parse(localStorage.getItem('rankedResortFilterDataState') || '{}');
-    if (!currentData.hasOwnProperty(toggleID)) {
+    if (!Object.prototype.hasOwnProperty.call(currentData, toggleID)) {
       currentData[toggleID] = { toggleID, filters: [] };
     }
     currentData[toggleID].filters.push(data);
@@ -28,7 +28,8 @@ const useRankedResortFiltersToggleButtonState = (toggleID, onChange) => {
 
   const storedInputData = () => {
     const currentData = JSON.parse(localStorage.getItem('rankedResortFilterDataState') || '{}');
-    return currentData.hasOwnProperty(toggleID) ? currentData[toggleID].filters : [];
+    return Object.prototype.hasOwnProperty.call(currentData, toggleID)
+      ? currentData[toggleID].filters : [];
   };
 
   const [toggleOn, setToggleOn] = useState(storedAsToggleOn());

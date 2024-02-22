@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { cilSnowflake } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import getStatisticIcon from '../../hooks/getStatisticIcon';
 
@@ -8,7 +7,6 @@ const Statistic = ({
   title, statistic, statisticType, unit, maxValue,
 }) => {
   const [statisticInt, statisticDecimal] = statistic.toString().split('.');
-  const styleSuffix = statistic === 'n/a' ? 'na' : Math.ceil(statistic / maxValue) * 100;
   const isMax = statistic >= 100 || statistic === 'n/a';
   const barWidth = `${(statistic / maxValue) * 100}%`;
 
@@ -63,7 +61,13 @@ Statistic.propTypes = {
   statistic: PropTypes.number,
   statisticType: PropTypes.string,
   unit: PropTypes.string,
-  maxValue: PropTypes.string,
+  maxValue: PropTypes.number.isRequired,
+};
+
+Statistic.defaultProps = {
+  statistic: 0,
+  statisticType: 'sub-statistic',
+  unit: '',
 };
 
 export default Statistic;
