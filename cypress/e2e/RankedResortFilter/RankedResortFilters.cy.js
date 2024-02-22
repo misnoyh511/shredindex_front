@@ -5,7 +5,7 @@ describe('Filters', () => {
 
   context('All devices', () => {
     it('Shows a title Scores', () => {
-      cy.get('.filters__scores').should('contain.text', 'Scores');
+      cy.get('.filters__scores').should('contain.text', 'Ratings');
     });
 
     it('Shows a title Stats', () => {
@@ -13,7 +13,7 @@ describe('Filters', () => {
     });
 
     it('Shows a title Features', () => {
-      cy.get('.filters__features').should('contain.text', 'Features');
+      cy.get('.filters__features').should('contain.text', 'Must have features');
     });
   });
 });
