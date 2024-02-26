@@ -132,6 +132,7 @@
     "react-router-dom": "^6.21.1",
     "recoil": "^0.7.6",
     "sass": "^1.69.5",
+    "serialize-query-params": "^2.0.2",
     "use-query-params": "^2.2.1",
     "waait": "^1.0.5"
   },

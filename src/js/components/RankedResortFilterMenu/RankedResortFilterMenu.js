@@ -14,7 +14,7 @@ const RankedResortFilterMenu = () => {
   return (
     <div className="filter-menu mb-4 d-flex flex-row gap-4">
       <CButton
-        color="light"
+        color="dark"
         aria-roledescription={(
           <FormattedMessage
             id="shredindex.filter.SHOW_FILTERS_TRAY"
@@ -28,7 +28,7 @@ const RankedResortFilterMenu = () => {
         &nbsp;
         <FormattedMessage
           id="shredindex.filter.FILTERS"
-          defaultMessage="RankedResortFilters"
+          defaultMessage="Filters"
         />
       </CButton>
       <CButton

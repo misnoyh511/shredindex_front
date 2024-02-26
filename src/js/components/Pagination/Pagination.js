@@ -18,20 +18,16 @@ const Pagination = ({
   }, [currentPageIndex]);
 
   const floor = Math.min(
-    Math.max(
-      1,
-      currentPageIndex - Math.floor(paginationTabLimit / 2),
-    ),
-    Math.max(
-      1,
-      lastPage - paginationTabLimit + 1,
-    ),
+    Math.max(1, currentPageIndex - Math.floor(paginationTabLimit / 2)),
+    lastPage,
   );
 
-  const pageSeq = Array.from(
-    { length: paginationTabLimit },
-    (x, i) => i + floor,
-  );
+  const sequenceLength = Math.min(paginationTabLimit, lastPage - floor + 1);
+  // This prevents the generation of extra page numbers
+
+  const pageSeq = lastPage > 1
+    ? Array.from({ length: sequenceLength }, (x, i) => i + floor)
+    : [1];
 
   const ellipsis = {
     name: '...',
@@ -40,7 +36,6 @@ const Pagination = ({
     setPageTo: null,
   };
 
-  // Left-hand pagination controls
   const receding = [
     {
       name: '«',
@@ -56,12 +51,6 @@ const Pagination = ({
     },
   ];
 
-  if (Math.min(...pageSeq) > 1) {
-    // Indication that the pagination is off the floor
-    receding.push(ellipsis);
-  }
-
-  // Right-hand pagination controls
   const proceeding = [
     {
       name: '›',
@@ -77,16 +66,14 @@ const Pagination = ({
     },
   ];
 
-  if (Math.max(...pageSeq) < lastPage) {
-    // Indication that the pagination hasn't reached the ceiling
-    proceeding.unshift(ellipsis);
-  }
-  // Combined pagination controls
+  if (lastPage > 1 && Math.min(...pageSeq) > 1) receding.push(ellipsis);
+  if (lastPage > 1 && Math.max(...pageSeq) < lastPage) proceeding.unshift(ellipsis);
+
   const paginationData = [
     ...receding,
     ...pageSeq.map((x) => ({
       name: x,
-      ariaLabel: x,
+      ariaLabel: `${'Page '}${x}`,
       active: currentPageIndex === x,
       setPageTo: x,
     })),
