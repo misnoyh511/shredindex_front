@@ -35,6 +35,7 @@ const Statistics = (props) => {
                   </div>
                   <div className="col-7 progress-group-bars statistic__value">
                     <CProgress color="success" value={value} />
+                    {value}
                   </div>
                 </CRow>
               </CListGroupItem>

@@ -11,7 +11,7 @@ cypress.env.json
 cypress/screenshots/
 cypress/videos/
 .nyc_output/
-cypress-coverage/
 jest-coverage/
 reports/
 coverage/
+/cypress-coverage/lcov-report/

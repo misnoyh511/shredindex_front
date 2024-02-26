@@ -117,13 +117,13 @@ $warning-gradient: (
   "stop": $warning-dark
 );
 
-$light: $gray-600;
+$light: $gray-900;
 $light-gradient: (
   "start": $light,
   "stop": $gray-400
 );
 
-$dark: $gray-100;
+$dark: $gray-500;
 $dark-gradient: (
   "start": $gray-200,
   "stop": $gray-100

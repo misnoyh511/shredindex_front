@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const dotenv = require('dotenv');
 
@@ -92,7 +92,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: [
           {
@@ -122,7 +122,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg', '*', '.mjs', '.json', '.gql', '.graphql'],
+    extensions: ['.js', '.jsx','.ts', '.tsx', '.scss', '.gif', '.png', '.jpg', '.jpeg', '.svg', '*', '.mjs', '.json', '.gql', '.graphql'],
   },
   plugins: [
     new CleanWebpackPlugin(),

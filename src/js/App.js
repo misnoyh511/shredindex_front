@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
-import { Route } from 'react-router';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import DynamicSwitch from './components/DynamicSwitch/DynamicSwitch';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -38,8 +38,8 @@ const App = ({ suspenseQuery }) => {
 
   return (
     <BrowserRouter>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <IntlProvider locale={locale} message={t[locale]}>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <IntlProvider locale={locale} messages={t[locale]}>
           <RecoilRoot>
             <div className="c-app c-default-layout">
               <ViewContext.Provider value={viewData}>

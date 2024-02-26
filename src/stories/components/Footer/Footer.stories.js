@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { withRouter } from 'storybook-addon-react-router-v6';
 import FooterComponent, {
   QUERY_SETTINGS,
   QUERY_TEAM_MEMBERS,
@@ -11,6 +12,7 @@ import langEn from '../../../js/lang/en.json';
 export default {
   title: 'Shred index/components/Footer',
   component: FooterComponent,
+  decorators: [withRouter],
 };
 
 export const Footer = () => {

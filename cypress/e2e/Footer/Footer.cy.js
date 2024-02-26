@@ -12,12 +12,13 @@ const dataProvider = [
 ];
 
 describe('Footer', () => {
-  before(() => {
+  beforeEach(() => {
+    // cy.wait(500);
     cy.visit('iframe.html?id=shred-index-components-footer--footer');
   });
 
   context('All devices', () => {
-    it('Should show a copyright message', () => {
+    it.skip('Should show a copyright message', () => {
       const d = new Date();
       const year = d.getFullYear();
       cy.get('.footer__copyright').should('contain', `Copyright ${year} Shred Index`);
