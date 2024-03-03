@@ -54,7 +54,6 @@
 .double-range-slider {
   display: block;
   position: relative;
-  text-transform: capitalize;
   height: fit-content;
   max-width: 32rem;
 
@@ -68,7 +67,7 @@
     position: absolute;
     width: 100%;
     display: block;
-    transform: translateY(9px);
+    transform: translateY(10px);
     padding: 0 1.4rem;
   }
 
@@ -102,6 +101,14 @@
   .input-wrap {
     display: block;
     position: relative;
+  }
+
+  .form-control {
+    background-color: $gray-200;
+  }
+
+  .form-label {
+    text-transform: inherit;
   }
 }
 

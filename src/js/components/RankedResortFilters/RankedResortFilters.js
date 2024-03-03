@@ -10,6 +10,7 @@ import FilterToggleButton from '../FilterToggleButton/FilterToggleButton';
 import RangeSlider from '../RangeSlider/RangeSlider';
 import useQueryFilters, { currentFilterState } from '../../hooks/useQueryFilters';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
+import DoubleRangeSlider from '../DoubleRangeSlider/DoubleRangeSlider';
 
 const RankedResortFilters = () => {
   const {
@@ -41,6 +42,8 @@ const RankedResortFilters = () => {
   };
 
   const updateForm = (filterToggleButtonID, toggleOn, type_name, operator, value) => {
+
+    console.log('updateForm', filterToggleButtonID, toggleOn, type_name, operator, value);
     const { indexArray, index } = handleFindIndex(filterToggleButtonID, type_name, operator);
 
     let updatedFormData = JSON.parse(JSON.stringify(formData));
@@ -74,6 +77,8 @@ const RankedResortFilters = () => {
         ];
       }
     }
+
+    console.log('updatedFormData', updatedFormData);
 
     setFormData(updatedFormData);
   };
@@ -129,28 +134,67 @@ const RankedResortFilters = () => {
               >
                 {(id, toggleOn) => (
                   <>
-                    {item.filters.map((slider, sliderIndex) => (
-                      <RangeSlider
-                        key={slider.type_name + slider.operator}
-                        id={`${slider.type_name}_${sliderIndex}`}
-                        min={0}
-                        max={100}
-                        steps={10}
-                        toggleOn={toggleOn}
-                        value={getFormValue(id, slider.type_name, slider.operator)}
-                        onChange={(e) => {
-                          if (item.filters && item.filters[0]) {
-                            updateForm(
-                              id,
-                              toggleOn,
-                              slider.type_name,
-                              slider.operator,
-                              e.target.value,
-                            );
-                          }
-                        }}
+                    <DoubleRangeSlider
+                      name={item.filters[0].type_name}
+                      unit="%"
+                      sliderMin={0}
+                      sliderMax={100}
+                      initialLowerVal={getFormValue(id, item.filters[0].type_name, item.filters[0].operator)}
+                      initialUpperVal={getFormValue(id, item.filters[1].type_name, item.filters[1].operator)}
+                      onChangeLower={(e) => {
+                        console.log('e', e);
+                        console.log('id', id);
+                        console.log('item', item);
+                        if (item.filters && item.filters[0]) {
+                          updateForm(
+                            id,
+                            toggleOn,
+                            item.filters[0].type_name,
+                            item.filters[0].operator,
+                            e.target.value,
+                          );
+                        }
+                      }}
+                      onChangeUpper={(e) => {
+                        console.log('e', e);
+                        console.log('id', id);
+                        console.log('item.filters', item.filters);
+                        if (item.filters && item.filters[1]) {
+                          updateForm(
+                            id,
+                            toggleOn,
+                            item.filters[1].type_name,
+                            item.filters[1].operator,
+                            e.target.value,
+                          );
+                        }
+                      }}
                       />
-                    ))}
+                    {/* {item.filters.map((slider, sliderIndex) => ( */}
+                    {/*   <RangeSlider */}
+                    {/*     key={slider.type_name + slider.operator} */}
+                    {/*     id={`${slider.type_name}_${sliderIndex}`} */}
+                    {/*     min={0} */}
+                    {/*     max={100} */}
+                    {/*     steps={10} */}
+                    {/*     toggleOn={toggleOn} */}
+                    {/*     value={getFormValue(id, slider.type_name, slider.operator)} */}
+                    {/*     onChange={(e) => { */}
+                    {/*       console.log('RangeSlider e', e); */}
+                    {/*       console.log('RangeSlider id', id); */}
+                    {/*       console.log('RangeSlider item.filters', item.filters); */}
+                    {/*       if (item.filters && item.filters[0]) { */}
+                    {/*         updateForm( */}
+                    {/*           id, */}
+                    {/*           toggleOn, */}
+                    {/*           slider.type_name, */}
+                    {/*           slider.operator, */}
+                    {/*           e.target.value, */}
+                    {/*         ); */}
+                    {/*       } */}
+                    {/*     }} */}
+                    {/*   /> */}
+                    {/* ))} */}
                   </>
                 )}
               </FilterToggleButton>
@@ -195,28 +239,65 @@ const RankedResortFilters = () => {
               >
                 {(id, toggleOn) => (
                   <>
-                    {item.filters.map((slider, sliderIndex) => (
-                      <RangeSlider
-                        key={slider.type_name + slider.operator}
-                        id={`${slider.type_name}_${sliderIndex}`}
-                        min={0}
-                        max={item.max_value}
-                        steps={10}
-                        toggleOn={toggleOn}
-                        value={getFormValue(id, slider.type_name, slider.operator)}
-                        onChange={(e) => {
-                          if (item.filters && item.filters[0]) {
-                            updateForm(
-                              id,
-                              toggleOn,
-                              slider.type_name,
-                              slider.operator,
-                              e.target.value,
-                            );
-                          }
-                        }}
-                      />
-                    ))}
+                    <DoubleRangeSlider
+                      name={item.filters[0].type_name}
+                      // unit="meters"
+                      sliderMin={0}
+                      sliderMax={item.max_value}
+                      unit={item.unit}
+                      initialLowerVal={getFormValue(id, item.filters[0].type_name, item.filters[0].operator)}
+                      initialUpperVal={getFormValue(id, item.filters[1].type_name, item.filters[1].operator)}
+                      onChangeLower={(e) => {
+                        console.log('e', e);
+                        console.log('id', id);
+                        console.log('item', item);
+                        if (item.filters && item.filters[0]) {
+                          updateForm(
+                            id,
+                            toggleOn,
+                            item.filters[0].type_name,
+                            item.filters[0].operator,
+                            e.target.value,
+                          );
+                        }
+                      }}
+                      onChangeUpper={(e) => {
+                        console.log('e', e);
+                        console.log('id', id);
+                        console.log('item.filters', item.filters);
+                        if (item.filters && item.filters[1]) {
+                          updateForm(
+                            id,
+                            toggleOn,
+                            item.filters[1].type_name,
+                            item.filters[1].operator,
+                            e.target.value,
+                          );
+                        }
+                      }}
+                    />
+                    {/* {item.filters.map((slider, sliderIndex) => ( */}
+                    {/*   <RangeSlider */}
+                    {/*     key={slider.type_name + slider.operator} */}
+                    {/*     id={`${slider.type_name}_${sliderIndex}`} */}
+                    {/*     min={0} */}
+                    {/*     max={item.max_value} */}
+                    {/*     steps={10} */}
+                    {/*     toggleOn={toggleOn} */}
+                    {/*     value={getFormValue(id, slider.type_name, slider.operator)} */}
+                    {/*     onChange={(e) => { */}
+                    {/*       if (item.filters && item.filters[0]) { */}
+                    {/*         updateForm( */}
+                    {/*           id, */}
+                    {/*           toggleOn, */}
+                    {/*           slider.type_name, */}
+                    {/*           slider.operator, */}
+                    {/*           e.target.value, */}
+                    {/*         ); */}
+                    {/*       } */}
+                    {/*     }} */}
+                    {/*   /> */}
+                    {/* ))} */}
                   </>
                 )}
               </FilterToggleButton>

@@ -3,14 +3,15 @@ import {
   CFormRange, CFormInput, CFormLabel,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
+import titleCase from '../../hooks/textFomatting';
 
 const DoubleRangeSlider = ({
-  sliderMin, sliderMax, initialLowerVal, initialUpperVal, sliderHandleGapPercentage, className,
+  name, unit, sliderMin, sliderMax, initialLowerVal, initialUpperVal, sliderHandleGapPercentage, className, onChangeLower, onChangeUpper
 }) => {
   const [lowerValue, setLowerValue] = useState(initialLowerVal);
   const [upperValue, setUpperValue] = useState(initialUpperVal);
-  const [lowerFieldValue, setLowerFieldValue] = useState(initialLowerVal);
-  const [upperFieldValue, setUpperFieldValue] = useState(initialUpperVal);
+  const [lowerFieldValue, setLowerFieldValue] = useState(lowerValue);
+  const [upperFieldValue, setUpperFieldValue] = useState(upperValue);
   const sliderMedian = ((sliderMin + sliderMax) / 2).toFixed(0);
   const sliderHandleGap = parseInt(((sliderMax - sliderMin) * (sliderHandleGapPercentage / 100)
   ).toFixed(0), 10);
@@ -61,16 +62,20 @@ const DoubleRangeSlider = ({
     return parseInt(target, 10);
   }
 
-  function handleLowerRangeSliderChange(target) {
-    setLowerValue(limitInput(target));
-    setLowerFieldValue(limitInput(target));
-    setUpperSlider(parseInt(target, 10));
+  function handleLowerRangeSliderChange(e) {
+    setLowerValue(limitInput(e.target.value));
+    setLowerFieldValue(limitInput(e.target.value));
+    setUpperSlider(parseInt(e.target.value, 10));
+    onChangeLower(e);
+    // onChangeUpper(upperValue.toString());
   }
 
-  function handleRangeSliderUpperChange(target) {
-    setUpperValue(limitInput(target));
-    setUpperFieldValue(limitInput(target));
-    setLowerSlider(parseInt(target, 10));
+  function handleRangeSliderUpperChange(e) {
+    setUpperValue(limitInput(e.target.value));
+    setUpperFieldValue(limitInput(e.target.value));
+    setLowerSlider(parseInt(e.target.value, 10));
+    // onChangeLower(lowerValue.toString());
+    onChangeUpper(e);
   }
 
   return (
@@ -80,21 +85,22 @@ const DoubleRangeSlider = ({
           <div className="range-slider-range" style={{ left: `${leftPosition.toString()}%`, width: `${rangeWidth.toString()}%` }} />
         </div>
         <CFormRange
-          id="lower"
+          id={`${name}_lower`}
           className="range-slider range-slider-lower"
           steps={1}
           min={sliderMin}
           max={sliderMax}
-          onChange={(e) => handleLowerRangeSliderChange(e.target.value)}
+          onChange={(e) => {handleLowerRangeSliderChange(e); }}
           value={lowerValue}
         />
         <CFormRange
-          id="upper"
+          id={`${name}_upper`}
           className="range-slider range-slider-upper"
           steps={1}
           min={sliderMin}
           max={sliderMax}
-          onChange={(e) => handleRangeSliderUpperChange(e.target.value)}
+          onChange={(e) => {
+            handleRangeSliderUpperChange(e); }}
           value={upperValue}
         />
       </div>
@@ -111,21 +117,23 @@ const DoubleRangeSlider = ({
       </div>
       <div className="range-slider-input-wrap mt-2 d-flex justify-content-between p-3">
         <div className="range-slider-input w-100 position-relative">
-          <CFormLabel htmlFor="lowerInput" className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
-            Min
+          <CFormLabel htmlFor={`${name}_lower_input`} className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
+            Min - {titleCase(name)} {unit}
           </CFormLabel>
           <CFormInput
             className="lower-input label-inside-input-padding"
             type="number"
-            id="lowerInput"
-            label="Min"
+            id={`${name}_lower_input`}
+            label=""
             placeholder="0"
             min={sliderMin}
             max={sliderMax}
             onBlur={
-              (e) => handleLowerRangeSliderChange(e.target.value)
+              (e) => handleLowerRangeSliderChange(e)
             }
-            onChange={(e) => setLowerFieldValue(parseInt(e.target.value, 10))}
+            onChange={(e) => {
+              setLowerFieldValue(parseInt(e.target.value, 10));
+            }}
             value={lowerFieldValue}
           />
         </div>
@@ -133,21 +141,23 @@ const DoubleRangeSlider = ({
           -
         </div>
         <div className="range-slider-input w-100 position-relative">
-          <CFormLabel htmlFor="upperInput" className="w-100 label-inside-input label-inside-input-upper resort-card__small-label">
-            Max
+          <CFormLabel htmlFor={`${name}_upper_input`} className="w-100 label-inside-input label-inside-input-upper resort-card__small-label">
+            Max - {titleCase(name)} {unit}
           </CFormLabel>
           <CFormInput
             className="upper-input label-inside-input-padding"
             type="number"
-            id="upperInput"
-            label="Max"
+            id={`${name}_upper_input`}
+            label=""
             placeholder="0"
             min={sliderMin}
             max={sliderMax}
             onBlur={
-              (e) => handleRangeSliderUpperChange(e.target.value)
+              (e) => handleRangeSliderUpperChange(e)
             }
-            onChange={(e) => setUpperFieldValue(parseInt(e.target.value, 10))}
+            onChange={(e) => {
+              setUpperFieldValue(parseInt(e.target.value, 10));
+            }}
             value={upperFieldValue}
           />
         </div>
@@ -157,21 +167,27 @@ const DoubleRangeSlider = ({
 };
 
 DoubleRangeSlider.defaultProps = {
+  name: '',
   sliderMin: 0,
   sliderMax: 100,
-  initialLowerVal: 1,
+  initialLowerVal: 0,
   initialUpperVal: 100,
   sliderHandleGapPercentage: 2,
   className: '',
+  onChangeLower: () => {},
+  onChangeUpper: () => {},
 };
 
 DoubleRangeSlider.propTypes = {
+  name: PropTypes.string,
   sliderMin: PropTypes.number,
   sliderMax: PropTypes.number,
   initialLowerVal: PropTypes.number,
   initialUpperVal: PropTypes.number,
   sliderHandleGapPercentage: PropTypes.number,
   className: PropTypes.string,
+  onChangeLower: PropTypes.func,
+  onChangeUpper: PropTypes.func,
 };
 
 export default DoubleRangeSlider;
