@@ -18,11 +18,17 @@ export const QUERY_FILTERS = gql`
 
 function getCurrentFilterFromUrl() {
   const params = new URLSearchParams(window.location.search);
+  let locationType = {};
 
   try {
     const filters = params.get('filters');
+
     if (filters) {
       const parsedFilters = JSON.parse(filters);
+
+      if (parsedFilters.locationType) {
+        locationType = parsedFilters.locationType;
+      }
 
       if (parsedFilters?.length >= 1) {
         // Create a reducer to group your filters by type_name
@@ -47,19 +53,22 @@ function getCurrentFilterFromUrl() {
         // Transform the object of groups into an array
         const groupedFilters = Object.values(filterGroups);
 
+
         return {
-          params: groupedFilters, paramsLoaded: true,
+          groupedFilters,
+          locationType,
         };
       }
     }
   } catch (error) { /* empty */ }
 
-  return { params: [], paramsLoaded: false };
+  return { groupedFilters: [], locationType };
 }
 
+const urlFilterParams = getCurrentFilterFromUrl();
 export const currentFilterState = atom({
   key: 'showCurrentFiltersState',
-  default: getCurrentFilterFromUrl().params,
+  default: { groupedType: urlFilterParams.groupedFilters, locationType: urlFilterParams.locationType },
 });
 
 const UseQueryFilters = () => {
@@ -96,7 +105,7 @@ const UseQueryFilters = () => {
           }],
         };
 
-        currentFilter.forEach((current) => {
+        currentFilter.groupedType.forEach((current) => {
           if (current.filterToggleButtonID === scoreObject.filterToggleButtonID) {
             scoreObject.toggleOn = current.toggleOn;
             scoreObject.filters = current.filters;
@@ -106,12 +115,13 @@ const UseQueryFilters = () => {
         newScores = [...newScores, scoreObject];
       });
 
-      numerics.forEach((numeric) => {
+      numerics?.forEach((numeric) => {
         const numericObject = {
           label: numeric.title,
           filterToggleButtonID: `${numeric.name}ToggleButton`,
           toggleOn: false,
-          max_value: numeric.numeric.max_value || null,
+          max_value: numeric.numeric?.max_value || null,
+          unit: numeric.numeric?.unit_id || null,
           filters: [{
             type_name: numeric.name,
             operator: '>',
@@ -120,11 +130,11 @@ const UseQueryFilters = () => {
           {
             type_name: numeric.name,
             operator: '<',
-            value: numeric.numeric.max_value || '100',
+            value: numeric.numeric?.max_value || '100',
           }],
         };
 
-        currentFilter.forEach((current) => {
+        currentFilter.groupedType.forEach((current) => {
           if (current.filterToggleButtonID === numericObject.filterToggleButtonID) {
             numericObject.toggleOn = current.toggleOn;
             numericObject.filters = current.filters;
@@ -146,7 +156,7 @@ const UseQueryFilters = () => {
           }],
         };
 
-        currentFilter.forEach((current) => {
+        currentFilter.groupedType.forEach((current) => {
           if (current.filterToggleButtonID === genericObject.filterToggleButtonID) {
             genericObject.toggleOn = current.toggleOn;
             genericObject.filters = current.filters;
@@ -160,7 +170,8 @@ const UseQueryFilters = () => {
       setNumericFilters(() => newNumerics);
       setGenericFilters(() => newGenerics);
       newCurrentFilters = [...newScores, ...newNumerics, ...newGenerics];
-      setCurrentFilter(() => newCurrentFilters);
+      const groupedFilterAndLocation = { groupedType: newCurrentFilters, locationType: currentFilter.locationType };
+      setCurrentFilter(() => groupedFilterAndLocation);
     }
   }, [data]);
 

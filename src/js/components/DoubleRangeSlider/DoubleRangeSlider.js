@@ -4,9 +4,10 @@ import {
 } from '@coreui/react';
 import PropTypes from 'prop-types';
 import titleCase from '../../hooks/textFomatting';
+import RangeRheostatGraph from '../Rheostat/RangeRheostatGraph';
 
 const DoubleRangeSlider = ({
-  name, unit, sliderMin, sliderMax, initialLowerVal, initialUpperVal, sliderHandleGapPercentage, className, onChangeLower, onChangeUpper
+  name, unit, sliderMin, sliderMax, initialLowerVal, initialUpperVal, sliderHandleGapPercentage, className, onChangeLower, onChangeUpper, useGraph
 }) => {
   const [lowerValue, setLowerValue] = useState(initialLowerVal);
   const [upperValue, setUpperValue] = useState(initialUpperVal);
@@ -80,6 +81,19 @@ const DoubleRangeSlider = ({
 
   return (
     <div className={`double-range-slider ${className}`}>
+      {useGraph
+        && (
+          <RangeRheostatGraph
+            typeName={name}
+            leftPosition={leftPosition}
+            rightPosition={rightPosition}
+            sliderMin={sliderMin}
+            sliderMax={sliderMax}
+            upperValue={upperValue}
+            lowerValue={lowerValue}
+            graphTickerQuantity={20}
+          />
+        )}
       <div className="range-slider-wrap d-flex justify-content-between">
         <div className="range-slider-range-wrap">
           <div className="range-slider-range" style={{ left: `${leftPosition.toString()}%`, width: `${rangeWidth.toString()}%` }} />
@@ -118,7 +132,8 @@ const DoubleRangeSlider = ({
       <div className="range-slider-input-wrap mt-2 d-flex justify-content-between p-3">
         <div className="range-slider-input w-100 position-relative">
           <CFormLabel htmlFor={`${name}_lower_input`} className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
-            Min - {titleCase(name)} {unit}
+            Min - {titleCase(name)}
+            {/* {unit.toString()} */}
           </CFormLabel>
           <CFormInput
             className="lower-input label-inside-input-padding"
@@ -142,7 +157,8 @@ const DoubleRangeSlider = ({
         </div>
         <div className="range-slider-input w-100 position-relative">
           <CFormLabel htmlFor={`${name}_upper_input`} className="w-100 label-inside-input label-inside-input-upper resort-card__small-label">
-            Max - {titleCase(name)} {unit}
+            Max - {titleCase(name)}
+            {/* {unit} */}
           </CFormLabel>
           <CFormInput
             className="upper-input label-inside-input-padding"
@@ -176,6 +192,7 @@ DoubleRangeSlider.defaultProps = {
   className: '',
   onChangeLower: () => {},
   onChangeUpper: () => {},
+  useGraph: false,
 };
 
 DoubleRangeSlider.propTypes = {
@@ -188,6 +205,7 @@ DoubleRangeSlider.propTypes = {
   className: PropTypes.string,
   onChangeLower: PropTypes.func,
   onChangeUpper: PropTypes.func,
+  useGraph: PropTypes.bool,
 };
 
 export default DoubleRangeSlider;

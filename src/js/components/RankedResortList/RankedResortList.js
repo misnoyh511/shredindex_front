@@ -20,10 +20,11 @@ import RankedResortResultCountSkeleton from '../RankedResortResultCount/RankedRe
 const RankedResortList = ({ query, cardLimit }) => {
   const {
     page: num,
-    filters: filtersArray,
+    filters: filtersObject,
+    orderBy: orderByObject,
   } = query;
   const { width } = useWindowDimensions();
-  const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1, filtersArray);
+  const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1, filtersObject, orderByObject);
   const maxPageState = useRef({ key: '', maxPages: 0 });
   const key = [cardLimit].join('-');
 
@@ -81,13 +82,15 @@ const RankedResortList = ({ query, cardLimit }) => {
   return (
     <div className="ranked-resort-list">
       <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
-        <RankedResortFilterMenu />
+        <RankedResortFilterMenu filterQuantity={filtersObject
+          ? [...new Set(filtersObject.groupedType.map((i) => i.type_name))].length : 0}
+        />
       </div>
       <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
         <RankedResortResultCount total={total} currentPage={currentPage} lastPage={lastPage} />
       </div>
       <div className="ranked-resort-list__resort-card-list-wrap col-sm-12">
-        {resorts.map((resort) => (
+        {resorts && resorts.length >= 1 && resorts.map((resort) => (
           <ResortCard key={resort.id} resortData={resort} />
         ))}
       </div>
@@ -101,18 +104,29 @@ const RankedResortList = ({ query, cardLimit }) => {
 };
 
 RankedResortList.propTypes = {
+  cardLimit: PropTypes.number.isRequired,
   query: PropTypes.shape({
     page: PropTypes.number,
-    filters: PropTypes.arrayOf(PropTypes.shape({
+    orderBy: PropTypes.shape({
       type_name: PropTypes.string,
-      operator: PropTypes.string,
-      value: PropTypes.string,
-    })),
-  }).isRequired,
-  cardLimit: PropTypes.number.isRequired,
+      direction: PropTypes.string,
+    }),
+    filters: PropTypes.shape({
+      groupedType: PropTypes.arrayOf(PropTypes.shape({
+        type_name: PropTypes.string,
+        operator: PropTypes.string,
+        value: PropTypes.string,
+      })),
+      locationType: PropTypes.shape({
+        countryId: PropTypes.arrayOf(PropTypes.string),
+        continentId: PropTypes.string,
+      }),
+    }),
+  }),
 };
 
 export default withQueryParams({
   page: NumberParam,
+  orderBy: JsonParam,
   filters: JsonParam,
 }, RankedResortList);

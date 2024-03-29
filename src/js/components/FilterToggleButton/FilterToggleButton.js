@@ -88,7 +88,7 @@ FilterToggleButton.defaultProps = {
 FilterToggleButton.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.node.isRequired,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   className: PropTypes.string,
   updateForm: PropTypes.func.isRequired,

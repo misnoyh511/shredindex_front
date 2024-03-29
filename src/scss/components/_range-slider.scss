@@ -105,10 +105,14 @@
 
   .form-control {
     background-color: $gray-200;
+    text-align: end;
   }
 
   .form-label {
     text-transform: inherit;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 
