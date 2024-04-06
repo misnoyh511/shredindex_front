@@ -64,7 +64,7 @@ const RankedResortLifeStyles = () => {
   }
 
   if (error) {
-    return <ResortCardError />;
+    return <p>Error</p>;
   }
 
   return (

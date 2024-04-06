@@ -69,10 +69,10 @@ const RangeRheostatGraph = ({
     resorts?.forEach((resort) => {
       let avg = 0;
 
-      resort.ratings.filter((rating) => rating.name === typeName).forEach((score) => {
+      resort.ratings?.filter((rating) => rating.name === typeName).forEach((score) => {
         avg += score.value;
       });
-      avg /= resort.ratings.filter((rating) => rating.name === typeName).length;
+      avg /= resort.ratings?.filter((rating) => rating.name === typeName).length;
       resortAverages.push(avg);
     });
 

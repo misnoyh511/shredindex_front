@@ -35,6 +35,12 @@ query Resorts($first: Int! $page: Int! $filter: Filter $orderBy: OrderBy){
         title
         value
       }
+      ratings {
+        id
+        name
+        title
+        value
+      }
       numerics {
         id
         title
