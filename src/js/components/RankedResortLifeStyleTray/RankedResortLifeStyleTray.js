@@ -1,13 +1,13 @@
 import {
   CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton,
 } from '@coreui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { atom, useRecoilState } from 'recoil';
-import RankedResortLifeStyles from './RankedResortLifeStyles/RankedResortLifeStyles';
 import PropTypes from 'prop-types';
 import { NumberParam, withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
+import RankedResortLifeStyles from './RankedResortLifeStyles/RankedResortLifeStyles';
 import { currentOrderByState } from '../../hooks/useQueryOrderBy';
 
 export const showLifestyleTrayState = atom({
@@ -20,7 +20,6 @@ const RankedResortLifeStyleTray = ({
 }) => {
   const [visible, setVisible] = useRecoilState(showLifestyleTrayState);
   const [formData, setFormData] = useRecoilState(currentOrderByState);
-
 
   const handleClose = () => {
     setVisible(false);

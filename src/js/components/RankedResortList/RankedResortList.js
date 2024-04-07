@@ -24,7 +24,12 @@ const RankedResortList = ({ query, cardLimit }) => {
     orderBy: orderByObject,
   } = query;
   const { width } = useWindowDimensions();
-  const { loading, data, error } = useQueryResorts(cardLimit, Number(num) || 1, filtersObject, orderByObject);
+  const { loading, data, error } = useQueryResorts(
+    cardLimit,
+    Number(num) || 1,
+    filtersObject,
+    orderByObject,
+  );
   const maxPageState = useRef({ key: '', maxPages: 0 });
   const key = [cardLimit].join('-');
 
@@ -122,7 +127,7 @@ RankedResortList.propTypes = {
         continentId: PropTypes.string,
       }),
     }),
-  }),
+  }).isRequired,
 };
 
 export default withQueryParams({

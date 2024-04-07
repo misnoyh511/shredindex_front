@@ -21,7 +21,7 @@ const RangeRheostatGraph = ({
   let tickers = [];
   const loadingTickers = [];
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 20; i += 1) {
     const tick = i;
     const tickHeight = tick + 1;
 
@@ -33,7 +33,6 @@ const RangeRheostatGraph = ({
 
     loadingTickers.push(ticker);
   }
-
 
   const { loading, data, error } = useQueryResorts(200, 1);
 
@@ -72,7 +71,7 @@ const RangeRheostatGraph = ({
       resort.ratings?.filter((rating) => rating.name === typeName).forEach((score) => {
         avg += score.value;
       });
-      avg /= resort.ratings?.filter((rating) => rating.name === typeName).length;
+      avg /= (resort.ratings?.filter((rating) => rating.name === typeName).length) || 0;
       resortAverages.push(avg);
     });
 

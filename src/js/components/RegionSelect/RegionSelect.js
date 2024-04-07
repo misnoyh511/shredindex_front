@@ -9,20 +9,20 @@ const RegionSelect = () => {
 
   const handleChange = (value) => {
     setRegion(value); // Assuming it sets the region in your application state
-    setFormData({ groupedType: formData.groupedType, locationType: { continentId: value }});
+    setFormData({ groupedType: formData.groupedType, locationType: { continentId: value } });
   };
 
   return (
     <div className="region-select">
-      <input
-        name="region"
-        id="worldwide"
-        type="radio"
-        value="worldwide"
-        checked={region === 'worldwide' || !region}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="worldwide">
+        <input
+          name="region"
+          id="worldwide"
+          type="radio"
+          value="worldwide"
+          checked={region === 'worldwide' || !region}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -33,15 +33,15 @@ const RegionSelect = () => {
           <span>Worldwide</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="asia"
-        type="radio"
-        value="asia"
-        checked={region === 'asia'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="asia">
+        <input
+          name="region"
+          id="asia"
+          type="radio"
+          value="asia"
+          checked={region === 'asia'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -52,15 +52,15 @@ const RegionSelect = () => {
           <span>Asia</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="northAmerica"
-        type="radio"
-        value="northAmerica"
-        checked={region === 'northAmerica'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="northAmerica">
+        <input
+          name="region"
+          id="northAmerica"
+          type="radio"
+          value="northAmerica"
+          checked={region === 'northAmerica'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -71,15 +71,15 @@ const RegionSelect = () => {
           <span>North America</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="southAmerica"
-        type="radio"
-        value="southAmerica"
-        checked={region === 'southAmerica'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="southAmerica">
+        <input
+          name="region"
+          id="southAmerica"
+          type="radio"
+          value="southAmerica"
+          checked={region === 'southAmerica'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -90,15 +90,15 @@ const RegionSelect = () => {
           <span>South America</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="europe"
-        type="radio"
-        value="europe"
-        checked={region === 'europe'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="europe">
+        <input
+          name="region"
+          id="europe"
+          type="radio"
+          value="europe"
+          checked={region === 'europe'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -109,15 +109,15 @@ const RegionSelect = () => {
           <span>Europe</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="oceania"
-        type="radio"
-        value="oceania"
-        checked={region === 'oceania'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="oceania">
+        <input
+          name="region"
+          id="oceania"
+          type="radio"
+          value="oceania"
+          checked={region === 'oceania'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage
@@ -128,15 +128,15 @@ const RegionSelect = () => {
           <span>Oceania</span>
         </div>
       </label>
-      <input
-        name="region"
-        id="africa"
-        type="radio"
-        value="africa"
-        checked={region === 'africa'}
-        onChange={(e) => handleChange(e.target.value)}
-      />
       <label htmlFor="africa">
+        <input
+          name="region"
+          id="africa"
+          type="radio"
+          value="africa"
+          checked={region === 'africa'}
+          onChange={(e) => handleChange(e.target.value)}
+        />
         <div className="region-item">
           <div className="region-image-wrap">
             <CImage

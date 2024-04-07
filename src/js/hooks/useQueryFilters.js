@@ -53,7 +53,6 @@ function getCurrentFilterFromUrl() {
         // Transform the object of groups into an array
         const groupedFilters = Object.values(filterGroups);
 
-
         return {
           groupedFilters,
           locationType,
@@ -68,7 +67,10 @@ function getCurrentFilterFromUrl() {
 const urlFilterParams = getCurrentFilterFromUrl();
 export const currentFilterState = atom({
   key: 'showCurrentFiltersState',
-  default: { groupedType: urlFilterParams.groupedFilters, locationType: urlFilterParams.locationType },
+  default: {
+    groupedType: urlFilterParams.groupedFilters,
+    locationType: urlFilterParams.locationType,
+  },
 });
 
 const UseQueryFilters = () => {
@@ -170,7 +172,10 @@ const UseQueryFilters = () => {
       setNumericFilters(() => newNumerics);
       setGenericFilters(() => newGenerics);
       newCurrentFilters = [...newScores, ...newNumerics, ...newGenerics];
-      const groupedFilterAndLocation = { groupedType: newCurrentFilters, locationType: currentFilter.locationType };
+      const groupedFilterAndLocation = {
+        groupedType: newCurrentFilters,
+        locationType: currentFilter.locationType,
+      };
       setCurrentFilter(() => groupedFilterAndLocation);
     }
   }, [data]);

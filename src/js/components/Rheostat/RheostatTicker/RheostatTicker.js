@@ -8,7 +8,7 @@ const RheostatTicker = ({ value, backgroundColor, isLoading }) => {
   useEffect(() => {
     if (isLoading) {
       const interval = setInterval(() => {
-        setCount(prevCount => increase ? prevCount + 1 : prevCount - 1);
+        setCount((prevCount) => (increase ? prevCount + 1 : prevCount - 1));
         if (count === 100) {
           setIncrease(false);
         } else if (count === 0) {
@@ -17,6 +17,7 @@ const RheostatTicker = ({ value, backgroundColor, isLoading }) => {
       }, 150); // Set the interval time as per your need
       return () => clearInterval(interval);
     }
+    return null;
   }, [count, increase, isLoading]);
 
   return (

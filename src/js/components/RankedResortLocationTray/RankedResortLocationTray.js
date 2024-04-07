@@ -31,7 +31,13 @@ const RankedResortLocationTray = ({
     const activeFilters = formData.groupedType.filter(
       (item) => item.toggleOn,
     ).map((item) => item.filters).flat();
-    setQuery({ filters: { groupedType: activeFilters, locationType: formData.locationType }, page: 1 });
+    setQuery({
+      filters: {
+        groupedType: activeFilters,
+        locationType: formData.locationType,
+      },
+      page: 1,
+    });
     handleClose();
   };
 
@@ -66,7 +72,7 @@ const RankedResortLocationTray = ({
               defaultMessage="Region"
             />
           </CFormLabel>
-          <div className={'ps-2 pe-2'}>
+          <div className="ps-2 pe-2">
             <RegionSelect />
           </div>
         </CRow>

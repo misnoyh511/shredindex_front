@@ -49,7 +49,7 @@
 
   }
 
-  input[type="radio"]:checked + label .region-item {
+  input[type="radio"]:checked + .region-item {
     display: block;
     background-color: $primary-600;
     color: $gray-100;

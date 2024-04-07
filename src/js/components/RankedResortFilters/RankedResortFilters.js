@@ -13,7 +13,7 @@ import DoubleRangeSlider from '../DoubleRangeSlider/DoubleRangeSlider';
 
 const RankedResortFilters = () => {
   const {
-    loading, error, scoreFilters, numericFilters, genericFilters, currentFilter
+    loading, error, scoreFilters, numericFilters, genericFilters,
   } = useQueryFilters();
   const [formData, setFormData] = useRecoilState(currentFilterState);
   const [showMoreRatings, setShowMoreRatings] = useState(false);
@@ -32,7 +32,9 @@ const RankedResortFilters = () => {
   };
 
   const handleFindIndex = (filterToggleButtonID, type_name, operator) => {
-    const indexArray = formData.groupedType.findIndex((el) => el.filterToggleButtonID === filterToggleButtonID);
+    const indexArray = formData.groupedType.findIndex(
+      (el) => el.filterToggleButtonID === filterToggleButtonID,
+    );
     const index = formData.groupedType[indexArray]?.filters.findIndex(
       (el) => el.type_name === type_name && el.operator === operator,
     );
@@ -42,8 +44,7 @@ const RankedResortFilters = () => {
 
   const updateForm = (filterToggleButtonID, toggleOn, type_name, operator, value) => {
     const { indexArray, index } = handleFindIndex(filterToggleButtonID, type_name, operator);
-    let updatedFormData = JSON.parse(JSON.stringify(formData));
-
+    const updatedFormData = JSON.parse(JSON.stringify(formData));
 
     if (index !== -1) {
     // Working with clone to keep formData intact
@@ -128,39 +129,47 @@ const RankedResortFilters = () => {
               toggle={item.toggleOn}
             >
               {(id, toggleOn) => (
-                <>
-                  <DoubleRangeSlider
-                    name={item.filters[0].type_name}
-                    unit="%"
-                    sliderMin={0}
-                    sliderMax={100}
-                    initialLowerVal={parseInt(getFormValue(id, item.filters[0].type_name, item.filters[0].operator))}
-                    initialUpperVal={parseInt(getFormValue(id, item.filters[1].type_name, item.filters[1].operator))}
-                    onChangeLower={(e) => {
-                      if (item.filters && item.filters[0]) {
-                        updateForm(
-                          id,
-                          toggleOn,
-                          item.filters[0].type_name,
-                          item.filters[0].operator,
-                          e.target.value,
-                        );
-                      }
-                    }}
-                    onChangeUpper={(e) => {
-                      if (item.filters && item.filters[1]) {
-                        updateForm(
-                          id,
-                          toggleOn,
-                          item.filters[1].type_name,
-                          item.filters[1].operator,
-                          e.target.value,
-                        );
-                      }
-                    }}
-                    useGraph
-                  />
-                </>
+                <DoubleRangeSlider
+                  name={item.filters[0].type_name}
+                  unit="%"
+                  sliderMin={0}
+                  sliderMax={100}
+                  initialLowerVal={
+                  parseInt(
+                    getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
+                    10,
+                  )
+                }
+                  initialUpperVal={
+                  parseInt(
+                    getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
+                    10,
+                  )
+                }
+                  onChangeLower={(e) => {
+                    if (item.filters && item.filters[0]) {
+                      updateForm(
+                        id,
+                        toggleOn,
+                        item.filters[0].type_name,
+                        item.filters[0].operator,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                  onChangeUpper={(e) => {
+                    if (item.filters && item.filters[1]) {
+                      updateForm(
+                        id,
+                        toggleOn,
+                        item.filters[1].type_name,
+                        item.filters[1].operator,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                  useGraph
+                />
               )}
             </FilterToggleButton>
           )
@@ -191,50 +200,52 @@ const RankedResortFilters = () => {
         </CFormLabel>
         {numericFilters?.map((item, filterIndex) => (
           (showMoreNumerics || filterIndex < 5) && (
-              <FilterToggleButton
-                key={item.filterToggleButtonID}
-                label={item.label}
-                className="mt-4"
-                id={item.filterToggleButtonID}
-                updateForm={updateForm}
-                tooltip={getTooltip(item.label)}
-                toggle={item.toggleOn}
-              >
-                {(id, toggleOn) => (
-                  <>
-                    <DoubleRangeSlider
-                      name={item.filters[0].type_name}
-                      sliderMin={0}
-                      sliderMax={item.max_value}
-                      unit={item.unit}
-                      initialLowerVal={parseInt(getFormValue(id, item.filters[0].type_name, item.filters[0].operator))}
-                      initialUpperVal={parseInt(getFormValue(id, item.filters[1].type_name, item.filters[1].operator))}
-                      onChangeLower={(e) => {
-                        if (item.filters && item.filters[0]) {
-                          updateForm(
-                            id,
-                            toggleOn,
-                            item.filters[0].type_name,
-                            item.filters[0].operator,
-                            e.target.value,
-                          );
-                        }
-                      }}
-                      onChangeUpper={(e) => {
-                        if (item.filters && item.filters[1]) {
-                          updateForm(
-                            id,
-                            toggleOn,
-                            item.filters[1].type_name,
-                            item.filters[1].operator,
-                            e.target.value,
-                          );
-                        }
-                      }}
-                    />
-                  </>
-                )}
-              </FilterToggleButton>
+          <FilterToggleButton
+            key={item.filterToggleButtonID}
+            label={item.label}
+            className="mt-4"
+            id={item.filterToggleButtonID}
+            updateForm={updateForm}
+            tooltip={getTooltip(item.label)}
+            toggle={item.toggleOn}
+          >
+            {(id, toggleOn) => (
+              <DoubleRangeSlider
+                name={item.filters[0].type_name}
+                sliderMin={0}
+                sliderMax={item.max_value}
+                unit={item.unit}
+                initialLowerVal={
+                parseInt(getFormValue(id, item.filters[0].type_name, item.filters[0].operator), 10)
+              }
+                initialUpperVal={
+                parseInt(getFormValue(id, item.filters[1].type_name, item.filters[1].operator), 10)
+              }
+                onChangeLower={(e) => {
+                  if (item.filters && item.filters[0]) {
+                    updateForm(
+                      id,
+                      toggleOn,
+                      item.filters[0].type_name,
+                      item.filters[0].operator,
+                      e.target.value,
+                    );
+                  }
+                }}
+                onChangeUpper={(e) => {
+                  if (item.filters && item.filters[1]) {
+                    updateForm(
+                      id,
+                      toggleOn,
+                      item.filters[1].type_name,
+                      item.filters[1].operator,
+                      e.target.value,
+                    );
+                  }
+                }}
+              />
+            )}
+          </FilterToggleButton>
           )
         ))}
         <div className="d-flex justify-content-center align-content-center">
@@ -298,8 +309,7 @@ const RankedResortFilters = () => {
                 : <span>Show more features +</span>}
             </CButton>
           </div>
-        )
-      }
+        )}
     </CForm>
   );
 };

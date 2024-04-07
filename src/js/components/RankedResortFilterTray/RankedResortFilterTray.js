@@ -31,7 +31,13 @@ const RankedResortFilterTray = ({
     const activeFilters = formData.groupedType.filter(
       (item) => item.toggleOn,
     ).map((item) => item.filters).flat();
-    setQuery({ filters: { groupedType: activeFilters, locationType: formData.locationType }, page: 1 });
+    setQuery({
+      filters: {
+        groupedType: activeFilters,
+        locationType: formData.locationType,
+      },
+      page: 1,
+    });
     handleClose();
   };
 

@@ -7,7 +7,16 @@ import titleCase from '../../hooks/textFomatting';
 import RangeRheostatGraph from '../Rheostat/RangeRheostatGraph';
 
 const DoubleRangeSlider = ({
-  name, unit, sliderMin, sliderMax, initialLowerVal, initialUpperVal, sliderHandleGapPercentage, className, onChangeLower, onChangeUpper, useGraph
+  name,
+  sliderMin,
+  sliderMax,
+  initialLowerVal,
+  initialUpperVal,
+  sliderHandleGapPercentage,
+  className,
+  onChangeLower,
+  onChangeUpper,
+  useGraph,
 }) => {
   const [lowerValue, setLowerValue] = useState(initialLowerVal);
   const [upperValue, setUpperValue] = useState(initialUpperVal);
@@ -104,7 +113,7 @@ const DoubleRangeSlider = ({
           steps={1}
           min={sliderMin}
           max={sliderMax}
-          onChange={(e) => {handleLowerRangeSliderChange(e); }}
+          onChange={(e) => { handleLowerRangeSliderChange(e); }}
           value={lowerValue}
         />
         <CFormRange
@@ -114,7 +123,8 @@ const DoubleRangeSlider = ({
           min={sliderMin}
           max={sliderMax}
           onChange={(e) => {
-            handleRangeSliderUpperChange(e); }}
+            handleRangeSliderUpperChange(e);
+          }}
           value={upperValue}
         />
       </div>
@@ -132,7 +142,9 @@ const DoubleRangeSlider = ({
       <div className="range-slider-input-wrap mt-2 d-flex justify-content-between p-3">
         <div className="range-slider-input w-100 position-relative">
           <CFormLabel htmlFor={`${name}_lower_input`} className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
-            Min - {titleCase(name)}
+            Min -
+            {' '}
+            {titleCase(name)}
             {/* {unit.toString()} */}
           </CFormLabel>
           <CFormInput
@@ -157,7 +169,9 @@ const DoubleRangeSlider = ({
         </div>
         <div className="range-slider-input w-100 position-relative">
           <CFormLabel htmlFor={`${name}_upper_input`} className="w-100 label-inside-input label-inside-input-upper resort-card__small-label">
-            Max - {titleCase(name)}
+            Max -
+            {' '}
+            {titleCase(name)}
             {/* {unit} */}
           </CFormLabel>
           <CFormInput

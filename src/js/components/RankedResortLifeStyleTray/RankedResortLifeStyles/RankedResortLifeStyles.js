@@ -8,7 +8,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useRecoilState } from 'recoil';
 import useQueryOrderBy, { currentOrderByState } from '../../../hooks/useQueryOrderBy';
-import ResortCardError from '../../ResortCardError/ResortCardError';
 
 const RankedResortLifeStyles = () => {
   const [formData, setFormData] = useRecoilState(currentOrderByState);
@@ -44,7 +43,7 @@ const RankedResortLifeStyles = () => {
               defaultMessage="Order type"
             />
           </CFormLabel>
-          <div className={'ps-2 pe-2'}>
+          <div className="ps-2 pe-2">
             Loading...
           </div>
         </CRow>
@@ -76,7 +75,7 @@ const RankedResortLifeStyles = () => {
             defaultMessage="Order type"
           />
         </CFormLabel>
-        <div className={'ps-2 pe-2'}>
+        <div className="ps-2 pe-2">
           {mappedOptions?.length >= 1 && (
             <CFormSelect
               value={formData.type_name || 'total_score'}

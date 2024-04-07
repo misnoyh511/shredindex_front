@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
 import { CBadge, CButton } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
@@ -7,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import RankedResortFilterTray, { showFilterTrayState } from '../RankedResortFilterTray/RankedResortFilterTray';
 import RankedResortLifeStyleTray, { showLifestyleTrayState } from '../RankedResortLifeStyleTray/RankedResortLifeStyleTray';
 import RankedResortLocationTray, {
-  showLocationTrayState
+  showLocationTrayState,
 } from '../RankedResortLocationTray/RankedResortLocationTray';
 
 const RankedResortFilterMenu = ({ filterQuantity }) => {
@@ -77,6 +78,10 @@ const RankedResortFilterMenu = ({ filterQuantity }) => {
       <RankedResortLifeStyleTray />
     </div>
   );
+};
+
+RankedResortFilterMenu.propTypes = {
+  filterQuantity: PropTypes.string.isRequired,
 };
 
 export default RankedResortFilterMenu;

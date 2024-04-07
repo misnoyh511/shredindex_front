@@ -30,7 +30,7 @@ const UseQueryOrderBy = () => {
   } = useQuery(QUERY_FILTERS);
 
   const orderOptions = [];
-  let mappedOptions = [];
+  const mappedOptions = [];
   if (data) {
     const scores = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Rating'));
     const numerics = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Numeric'));
