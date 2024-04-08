@@ -17,7 +17,7 @@ const RheostatTicker = ({ value, backgroundColor, isLoading }) => {
       }, 150); // Set the interval time as per your need
       return () => clearInterval(interval);
     }
-    return null;
+    return undefined;
   }, [count, increase, isLoading]);
 
   return (
