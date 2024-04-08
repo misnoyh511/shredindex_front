@@ -48,10 +48,5 @@ describe('Filters', () => {
       cy.get('#showMoreNumeric').click();
       cy.get('#showMoreNumeric').should('contain.text','Show less stats -');
     });
-
-    it('Verifies if Show More Features Button toggles more content', () => {
-      cy.get('#showMoreGenerics').click();
-      cy.get('#showMoreGenerics').should('contain.text','Show less features -');
-    });
   });
 });

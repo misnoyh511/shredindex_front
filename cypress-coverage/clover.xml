@@ -190,7 +190,7 @@
     </package>
     <package name="src.stories.RankedResortFilter">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-      <file name="RankedResortFilterTray.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/RankedResortFilter/RankedResortFilterTray.stories.js">
+      <file name="RankedResortLocationTray.stories.js" path="/Users/hansen/Documents/GitHub/shredindex-frontend/src/stories/RankedResortFilter/RankedResortLocationTray.stories.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="12" count="13" type="stmt"/>
         <line num="13" count="13" type="stmt"/>

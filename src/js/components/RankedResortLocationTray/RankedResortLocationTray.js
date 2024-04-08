@@ -5,24 +5,24 @@ import {
   CModalHeader,
   CModalTitle,
   CModalFooter,
-  CModalBody, CButton,
+  CModalBody, CButton, CRow, CFormLabel,
 } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
 import { NumberParam, withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
-import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
 import { currentFilterState } from '../../hooks/useQueryFilters';
+import RegionSelect from '../RegionSelect/RegionSelect';
 
-export const showFilterTrayState = atom({
-  key: 'showFilterTrayState',
+export const showLocationTrayState = atom({
+  key: 'showLocationTrayState',
   default: false,
 });
 
-const RankedResortFilterTray = ({
+const RankedResortLocationTray = ({
   setQuery,
 }) => {
-  const [visible, setVisible] = useRecoilState(showFilterTrayState);
+  const [visible, setVisible] = useRecoilState(showLocationTrayState);
   const [formData, setFormData] = useRecoilState(currentFilterState);
 
   const handleClose = () => setVisible(false);
@@ -42,16 +42,15 @@ const RankedResortFilterTray = ({
   };
 
   const resetFilters = () => {
-    const noFilters = [];
-    setQuery({ filters: { groupedType: noFilters, locationType: null }, page: 1 });
-    setFormData({ groupedType: noFilters, locationType: null });
+    setQuery({ filters: { groupedType: [], locationType: null }, page: 1 });
+    setFormData({ groupedType: [], locationType: null });
   };
 
   if (!visible) return null;
 
   return (
     <CModal
-      className="filter-tray"
+      className="location-tray"
       fullscreen="lg"
       scrollable
       visible={visible}
@@ -60,13 +59,23 @@ const RankedResortFilterTray = ({
       <CModalHeader>
         <CModalTitle className="h4 text-center mx-auto w-100 fw-bold">
           <FormattedMessage
-            id="shredindex.filter.FILTERS"
-            defaultMessage="Filters"
+            id="shredindex.filter.LOCATION"
+            defaultMessage="Location"
           />
         </CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <RankedResortFilters />
+        <CRow>
+          <CFormLabel className="form-label filters__scores">
+            <FormattedMessage
+              id="shredindex.filter.Region"
+              defaultMessage="Region"
+            />
+          </CFormLabel>
+          <div className="ps-2 pe-2">
+            <RegionSelect />
+          </div>
+        </CRow>
       </CModalBody>
       <CModalFooter className="justify-content-between">
         <CButton className="text-white" shape="rounded-pill" color="secondary" onClick={() => { resetFilters(); }}>
@@ -78,11 +87,11 @@ const RankedResortFilterTray = ({
   );
 };
 
-RankedResortFilterTray.propTypes = {
+RankedResortLocationTray.propTypes = {
   setQuery: PropTypes.func.isRequired,
 };
 
 export default withQueryParams({
   filters: JsonParam,
   page: NumberParam,
-}, RankedResortFilterTray);
+}, RankedResortLocationTray);

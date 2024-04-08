@@ -3,3 +3,5 @@ import './commands';
 
 // Code coverage
 import '@cypress/code-coverage/support';
+
+import 'cypress-real-events';

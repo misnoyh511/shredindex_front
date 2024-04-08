@@ -2,15 +2,12 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/react-hooks';
 
 export const QUERY_RESORTS = gql`
-query Resorts($first: Int! $page: Int! $filter: [Filter!]){
+query Resorts($first: Int! $page: Int! $filter: Filter $orderBy: OrderBy){
   resorts(
     first: $first
     page: $page
     filter: $filter
-    orderBy: {
-      type_name: "total_score",
-      direction: "desc"
-    }
+    orderBy: $orderBy
   ) {
     data {
       id
@@ -35,6 +32,12 @@ query Resorts($first: Int! $page: Int! $filter: [Filter!]){
       }
       total_score {
         id
+        title
+        value
+      }
+      ratings {
+        id
+        name
         title
         value
       }
@@ -80,13 +83,14 @@ query Resorts($first: Int! $page: Int! $filter: [Filter!]){
 }
 `;
 
-const useQueryResorts = (first, page, filter) => useQuery(
+const useQueryResorts = (first, page, filter, orderBy) => useQuery(
   QUERY_RESORTS,
   {
     variables: {
       first,
       page,
       filter,
+      orderBy,
     },
   },
 );
