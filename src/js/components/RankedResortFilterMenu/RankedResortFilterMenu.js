@@ -81,7 +81,7 @@ const RankedResortFilterMenu = ({ filterQuantity }) => {
 };
 
 RankedResortFilterMenu.propTypes = {
-  filterQuantity: PropTypes.string.isRequired,
+  filterQuantity: PropTypes.number.isRequired,
 };
 
 export default RankedResortFilterMenu;
