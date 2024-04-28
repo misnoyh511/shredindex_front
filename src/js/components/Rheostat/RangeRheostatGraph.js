@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RheostatTicker from './RheostatTicker/RheostatTicker';
-import useQueryResorts from '../../hooks/useQueryResorts';
+import useQueryResortsRheostat from '../../hooks/useQueryResortsRheostat';
 
 const RangeRheostatGraph = ({
   leftPosition,
@@ -21,6 +21,7 @@ const RangeRheostatGraph = ({
   let tickers = [];
   const loadingTickers = [];
 
+  // Loading state
   for (let i = 0; i < 20; i += 1) {
     const tick = i;
     const tickHeight = tick + 1;
@@ -34,7 +35,7 @@ const RangeRheostatGraph = ({
     loadingTickers.push(ticker);
   }
 
-  const { loading, data, error } = useQueryResorts(200, 1);
+  const { loading, data, error } = useQueryResortsRheostat(200, 1);
 
   if (loading) {
     return (

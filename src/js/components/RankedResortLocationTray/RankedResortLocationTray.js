@@ -42,8 +42,9 @@ const RankedResortLocationTray = ({
   };
 
   const resetFilters = () => {
-    setQuery({ filters: { groupedType: [], locationType: null }, page: 1 });
-    setFormData({ groupedType: [], locationType: null });
+    setQuery({ filters: { groupedType: [], locationType: {} }, page: 1 });
+    setFormData({ groupedType: [], locationType: {} });
+    handleClose();
   };
 
   if (!visible) return null;
