@@ -15,8 +15,12 @@ const RegionSelect = () => {
       setRegion(null);
       setFormData({ groupedType: formData.groupedType, locationType: {} });
     } else {
-      setRegion(selectedContinent.continent_id); // Assuming it sets the region in your application state
-      setFormData({ groupedType: formData.groupedType, locationType: { continentId: selectedContinent.continent_id } });
+      setRegion(selectedContinent.continent_id);
+      setFormData({
+        groupedType: formData.groupedType,
+        locationType:
+          { continentId: selectedContinent.continent_id },
+      });
     }
   };
 
