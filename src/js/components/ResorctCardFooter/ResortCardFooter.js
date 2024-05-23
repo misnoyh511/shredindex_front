@@ -52,7 +52,7 @@ const ResortCardFooter = ({ url, urlSegment, collapsed }) => (
     <div className="resort-card__expand">
       <CIcon icon={cilChevronBottom} />
     </div>
-    <ResortFetchingLink to={url} resortUrlSegment={urlSegment} className="resort-card__resort-link">
+    <ResortFetchingLink to={urlSegment} resortUrlSegment={urlSegment} className="resort-card__resort-link">
       <div className="resort-card__go-to-resort-button">
         <span className="resort-card__go-to-resort-text me-2 user-select-none">
           {collapsed ? null : (
