@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { NumberParam, withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
-import { currentFilterState } from '../../hooks/useQueryFilters';
+import { currentFilterState } from '../../hooks/useQueryTypes';
 import RegionSelect from '../RegionSelect/RegionSelect';
 
 export const showLocationTrayState = atom({

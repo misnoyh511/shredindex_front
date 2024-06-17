@@ -60,8 +60,6 @@ const RangeRheostatGraph = ({
 
   const { resorts: { data: resorts } } = data;
 
-  // console.log('resorts', resorts);
-
   // Todo: Remove filter to get average from current data,
   //  as each resort will only have a single data point for rating type
 

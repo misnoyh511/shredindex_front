@@ -5,9 +5,12 @@ import {
 import PropTypes from 'prop-types';
 import titleCase from '../../hooks/textFomatting';
 import RangeRheostatGraph from '../Rheostat/RangeRheostatGraph';
+import getUnit from '../../hooks/getUnit';
 
 const DoubleRangeSlider = ({
+  title,
   name,
+  unit,
   sliderMin,
   sliderMax,
   initialLowerVal,
@@ -144,8 +147,8 @@ const DoubleRangeSlider = ({
           <CFormLabel htmlFor={`${name}_lower_input`} className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
             Min -
             {' '}
-            {titleCase(name)}
-            {/* {unit.toString()} */}
+            {titleCase(title)}
+            {unit && getUnit({ unit }) ? ` (${getUnit({ unit })})` : ''}
           </CFormLabel>
           <CFormInput
             className="lower-input label-inside-input-padding"
@@ -171,8 +174,8 @@ const DoubleRangeSlider = ({
           <CFormLabel htmlFor={`${name}_upper_input`} className="w-100 label-inside-input label-inside-input-upper resort-card__small-label">
             Max -
             {' '}
-            {titleCase(name)}
-            {/* {unit} */}
+            {titleCase(title)}
+            {unit && getUnit({ unit }) ? ` (${getUnit({ unit })})` : ''}
           </CFormLabel>
           <CFormInput
             className="upper-input label-inside-input-padding"
@@ -197,7 +200,9 @@ const DoubleRangeSlider = ({
 };
 
 DoubleRangeSlider.defaultProps = {
+  title: '',
   name: '',
+  unit: '',
   sliderMin: 0,
   sliderMax: 100,
   initialLowerVal: 0,
@@ -210,6 +215,8 @@ DoubleRangeSlider.defaultProps = {
 };
 
 DoubleRangeSlider.propTypes = {
+  title: PropTypes.string,
+  unit: PropTypes.string,
   name: PropTypes.string,
   sliderMin: PropTypes.number,
   sliderMax: PropTypes.number,

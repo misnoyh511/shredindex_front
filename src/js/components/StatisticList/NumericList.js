@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CLink } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
+import Flickity from 'react-flickity-component';
 import { resortAttributeType } from '../../types/types';
 import Statistic from '../Statistic/Statistic';
+import flickityOptions from '../config/flickity-options';
+import getUnit from '../../hooks/getUnit';
 
 const NumericList = ({
-  numerics, label, labelMessageId, affiliateUrl,
+  numerics, label, labelMessageId,
 }) => {
   if (numerics?.length < 1) {
     return (
@@ -16,22 +18,42 @@ const NumericList = ({
     );
   }
 
+  const options = {
+    ...flickityOptions,
+    cellAlign: 'left',
+    prevNextButtons: false,
+    pageDots: false,
+  };
+
   return (
     <div className="numeric-list">
-      <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliateUrl}>
-        <div className="resort-card__small-label user-select-none">
-          <FormattedMessage id={labelMessageId} defaultMessage={label} />
-        </div>
-        <div className="numeric-list__list">
+      <div className="resort-card__small-label user-select-none">
+        <FormattedMessage id={labelMessageId} defaultMessage={label} />
+      </div>
+      <div className="numeric-list__list">
+        <Flickity
+          className="carousel w-100 h-100"
+          elementType="div"
+          options={options}
+          disableImagesLoaded
+          reloadOnUpdate
+          static
+        >
           {numerics.map(({
-            id, title, value, max_value, unit,
+            id, title, name, value, type,
           }) => (
-            <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
-              <Statistic title={title} statistic={value} maxValue={max_value} unit={unit} />
+            <div key={id} className="numeric-list__numeric mb-3 me-2">
+              <Statistic
+                title={title}
+                name={name}
+                statistic={value}
+                maxValue={type.max_value}
+                unit={getUnit({ unit: type.unit })}
+              />
             </div>
           ))}
-        </div>
-      </CLink>
+        </Flickity>
+      </div>
     </div>
   );
 };
@@ -40,7 +62,6 @@ NumericList.propTypes = {
   numerics: PropTypes.arrayOf(resortAttributeType).isRequired,
   label: PropTypes.string.isRequired,
   labelMessageId: PropTypes.string.isRequired,
-  affiliateUrl: PropTypes.string.isRequired,
 };
 
 export default NumericList;

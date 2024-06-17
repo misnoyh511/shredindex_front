@@ -22,8 +22,8 @@ const ResortImageCarousel = ({ images }) => {
         reloadOnUpdate
         static
       >
-        {images.length > 0 ? images.map(({ id, alt, image }) => (
-          <img key={id} className="carousel__image" src={image.path} alt={alt} />
+        {images.length > 0 ? images.filter((img) => img.image?.path).map(({ id, alt, image }) => (
+          <img key={id} className="carousel__image" src={image?.path} alt={alt} />
         ))
           : (
             [<img key="1" className="carousel__image--no-images" src={resortImagePlaceholder} alt="shred-index-resort-placeholder" />]

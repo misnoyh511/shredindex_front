@@ -12,7 +12,7 @@ import { NumberParam, withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
 import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
-import { currentFilterState } from '../../hooks/useQueryFilters';
+import { currentFilterState } from '../../hooks/useQueryTypes';
 
 export const showFilterTrayState = atom({
   key: 'showFilterTrayState',
