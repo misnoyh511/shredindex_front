@@ -24,6 +24,42 @@ const resortOne = {
     title: 'Total Score',
     value: 13.8,
   },
+  ratings: [],
+  numerics: [
+    {
+      id: '1',
+      name: 'average_annual_snowfall',
+      title: 'Average Annual Snowfall',
+      value: 12,
+      type: {
+        name: 'snowfall',
+        unit: 'meters',
+        max_value: 24,
+      },
+    },
+    {
+      id: '2',
+      name: 'skiable_terrain',
+      title: 'Skiable Terrain',
+      value: 1234,
+      type: {
+        name: 'terrain',
+        unit: 'meters',
+        max_value: 11300,
+      },
+    },
+    {
+      id: '3',
+      name: 'vertical_drop',
+      title: 'Vertical Drop',
+      value: 1234,
+      type: {
+        name: 'vertical',
+        unit: 'meters',
+        max_value: 1300,
+      },
+    },
+  ],
   highlights: [
     {
       id: '5',
@@ -74,29 +110,6 @@ const resortOne = {
       name: 'uncrowded',
       title: 'Uncrowded',
       value: 10,
-    },
-  ],
-  numerics: [
-    {
-      id: '1',
-      title: 'Average Annual Snowfall',
-      value: 12,
-      unit: 'meters',
-      max_value: 24,
-    },
-    {
-      id: '2',
-      title: 'Skiable Terrain',
-      value: 1234,
-      unit: 'meters',
-      max_value: 11300,
-    },
-    {
-      id: '3',
-      title: 'Vertical Drop',
-      value: 1234,
-      unit: 'meters',
-      max_value: 1300,
     },
   ],
   resort_images: [

@@ -5,36 +5,21 @@ import resortTwo from './dummyResortTwo';
 const dataProvider = {
   resortPage: [
     {
-      data: [
-        resortOne,
-        resortTwo,
-        resortOne,
-        resortTwo,
-        resortOne,
-      ],
+      data: [resortOne, resortTwo, resortOne, resortTwo, resortOne],
       paginatorInfo: {
         currentPage: 1,
         lastPage: 3,
       },
     },
     {
-      data: [
-        resortOne,
-        resortTwo,
-        resortOne,
-        resortTwo,
-        resortOne,
-      ],
+      data: [resortOne, resortTwo, resortOne, resortTwo, resortOne],
       paginatorInfo: {
         currentPage: 2,
         lastPage: 3,
       },
     },
     {
-      data: [
-        resortOne,
-        resortTwo,
-      ],
+      data: [resortOne, resortTwo],
       paginatorInfo: {
         currentPage: 3,
         lastPage: 3,
@@ -45,9 +30,7 @@ const dataProvider = {
 
 describe('Ranked Resort List Full', () => {
   before(() => {
-    context('All devices', () => {
-      cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list');
-    });
+    cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list');
   });
 
   context('Mobile devices', () => {
@@ -61,8 +44,8 @@ describe('Ranked Resort List Full', () => {
   });
 
   context('Greater than mobile', () => {
-    afterEach(() => {
-      cy.viewport(375, 667);
+    beforeEach(() => {
+      cy.viewport(1024, 768);
     });
 
     it('Should has a large pagination', () => {
@@ -74,7 +57,7 @@ describe('Ranked Resort List Full', () => {
     cy.get('.ranked-resort-list__filters-wrap').should('exist');
   });
 
-  dataProvider.resortPage.forEach((resort, index, i) => {
+  dataProvider.resortPage.forEach((resort, index) => {
     const pageIndex = index + 1;
 
     resort.data.forEach((card, i) => {
@@ -82,6 +65,7 @@ describe('Ranked Resort List Full', () => {
       const nth = i + 1;
 
       it(`Should render a list of resort cards "${title}"`, () => {
+        cy.log(`Checking card with title: ${title}`);
         cy.get(`.resort-card:nth-child(${nth}) .card-header`).should('contain.text', `${title}`);
       });
     });
@@ -91,9 +75,15 @@ describe('Ranked Resort List Full', () => {
         if (el.hasClass('disabled')) {
           return;
         }
-        cy.get('.ranked-resort-result-count__page-info-text').should('contain.text', `${`Page ${pageIndex} of ${dataProvider.resortPage.length}`}`);
+        cy.get('.ranked-resort-result-count__page-info-text').should(
+          'contain.text',
+          `Page ${pageIndex} of ${dataProvider.resortPage.length}`
+        );
         cy.wrap(el).click();
-        cy.get('.ranked-resort-result-count__page-info-text').should('contain.text', `${`Page ${pageIndex + 1} of ${dataProvider.resortPage.length}`}`);
+        cy.get('.ranked-resort-result-count__page-info-text').should(
+          'contain.text',
+          `Page ${pageIndex + 1} of ${dataProvider.resortPage.length}`
+        );
       });
     });
   });
@@ -101,9 +91,7 @@ describe('Ranked Resort List Full', () => {
 
 describe('Ranked Resort List Error', () => {
   beforeEach(() => {
-    context('All devices', () => {
-      cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Error');
-    });
+    cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Error');
   });
 
   it('Should render an Error Card', () => {
@@ -117,9 +105,7 @@ describe('Ranked Resort List Error', () => {
 
 describe('Ranked Resort List Loading', () => {
   beforeEach(() => {
-    context('All devices', () => {
-      cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Loading');
-    });
+    cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Loading');
   });
 
   dataProvider.resortPage[0].data.forEach((card, i) => {

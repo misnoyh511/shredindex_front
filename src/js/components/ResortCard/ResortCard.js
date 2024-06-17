@@ -40,7 +40,15 @@ const ResortCard = ({ resortData }) => {
 };
 
 ResortCard.propTypes = {
-  resortData: PropTypes.shape().isRequired,
+  resortData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    url_segment: PropTypes.string.isRequired,
+    total_score: PropTypes.shape({
+      value: PropTypes.number.isRequired, // Assuming total_score.value is a number
+    }).isRequired,
+    affiliate_url: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
 export default ResortCard;

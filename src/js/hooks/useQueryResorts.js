@@ -43,18 +43,24 @@ query Resorts($first: Int! $page: Int! $filter: Filter $orderBy: OrderBy){
       }
       numerics {
         id
+        name
         title
         value
-        unit
-        max_value
+        type {
+          name
+          unit
+          max_value
+        }
       }
       highlights {
         id
+        name
         title
         value
       }
       lowlights {
         id
+        name
         title
         value
       }

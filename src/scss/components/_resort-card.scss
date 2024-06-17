@@ -76,7 +76,7 @@
 
     &--not-available {
       opacity: 0;
-      height: 0rem;
+      height: 0;
       transition-duration: $card-animation-transition-time;
     }
   }
@@ -115,6 +115,7 @@
 
     .numeric-list__numeric {
       overflow: hidden;
+      width: 9.5rem;
     }
   }
 

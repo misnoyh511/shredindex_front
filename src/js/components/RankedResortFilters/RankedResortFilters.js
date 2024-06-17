@@ -1,24 +1,25 @@
 import {
-  CRow,
-  CFormLabel,
-  CForm, CButton,
+  CRow, CFormLabel, CForm, CButton,
 } from '@coreui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useRecoilState } from 'recoil';
 import FilterToggleButton from '../FilterToggleButton/FilterToggleButton';
-import useQueryFilters, { currentFilterState } from '../../hooks/useQueryFilters';
+import useQueryFilters, { currentFilterState } from '../../hooks/useQueryTypes';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
 import DoubleRangeSlider from '../DoubleRangeSlider/DoubleRangeSlider';
+import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
 
 const RankedResortFilters = () => {
   const {
     loading, error, scoreFilters, numericFilters, genericFilters,
   } = useQueryFilters();
   const [formData, setFormData] = useRecoilState(currentFilterState);
-  const [showMoreRatings, setShowMoreRatings] = useState(false);
-  const [showMoreNumerics, setShowMoreNumerics] = useState(false);
-  const [showMoreGenerics, setShowMoreGenerics] = useState(false);
+
+  // Use your hook for each show more state with local storage
+  const [showMoreRatings, setShowMoreRatings] = useLocalStorageDrivenBooleanState('showMoreFilters', 'ratings');
+  const [showMoreNumerics, setShowMoreNumerics] = useLocalStorageDrivenBooleanState('showMoreFilters', 'numerics');
+  const [showMoreGenerics, setShowMoreGenerics] = useLocalStorageDrivenBooleanState('showMoreFilters', 'generics');
 
   const getTooltip = (label) => {
     const formattedLabel = label.toUpperCase().replace(/ /g, '_');
@@ -38,32 +39,27 @@ const RankedResortFilters = () => {
     const index = formData.groupedType[indexArray]?.filters.findIndex(
       (el) => el.type_name === type_name && el.operator === operator,
     );
-
     return { indexArray, index };
   };
 
   const updateForm = (filterToggleButtonID, toggleOn, type_name, operator, value) => {
     const { indexArray, index } = handleFindIndex(filterToggleButtonID, type_name, operator);
     const updatedFormData = JSON.parse(JSON.stringify(formData));
-
     if (index !== -1) {
-    // Working with clone to keep formData intact
+      // Working with clone to keep formData intact
       const cloned = { ...updatedFormData.groupedType[indexArray].filters[index] };
-
       if (value === null || value === 0 || value === undefined) {
         cloned.value = '';
       } else {
         cloned.value = value;
       }
-
       updatedFormData.groupedType[indexArray].filters[index] = cloned;
       updatedFormData.groupedType[indexArray].toggleOn = toggleOn;
     } else {
-    // if indexArray for the filterToggleButtonID exist
+      // if indexArray for the filterToggleButtonID exist
       const indexToggleButton = formData.groupedType.findIndex(
         (el) => el.filterToggleButtonID === filterToggleButtonID,
       );
-
       if (indexToggleButton !== -1) {
         // Update the toggleOn for the existing filterToggleButtonID
         updatedFormData.groupedType[indexToggleButton].toggleOn = toggleOn;
@@ -76,7 +72,6 @@ const RankedResortFilters = () => {
         });
       }
     }
-
     setFormData(updatedFormData);
   };
 
@@ -96,15 +91,17 @@ const RankedResortFilters = () => {
         </CFormLabel>
         <FilterToggleButtonSkeleton />
         <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
       </>
     );
   }
 
   if (error) {
     return (
-      <p>
-        Error Loading filters
-      </p>
+      <p>Error Loading filters</p>
     );
   }
 
@@ -122,6 +119,7 @@ const RankedResortFilters = () => {
             <FilterToggleButton
               key={item.filterToggleButtonID}
               label={item.label}
+              name={item.name}
               className="mt-4"
               id={item.filterToggleButtonID}
               updateForm={updateForm}
@@ -130,22 +128,23 @@ const RankedResortFilters = () => {
             >
               {(id, toggleOn) => (
                 <DoubleRangeSlider
+                  title={item.label}
                   name={item.filters[0].type_name}
-                  unit="%"
+                  unit={item.unit}
                   sliderMin={0}
                   sliderMax={100}
                   initialLowerVal={
-                  parseInt(
-                    getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
-                    10,
-                  )
-                }
+                    parseInt(
+                      getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
+                      10,
+                    )
+                  }
                   initialUpperVal={
-                  parseInt(
-                    getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
-                    10,
-                  )
-                }
+                    parseInt(
+                      getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
+                      10,
+                    )
+                  }
                   onChangeLower={(e) => {
                     if (item.filters && item.filters[0]) {
                       updateForm(
@@ -200,52 +199,60 @@ const RankedResortFilters = () => {
         </CFormLabel>
         {numericFilters?.map((item, filterIndex) => (
           (showMoreNumerics || filterIndex < 5) && (
-          <FilterToggleButton
-            key={item.filterToggleButtonID}
-            label={item.label}
-            className="mt-4"
-            id={item.filterToggleButtonID}
-            updateForm={updateForm}
-            tooltip={getTooltip(item.label)}
-            toggle={item.toggleOn}
-          >
-            {(id, toggleOn) => (
-              <DoubleRangeSlider
-                name={item.filters[0].type_name}
-                sliderMin={0}
-                sliderMax={item.max_value}
-                unit={item.unit}
-                initialLowerVal={
-                parseInt(getFormValue(id, item.filters[0].type_name, item.filters[0].operator), 10)
-              }
-                initialUpperVal={
-                parseInt(getFormValue(id, item.filters[1].type_name, item.filters[1].operator), 10)
-              }
-                onChangeLower={(e) => {
-                  if (item.filters && item.filters[0]) {
-                    updateForm(
-                      id,
-                      toggleOn,
-                      item.filters[0].type_name,
-                      item.filters[0].operator,
-                      e.target.value,
-                    );
+            <FilterToggleButton
+              key={item.filterToggleButtonID}
+              label={item.label}
+              name={item.name}
+              className="mt-4"
+              id={item.filterToggleButtonID}
+              updateForm={updateForm}
+              tooltip={getTooltip(item.label)}
+              toggle={item.toggleOn}
+            >
+              {(id, toggleOn) => (
+                <DoubleRangeSlider
+                  title={item.label}
+                  name={item.filters[0].type_name}
+                  sliderMin={0}
+                  sliderMax={item.max_value}
+                  unit={item.unit}
+                  initialLowerVal={
+                    parseInt(
+                      getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
+                      10,
+                    )
                   }
-                }}
-                onChangeUpper={(e) => {
-                  if (item.filters && item.filters[1]) {
-                    updateForm(
-                      id,
-                      toggleOn,
-                      item.filters[1].type_name,
-                      item.filters[1].operator,
-                      e.target.value,
-                    );
+                  initialUpperVal={
+                    parseInt(
+                      getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
+                      10,
+                    )
                   }
-                }}
-              />
-            )}
-          </FilterToggleButton>
+                  onChangeLower={(e) => {
+                    if (item.filters && item.filters[0]) {
+                      updateForm(
+                        id,
+                        toggleOn,
+                        item.filters[0].type_name,
+                        item.filters[0].operator,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                  onChangeUpper={(e) => {
+                    if (item.filters && item.filters[1]) {
+                      updateForm(
+                        id,
+                        toggleOn,
+                        item.filters[1].type_name,
+                        item.filters[1].operator,
+                        e.target.value,
+                      );
+                    }
+                  }}
+                />
+              )}
+            </FilterToggleButton>
           )
         ))}
         <div className="d-flex justify-content-center align-content-center">
@@ -263,7 +270,6 @@ const RankedResortFilters = () => {
           </CButton>
         </div>
       </CRow>
-
       <hr className="form-hr" />
       <CFormLabel className="form-label filters__features">
         <FormattedMessage
@@ -276,6 +282,7 @@ const RankedResortFilters = () => {
           <FilterToggleButton
             key={item.filterToggleButtonID}
             label={item.label}
+            name={item.name}
             className="mt-4"
             id={item.filterToggleButtonID}
             updateForm={updateForm}
@@ -293,23 +300,22 @@ const RankedResortFilters = () => {
           />
         )
       ))}
-      {(genericFilters.length > 5)
-        && (
-          <div className="d-flex justify-content-center align-content-center">
-            <CButton
-              id="showMoreGenerics"
-              className="mt-4 "
-              onClick={() => setShowMoreGenerics((prevState) => !prevState)}
-              label="Show more"
-              variant="outline"
-              shape="rounded-pill"
-            >
-              {showMoreGenerics
-                ? <span>Show less features -</span>
-                : <span>Show more features +</span>}
-            </CButton>
-          </div>
-        )}
+      {(genericFilters.length > 5) && (
+        <div className="d-flex justify-content-center align-content-center">
+          <CButton
+            id="showMoreGenerics"
+            className="mt-4 "
+            onClick={() => setShowMoreGenerics((prevState) => !prevState)}
+            label="Show more"
+            variant="outline"
+            shape="rounded-pill"
+          >
+            {showMoreGenerics
+              ? <span>Show less features -</span>
+              : <span>Show more features +</span>}
+          </CButton>
+        </div>
+      )}
     </CForm>
   );
 };

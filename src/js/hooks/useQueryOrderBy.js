@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { useQuery } from '@apollo/client';
-import { QUERY_FILTERS } from './useQueryFilters';
+import { QUERY_TYPES } from './useQueryTypes';
 
 function getCurrentOrderByFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -27,13 +27,13 @@ const UseQueryOrderBy = () => {
     loading,
     error,
     data,
-  } = useQuery(QUERY_FILTERS);
+  } = useQuery(QUERY_TYPES);
 
   const orderOptions = [];
   const mappedOptions = [];
   if (data) {
-    const scores = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Rating'));
-    const numerics = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Numeric'));
+    const scores = data.types.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Rating'));
+    const numerics = data.types.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Numeric'));
     const totalScore = [{
       label: 'Total score',
       value: 'total_score',

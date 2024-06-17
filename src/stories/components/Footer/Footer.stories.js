@@ -41,7 +41,7 @@ export const Footer = () => {
               url: 'https://localhost/one',
               sort_order: 0,
               image: {
-                path: 'https://source.unsplash.com/TW_z_iUD_bQ/300x300',
+                path: 'https://avatars.githubusercontent.com/u/45204791?v=4',
                 content_type: 'image/png',
               },
             },
@@ -50,7 +50,7 @@ export const Footer = () => {
               url: 'https://localhost/two',
               sort_order: 1,
               image: {
-                path: 'https://source.unsplash.com/W0i1N6FdCWA/300x300',
+                path: 'https://avatars.githubusercontent.com/u/45204791?v=4',
                 content_type: 'image/png',
               },
             },

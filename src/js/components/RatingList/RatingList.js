@@ -23,9 +23,11 @@ const RatingList = ({
           <FormattedMessage id={labelMessageId} defaultMessage={label} />
         </div>
         <div className="rating-list__list-scroll">
-          {ratings.map(({ id, title, value }) => (
+          {ratings.map(({
+            id, name, title, value,
+          }) => (
             <div key={id} className="rating-list__rating mb-3 me-1">
-              <Rating title={title} rating={value} />
+              <Rating name={name} title={title} rating={value} />
             </div>
           ))}
         </div>

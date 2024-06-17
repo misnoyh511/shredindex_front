@@ -2,16 +2,16 @@ import { useState, useLayoutEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { gql, useQuery } from '@apollo/client';
 
-export const QUERY_FILTERS = gql`
+export const QUERY_TYPES = gql`
   {
-    filters {
+    types {
       name
       title
       category
+      unit
       unit_id
-      numeric {
-        max_value
-      }
+      icon
+      max_value
     }
   }
 `;
@@ -73,8 +73,8 @@ export const currentFilterState = atom({
   },
 });
 
-const UseQueryFilters = () => {
-  const { loading, error, data } = useQuery(QUERY_FILTERS);
+const UseQueryTypes = () => {
+  const { loading, error, data } = useQuery(QUERY_TYPES);
   const [scoreFilters, setScoreFilters] = useState([]);
   const [numericFilters, setNumericFilters] = useState([]);
   const [genericFilters, setGenericFilters] = useState([]);
@@ -86,15 +86,17 @@ const UseQueryFilters = () => {
     let newNumerics = [];
     let newGenerics = [];
     if (data) {
-      const scores = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Rating'));
-      const numerics = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Numeric'));
-      const generics = data.filters.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Generic'));
+      const scores = data.types.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Rating'));
+      const numerics = data.types.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Numeric'));
+      const generics = data.types.filter((item) => (item?.category === 'Underflip\\Resorts\\Models\\Generic'));
 
       scores.forEach((score) => {
         const scoreObject = {
           label: score.title,
+          name: score.name,
           filterToggleButtonID: `${score.name}ToggleButton`,
           toggleOn: false,
+          unit: score?.unit,
           filters: [{
             type_name: score.name,
             operator: '>',
@@ -119,11 +121,12 @@ const UseQueryFilters = () => {
 
       numerics?.forEach((numeric) => {
         const numericObject = {
-          label: numeric.title,
+          label: numeric?.title,
           filterToggleButtonID: `${numeric.name}ToggleButton`,
           toggleOn: false,
-          max_value: numeric.numeric?.max_value || null,
-          unit: numeric.numeric?.unit_id || null,
+          name: numeric?.name,
+          max_value: numeric?.max_value || null,
+          unit: numeric?.unit,
           filters: [{
             type_name: numeric.name,
             operator: '>',
@@ -132,7 +135,7 @@ const UseQueryFilters = () => {
           {
             type_name: numeric.name,
             operator: '<',
-            value: numeric.numeric?.max_value || '100',
+            value: numeric?.max_value || '100',
           }],
         };
 
@@ -149,6 +152,7 @@ const UseQueryFilters = () => {
       generics.forEach((generic) => {
         const genericObject = {
           label: generic.title,
+          name: generic.name,
           filterToggleButtonID: `${generic.name}ToggleButton`,
           toggleOn: false,
           filters: [{
@@ -185,4 +189,4 @@ const UseQueryFilters = () => {
   };
 };
 
-export default UseQueryFilters;
+export default UseQueryTypes;
