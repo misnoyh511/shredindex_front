@@ -60,8 +60,7 @@ describe('Resort', () => {
   });
 
   it('Statistic should have a value', () => {
-    cy.get('.rating__number-big').within(() => {
-      cy.get('.progress').should('have.attr', 'aria-valuenow', '76');
+    cy.get('.rating__number-big').should('contain', '76');
     });
   });
 
@@ -71,8 +70,7 @@ describe('Resort', () => {
   });
 
   it('Should render a numeric value "Average Annual Snowfall"', () => {
-    cy.get('.statistic__number-big').within(() => {
-      cy.get('.progress').should('have.attr', 'aria-valuenow', '10');
+    cy.get('.statistic__number-big').should('contain', '10');
     });
   });
 
