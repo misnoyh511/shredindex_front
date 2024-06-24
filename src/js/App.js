@@ -48,9 +48,7 @@ const App = ({ suspenseQuery }) => {
                   <Header />
                   <div className="body flex-grow-1">
                     <main className="c-main">
-                      <CContainer>
-                        <DynamicSwitch />
-                      </CContainer>
+                      <DynamicSwitch />
                     </main>
                   </div>
                   <SupportBanner />
