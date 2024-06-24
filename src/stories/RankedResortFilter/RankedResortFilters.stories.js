@@ -14,7 +14,7 @@ export default {
   component: FiltersComponent,
 };
 
-export const MockedFilters = [
+const MockedFilters = [
   {
     request: {
       query: QUERY_FILTERS,

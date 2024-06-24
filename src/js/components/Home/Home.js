@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Hero from '../Hero/Hero';
 
 const Home = () => (

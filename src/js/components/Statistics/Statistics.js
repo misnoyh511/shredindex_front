@@ -29,40 +29,45 @@ const Statistics = (props) => {
             <CListGroupItem className="justify-content-between">
               <CRow>
                 <CCol xxl={6} xl={6}>
-            <div className="numeric-list">
-              <div className="numeric-list__list">
-                {statistics.map(({
-                  id,
-                  title,
-                  value,
-                  max_value,
-                  unit,
-                }) => (
-                  <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
-                    <Statistic title={title} statistic={value} maxValue={max_value} unit={unit}/>
+                  <div className="numeric-list">
+                    <div className="numeric-list__list">
+                      {statistics.map(({
+                        id,
+                        title,
+                        value,
+                        max_value,
+                        unit,
+                      }) => (
+                        <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
+                          <Statistic
+                            title={title}
+                            statistic={value}
+                            maxValue={max_value}
+                            unit={unit}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-              </div>
-                  </ CCol>
+                </CCol>
               </CRow>
             </CListGroupItem>
-              {generics.map(({
-                id,
-                title,
-                value,
-              }) => (
-                <CListGroupItem key={id} className="justify-content-between">
-                  <CRow>
-                    <div className="generic__label col-5">
-                      {title}
-                    </div>
-                    <div className="col-7" color="primary">
-                      <p className="generic__value mb-0">{value}</p>
-                    </div>
-                  </CRow>
-                </CListGroupItem>
-              ))}
+            {generics.map(({
+              id,
+              title,
+              value,
+            }) => (
+              <CListGroupItem key={id} className="justify-content-between">
+                <CRow>
+                  <div className="generic__label col-5">
+                    {title}
+                  </div>
+                  <div className="col-7" color="primary">
+                    <p className="generic__value mb-0">{value}</p>
+                  </div>
+                </CRow>
+              </CListGroupItem>
+            ))}
           </CListGroup>
         </CCardBody>
       </CCard>

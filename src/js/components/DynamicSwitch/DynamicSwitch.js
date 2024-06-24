@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import DynamicLayout from '../DynamicLayout/DynamicLayout';
+import ResortCardError from '../ResortCardError/ResortCardError';
 
 /**
  * Restore the scroll everytime we change routes
@@ -58,6 +59,20 @@ const DynamicSwitch = () => {
             element={<DynamicLayout url={url} />}
           />
         ))}
+        <Route
+          path="*"
+          element={<ResortCardError
+            helpId="shredindex.404error.HELP"
+            help="Looks like you've skied off the map!"
+            titleId="shredindex.404error.TITLE"
+            title="Woah!!... Epic Wipeout"
+            errorName="404 Not Found"
+            errorMessageId="shredindex.404error.ERRORMESSAGE"
+            errorMessage="The page you're looking for has pulled a disappearing act."
+            suggestionId="shredindex.404error.SUGGESTION"
+            suggestion="Maybe try heading back to the bunny slopes (homepage)..."
+          />}
+        />
       </Routes>
     </>
   );

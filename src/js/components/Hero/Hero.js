@@ -28,7 +28,7 @@ const Hero = () => (
       </h1>
       <div className="button-group d-flex align-items-start">
         <Link
-          to={'resorts'}
+          to="resorts"
         >
           <CButton className="me-2" color="secondary" variant="">Explore resorts</CButton>
         </Link>

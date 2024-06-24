@@ -1,5 +1,5 @@
 import {
-  CCard, CCardBody, CCardHeader, CCol, CListGroup, CProgress, CRow,
+  CCard, CCardBody, CCardHeader, CCol, CListGroup, CRow,
 } from '@coreui/react';
 
 import PropTypes from 'prop-types';
