@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import CIcon from '@coreui/icons-react';
-import getStatisticIcon from '../../hooks/getStatisticIcon';
+import getTypeIcon from '../../hooks/getTypeIcon';
 
 const Statistic = ({
-  title, statistic, statisticType, unit, maxValue,
+  title, name, statistic, statisticType, unit, maxValue,
 }) => {
   const [statisticInt, statisticDecimal] = statistic.toString().split('.');
   const isMax = statistic >= 100 || statistic === 'n/a';
@@ -22,7 +22,7 @@ const Statistic = ({
               <span
                 className={`user-select-none ${isMax ? 'statistic__is-100' : ''}`}
               >
-                <CIcon className="statistic__icon" icon={getStatisticIcon(title)} />
+                <CIcon className="statistic__icon" icon={getTypeIcon(name)} />
               </span>
             </div>
           </div>
@@ -58,6 +58,7 @@ Statistic.defaultProps = {
 
 Statistic.propTypes = {
   title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   statistic: PropTypes.number,
   statisticType: PropTypes.string,
   unit: PropTypes.string,

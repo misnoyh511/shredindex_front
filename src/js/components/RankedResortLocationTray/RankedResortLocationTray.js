@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { NumberParam, withQueryParams } from 'use-query-params';
 import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
-import { currentFilterState } from '../../hooks/useQueryFilters';
+import { currentFilterState } from '../../hooks/useQueryTypes';
 import RegionSelect from '../RegionSelect/RegionSelect';
 
 export const showLocationTrayState = atom({
@@ -42,8 +42,9 @@ const RankedResortLocationTray = ({
   };
 
   const resetFilters = () => {
-    setQuery({ filters: { groupedType: [], locationType: null }, page: 1 });
-    setFormData({ groupedType: [], locationType: null });
+    setQuery({ filters: { groupedType: [], locationType: {} }, page: 1 });
+    setFormData({ groupedType: [], locationType: {} });
+    handleClose();
   };
 
   if (!visible) return null;

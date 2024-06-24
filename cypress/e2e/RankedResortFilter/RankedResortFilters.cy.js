@@ -9,11 +9,11 @@ describe('Filters', () => {
     });
 
     it('Shows a title Stats', () => {
-      cy.get('.filters__stats').should('contain.text', 'Stats');
+      cy.get('.filters__stats').should('contain.text', 'Statistics');
     });
 
     it('Shows a title Features', () => {
-      cy.get('.filters__features').should('contain.text', 'Must have features');
+      cy.get('.filters__features').should('contain.text', 'Features');
     });
 
     it('Toggles show more/less text on button click', () => {

@@ -3,9 +3,10 @@ import { CTooltip } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import PropTypes from 'prop-types';
+import getTypeIcon from '../../hooks/getTypeIcon';
 
 const FilterToggleButton = ({
-  id, label, tooltip, children, className, updateForm, toggle,
+  id, label, name, tooltip, children, className, updateForm, toggle,
 }) => {
   const [toggleOn, setToggleOn] = useState(toggle);
 
@@ -35,8 +36,10 @@ const FilterToggleButton = ({
         className={`btn btn-dark filter-toggle-button__frame
       ${!toggleOn ? 'filter-toggle-button__frame--filter-off' : 'filter-toggle-button__frame--filter-on'}`}
       >
-        <div className="filter-toggle-button__frame-header d-inline-flex w-100">
-          <div className="filter-toggle-button__frame-header-left-align d-inline-flex gap-2 w-100">
+        <div className="filter-toggle-button__frame-header d-flex w-100">
+          <div className="filter-toggle-button__frame-header-left-align d-flex align-items-center gap-2 w-100">
+            <CIcon size="lg" className="statistic__icon" icon={getTypeIcon(name)} />
+            {' '}
             <div className="filter-toggle-button__frame-header-title">
               {label}
             </div>
@@ -88,6 +91,7 @@ FilterToggleButton.defaultProps = {
 FilterToggleButton.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   tooltip: PropTypes.node.isRequired,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   className: PropTypes.string,

@@ -25,7 +25,7 @@ const ResortCardBody = ({
 }) => (
 
   <div className="resort-card__body">
-    <div className="resort-card__content-0 mb-2 w-100 d-inline-flex justify-content-between">
+    <div className="resort-card__content-0 w-100 d-inline-flex justify-content-between">
       <div className="resort-card__location-wrap">
         <div className="resort-card__location text-left d-inline-flex user-select-none">
           <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
@@ -33,7 +33,7 @@ const ResortCardBody = ({
           </CLink>
         </div>
         {description && (
-          <div className="resort-card__description mb-2 me-2 user-select-none">
+          <div className="resort-card__description mb-3 me-2 user-select-none">
             <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
               <span className="m-0">
                 {description}
@@ -51,10 +51,9 @@ const ResortCardBody = ({
         <div className="resort-card__content-1 mb-2 d-flex">
           <div className="w-100">
             <NumericList
-              labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
+              labelMessageId="shredindex.ratinglist.STATISTICS"
               label="Statistics"
-              numerics={numerics?.filter((item) => ['Average Annual Snowfall', 'Vertical Drop', 'Skiable Terrain'].includes(item.title))}
-              affiliateUrl={affiliate_url}
+              numerics={numerics}
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 const flickityOptions = {
-  initialIndex: 2,
+  initialIndex: 0,
   wrapAround: true,
   prevNextButtons: true,
   fullscreen: true,

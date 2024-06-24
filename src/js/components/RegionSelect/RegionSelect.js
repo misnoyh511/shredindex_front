@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { CImage } from '@coreui/react';
 import { useRecoilState } from 'recoil';
-import { currentFilterState } from '../../hooks/useQueryFilters';
+import { currentFilterState } from '../../hooks/useQueryTypes';
+import getContinent from '../../hooks/getContinent';
 
 const RegionSelect = () => {
   const [formData, setFormData] = useRecoilState(currentFilterState);
   const [region, setRegion] = useState(formData.locationType.continentId);
 
   const handleChange = (value) => {
-    setRegion(value); // Assuming it sets the region in your application state
-    setFormData({ groupedType: formData.groupedType, locationType: { continentId: value } });
+    const selectedContinent = getContinent(value);
+
+    if (value === 'worldwide') {
+      setRegion(null);
+      setFormData({ groupedType: formData.groupedType, locationType: {} });
+    } else {
+      setRegion(selectedContinent.continent_id);
+      setFormData({
+        groupedType: formData.groupedType,
+        locationType:
+          { continentId: selectedContinent.continent_id },
+      });
+    }
   };
 
   return (
@@ -20,7 +32,7 @@ const RegionSelect = () => {
           id="worldwide"
           type="radio"
           value="worldwide"
-          checked={region === 'worldwide' || !region}
+          checked={!region}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -38,8 +50,8 @@ const RegionSelect = () => {
           name="region"
           id="asia"
           type="radio"
-          value="asia"
-          checked={region === 'asia'}
+          value="AS"
+          checked={region === getContinent('AS').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -57,8 +69,8 @@ const RegionSelect = () => {
           name="region"
           id="northAmerica"
           type="radio"
-          value="northAmerica"
-          checked={region === 'northAmerica'}
+          value="NA"
+          checked={region === getContinent('NA').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -76,8 +88,8 @@ const RegionSelect = () => {
           name="region"
           id="southAmerica"
           type="radio"
-          value="southAmerica"
-          checked={region === 'southAmerica'}
+          value="SA"
+          checked={region === getContinent('SA').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -95,8 +107,8 @@ const RegionSelect = () => {
           name="region"
           id="europe"
           type="radio"
-          value="europe"
-          checked={region === 'europe'}
+          value="EU"
+          checked={region === getContinent('EU').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -114,8 +126,8 @@ const RegionSelect = () => {
           name="region"
           id="oceania"
           type="radio"
-          value="oceania"
-          checked={region === 'oceania'}
+          value="OC"
+          checked={region === getContinent('OC').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">
@@ -133,8 +145,8 @@ const RegionSelect = () => {
           name="region"
           id="africa"
           type="radio"
-          value="africa"
-          checked={region === 'africa'}
+          value="AF"
+          checked={region === getContinent('AF').continent_id}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className="region-item">

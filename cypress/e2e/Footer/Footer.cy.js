@@ -2,12 +2,12 @@ const dataProvider = [
   {
     name: 'Steph_nz',
     url: 'https://localhost/one',
-    imageId: 'TW_z_iUD_bQ',
+    imageId: '45204791',
   },
   {
     name: 'Bakhtawar',
     url: 'https://localhost/two',
-    imageId: 'W0i1N6FdCWA',
+    imageId: '66452927',
   },
 ];
 
