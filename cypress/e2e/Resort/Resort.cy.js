@@ -55,23 +55,23 @@ describe('Resort', () => {
   });
 
   it('Should render a rating Digital Nomad Score', () => {
-    cy.get('.resort-rating__label')
+    cy.get('.rating__title')
       .should('contain', 'Digital Nomad Score');
   });
 
   it('Statistic should have a value', () => {
-    cy.get('.rating__value').within(() => {
+    cy.get('.rating__number-big').within(() => {
       cy.get('.progress').should('have.attr', 'aria-valuenow', '76');
     });
   });
 
   it('Should render a numeric "Average Annual Snowfall"', () => {
-    cy.get('.statistic__label')
+    cy.get('.statistic__title')
       .should('contain', 'Average Annual Snowfall');
   });
 
   it('Should render a numeric value "Average Annual Snowfall"', () => {
-    cy.get('.statistic__value').within(() => {
+    cy.get('.statistic__number-big').within(() => {
       cy.get('.progress').should('have.attr', 'aria-valuenow', '10');
     });
   });
