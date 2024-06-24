@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { FormattedMessage } from 'react-intl';
 import { useParams } from 'react-router';
 import {
-  CCard, CCardBody, CCardHeader,
+  CCard, CCardBody, CCardHeader, CContainer,
 } from '@coreui/react';
 import ResortHeader from '../ResortHeader/ResortHeader';
 import ResortRatings from '../ResortRatings/ResortRatings';
@@ -74,24 +74,26 @@ const Resort = () => {
   } = data;
 
   return (
-    <div className="resort">
-      <ResortHeader resort={resort} />
-      <CCard className="resort__description-card mb-4">
-        <CCardHeader>
-          <h3 className="resort__description-title h6">
-            <FormattedMessage
-              id="shredindex.resort.DESCRIPTION"
-              defaultMessage="Description"
-            />
-          </h3>
-        </CCardHeader>
-        <CCardBody>
-          <p className="resort__description-content mb-0">{description}</p>
-        </CCardBody>
-      </CCard>
-      <ResortRatings ratings={ratings} />
-      <Statistics statistics={numerics} generics={generics} />
-    </div>
+    <CContainer>
+      <div className="resort">
+        <ResortHeader resort={resort} />
+        <CCard className="resort__description-card mb-4">
+          <CCardHeader>
+            <h3 className="resort__description-title h6">
+              <FormattedMessage
+                id="shredindex.resort.DESCRIPTION"
+                defaultMessage="Description"
+              />
+            </h3>
+          </CCardHeader>
+          <CCardBody>
+            <p className="resort__description-content mb-0">{description}</p>
+          </CCardBody>
+        </CCard>
+        <ResortRatings ratings={ratings} />
+        <Statistics statistics={numerics} generics={generics} />
+      </div>
+    </CContainer>
   );
 };
 

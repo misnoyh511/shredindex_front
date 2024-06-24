@@ -3,13 +3,14 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CProgress,
+  CCol,
   CRow,
   CListGroup, CListGroupItem,
 } from '@coreui/react';
 
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import Statistic from '../Statistic/Statistic';
 
 const Statistics = (props) => {
   const { statistics, generics } = props;
@@ -25,23 +26,36 @@ const Statistics = (props) => {
         </CCardHeader>
         <CCardBody>
           <CListGroup>
-            {statistics.map(({
-              id, title, value,
-            }) => (
-              <CListGroupItem key={id} className="justify-content-between">
-                <CRow>
-                  <div className="statistic__label col-5">
-                    {title}
+            <CListGroupItem className="justify-content-between">
+              <CRow>
+                <CCol xxl={6} xl={6}>
+                  <div className="numeric-list">
+                    <div className="numeric-list__list">
+                      {statistics.map(({
+                        id,
+                        title,
+                        value,
+                        max_value,
+                        unit,
+                      }) => (
+                        <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
+                          <Statistic
+                            title={title}
+                            statistic={value}
+                            maxValue={max_value}
+                            unit={unit}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="col-7 progress-group-bars statistic__value">
-                    <CProgress color="success" value={value} />
-                    {value}
-                  </div>
-                </CRow>
-              </CListGroupItem>
-            ))}
+                </CCol>
+              </CRow>
+            </CListGroupItem>
             {generics.map(({
-              id, title, value,
+              id,
+              title,
+              value,
             }) => (
               <CListGroupItem key={id} className="justify-content-between">
                 <CRow>

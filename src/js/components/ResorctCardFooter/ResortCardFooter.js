@@ -41,18 +41,17 @@ ResortFetchingLink.propTypes = {
 };
 
 /**
- * @param url The resort's relative URL e.g /resorts/resort-url-segment
  * @param urlSegment The resort's URL segment
  * @param collapsed
  * @return {JSX.Element}
  * @constructor
  */
-const ResortCardFooter = ({ url, urlSegment, collapsed }) => (
+const ResortCardFooter = ({ urlSegment, collapsed }) => (
   <div className="resort-card__footer d-flex justify-content-between">
     <div className="resort-card__expand">
       <CIcon icon={cilChevronBottom} />
     </div>
-    <ResortFetchingLink to={url} resortUrlSegment={urlSegment} className="resort-card__resort-link">
+    <ResortFetchingLink to={urlSegment} resortUrlSegment={urlSegment} className="resort-card__resort-link">
       <div className="resort-card__go-to-resort-button">
         <span className="resort-card__go-to-resort-text me-2 user-select-none">
           {collapsed ? null : (
@@ -66,7 +65,6 @@ const ResortCardFooter = ({ url, urlSegment, collapsed }) => (
 );
 
 ResortCardFooter.propTypes = {
-  url: PropTypes.string.isRequired,
   urlSegment: PropTypes.string.isRequired,
   collapsed: PropTypes.bool.isRequired,
 };

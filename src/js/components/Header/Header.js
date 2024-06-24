@@ -12,7 +12,7 @@ import ViewContext from '../ViewContext/ViewContext';
 const Header = () => {
   const { showSidebar, setShowSidebar } = useContext(ViewContext);
   return (
-    <CHeader className="header mb-4">
+    <CHeader className="header">
       <CContainer fluid className="header__container-main">
         <CHeaderToggler
           className="header__toggler ps-1 d-md-none"

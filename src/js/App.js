@@ -1,4 +1,3 @@
-import { CContainer } from '@coreui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
 import { RecoilRoot } from 'recoil';
@@ -48,9 +47,7 @@ const App = ({ suspenseQuery }) => {
                   <Header />
                   <div className="body flex-grow-1">
                     <main className="c-main">
-                      <CContainer>
-                        <DynamicSwitch />
-                      </CContainer>
+                      <DynamicSwitch />
                     </main>
                   </div>
                   <SupportBanner />
