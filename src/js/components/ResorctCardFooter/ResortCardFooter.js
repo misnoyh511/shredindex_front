@@ -41,7 +41,6 @@ ResortFetchingLink.propTypes = {
 };
 
 /**
- * @param url The resort's relative URL e.g /resorts/resort-url-segment
  * @param urlSegment The resort's URL segment
  * @param collapsed
  * @return {JSX.Element}
@@ -66,7 +65,6 @@ const ResortCardFooter = ({ urlSegment, collapsed }) => (
 );
 
 ResortCardFooter.propTypes = {
-  url: PropTypes.string.isRequired,
   urlSegment: PropTypes.string.isRequired,
   collapsed: PropTypes.bool.isRequired,
 };
