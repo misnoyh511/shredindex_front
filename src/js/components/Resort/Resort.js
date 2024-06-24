@@ -76,7 +76,7 @@ const Resort = () => {
   return (
     <CContainer>
       <div className="resort">
-        <ResortHeader resort={resort}/>
+        <ResortHeader resort={resort} />
         <CCard className="resort__description-card mb-4">
           <CCardHeader>
             <h3 className="resort__description-title h6">
@@ -90,8 +90,8 @@ const Resort = () => {
             <p className="resort__description-content mb-0">{description}</p>
           </CCardBody>
         </CCard>
-        <ResortRatings ratings={ratings}/>
-        <Statistics statistics={numerics} generics={generics}/>
+        <ResortRatings ratings={ratings} />
+        <Statistics statistics={numerics} generics={generics} />
       </div>
     </CContainer>
   );

@@ -1,4 +1,3 @@
-import { CContainer } from '@coreui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
 import { RecoilRoot } from 'recoil';

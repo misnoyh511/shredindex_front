@@ -47,7 +47,7 @@ ResortFetchingLink.propTypes = {
  * @return {JSX.Element}
  * @constructor
  */
-const ResortCardFooter = ({  urlSegment, collapsed }) => (
+const ResortCardFooter = ({ urlSegment, collapsed }) => (
   <div className="resort-card__footer d-flex justify-content-between">
     <div className="resort-card__expand">
       <CIcon icon={cilChevronBottom} />
