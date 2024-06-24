@@ -61,7 +61,6 @@ describe('Resort', () => {
 
   it('Statistic should have a value', () => {
     cy.get('.rating__number-big').should('contain', '76');
-    });
   });
 
   it('Should render a numeric "Average Annual Snowfall"', () => {
@@ -71,16 +70,14 @@ describe('Resort', () => {
 
   it('Should render a numeric value "Average Annual Snowfall"', () => {
     cy.get('.statistic__number-big').should('contain', '10');
-    });
   });
 
   it('Should render a generic "Snow Making"', () => {
-    cy.get('.generic__label')
-      .should('contain', 'Snow Making');
+    cy.get('.generic__label').should('contain', 'Snow Making');
   });
 
   it('Should render a generic', () => {
-    cy.get('.generic__value')
-      .should('contain.text', 'true');
+    cy.get('.generic__value').should('contain.text', 'true');
   });
 });
+
