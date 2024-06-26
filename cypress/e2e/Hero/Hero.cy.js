@@ -9,7 +9,7 @@ describe('Hero', () => {
       cy.get('.hero').should('exist');
 
       // Check if the correct heading text is displayed
-      cy.get('.hero__heading h1').should('contain.text', 'Live your best adventure lifestyle.');
+      cy.get('.hero__heading h1').should('contain.text', 'Live your best adventure lifestyle');
 
       // Check if the Explore resorts button exists and has correct text
       cy.get('.button-group .btn').contains('Explore resorts').should('exist');

@@ -17,7 +17,7 @@
     max-width: 300px;
   }
 
-  &__wrap{
+  &__wrap {
     max-width: 67.5rem;
     width: 36rem;
     background: $gray-400 !important;
@@ -69,7 +69,7 @@
     font-size: small;
   }
 
-  &__description, &__description--not-available, &__content-2{
+  &__description, &__description--not-available, &__content-2 {
     opacity: 0;
     max-height: 0;
     transition-duration: $card-animation-transition-time;
@@ -164,8 +164,9 @@
   }
 
   &__resort-link {
-    &:hover{
+    &:hover {
       color: $white;
+
       &:after {
         background: $warning-dark;
       }
@@ -187,7 +188,10 @@
   }
 
   &__image-carousel {
+    width: 50%;
     height: 8.25rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
 
     .flickity-viewport {
       height: 100%
@@ -361,6 +365,26 @@
     border-left: solid $danger 2px;
     border-radius: $border-radius-lg;
     background-color: $gray-300;
+  }
+
+  // Resort Card Mini
+  &-mini {
+    max-width: 23rem;
+    width: 100%;
+
+    .resort-card__sub-ratings-list {
+      width: 100%;
+    }
+    .resort-card__image-carousel {
+      width: 100%;
+      height: 12.25rem;
+      margin-left: 0;
+      margin-bottom: 0;
+    }
+
+    .resort-card__wrap {
+      width: unset;
+    }
   }
 }
 
