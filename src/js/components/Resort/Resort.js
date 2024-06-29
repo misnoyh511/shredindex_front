@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { FormattedMessage } from 'react-intl';
 import { useParams } from 'react-router';
 import {
-  CCard, CCardBody, CCardHeader, CContainer,
+  CCard, CCardBody, CCardHeader, CCol, CContainer, CRow,
 } from '@coreui/react';
 import ResortHeader from '../ResortHeader/ResortHeader';
 import ResortRatings from '../ResortRatings/ResortRatings';
@@ -35,16 +35,23 @@ query ResortByURLSegment($url_segment: String!) {
       id
       title
       value
+      name
     }
     numerics {
       id
       title
       value
+      name
+      type {
+        unit
+        max_value
+      }
     }
     generics {
       id
       title
       value
+      name
     }
   }
 }
@@ -77,21 +84,31 @@ const Resort = () => {
     <CContainer>
       <div className="resort">
         <ResortHeader resort={resort} />
-        <CCard className="resort__description-card mb-4">
-          <CCardHeader>
-            <h3 className="resort__description-title h6">
-              <FormattedMessage
-                id="shredindex.resort.DESCRIPTION"
-                defaultMessage="Description"
-              />
-            </h3>
-          </CCardHeader>
-          <CCardBody>
-            <p className="resort__description-content mb-0">{description}</p>
-          </CCardBody>
-        </CCard>
-        <ResortRatings ratings={ratings} />
-        <Statistics statistics={numerics} generics={generics} />
+        <CRow>
+          <CCol lg={6}>
+            <CCard className="resort__description-card mb-4">
+              <CCardHeader>
+                <h3 className="resort__description-title h6">
+                  <FormattedMessage
+                    id="shredindex.resort.DESCRIPTION"
+                    defaultMessage="Description"
+                  />
+                </h3>
+              </CCardHeader>
+              <CCardBody>
+                <p className="resort__description-content mb-0">{description}</p>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCol lg={6}>
+            <ResortRatings ratings={ratings} />
+          </CCol>
+          <CCol lg={6}>
+            <Statistics statistics={numerics} generics={generics} />
+          </CCol>
+        </CRow>
       </div>
     </CContainer>
   );

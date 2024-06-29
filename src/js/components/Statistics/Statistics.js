@@ -11,6 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Statistic from '../Statistic/Statistic';
+import getUnit from '../../hooks/getUnit';
 
 const Statistics = (props) => {
   const { statistics, generics } = props;
@@ -18,57 +19,54 @@ const Statistics = (props) => {
     <div className="statistics">
       <CCard className="statistics__card mb-4">
         <CCardHeader>
-          <FormattedMessage
-            className="h6"
-            id="shredindex.statistic.STATISTICS"
-            defaultMessage="Statistics"
-          />
+          <h2>
+            <FormattedMessage
+              className="h6"
+              id="shredindex.statistic.STATISTICS"
+              defaultMessage="Statistics"
+            />
+          </h2>
         </CCardHeader>
         <CCardBody>
-          <CListGroup>
-            <CListGroupItem className="justify-content-between">
-              <CRow>
-                <CCol xxl={6} xl={6}>
-                  <div className="numeric-list">
-                    <div className="numeric-list__list">
-                      {statistics.map(({
-                        id,
-                        title,
-                        value,
-                        max_value,
-                        unit,
-                      }) => (
-                        <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
-                          <Statistic
-                            title={title}
-                            statistic={value}
-                            maxValue={max_value}
-                            unit={unit}
-                          />
-                        </div>
-                      ))}
+          <CRow>
+            <CCol xxl={6} xl={6}>
+              <div className="numeric-list">
+                <div className="numeric-list__list">
+                  {statistics.map(({
+                    id,
+                    title,
+                    value,
+                    name,
+                    type,
+                  }) => (
+                    <div key={id} className="numeric-list__numeric mb-3 me-1 w-100">
+                      <Statistic
+                        title={title}
+                        name={name}
+                        statistic={value}
+                        maxValue={type.max_value}
+                        unit={getUnit({ unit: type.unit })}
+                      />
                     </div>
-                  </div>
-                </CCol>
-              </CRow>
-            </CListGroupItem>
-            {generics.map(({
-              id,
-              title,
-              value,
-            }) => (
-              <CListGroupItem key={id} className="justify-content-between">
-                <CRow>
-                  <div className="generic__label col-5">
-                    {title}
-                  </div>
-                  <div className="col-7" color="primary">
-                    <p className="generic__value mb-0">{value}</p>
-                  </div>
-                </CRow>
-              </CListGroupItem>
-            ))}
-          </CListGroup>
+                  ))}
+                </div>
+              </div>
+            </CCol>
+          </CRow>
+          {generics.map(({
+            id,
+            title,
+            value,
+          }) => (
+            <CRow key={id}>
+              <div className="generic__label col-5">
+                {title}
+              </div>
+              <div className="col-7" color="primary">
+                <p className="generic__value mb-0">{value}</p>
+              </div>
+            </CRow>
+          ))}
         </CCardBody>
       </CCard>
     </div>
