@@ -12,7 +12,7 @@ import Home from './pages/Home/Home';
 import Resort from './pages/Resort/Resort';
 import Resorts from './pages/Resorts/Resorts';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
-import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions'
+import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
 import SidebarNav from './components/SidebarNav/SidebarNav';
 import SupportBanner from './components/SupportBanner/SupportBanner';
 import ViewContext from './components/ViewContext/ViewContext';

@@ -7,11 +7,12 @@ import {
   CCardBody,
   CCardHeader,
   CListGroup,
-  CListGroupItem
+  CListGroupItem,
 } from '@coreui/react';
 import ResortsParallaxBackground from '../../components/ResortsParallaxBackground/ResortsParallaxBackground';
 
 const PrivacyPolicy = () => (
+  /* eslint-disable max-len */
   <CContainer>
     <ResortsParallaxBackground />
     <CRow className="row justify-content-md-center mt-4">
@@ -75,10 +76,26 @@ const PrivacyPolicy = () => (
           <CCardBody>
             <p>We rely on the following legal bases to process your personal information:</p>
             <CListGroup flush>
-              <CListGroupItem><strong>Consent:</strong> You have given your consent for processing your personal data for one or more specific purposes.</CListGroupItem>
-              <CListGroupItem><strong>Contract:</strong> Processing is necessary for the performance of a contract with you or to take steps at your request before entering into a contract.</CListGroupItem>
-              <CListGroupItem><strong>Legal Obligation:</strong> Processing is necessary for compliance with a legal obligation to which we are subject.</CListGroupItem>
-              <CListGroupItem><strong>Legitimate Interests:</strong> Processing is necessary for our legitimate interests, provided your interests and fundamental rights do not override those interests.</CListGroupItem>
+              <CListGroupItem>
+                <strong>Consent:</strong>
+                {' '}
+                You have given your consent for processing your personal data for one or more specific purposes.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>Contract:</strong>
+                {' '}
+                Processing is necessary for the performance of a contract with you or to take steps at your request before entering into a contract.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>Legal Obligation:</strong>
+                {' '}
+                Processing is necessary for compliance with a legal obligation to which we are subject.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>Legitimate Interests:</strong>
+                {' '}
+                Processing is necessary for our legitimate interests, provided your interests and fundamental rights do not override those interests.
+              </CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -96,7 +113,7 @@ const PrivacyPolicy = () => (
             <p>We do not sell, trade, or otherwise transfer your personal information to outside parties except as described below:</p>
             <CListGroup flush>
               <CListGroupItem>To trusted third parties who assist us in operating our website, conducting our business, or providing services to you, as long as those parties agree to keep this information confidential and comply with data protection laws.</CListGroupItem>
-              <CListGroupItem>To comply with legal obligations, enforce our site policies, or protect our or others' rights, property, or safety.</CListGroupItem>
+              <CListGroupItem>To comply with legal obligations, enforce our site policies, or protect our or others&apos; rights, property, or safety.</CListGroupItem>
             </CListGroup>
           </CCardBody>
         </CCard>
@@ -106,12 +123,36 @@ const PrivacyPolicy = () => (
           <CCardBody>
             <p>You have the following rights regarding your personal information:</p>
             <CListGroup flush>
-              <CListGroupItem><strong>The right to access:</strong> You have the right to request copies of your personal data.</CListGroupItem>
-              <CListGroupItem><strong>The right to rectification:</strong> You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.</CListGroupItem>
-              <CListGroupItem><strong>The right to erasure:</strong> You have the right to request that we erase your personal data, under certain conditions.</CListGroupItem>
-              <CListGroupItem><strong>The right to restrict processing:</strong> You have the right to request that we restrict the processing of your personal data, under certain conditions.</CListGroupItem>
-              <CListGroupItem><strong>The right to object to processing:</strong> You have the right to object to our processing of your personal data, under certain conditions.</CListGroupItem>
-              <CListGroupItem><strong>The right to data portability:</strong> You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to access:</strong>
+                {' '}
+                You have the right to request copies of your personal data.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to rectification:</strong>
+                {' '}
+                You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to erasure:</strong>
+                {' '}
+                You have the right to request that we erase your personal data, under certain conditions.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to restrict processing:</strong>
+                {' '}
+                You have the right to request that we restrict the processing of your personal data, under certain conditions.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to object to processing:</strong>
+                {' '}
+                You have the right to object to our processing of your personal data, under certain conditions.
+              </CListGroupItem>
+              <CListGroupItem>
+                <strong>The right to data portability:</strong>
+                {' '}
+                You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.
+              </CListGroupItem>
             </CListGroup>
             <p className="mt-3">If you make a request, we have one month to respond to you. To exercise any of these rights, please contact us at tom@shredindex.com.</p>
           </CCardBody>
@@ -139,7 +180,7 @@ const PrivacyPolicy = () => (
         </CCard>
 
         <CCard className="mb-4">
-          <CCardHeader><h2>11. Children's Privacy</h2></CCardHeader>
+          <CCardHeader><h2>11. Children&apos;s Privacy</h2></CCardHeader>
           <CCardBody>
             <p>Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe that your child has provided us with personal information, please contact us immediately.</p>
           </CCardBody>
@@ -148,7 +189,7 @@ const PrivacyPolicy = () => (
         <CCard className="mb-4">
           <CCardHeader><h2>12. Changes to This Privacy Policy</h2></CCardHeader>
           <CCardBody>
-            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Effective Date" at the top of this Privacy Policy. You are advised to review this Privacy Policy periodically for any changes.</p>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the `&quot;Effective Date`&quot; at the top of this Privacy Policy. You are advised to review this Privacy Policy periodically for any changes.</p>
           </CCardBody>
         </CCard>
 

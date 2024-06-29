@@ -10,6 +10,7 @@ import {
 import ResortsParallaxBackground from '../../components/ResortsParallaxBackground/ResortsParallaxBackground';
 
 const TermsAndConditions = () => (
+  /* eslint-disable max-len */
   <CContainer>
     <ResortsParallaxBackground />
     <CRow className="row justify-content-md-center mt-4">
@@ -19,7 +20,7 @@ const TermsAndConditions = () => (
         <CCard className="mb-4">
           <CCardHeader><h2>1. Introduction</h2></CCardHeader>
           <CCardBody>
-            <p>Welcome to ShredIndex. These terms and conditions outline the rules and regulations for the use of ShredIndex's website, located at https://shredindex.com.</p>
+            <p>Welcome to ShredIndex. These terms and conditions outline the rules and regulations for the use of ShredIndex&apos;s website, located at https://shredindex.com.</p>
             <p>By accessing this website, we assume you accept these terms and conditions. Do not continue to use ShredIndex if you do not agree to all of the terms and conditions stated on this page.</p>
           </CCardBody>
         </CCard>
