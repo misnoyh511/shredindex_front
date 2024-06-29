@@ -2,7 +2,7 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
-import ResortComponent, { QUERY_RESORT } from '../../js/components/Resort/Resort';
+import ResortComponent, { QUERY_RESORT } from '../../js/pages/Resort/Resort';
 import NoCacheMockedProvider
   from '../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
 import langEn from '../../js/lang/en.json';
