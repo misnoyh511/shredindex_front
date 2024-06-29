@@ -1,7 +1,7 @@
 import React from 'react';
 import { CContainer } from '@coreui/react';
-import RankedResortList from '../RankedResortList/RankedResortList';
-import ResortsParallaxBackground from '../ResortsParallaxBackground/ResortsParallaxBackground';
+import RankedResortList from '../../components/RankedResortList/RankedResortList';
+import ResortsParallaxBackground from '../../components/ResortsParallaxBackground/ResortsParallaxBackground';
 
 const Resorts = () => (
   <CContainer>

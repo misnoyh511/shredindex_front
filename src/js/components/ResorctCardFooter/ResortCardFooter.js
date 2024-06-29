@@ -6,7 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import queryCMSPage from '../../utility/query-cms-page';
-import { QUERY_RESORT } from '../Resort/Resort';
+import { QUERY_RESORT } from '../../pages/Resort/Resort';
 
 const ResortFetchingLink = ({
   to, resortUrlSegment, className, children,
