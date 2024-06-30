@@ -6,10 +6,10 @@ import { useParams } from 'react-router';
 import {
   CCard, CCardBody, CCardHeader, CCol, CContainer, CRow,
 } from '@coreui/react';
-import ResortHeader from '../ResortHeader/ResortHeader';
-import ResortRatings from '../ResortRatings/ResortRatings';
-import ResortNumerics from '../ResortNumerics/ResortNumerics';
-import ResortSkeleton from '../SkeletonState/ResortSkeleton';
+import ResortHeader from '../../components/ResortHeader/ResortHeader';
+import ResortRatings from '../../components/ResortRatings/ResortRatings';
+import Statistics from '../../components/Statistics/Statistics';
+import ResortSkeleton from '../../components/SkeletonState/ResortSkeleton';
 import ResortGenerics from '../ResortGenerics/ResortGenerics';
 
 export const QUERY_RESORT = gql`
