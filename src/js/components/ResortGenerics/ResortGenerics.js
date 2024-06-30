@@ -5,13 +5,12 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CListGroup, CListGroupItem,
 } from '@coreui/react';
 
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import Statistic from '../Statistic/Statistic';
-import getUnit from '../../hooks/getUnit';
+import CIcon from '@coreui/icons-react';
+import { cil3d, cilCheck } from '@coreui/icons';
 
 const ResortGenerics = ({generics}) => {
   return (
@@ -26,28 +25,20 @@ const ResortGenerics = ({generics}) => {
           </h3>
         </CCardHeader>
         <CCardBody>
-          <CRow>
-            <CCol xxl={6} xl={6}>
-              <div className="numeric-list">
-                <div className="numeric-list__list">
-                  {generics.map(({
-                    id,
-                    title,
-                    value,
-                  }) => (
-                    <CRow key={id}>
-                      <div className="generic__label col-5">
-                        {title}
-                      </div>
-                      <div className="col-7" color="primary">
-                        <p className="generic__value mb-0">{value}</p>
-                      </div>
-                    </CRow>
-                  ))}
-                </div>
-              </div>
-            </CCol>
-          </CRow>
+            {generics.map(({
+              id,
+              title,
+              value,
+            }) => (
+              <CRow>
+                <CCol key={id} xxl={1} xl={1}>
+                  {value === 'yes' ? <CIcon icon={cilCheck} size="md" /> : <CIcon icon={cil3d} size="md" />}
+                </CCol>
+                <CCol key={id} xxl={11} xl={11}>
+                  {title}
+                </CCol>
+              </CRow>
+            ))}
         </CCardBody>
       </CCard>
     </div>

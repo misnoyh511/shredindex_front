@@ -8,9 +8,11 @@ import {
 } from '@coreui/react';
 import ResortHeader from '../../components/ResortHeader/ResortHeader';
 import ResortRatings from '../../components/ResortRatings/ResortRatings';
-import Statistics from '../../components/Statistics/Statistics';
+import ResortNumerics from '../../components/ResortNumerics/ResortNumerics';
 import ResortSkeleton from '../../components/SkeletonState/ResortSkeleton';
-import ResortGenerics from '../ResortGenerics/ResortGenerics';
+import ResortGenerics from '../../components/ResortGenerics/ResortGenerics';
+import ResortsParallaxBackground
+  from '../../components/ResortsParallaxBackground/ResortsParallaxBackground';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -83,6 +85,7 @@ const Resort = () => {
 
   return (
     <CContainer>
+      <ResortsParallaxBackground />
       <div className="resort mt-2">
         <ResortHeader resort={resort} />
         <CRow>
