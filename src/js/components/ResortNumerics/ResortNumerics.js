@@ -5,27 +5,23 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CListGroup, CListGroupItem,
 } from '@coreui/react';
-
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Statistic from '../Statistic/Statistic';
 import getUnit from '../../hooks/getUnit';
 
-const Statistics = (props) => {
-  const { statistics, generics } = props;
+const ResortNumerics = ({statistics}) => {
   return (
     <div className="statistics">
       <CCard className="statistics__card mb-4">
         <CCardHeader>
-          <h2>
+          <h3>
             <FormattedMessage
-              className="h6"
               id="shredindex.statistic.STATISTICS"
               defaultMessage="Statistics"
             />
-          </h2>
+          </h3>
         </CCardHeader>
         <CCardBody>
           <CRow>
@@ -53,20 +49,6 @@ const Statistics = (props) => {
               </div>
             </CCol>
           </CRow>
-          {generics.map(({
-            id,
-            title,
-            value,
-          }) => (
-            <CRow key={id}>
-              <div className="generic__label col-5">
-                {title}
-              </div>
-              <div className="col-7" color="primary">
-                <p className="generic__value mb-0">{value}</p>
-              </div>
-            </CRow>
-          ))}
         </CCardBody>
       </CCard>
     </div>
@@ -82,9 +64,8 @@ const StatisticGenericType = PropTypes.shape({
   ]).isRequired,
 });
 
-Statistics.propTypes = {
+ResortNumerics.propTypes = {
   statistics: PropTypes.arrayOf(StatisticGenericType).isRequired,
-  generics: PropTypes.arrayOf(StatisticGenericType).isRequired,
 };
 
-export default Statistics;
+export default ResortNumerics;

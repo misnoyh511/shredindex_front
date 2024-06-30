@@ -8,8 +8,9 @@ import {
 } from '@coreui/react';
 import ResortHeader from '../ResortHeader/ResortHeader';
 import ResortRatings from '../ResortRatings/ResortRatings';
-import Statistics from '../Statistics/Statistics';
+import ResortNumerics from '../ResortNumerics/ResortNumerics';
 import ResortSkeleton from '../SkeletonState/ResortSkeleton';
+import ResortGenerics from '../ResortGenerics/ResortGenerics';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -82,13 +83,13 @@ const Resort = () => {
 
   return (
     <CContainer>
-      <div className="resort">
+      <div className="resort mt-2">
         <ResortHeader resort={resort} />
         <CRow>
-          <CCol lg={6}>
+          <CCol lg={8}>
             <CCard className="resort__description-card mb-4">
               <CCardHeader>
-                <h3 className="resort__description-title h6">
+                <h3 className="resort__description-title">
                   <FormattedMessage
                     id="shredindex.resort.DESCRIPTION"
                     defaultMessage="Description"
@@ -100,13 +101,16 @@ const Resort = () => {
               </CCardBody>
             </CCard>
           </CCol>
+          <CCol lg={4}>
+              <ResortGenerics generics={generics} />
+          </CCol>
         </CRow>
         <CRow>
-          <CCol lg={6}>
+          <CCol lg={8}>
             <ResortRatings ratings={ratings} />
           </CCol>
-          <CCol lg={6}>
-            <Statistics statistics={numerics} generics={generics} />
+          <CCol lg={4}>
+            <ResortNumerics statistics={numerics} />
           </CCol>
         </CRow>
       </div>

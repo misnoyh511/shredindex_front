@@ -17,11 +17,12 @@ const ResortRatings = ({ ratings }) => {
 
     <CCard className="resort-rating__card resort-ratings mb-4">
       <CCardHeader>
-        <FormattedMessage
-          className="h6"
-          id="shredindex.rating.RATINGS"
-          defaultMessage="Resort ratings"
-        />
+        <h3>
+          <FormattedMessage
+            id="shredindex.rating.RATINGS"
+            defaultMessage="Resort ratings"
+          />
+        </h3>
       </CCardHeader>
       <CCardBody>
         <CListGroup className="ratings-list">

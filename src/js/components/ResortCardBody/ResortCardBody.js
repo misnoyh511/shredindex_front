@@ -7,7 +7,7 @@ import RatingList from '../RatingList/RatingList';
 import ResortCardCommentCarousel from '../ResortCardCommentCarousel/ResortCardCommentCarousel';
 import ResortImageCarousel from '../ResortCardImageCarousel/ResortImageCarousel';
 import ResortCardLocation from '../ResortCardLocation/ResortCardLocation';
-import NumericList from '../StatisticList/NumericList';
+import NumericList from '../NumericList/NumericList';
 
 const isDifferentRatings = (a, b) => a.every(({ id }) => b.find((i) => i.id === id));
 
@@ -52,7 +52,7 @@ const ResortCardBody = ({
           <div className="w-100">
             <NumericList
               labelMessageId="shredindex.ratinglist.STATISTICS"
-              label="Statistics"
+              label="ResortGenerics"
               numerics={numerics}
             />
           </div>
