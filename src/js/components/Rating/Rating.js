@@ -52,6 +52,7 @@ const Rating = ({
 Rating.defaultProps = {
   rating: 0,
   ratingType: 'sub-rating',
+  name: null,
 };
 
 Rating.propTypes = {
