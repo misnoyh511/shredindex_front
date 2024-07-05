@@ -21,7 +21,7 @@ const Rating = ({
             {ratingInt}
           </span>
           <span className="rating__number-small strong user-select-none">
-            {isMax || `.${Number(ratingDecimal).toFixed(0) || '0'}`}
+            {isMax || `.${ratingDecimal ? Number(ratingDecimal).toFixed(0) : '0'}`}
           </span>
         </div>
       </div>
