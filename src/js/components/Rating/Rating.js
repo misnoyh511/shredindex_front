@@ -6,11 +6,10 @@ import getTypeIcon from '../../hooks/getTypeIcon';
 const Rating = ({
   name, title, rating, ratingType,
 }) => {
-  const roundedRating = Math.min(Number(rating), 99.9).toFixed(1);
-  const [ratingInt, ratingDecimal] = roundedRating.toString().split('.');
-  const styleSuffix = rating === 'n/a' ? 'na' : Math.min(Math.ceil(rating / 20) * 20, 100);
-  const isMax = rating >= 99.95 || rating === 'n/a';
-  const barWidth = `${Math.min(rating, 100)}%`;
+  const [ratingInt, ratingDecimal] = rating.toString().split('.');
+  const styleSuffix = rating === 'n/a' ? 'na' : Math.ceil(rating / 20) * 20;
+  const isMax = rating >= 100 || rating === 'n/a';
+  const barWidth = `${rating}%`;
 
   return (
     <div className={`rating rating--${ratingType}`}>
@@ -19,10 +18,10 @@ const Rating = ({
           <span
             className={`rating__number-big user-select-none ${isMax ? 'rating__is-100' : ''}`}
           >
-            {isMax ? '100' : ratingInt}
+            {ratingInt}
           </span>
           <span className="rating__number-small strong user-select-none">
-            {isMax ? '' : `.${ratingDecimal || '0'}`}
+            {isMax || `.${Number(ratingDecimal).toFixed(0) || '0'}`}
           </span>
         </div>
       </div>
@@ -52,7 +51,6 @@ const Rating = ({
 
 Rating.defaultProps = {
   rating: 0,
-  name: null,
   ratingType: 'sub-rating',
 };
 
