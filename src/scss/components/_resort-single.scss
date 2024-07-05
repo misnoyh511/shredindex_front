@@ -1,0 +1,49 @@
+.resort-single {
+  & .numeric-list__numeric {
+    padding: 1rem;
+    border-left: .25rem solid #245773;
+    background: #283c49;
+    border-radius: .5rem;
+    width: 14rem;
+  }
+
+  &__image-carousel {
+    height: 22rem;
+
+    .flickity-viewport {
+      height: 100%
+    }
+  }
+
+  & .card {
+    border-radius: $border-radius-lg;
+
+    & .resort-card__description-single-resort {
+      font-weight: 200;
+      font-size: .9rem;
+    }
+  }
+
+  & .resort-comments__card {
+    width: 12rem;
+    margin-right: 1rem;
+  }
+
+  & .back-button {
+    cursor: pointer;
+    background-color: #2b414d;
+    border-radius: 50%;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition-duration: .3s;
+
+    &:hover {
+      background-color: #1d2e39;
+    }
+  }
+}

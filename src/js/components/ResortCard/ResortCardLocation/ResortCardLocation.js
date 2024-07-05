@@ -1,8 +1,8 @@
 import { CImage } from '@coreui/react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import useResortFlagImage from '../../hooks/useResortFlagImage';
-import { locationType } from '../../types/types';
+import useResortFlagImage from '../../../hooks/useResortFlagImage';
+import { locationType } from '../../../types/types';
 
 const ResortCardLocation = ({ location }) => {
   const data = location || {

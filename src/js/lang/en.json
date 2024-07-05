@@ -66,12 +66,16 @@
     "shredindex.filterdescription.HAS_CROSS_COUNTRY_SKIING": "Discover if there are options for cross-country skiing.",
     "shredindex.filterdescription.NIGHT_SKIING": "Check if you can also enjoy the slopes at night.",
     "shredindex.resort.DESCRIPTION": "Description",
+    "shredindex.resort.MAP": "Map",
+    "shredindex.resort.IMAGES": "Images",
+    "shredindex.resort.RESORT_HAS_NO_IMAGES": "Visuals pending. The resort's beauty remains a delightful secret for now.",
     "shredindex.resort.LOCATION_UNKNOWN": "Location unknown",
     "shredindex.ratinglist.RATINGS": "Ratings",
     "shredindex.ratinglist.HIGHLIGHTS": "Highlights",
     "shredindex.ratinglist.LOWLIGHTS": "Lowlights",
     "shredindex.ratinglist.RESORT_IS_UNRATED": "Resort is unrated",
     "shredindex.commentcard.RESORT_HAS_NO_COMMENTS": "Resort has no comments",
+    "shredindex.commentcard.COMMENTS": "Comments",
     "shredindex.resortcard.GO_TO_RESORT": "Go To Resort",
     "shredindex.ratings.RATINGS": "Ratings",
     "shredindex.resortcarderror.TITLE": "Woah!!... Gnarly Crash",
@@ -79,5 +83,7 @@
     "shredindex.resortcarderror.ERRORMESSAGE": "There was an error loading the list of resorts.",
     "shredindex.resortcarderror.SUGGESTION": "Maybe try resetting the filters...",
     "shredindex.resortcarderror.SUGGESTIONTWO": "Or... go back to the homepage.",
-    "shredindex.statistics.STATISTICS": "Statistics"
+    "shredindex.statistics.STATISTICS": "Statistics",
+    "shredindex.statistics.KEYINSIGHTS": "Key insights",
+    "shredindex.generics.FEATURES": "Features"
 }

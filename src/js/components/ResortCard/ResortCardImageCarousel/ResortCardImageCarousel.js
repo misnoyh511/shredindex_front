@@ -1,11 +1,11 @@
 import React from 'react';
 import Flickity from 'react-flickity-component';
 import PropTypes from 'prop-types';
-import resortImagePlaceholder from '../../../images/resort-image-placeholder.svg';
-import { imageType } from '../../types/types';
-import flickityOptions from '../config/flickity-options';
+import resortImagePlaceholder from '../../../../images/resort-image-placeholder.svg';
+import { imageType } from '../../../types/types';
+import flickityOptions from '../../config/flickity-options';
 
-const ResortImageCarousel = ({ images }) => {
+const ResortCardImageCarousel = ({ images }) => {
   const options = {
     ...flickityOptions,
     prevNextButtons: images.length > 1,
@@ -33,8 +33,8 @@ const ResortImageCarousel = ({ images }) => {
   );
 };
 
-ResortImageCarousel.propTypes = {
+ResortCardImageCarousel.propTypes = {
   images: PropTypes.arrayOf(imageType).isRequired,
 };
 
-export default ResortImageCarousel;
+export default ResortCardImageCarousel;

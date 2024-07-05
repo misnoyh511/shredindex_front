@@ -4,9 +4,9 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
-import ResortCardFooter from '../ResorctCardFooter/ResortCardFooter';
-import ResortCardBody from '../ResortCardBody/ResortCardBody';
-import ResortCardHeader from '../ResortCardHeader/ResortCardHeader';
+import ResortCardFooter from './ResortCardFooter/ResortCardFooter';
+import ResortCardBody from './ResortCardBody/ResortCardBody';
+import ResortCardHeader from './ResortCardHeader/ResortCardHeader';
 
 const ResortCard = ({ resortData }) => {
   const [collapsed, setCollapsed] = useLocalStorageDrivenBooleanState('resortCollapsed', resortData.id);

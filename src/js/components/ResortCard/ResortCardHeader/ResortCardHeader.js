@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { resortAttributeType } from '../../types/types';
-import Rating from '../Rating/Rating';
+import { resortAttributeType } from '../../../types/types';
+import Rating from '../../Rating/Rating';
 
 const ResortCardHeader = ({ title, totalScore }) => (
   <div className="resort-card__header mb-3">

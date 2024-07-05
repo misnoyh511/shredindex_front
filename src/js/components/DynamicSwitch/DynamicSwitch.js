@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import DynamicLayout from '../DynamicLayout/DynamicLayout';
-import ResortCardError from '../ResortCardError/ResortCardError';
+import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
 
 /**
  * Restore the scroll everytime we change routes

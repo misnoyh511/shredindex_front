@@ -5,6 +5,7 @@ infrastructure
 .env
 .idea/
 debug.log
+privateKeys.js
 
 # Tests and coverage reports
 cypress.env.json

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Flickity from 'react-flickity-component';
-import { resortAttributeType } from '../../types/types';
-import Statistic from '../Statistic/Statistic';
-import flickityOptions from '../config/flickity-options';
-import getUnit from '../../hooks/getUnit';
+import { resortAttributeType } from '../../../types/types';
+import Statistic from '../../Statistic/Statistic';
+import flickityOptions from '../../config/flickity-options';
+import getUnit from '../../../hooks/getUnit';
 
-const NumericList = ({
-  numerics, label, labelMessageId,
+const ResortNumerics = ({
+  numerics,
 }) => {
   if (numerics?.length < 1) {
     return (
@@ -20,15 +20,16 @@ const NumericList = ({
 
   const options = {
     ...flickityOptions,
-    cellAlign: 'left',
     prevNextButtons: false,
+    contain: true,
+    cellAlign: 'left',
     pageDots: false,
   };
 
   return (
     <div className="numeric-list">
-      <div className="resort-card__small-label user-select-none mb-1">
-        <FormattedMessage id={labelMessageId} defaultMessage={label} />
+      <div className="h6 user-select-none mb-2">
+        <FormattedMessage id="shredindex.statistics.KEYINSIGHTS" defaultMessage="Key insights" />
       </div>
       <div className="numeric-list__list">
         <Flickity
@@ -39,7 +40,7 @@ const NumericList = ({
           reloadOnUpdate
           static
         >
-          {numerics.map(({
+          {numerics?.map(({
             id, title, name, value, type,
           }) => (
             <div key={id} className="numeric-list__numeric mb-3 me-2">
@@ -58,10 +59,8 @@ const NumericList = ({
   );
 };
 
-NumericList.propTypes = {
+ResortNumerics.propTypes = {
   numerics: PropTypes.arrayOf(resortAttributeType).isRequired,
-  label: PropTypes.string.isRequired,
-  labelMessageId: PropTypes.string.isRequired,
 };
 
-export default NumericList;
+export default ResortNumerics;
