@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { imageType } from '../../../types/types';
 import flickityOptions from '../../config/flickity-options';
+import resortImagePlaceholder from '../../../../images/resort-image-placeholder.svg';
 
 const ResortImageCarousel = ({ images }) => {
   const options = {
     ...flickityOptions,
-    prevNextButtons: images.length > 1,
+    isDraggable: true,
+    prevNextButtons: false,
+    contain: true,
+    pageDots: false,
     imagesLoaded: true,
-    pageDots: images.length > 1,
   };
 
   if (images.length < 1) {
@@ -23,25 +26,28 @@ const ResortImageCarousel = ({ images }) => {
 
   return (
     <div className="resort-single resort-single__image-carousel mb-4">
-      <div className="resort-card__small-label user-select-none mb-2">
+      <div className="h6 user-select-none mb-2">
         <FormattedMessage id="shredindex.resort.IMAGES" defaultMessage="Images" />
       </div>
       <Flickity
-        className="carousel w-100 h-100 gray-300-bg border-radius-medium mb-4"
+        className="carousel w-100 h-100 mb-4"
         elementType="div"
         options={options}
         disableImagesLoaded={false}
         reloadOnUpdate
         static
       >
-        {images.filter((img) => img.image?.path)
+        {images.length > 0 ? (images.filter((img) => img.image?.path)
           .map(({
             id,
-            alt,
             image,
           }) => (
-            <img key={id} className="carousel__image" src={image?.path} alt={alt} />
-          ))}
+            <div key={id} className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium">
+              <img className="carousel__image-item border-radius-medium" src={image?.path} alt={image?.alt} />
+            </div>
+          ))) : (
+          [<img key="1" className="carousel__image--no-images" src={resortImagePlaceholder} alt="shred-index-resort-placeholder" />]
+        )}
       </Flickity>
     </div>
   );

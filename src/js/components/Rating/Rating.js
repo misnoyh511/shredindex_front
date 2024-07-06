@@ -6,7 +6,7 @@ import getTypeIcon from '../../hooks/getTypeIcon';
 const Rating = ({
   name, title, rating, ratingType,
 }) => {
-  const [ratingInt, ratingDecimal] = rating.toString().split('.');
+  const [ratingInt, ratingDecimal] = rating.toFixed(1).toString().split('.');
   const styleSuffix = rating === 'n/a' ? 'na' : Math.ceil(rating / 20) * 20;
   const isMax = rating >= 100 || rating === 'n/a';
   const barWidth = `${rating}%`;
