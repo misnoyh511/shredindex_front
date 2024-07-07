@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  CCard, CCardBody, CCardHeader, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, CLink,
+  CCard, CCardBody, CCardHeader, CLink,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
-import CIcon from '@coreui/icons-react';
-import { cil4k, cilCopy, cilLink, cilPhone, cilShareAlt, cilX } from '@coreui/icons';
 import ResortCardHeader from '../../ResortCard/ResortCardHeader/ResortCardHeader';
 import ResortCardLocation from '../../ResortCard/ResortCardLocation/ResortCardLocation';
 import ShareButton from '../../ShareButton/ShareButton';

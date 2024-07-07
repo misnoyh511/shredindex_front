@@ -38,16 +38,17 @@ const ResortImageCarousel = ({ images }) => {
               <img className="carousel__image-item border-radius-medium" src={image?.path} alt={image?.alt} />
             </div>
           ))) : (
-          [<div
-            key={1}
-            className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium"
-          >
-            <img
-              className="carousel__image-item carousel__image--no-images"
-              src={resortImagePlaceholder}
-              alt="shred-index-resort-placeholder"
-            />
-          </div>,
+          [
+            <div
+              key={1}
+              className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium"
+            >
+              <img
+                className="carousel__image-item carousel__image--no-images"
+                src={resortImagePlaceholder}
+                alt="shred-index-resort-placeholder"
+              />
+            </div>,
           ]
         )}
       </Flickity>

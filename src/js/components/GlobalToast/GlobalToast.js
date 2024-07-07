@@ -1,6 +1,8 @@
 import React from 'react';
 import { atom, useRecoilValue } from 'recoil';
-import { CToast, CToastBody, CToastClose, CToaster } from '@coreui/react';
+import {
+  CToast, CToastBody, CToastClose, CToaster,
+} from '@coreui/react';
 
 export const toastState = atom({
   key: 'toastState',

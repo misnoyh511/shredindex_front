@@ -1,5 +1,3 @@
-import { cilShareAlt } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
 import React from 'react';
 import { CLink } from '@coreui/react';
 import { resortType } from '../../../types/types';

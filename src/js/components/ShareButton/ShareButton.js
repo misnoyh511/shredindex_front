@@ -7,6 +7,7 @@ import {
   cilCopy, cilShareAlt, cibFacebook, cibLinkedin, cibWhatsapp, cilX,
 } from '@coreui/icons';
 import { useSetRecoilState } from 'recoil';
+import PropTypes from 'prop-types';
 import { toastState } from '../GlobalToast/GlobalToast';
 
 const ShareButton = ({ title, resortUrl }) => {
@@ -75,6 +76,15 @@ const ShareButton = ({ title, resortUrl }) => {
       </CDropdownMenu>
     </CDropdown>
   );
+};
+
+ShareButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  resortUrl: PropTypes.string,
+};
+
+ShareButton.defaultProps = {
+  resortUrl: null,
 };
 
 export default ShareButton;
