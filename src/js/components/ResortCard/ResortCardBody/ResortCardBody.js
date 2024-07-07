@@ -8,11 +8,14 @@ import ResortCardCommentCarousel from '../ResortCardCommentCarousel/ResortCardCo
 import ResortCardImageCarousel from '../ResortCardImageCarousel/ResortCardImageCarousel';
 import ResortCardLocation from '../ResortCardLocation/ResortCardLocation';
 import NumericList from '../../NumericList/NumericList';
+import ShareButton from '../../ShareButton/ShareButton';
 
 const isDifferentRatings = (a, b) => a.every(({ id }) => b.find((i) => i.id === id));
 
 const ResortCardBody = ({
   resort: {
+    url,
+    title,
     affiliate_url,
     location,
     description,
@@ -42,9 +45,7 @@ const ResortCardBody = ({
           </div>
         )}
       </div>
-      <div className="resort-card__share-wrap me-2">
-        <CIcon icon={cilShareAlt} />
-      </div>
+      <ShareButton title={title} resortUrl={url} />
     </div>
     <div className="resort-card__content-wrap">
       {numerics?.length > 1 && (

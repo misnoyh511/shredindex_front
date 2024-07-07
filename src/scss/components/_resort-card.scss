@@ -92,6 +92,14 @@
     -webkit-line-clamp: 2;
   }
 
+  &__content-0 {
+    & .dropdown-toggle {
+      &:after {
+        display: none !important;
+      }
+    }
+  }
+
   &__share-wrap {
     cursor: pointer;
     margin: auto;

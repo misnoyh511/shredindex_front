@@ -14,15 +14,8 @@ const ResortImageCarousel = ({ images }) => {
     contain: true,
     pageDots: false,
     imagesLoaded: true,
+    cellAlign: 'left',
   };
-
-  if (images.length < 1) {
-    return (
-      <div className="h6 user-select-none mb-2">
-        <FormattedMessage id="shredindex.resort.RESORT_HAS_NO_IMAGES" defaultMessage="Visuals pending. The resort's beauty remains a delightful secret for now." />
-      </div>
-    );
-  }
 
   return (
     <div className="resort-single resort-single__image-carousel mb-4">
@@ -33,20 +26,29 @@ const ResortImageCarousel = ({ images }) => {
         className="carousel w-100 h-100 mb-4"
         elementType="div"
         options={options}
-        disableImagesLoaded={false}
+        disableImagesLoaded
         reloadOnUpdate
         static
       >
         {images.length > 0 ? (images.filter((img) => img.image?.path)
           .map(({
-            id,
             image,
           }) => (
-            <div key={id} className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium">
+            <div key={image.id} className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium">
               <img className="carousel__image-item border-radius-medium" src={image?.path} alt={image?.alt} />
             </div>
           ))) : (
-          [<img key="1" className="carousel__image--no-images" src={resortImagePlaceholder} alt="shred-index-resort-placeholder" />]
+          [<div
+            key={1}
+            className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium"
+          >
+            <img
+              className="carousel__image-item carousel__image--no-images"
+              src={resortImagePlaceholder}
+              alt="shred-index-resort-placeholder"
+            />
+          </div>,
+          ]
         )}
       </Flickity>
     </div>
