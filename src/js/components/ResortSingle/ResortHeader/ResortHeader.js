@@ -3,10 +3,9 @@ import {
   CCard, CCardBody, CCardHeader, CLink,
 } from '@coreui/react';
 import PropTypes from 'prop-types';
-import CIcon from '@coreui/icons-react';
-import { cilShareAlt } from '@coreui/icons';
 import ResortCardHeader from '../../ResortCard/ResortCardHeader/ResortCardHeader';
 import ResortCardLocation from '../../ResortCard/ResortCardLocation/ResortCardLocation';
+import ShareButton from '../../ShareButton/ShareButton';
 
 const ResortHeader = ({ resort }) => {
   const {
@@ -57,9 +56,7 @@ const ResortHeader = ({ resort }) => {
               </div>
             )}
           </div>
-          <div className="resort-card__share-wrap me-2">
-            <CIcon icon={cilShareAlt} />
-          </div>
+          <ShareButton title={title} />
         </div>
       </CCardBody>
     </CCard>

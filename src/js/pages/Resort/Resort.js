@@ -16,6 +16,7 @@ import ResortsParallaxBackground from '../../components/ResortsParallaxBackgroun
 import ResortMap from '../../components/ResortSingle/ResortMap/ResortMap';
 import ResortComments from '../../components/ResortSingle/ResortComments/ResortComments';
 import ResortImageCarousel from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarousel';
+import ResortCardError from '../../components/ResortCard/ResortCardError/ResortCardError';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -100,9 +101,25 @@ const Resort = () => {
     navigate(-1);
   };
 
-  if (loading || error) {
+  if (loading) {
     return (
-      <ResortSkeleton />
+      <CContainer>
+        <ResortsParallaxBackground />
+        <div className="resort resort-single mt-4">
+          <ResortSkeleton />
+        </div>
+      </CContainer>
+    );
+  }
+
+  if (error) {
+    return (
+      <CContainer>
+        <ResortsParallaxBackground />
+        <div className="resort resort-single mt-4">
+          <ResortCardError />
+        </div>
+      </CContainer>
     );
   }
 

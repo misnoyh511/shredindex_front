@@ -18,6 +18,7 @@ import SupportBanner from './components/SupportBanner/SupportBanner';
 import ViewContext from './components/ViewContext/ViewContext';
 import langEn from './lang/en.json';
 import About from './pages/About/About';
+import GlobalToast from './components/GlobalToast/GlobalToast';
 
 const t = {
   en: langEn,
@@ -52,6 +53,7 @@ const App = ({ suspenseQuery }) => {
                 <div className="wrapper d-flex flex-column min-vh-100">
                   <Header />
                   <div className="body flex-grow-1">
+                    <GlobalToast />
                     <main className="c-main">
                       <DynamicSwitch />
                     </main>
