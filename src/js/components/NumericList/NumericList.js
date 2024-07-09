@@ -31,7 +31,7 @@ const NumericList = ({
 
   return (
     <div className="numeric-list">
-      <div className="resort-card__small-label user-select-none">
+      <div className="resort-card__small-label user-select-none mb-1">
         <FormattedMessage id={labelMessageId} defaultMessage={label} />
       </div>
         {isMini ? (

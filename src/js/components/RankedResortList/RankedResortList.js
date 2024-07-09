@@ -7,7 +7,7 @@ import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
 import ResortCard from '../ResortCard/ResortCard';
 import Pagination, { paginationSize } from '../Pagination/Pagination';
-import ResortCardError from '../ResortCardError/ResortCardError';
+import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
 import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
 import RankedResortFilterMenu from '../RankedResortFilterMenu/RankedResortFilterMenu';
 import useQueryResorts from '../../hooks/useQueryResorts';

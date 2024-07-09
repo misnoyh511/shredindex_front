@@ -10,7 +10,7 @@ query Resorts($first: Int! $page: Int! $filter: Filter $orderBy: OrderBy){
     orderBy: $orderBy
   ) {
     data {
-      ratings {
+      ratingScores {
         name
         value
       }

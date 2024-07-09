@@ -2,12 +2,12 @@ import { cilShareAlt } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import React from 'react';
 import { CLink } from '@coreui/react';
-import { resortType } from '../../types/types';
-import RatingList from '../RatingList/RatingList';
+import { resortType } from '../../../types/types';
+import RatingList from '../../RatingList/RatingList';
 import ResortCardCommentCarousel from '../ResortCardCommentCarousel/ResortCardCommentCarousel';
-import ResortImageCarousel from '../ResortCardImageCarousel/ResortImageCarousel';
+import ResortCardImageCarousel from '../ResortCardImageCarousel/ResortCardImageCarousel';
 import ResortCardLocation from '../ResortCardLocation/ResortCardLocation';
-import NumericList from '../StatisticList/NumericList';
+import NumericList from '../../NumericList/NumericList';
 
 const isDifferentRatings = (a, b) => a.every(({ id }) => b.find((i) => i.id === id));
 
@@ -51,8 +51,8 @@ const ResortCardBody = ({
         <div className="resort-card__content-1 mb-2 d-flex">
           <div className="w-100">
             <NumericList
-              labelMessageId="shredindex.ratinglist.STATISTICS"
-              label="Statistics"
+              labelMessageId="shredindex.statistics.KEYINSIGHTS"
+              label="Key insights"
               numerics={numerics}
             />
           </div>
@@ -77,7 +77,7 @@ const ResortCardBody = ({
               />
             )}
         </div>
-        <ResortImageCarousel images={resort_images} />
+        <ResortCardImageCarousel images={resort_images} />
       </div>
       <div className="resort-card__content-2 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">

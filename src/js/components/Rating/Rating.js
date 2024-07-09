@@ -21,7 +21,7 @@ const Rating = ({
             {ratingInt}
           </span>
           <span className="rating__number-small strong user-select-none">
-            {isMax || `.${ratingDecimal || '0'}`}
+            {isMax || `.${ratingDecimal ? Number(ratingDecimal).toFixed(0) : '0'}`}
           </span>
         </div>
       </div>
@@ -52,10 +52,11 @@ const Rating = ({
 Rating.defaultProps = {
   rating: 0,
   ratingType: 'sub-rating',
+  name: null,
 };
 
 Rating.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   title: PropTypes.string.isRequired,
   rating: PropTypes.number,
   ratingType: PropTypes.string,

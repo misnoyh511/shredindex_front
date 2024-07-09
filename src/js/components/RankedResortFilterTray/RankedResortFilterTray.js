@@ -47,6 +47,20 @@ const RankedResortFilterTray = ({
     setFormData({ groupedType: noFilters, locationType: null });
   };
 
+  const handleScroll = (event) => {
+    localStorage.setItem('filterTrayScroll', event.target.scrollTop);
+  };
+
+  const setInitialScroll = (ref) => {
+    if (ref) {
+      const savedPosition = localStorage.getItem('filterTrayScroll');
+      if (savedPosition) {
+        // eslint-disable-next-line no-param-reassign
+        ref.scrollTop = parseInt(savedPosition, 10);
+      }
+    }
+  };
+
   if (!visible) return null;
 
   return (
@@ -65,7 +79,10 @@ const RankedResortFilterTray = ({
           />
         </CModalTitle>
       </CModalHeader>
-      <CModalBody>
+      <CModalBody
+        onScroll={handleScroll}
+        ref={setInitialScroll}
+      >
         <RankedResortFilters />
       </CModalBody>
       <CModalFooter className="justify-content-between">

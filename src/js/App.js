@@ -11,10 +11,13 @@ import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Resort from './pages/Resort/Resort';
 import Resorts from './pages/Resorts/Resorts';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
 import SidebarNav from './components/SidebarNav/SidebarNav';
 import SupportBanner from './components/SupportBanner/SupportBanner';
 import ViewContext from './components/ViewContext/ViewContext';
 import langEn from './lang/en.json';
+import About from './pages/About/About';
 
 const t = {
   en: langEn,
@@ -26,6 +29,9 @@ const layouts = {
   home: Home,
   resorts: Resorts,
   resort: Resort,
+  about: About,
+  privacy: PrivacyPolicy,
+  terms: TermsAndConditions,
 };
 
 const App = ({ suspenseQuery }) => {
