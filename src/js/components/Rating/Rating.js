@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import CIcon from '@coreui/icons-react';
 import getTypeIcon from '../../hooks/getTypeIcon';
+import isNumber from '../../utility/helperFunctions';
 
 const Rating = ({
   name, title, rating, ratingType,
 }) => {
-  const [ratingInt, ratingDecimal] = rating.toString().split('.');
+  const [ratingInt, ratingDecimal] = isNumber(rating) ? rating.toFixed(1).toString().split('.') : rating.toString().split('.');
   const styleSuffix = rating === 'n/a' ? 'na' : Math.ceil(rating / 20) * 20;
   const isMax = rating >= 100 || rating === 'n/a';
   const barWidth = `${rating}%`;
