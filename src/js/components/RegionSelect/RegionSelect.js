@@ -3,6 +3,13 @@ import { CImage } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { currentFilterState } from '../../hooks/useQueryTypes';
 import getContinent from '../../hooks/getContinent';
+import worldMap from '../../../images/continent-world-map-2d.svg';
+import asia from '../../../images/continent-asia-map-2d.svg';
+import oceania from '../../../images/continent-oceania-map-2d.svg';
+import southAmerica from '../../../images/continent-south-america-map-2d.svg';
+import northAmerica from '../../../images/continent-north-america-map-2d.svg';
+import europe from '../../../images/continent-europe-map-2d.svg';
+import africa from '../../../images/continent-africa-map-2d.svg';
 
 const RegionSelect = () => {
   const [formData, setFormData] = useRecoilState(currentFilterState);
@@ -39,7 +46,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320"
+              src={worldMap}
             />
           </div>
           <span>Worldwide</span>
@@ -58,7 +65,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320"
+              src={asia}
             />
           </div>
           <span>Asia</span>
@@ -77,7 +84,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320"
+              src={northAmerica}
             />
           </div>
           <span>North America</span>
@@ -96,7 +103,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg?im_w=320"
+              src={southAmerica}
             />
           </div>
           <span>South America</span>
@@ -115,7 +122,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://cdn.midjourney.com/721fd559-c265-449c-814d-78439b9973c8/0_1.webp"
+              src={europe}
             />
           </div>
           <span>Europe</span>
@@ -134,7 +141,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/im/pictures/42a1fb0f-214c-41ec-b9d7-135fbbdb8316.jpg?im_w=320"
+              src={oceania}
             />
           </div>
           <span>Oceania</span>
@@ -153,7 +160,7 @@ const RegionSelect = () => {
           <div className="region-image-wrap">
             <CImage
               className="region-image"
-              src="https://a0.muscache.com/im/pictures/42a1fb0f-214c-41ec-b9d7-135fbbdb8316.jpg?im_w=320"
+              src={africa}
             />
           </div>
           <span>Africa</span>
