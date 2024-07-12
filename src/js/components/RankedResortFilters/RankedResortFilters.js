@@ -95,6 +95,8 @@ const RankedResortFilters = () => {
         <FilterToggleButtonSkeleton />
         <FilterToggleButtonSkeleton />
         <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
+        <FilterToggleButtonSkeleton />
       </>
     );
   }

@@ -46,12 +46,19 @@ ResortFetchingLink.propTypes = {
  * @return {JSX.Element}
  * @constructor
  */
-const ResortCardFooter = ({ urlSegment, collapsed }) => (
+const ResortCardFooter = ({ urlSegment, collapsed, noCollapse }) => (
   <div className="resort-card__footer d-flex justify-content-between">
     <div className="resort-card__expand">
-      <CIcon icon={cilChevronBottom} />
+      {!noCollapse
+        && (
+        <CIcon icon={cilChevronBottom} />
+        )}
     </div>
-    <ResortFetchingLink to={urlSegment} resortUrlSegment={urlSegment} className="resort-card__resort-link">
+    <ResortFetchingLink
+      to={urlSegment}
+      resortUrlSegment={urlSegment}
+      className="resort-card__resort-link"
+    >
       <div className="resort-card__go-to-resort-button">
         <span className="resort-card__go-to-resort-text me-2 user-select-none">
           {collapsed ? null : (
@@ -64,9 +71,14 @@ const ResortCardFooter = ({ urlSegment, collapsed }) => (
   </div>
 );
 
+ResortCardFooter.defaultProps = {
+  noCollapse: false,
+};
+
 ResortCardFooter.propTypes = {
   urlSegment: PropTypes.string.isRequired,
   collapsed: PropTypes.bool.isRequired,
+  noCollapse: PropTypes.bool,
 };
 
 export default ResortCardFooter;

@@ -6,7 +6,7 @@ import { resortAttributeType } from '../../types/types';
 import Rating from '../Rating/Rating';
 
 const RatingList = ({
-  ratings, label, labelMessageId, affiliateUrl,
+  className, ratings, label, labelMessageId, affiliateUrl,
 }) => {
   if (ratings.length < 1) {
     return (
@@ -17,9 +17,9 @@ const RatingList = ({
   }
 
   return (
-    <div className="rating-list">
+    <div className={`rating-list ${className}`}>
       <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliateUrl}>
-        <div className="resort-card__small-label user-select-none">
+        <div className="resort-card__small-label user-select-none mb-2">
           <FormattedMessage id={labelMessageId} defaultMessage={label} />
         </div>
         <div className="rating-list__list-scroll">
@@ -36,7 +36,12 @@ const RatingList = ({
   );
 };
 
+RatingList.defaultProps = {
+  className: null,
+};
+
 RatingList.propTypes = {
+  className: PropTypes.string,
   ratings: PropTypes.arrayOf(resortAttributeType).isRequired,
   label: PropTypes.string.isRequired,
   labelMessageId: PropTypes.string.isRequired,

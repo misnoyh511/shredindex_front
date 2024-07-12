@@ -1,0 +1,42 @@
+.home-lifestyles {
+  &-title {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    color: #676262;
+
+    & .btn {
+      width: 6rem;
+    }
+
+    & .active {
+      color: white;
+    }
+
+    &__icon-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 6rem;
+    }
+  }
+}
+
+.home-ranked-resort-list {
+  & .card {
+    margin-bottom: unset;
+  }
+  & .resort-card {
+    max-width: 26rem;
+  }
+
+  & .rating-list {
+    width: 50%;
+  }
+}

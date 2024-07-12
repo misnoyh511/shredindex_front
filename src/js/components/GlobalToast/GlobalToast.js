@@ -15,14 +15,24 @@ const GlobalToast = () => {
   const toast = useRecoilValue(toastState);
 
   return (
-    <CToaster className="end-0" position="static">
-      {toast.visible && (
+    <div style={{
+      position: 'fixed',
+      display: 'block',
+      top: '2rem',
+      width: '100%',
+      right: '2rem',
+      zIndex: '9999',
+    }}
+    >
+      <CToaster className="end-0" position="sticky">
+        {toast.visible && (
         <CToast className="d-flex" color="secondary" visible>
           <CToastBody>{toast.message}</CToastBody>
           <CToastClose className="me-2 m-auto" />
         </CToast>
-      )}
-    </CToaster>
+        )}
+      </CToaster>
+    </div>
   );
 };
 

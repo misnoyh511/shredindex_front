@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CImage } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { currentFilterState } from '../../hooks/useQueryTypes';
-import getContinent from '../../hooks/getContinent';
+import { getContinent } from '../../hooks/getContinent';
 import worldMap from '../../../images/continent-world-map-2d.svg';
 import asia from '../../../images/continent-asia-map-2d.svg';
 import oceania from '../../../images/continent-oceania-map-2d.svg';
@@ -13,160 +13,91 @@ import africa from '../../../images/continent-africa-map-2d.svg';
 
 const RegionSelect = () => {
   const [formData, setFormData] = useRecoilState(currentFilterState);
-  const [region, setRegion] = useState(formData.locationType.continentId);
+  const [selectedContinents, setSelectedContinents] = useState([]);
+  const [initialLoading, setInitialLoading] = useState(true);
 
-  const handleChange = (value) => {
-    const selectedContinent = getContinent(value);
-
-    if (value === 'worldwide') {
-      setRegion(null);
-      setFormData({ groupedType: formData.groupedType, locationType: {} });
+  useEffect(() => {
+    if (formData.locationType.continentId) {
+      setSelectedContinents(formData.locationType.continentId);
     } else {
-      setRegion(selectedContinent.continent_id);
-      setFormData({
-        groupedType: formData.groupedType,
-        locationType:
-          { continentId: selectedContinent.continent_id },
-      });
+      setSelectedContinents([]);
     }
+    setInitialLoading(false); // Set initial loading to false once data is loaded
+  }, [formData.locationType]);
+
+  const handleChange = useCallback((value) => {
+    setSelectedContinents((prevContinents) => {
+      if (value === 'worldwide') {
+        setFormData((prevData) => ({
+          ...prevData,
+          locationType: {},
+        }));
+        return [];
+      }
+
+      let newContinents = [...prevContinents];
+
+      if (newContinents.includes(value)) {
+        newContinents = newContinents.filter((id) => id !== value);
+      } else {
+        newContinents.push(value);
+      }
+
+      setFormData((prevData) => ({
+        ...prevData,
+        locationType: newContinents.length === 0 ? {} : { continentId: newContinents },
+      }));
+
+      return newContinents;
+    });
+  }, [setFormData]);
+
+  const isSelected = (value) => selectedContinents.includes(value);
+
+  const isWorldwide = selectedContinents.length === 0 && !initialLoading;
+
+  const renderCheckbox = (id, value, image, label, loading) => {
+    const continentId = value === 'worldwide' ? value : getContinent(value).continent_id;
+    const checked = value === 'worldwide' ? isWorldwide : isSelected(continentId);
+
+    return (
+      <label htmlFor={id} key={id}>
+        <input
+          name="region"
+          id={id}
+          type="checkbox"
+          value={value}
+          checked={loading ? false : checked}
+          onChange={() => handleChange(continentId)}
+        />
+        <div className={`region-item ${checked ? 'selected' : ''}`}>
+          <div className="region-image-wrap">
+            <CImage
+              className="region-image"
+              src={image}
+            />
+          </div>
+          <span>{label}</span>
+        </div>
+      </label>
+    );
   };
 
   return (
     <div className="region-select">
-      <label htmlFor="worldwide">
-        <input
-          name="region"
-          id="worldwide"
-          type="radio"
-          value="worldwide"
-          checked={!region}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={worldMap}
-            />
-          </div>
-          <span>Worldwide</span>
-        </div>
-      </label>
-      <label htmlFor="asia">
-        <input
-          name="region"
-          id="asia"
-          type="radio"
-          value="AS"
-          checked={region === getContinent('AS').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={asia}
-            />
-          </div>
-          <span>Asia</span>
-        </div>
-      </label>
-      <label htmlFor="northAmerica">
-        <input
-          name="region"
-          id="northAmerica"
-          type="radio"
-          value="NA"
-          checked={region === getContinent('NA').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={northAmerica}
-            />
-          </div>
-          <span>North America</span>
-        </div>
-      </label>
-      <label htmlFor="southAmerica">
-        <input
-          name="region"
-          id="southAmerica"
-          type="radio"
-          value="SA"
-          checked={region === getContinent('SA').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={southAmerica}
-            />
-          </div>
-          <span>South America</span>
-        </div>
-      </label>
-      <label htmlFor="europe">
-        <input
-          name="region"
-          id="europe"
-          type="radio"
-          value="EU"
-          checked={region === getContinent('EU').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={europe}
-            />
-          </div>
-          <span>Europe</span>
-        </div>
-      </label>
-      <label htmlFor="oceania">
-        <input
-          name="region"
-          id="oceania"
-          type="radio"
-          value="OC"
-          checked={region === getContinent('OC').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={oceania}
-            />
-          </div>
-          <span>Oceania</span>
-        </div>
-      </label>
-      <label htmlFor="africa">
-        <input
-          name="region"
-          id="africa"
-          type="radio"
-          value="AF"
-          checked={region === getContinent('AF').continent_id}
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <div className="region-item">
-          <div className="region-image-wrap">
-            <CImage
-              className="region-image"
-              src={africa}
-            />
-          </div>
-          <span>Africa</span>
-        </div>
-      </label>
+      {initialLoading ? (
+        renderCheckbox('worldwide', 'worldwide', worldMap, 'Worldwide', true)
+      ) : (
+        renderCheckbox('worldwide', 'worldwide', worldMap, 'Worldwide')
+      )}
+      {renderCheckbox('asia', 'AS', asia, 'Asia')}
+      {renderCheckbox('northAmerica', 'NA', northAmerica, 'North America')}
+      {renderCheckbox('southAmerica', 'SA', southAmerica, 'South America')}
+      {renderCheckbox('europe', 'EU', europe, 'Europe')}
+      {renderCheckbox('oceania', 'OC', oceania, 'Oceania')}
+      {renderCheckbox('africa', 'AF', africa, 'Africa')}
     </div>
   );
 };
+
 export default RegionSelect;

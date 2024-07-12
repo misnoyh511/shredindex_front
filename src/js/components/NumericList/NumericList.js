@@ -6,9 +6,11 @@ import { resortAttributeType } from '../../types/types';
 import Statistic from '../Statistic/Statistic';
 import flickityOptions from '../config/flickity-options';
 import getUnit from '../../hooks/getUnit';
+import breakpoints from '../config/breakpoints';
+import useWindowDimensions from '../../hooks/getWindowDimensions';
 
 const NumericList = ({
-  numerics, label, labelMessageId,
+  isMini, numerics, label, labelMessageId,
 }) => {
   if (numerics?.length < 1) {
     return (
@@ -18,10 +20,12 @@ const NumericList = ({
     );
   }
 
+  const { width } = useWindowDimensions();
+
   const options = {
     ...flickityOptions,
     cellAlign: 'left',
-    prevNextButtons: false,
+    prevNextButtons: isMini && width < breakpoints.md,
     pageDots: false,
   };
 
@@ -40,9 +44,13 @@ const NumericList = ({
           static
         >
           {numerics.map(({
-            id, title, name, value, type,
+            id,
+            title,
+            name,
+            value,
+            type,
           }) => (
-            <div key={id} className="numeric-list__numeric mb-3 me-2">
+            <div key={id} className="numeric-list__numeric mb-3 me-3">
               <Statistic
                 title={title}
                 name={name}
@@ -58,7 +66,12 @@ const NumericList = ({
   );
 };
 
+NumericList.defaultProps = {
+  isMini: false,
+};
+
 NumericList.propTypes = {
+  isMini: PropTypes.bool,
   numerics: PropTypes.arrayOf(resortAttributeType).isRequired,
   label: PropTypes.string.isRequired,
   labelMessageId: PropTypes.string.isRequired,

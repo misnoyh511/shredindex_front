@@ -73,7 +73,7 @@ const DynamicSwitch = () => {
               suggestionId="shredindex.404error.SUGGESTION"
               suggestion="Maybe try heading back to the bunny slopes (homepage)..."
             />
-)}
+          )}
         />
       </Routes>
     </>
