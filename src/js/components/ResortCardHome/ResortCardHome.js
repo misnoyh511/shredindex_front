@@ -1,15 +1,16 @@
 import {
-  CCard, CCardBody, CCardHeader, CLink,
+  CCard, CCardBody, CCardFooter, CCardHeader, CLink,
 } from '@coreui/react';
 import PropTypes, { arrayOf } from 'prop-types';
 import React from 'react';
-import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
-import ResortCardHeader from '../ResortCardHeader/ResortCardHeader';
-import ResortImageCarousel from '../ResortCardImageCarousel/ResortImageCarousel';
-import ResortCardBodyMini from '../ResortCardBody/ResortCardBodyMini';
+import ResortCardHeader from '../ResortCard/ResortCardHeader/ResortCardHeader';
+import ResortImageCarousel from '../ResortCard/ResortCardImageCarousel/ResortCardImageCarousel';
 import { imageType } from '../../types/types';
+import ResortCardFooter from '../ResortCard/ResortCardFooter/ResortCardFooter';
+import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
+import ResortCardBodyHome from './ResortCardBodyHome';
 
-const ResortCardMini = ({ resortData }) => {
+const ResortCardHome = ({ resortData }) => {
   const [collapsed, setCollapsed] = useLocalStorageDrivenBooleanState('resortCollapsed', resortData.id);
 
   if (!resortData) {
@@ -17,14 +18,14 @@ const ResortCardMini = ({ resortData }) => {
   }
 
   const {
-    title, total_score, affiliate_url, resort_images,
+    title, total_score, url, affiliate_url, resort_images,
   } = resortData;
 
   return (
     <div className="resort-card resort-card-mini d-flex justify-content-center">
       <CCard className="full-expanded resort-card__wrap">
         <div>
-          <ResortImageCarousel images={resort_images} />
+          <ResortImageCarousel images={resort_images} showOneImage />
         </div>
         <CCardHeader className="resort-card__header-wrap pb-0">
           <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
@@ -32,14 +33,18 @@ const ResortCardMini = ({ resortData }) => {
           </CLink>
         </CCardHeader>
         <CCardBody className="resort-card__body-wrap pt-0 pb-0">
-          <ResortCardBodyMini resort={resortData} collapsed={!collapsed} />
+          <ResortCardBodyHome resort={resortData} collapsed={!collapsed} />
         </CCardBody>
+        {/* eslint-disable-next-line react/jsx-no-bind */}
+        <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setCollapsed(!collapsed)}>
+          <ResortCardFooter url={url} urlSegment={url} noCollapse />
+        </CCardFooter>
       </CCard>
     </div>
   );
 };
 
-ResortCardMini.propTypes = {
+ResortCardHome.propTypes = {
   resortData: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -52,4 +57,4 @@ ResortCardMini.propTypes = {
     affiliate_url: PropTypes.string.isRequired,
   }).isRequired,
 };
-export default ResortCardMini;
+export default ResortCardHome;

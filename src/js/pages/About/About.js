@@ -37,7 +37,7 @@ const About = () => (
           <CCardHeader><h2>What We Offer</h2></CCardHeader>
           <CCardBody>
             <ul>
-              <li>Comprehensive Resort Listings: Explore our extensive database of over 10,000 snow resorts worldwide.</li>
+              <li>Comprehensive Resort Listings: Explore our extensive database of over 6,000 snow resorts worldwide.</li>
               <li>Detailed Resort Information: Find information on snowfall, terrain, amenities, and more.</li>
               <li>User Reviews and Ratings: Read reviews and ratings from fellow snow enthusiasts.</li>
               <li>Expert Advice: Get tips and insights from our team of experts to make the most of your snow adventures.</li>

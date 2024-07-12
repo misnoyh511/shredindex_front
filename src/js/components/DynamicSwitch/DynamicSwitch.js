@@ -61,17 +61,19 @@ const DynamicSwitch = () => {
         ))}
         <Route
           path="*"
-          element={<ResortCardError
-            helpId="shredindex.404error.HELP"
-            help="Looks like you've skied off the map!"
-            titleId="shredindex.404error.TITLE"
-            title="Woah!!... Epic Wipeout"
-            errorName="404 Not Found"
-            errorMessageId="shredindex.404error.ERRORMESSAGE"
-            errorMessage="The page you're looking for has pulled a disappearing act."
-            suggestionId="shredindex.404error.SUGGESTION"
-            suggestion="Maybe try heading back to the bunny slopes (homepage)..."
-          />}
+          element={(
+            <ResortCardError
+              helpId="shredindex.404error.HELP"
+              help="Looks like you've skied off the map!"
+              titleId="shredindex.404error.TITLE"
+              title="Woah!!... Epic Wipeout"
+              errorName="404 Not Found"
+              errorMessageId="shredindex.404error.ERRORMESSAGE"
+              errorMessage="The page you're looking for has pulled a disappearing act."
+              suggestionId="shredindex.404error.SUGGESTION"
+              suggestion="Maybe try heading back to the bunny slopes (homepage)..."
+            />
+          )}
         />
       </Routes>
     </>

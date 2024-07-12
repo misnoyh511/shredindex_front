@@ -5,7 +5,7 @@ import Rating from '../../Rating/Rating';
 
 const ResortCardHeader = ({ title, totalScore }) => (
   <div className="resort-card__header mb-3">
-    <Rating title={title} rating={totalScore.value} ratingType="total-rating" />
+    <Rating title={title} rating={totalScore?.value || 'n/a'} ratingType="total-rating" />
   </div>
 );
 

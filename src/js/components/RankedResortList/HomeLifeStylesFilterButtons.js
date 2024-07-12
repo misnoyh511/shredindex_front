@@ -13,17 +13,17 @@ import {
   cilSnowflake,
   cilMoney,
 } from '@coreui/icons';
-import { useQueryParams, StringParam, JsonParam } from 'use-query-params';
+import { useQueryParams, JsonParam } from 'use-query-params';
 import PropTypes from 'prop-types';
 import useQueryOrderBy, { currentOrderByState } from '../../hooks/useQueryOrderBy';
-import { helicopterThin } from '../../../icons/helicopter';
+import { helicopter } from '../../../icons/awesomeIcons';
 
 const lifestyles = [
-  { key: 'family_vacation_score', icon: cilBaby, label: 'Family' },
+  { key: 'family_friendly', icon: cilBaby, label: 'Family' },
   { key: 'shops', icon: cilDiamond, label: 'Luxury' },
-  { key: 'expert_terrain', icon: cilSpeedometer, label: 'Hardcore' },
+  { key: 'expert_terrain_score', icon: cilSpeedometer, label: 'Hardcore' },
   { key: 'average_annual_snowfall', icon: cilSnowflake, label: 'Powder' },
-  { key: 'total_score', icon: helicopterThin, label: 'Helicopter' },
+  { key: 'total_score', icon: helicopter, label: 'Helicopter' },
   { key: 'affordability', icon: cilMoney, label: 'Cheap' },
 ];
 
@@ -33,11 +33,11 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
     orderBy: JsonParam,
   });
 
-  const defaultType = { key: 'family_vacation_score', icon: cilBaby, label: 'Family' };
+  const defaultType = { key: 'family_friendly', icon: cilBaby, label: 'Family' };
   const defaultDirection = 'desc';
 
   const {
-    loading, error, mappedOptions,
+    loading, error,
   } = useQueryOrderBy();
 
   const handleLifestyleChange = (lifestyle) => {

@@ -34,58 +34,37 @@ const NumericList = ({
       <div className="resort-card__small-label user-select-none mb-1">
         <FormattedMessage id={labelMessageId} defaultMessage={label} />
       </div>
-        {isMini ? (
-          <div className="d-flex gap-2">
-            {numerics.filter((numeric) => ['skiable_terrain', 'elevation_peak', 'elevation_start'].includes(numeric.name)).map(({
-              id, title, name, value, type,
-            }) => (
-              <div key={id} className="numeric-list__numeric mb-3 w-100">
-                <Statistic
-                  title={title}
-                  name={name}
-                  statistic={value}
-                  maxValue={type.max_value}
-                  unit={getUnit({ unit: type.unit })}
-                />
-              </div>
-            ))}
-          </div>
-
-        ) : (
-          <div className="numeric-list__list">
-
-            <Flickity
-              className="carousel w-100 h-100"
-              elementType="div"
-              options={options}
-              disableImagesLoaded
-              reloadOnUpdate
-              static
-            >
-              {numerics.map(({
-                id,
-                title,
-                name,
-                value,
-                type,
-              }) => (
-                <div key={id} className="numeric-list__numeric mb-3 me-2">
-                  <Statistic
-                    title={title}
-                    name={name}
-                    statistic={value}
-                    maxValue={type.max_value}
-                    unit={getUnit({ unit: type.unit })}
-                  />
-                </div>
-              ))}
-            </Flickity>
-          </div>
-
-            )}
-          </div>
-          );
-        };
+      <div className="numeric-list__list">
+        <Flickity
+          className="carousel w-100 h-100"
+          elementType="div"
+          options={options}
+          disableImagesLoaded
+          reloadOnUpdate
+          static
+        >
+          {numerics.map(({
+            id,
+            title,
+            name,
+            value,
+            type,
+          }) => (
+            <div key={id} className="numeric-list__numeric mb-3 me-3">
+              <Statistic
+                title={title}
+                name={name}
+                statistic={value}
+                maxValue={type.max_value}
+                unit={getUnit({ unit: type.unit })}
+              />
+            </div>
+          ))}
+        </Flickity>
+      </div>
+    </div>
+  );
+};
 
 NumericList.defaultProps = {
   isMini: false,

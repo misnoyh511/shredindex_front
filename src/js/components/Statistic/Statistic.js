@@ -33,9 +33,11 @@ const Statistic = ({
             >
               {statisticInt}
             </span>
-            <span className="statistic__number-small strong user-select-none">
-              {isMax || `.${statisticDecimal || '0'}`}
-            </span>
+            {unit !== 'total' && (
+              <span className="statistic__number-small strong user-select-none">
+                {isMax || `.${statisticDecimal || '0'}`}
+              </span>
+            )}
             <span className="statistic__small-label user-select-none">{unit}</span>
           </div>
         </div>

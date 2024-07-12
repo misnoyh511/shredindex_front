@@ -16,6 +16,7 @@ import RankedResortResultCount from '../RankedResortResultCount/RankedResortResu
 import breakpoints from '../config/breakpoints';
 import RankedResortFilterMenuSkeleton from '../RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
 import RankedResortResultCountSkeleton from '../RankedResortResultCount/RankedResortResultCountSkeleton';
+import ResortCardNoResults from '../ResortCard/ResortCardNoResults/ResortCardNoResults';
 
 const RankedResortList = ({ query, cardLimit }) => {
   const {
@@ -95,9 +96,20 @@ const RankedResortList = ({ query, cardLimit }) => {
         <RankedResortResultCount total={total} currentPage={currentPage} lastPage={lastPage} />
       </div>
       <div className="ranked-resort-list__resort-card-list-wrap col-sm-12">
-        {resorts && resorts.length >= 1 && resorts.map((resort) => (
+        {resorts && resorts.length >= 1 ? resorts.map((resort) => (
           <ResortCard key={resort.id} resortData={resort} />
-        ))}
+        )) : (
+          <ResortCardNoResults
+            helpId="shredindex.resortcardnoresorts.HELP"
+            help="Let's try and get you back in side the boundary."
+            titleId="shredindex.resortcardnoresorts.TITLE"
+            title="You look a bit lost..."
+            errorMessageId="shredindex.resortcardnoresorts.THEREARENORESULTSWITHYOURSEARCHCRITERIA"
+            errorMessage="There was an error loading the list of resorts."
+            suggestionId="shredindex.resortcardnoresorts.SUGGESTION"
+            suggestion="Maybe try resetting the filters..."
+          />
+        )}
       </div>
       <Pagination
         currentPage={currentPage}

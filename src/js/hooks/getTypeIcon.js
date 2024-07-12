@@ -44,7 +44,7 @@ import {
   chairLift,
   coworking,
   gondola,
-  awesomeIcons,
+  helicopter,
   scenery,
   mountainSun,
 } from '../../icons/awesomeIcons';
@@ -97,7 +97,7 @@ const typeNameToIcon = {
   is_dry_slope: cilTag,
   snow_making: cilSettings,
   has_cross_country_skiing: cilWalk,
-  has_helicopter_skiing: awesomeIcons,
+  has_helicopter_skiing: helicopter,
   night_skiing: cilClock,
   scenary: scenery,
   ski_in_ski_out: cilWalk,

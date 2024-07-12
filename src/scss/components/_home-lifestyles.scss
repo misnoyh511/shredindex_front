@@ -28,9 +28,15 @@
   }
 }
 
-.home-ranked-resort-list-card {
-  .resort-card {
-    margin-left: .5rem;
-    margin-right: .5rem;
+.home-ranked-resort-list {
+  & .card {
+    margin-bottom: unset;
+  }
+  & .resort-card {
+    max-width: 26rem;
+  }
+
+  & .rating-list {
+    width: 50%;
   }
 }

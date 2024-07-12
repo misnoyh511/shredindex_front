@@ -2,12 +2,18 @@
 .region-select {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: .75rem;
+  user-select: none;
 
-  input[type="radio"] {
+  input[type="checkbox"] {
     opacity: 0;
     position: fixed;
     width: 0;
+  }
+
+  label {
+    cursor: pointer;
+    display: flex; // Added to ensure consistent sizing
   }
 
   .region-item {
@@ -17,8 +23,9 @@
     overflow: hidden;
     border-radius: 1rem;
     font-weight: 500;
-    transition-duration: .2s;
+    transition: all 0.2s ease;
     text-align: center;
+    border: 0.25rem solid transparent; // Added transparent border
 
     &:hover {
       background-color: $gray-500;
@@ -26,15 +33,15 @@
   }
 
   span {
-    margin-bottom: .75rem;
-    margin-top: -.25rem;
+    margin-bottom: .5rem;
     display: block;
+    font-size: .8rem;
   }
 
   .region-image-wrap {
     display: block;
     background-color: $gray-300;
-    margin: 1rem;
+    margin: .5rem;
     border: 1px solid $gray-300;
     overflow: hidden;
     border-radius: .66rem;
@@ -43,29 +50,42 @@
     text-align: center;
 
     .region-image {
-      max-height: 6rem;
-      max-width: 6rem;
+      max-height: 5rem;
+      max-width: 5rem;
     }
-
   }
 
-  input[type="radio"]:checked + .region-item {
-    display: block;
+  @media (min-width: 576px) and (max-width: 1920px) {
+    .region-image-wrap {
+      .region-image {
+        max-height: 6rem;
+        max-width: 6rem;
+      }
+    }
+    span {
+      font-size: 1rem;
+    }
+  }
+
+  input[type="checkbox"]:checked + .region-item {
     background-color: $primary-600;
     color: $gray-100;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 1rem;
-    font-weight: 500;
-    transition-duration: .2s;
-    text-align: center;
 
     &:active, &:focus {
-      border: .25rem solid $primary-700;
+      box-shadow: inset 0 0 0 0.25rem $primary-700; // Changed to box-shadow
     }
 
     &:hover {
       background-color: $primary-500;
     }
   }
+
+  // New styles for checkbox focus
+  input[type="checkbox"]:focus + .region-item {
+    box-shadow: 0 0 0 2px $primary-700; // Changed to box-shadow
+  }
+}
+
+.country-select-wrap {
+  min-height: 300px;
 }

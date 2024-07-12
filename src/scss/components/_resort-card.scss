@@ -18,6 +18,7 @@
   }
 
   &__wrap {
+    height: fit-content;
     max-width: 67.5rem;
     width: 36rem;
     background: $gray-400 !important;
@@ -123,7 +124,7 @@
 
     .numeric-list__numeric {
       overflow: hidden;
-      width: 9.5rem;
+      width: 6.5rem;
     }
   }
 

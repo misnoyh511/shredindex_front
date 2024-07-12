@@ -133,6 +133,8 @@
     "react-markdown": "^9.0.1",
     "react-router": "^6.21.1",
     "react-router-dom": "^6.21.1",
+    "react-select": "^5.8.0",
+    "react-select-country-list": "^2.2.3",
     "recoil": "^0.7.6",
     "sass": "^1.69.5",
     "serialize-query-params": "^2.0.2",

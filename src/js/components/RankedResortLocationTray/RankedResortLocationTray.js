@@ -13,6 +13,7 @@ import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
 import { currentFilterState } from '../../hooks/useQueryTypes';
 import RegionSelect from '../RegionSelect/RegionSelect';
+import CountrySelect from '../CountrySelect/CountrySelect';
 
 export const showLocationTrayState = atom({
   key: 'showLocationTrayState',
@@ -73,8 +74,19 @@ const RankedResortLocationTray = ({
               defaultMessage="Region"
             />
           </CFormLabel>
-          <div className="ps-2 pe-2">
+          <div className="ps-2 pe-2 mb-2">
             <RegionSelect />
+          </div>
+        </CRow>
+        <CRow>
+          <CFormLabel className="form-label filters__scores">
+            <FormattedMessage
+              id="shredindex.filter.Region"
+              defaultMessage="Country"
+            />
+          </CFormLabel>
+          <div className="country-select-wrap ps-2 pe-2 mb-4">
+            <CountrySelect />
           </div>
         </CRow>
       </CModalBody>
