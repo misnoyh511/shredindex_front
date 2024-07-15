@@ -1,0 +1,101 @@
+// resort-search-autosuggest.scss
+
+.resort-search {
+  position: relative;
+  max-width: 16rem;
+
+  &__spinner img{
+    height: 3.5rem;
+    width: 3.5rem;
+    animation: rotate 1s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  &__input {
+    background-color: $gray-400;
+    color: $gray-900;
+    border-radius: 50px;
+    border: 1px solid $gray-600;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+
+    &::placeholder {
+      color: $gray-700;
+    }
+
+    &:focus {
+      box-shadow: $input-btn-focus-box-shadow;
+      border-color: $primary;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gray-700;
+  }
+
+  &__suggestions {
+    overflow-y: auto;
+    max-height: 32rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1.4rem;
+    z-index: 1000;
+    background-color: $gray-400;
+    box-shadow: $box-shadow-lg;
+    border-radius: 1rem;
+    overflow-x: hidden;
+    width: 23rem;
+    max-width: 100vw;
+  }
+
+  &__suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $gray-500;
+    }
+
+    .icon-wrapper {
+      background-color: $primary;
+      border-radius: 50%;
+      padding: 0.5rem;
+      margin-right: 1rem;
+      display: flex;
+      color: $gray-400;
+    }
+
+    .text-wrapper {
+      .title {
+        font-weight: bold;
+        color: $gray-900;
+      }
+
+      .location {
+        font-size: 0.875rem;
+        color: $gray-700;
+      }
+    }
+  }
+
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+}

@@ -8,4 +8,12 @@
       opacity: 0.2;
     }
   }
+
+  & .header-col-flex {
+    flex: 1 0;
+
+    &-search {
+      flex: 2 0;
+    }
+  }
 }
