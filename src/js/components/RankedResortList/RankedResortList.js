@@ -132,7 +132,7 @@ RankedResortList.propTypes = {
       groupedType: PropTypes.arrayOf(PropTypes.shape({
         type_name: PropTypes.string,
         operator: PropTypes.string,
-        value: PropTypes.string || PropTypes.number,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // Updated this line
       })),
       locationType: PropTypes.shape({
         countryId: PropTypes.arrayOf(PropTypes.string),

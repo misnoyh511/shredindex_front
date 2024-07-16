@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { CFormInput, CImage, CListGroup, CListGroupItem, CSpinner } from '@coreui/react';
+import React, {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
+import {
+  CFormInput, CImage, CListGroup, CListGroupItem,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilLocationPin, cilMagnifyingGlass, cilHistory } from '@coreui/icons';
 import { gql, useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import snowboardBackflip from '../../../images/snowboard-backflip.svg';
 
-const SEARCH_RESORTS = gql`
+export const SEARCH_RESORTS = gql`
   query SearchResorts($query: String!, $page: Int = 1, $perPage: Int = 20) {
     searchResorts(query: $query, page: $page, perPage: $perPage) {
       data {
@@ -38,33 +42,38 @@ const ResortSearchAutosuggest = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
   const [showRecentSearches, setShowRecentSearches] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const navigate = useNavigate();
   const searchRef = useRef(null);
 
-  const [searchResorts, { loading, data }] = useLazyQuery(SEARCH_RESORTS);
+  const [searchResorts, { loading, error, data }] = useLazyQuery(SEARCH_RESORTS);
 
   useEffect(() => {
     const storedSearches = JSON.parse(localStorage.getItem('recentResortSearches') || '[]');
     setRecentSearches(storedSearches.slice(0, 5));
   }, []);
 
-  useEffect(() => {
+  const handleSearch = useCallback(() => {
     if (query.length > 2) {
       searchResorts({ variables: { query, perPage: 400 } });
       setShowSuggestions(true);
       setShowRecentSearches(false);
     } else {
       setShowSuggestions(false);
-      setShowRecentSearches(query.length === 0 && recentSearches.length > 0);
+      setShowRecentSearches(isInputFocused && query.length === 0 && recentSearches.length > 0);
     }
-  }, [query, searchResorts, recentSearches.length]);
+  }, [query, searchResorts, recentSearches.length, isInputFocused]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [handleSearch]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
         setShowRecentSearches(false);
-        setQuery('');
+        setIsInputFocused(false);
       }
     };
 
@@ -79,21 +88,28 @@ const ResortSearchAutosuggest = () => {
   };
 
   const handleInputFocus = () => {
+    setIsInputFocused(true);
     if (query.length === 0 && recentSearches.length > 0) {
       setShowRecentSearches(true);
     }
+  };
+
+  const handleInputBlur = () => {
+    // Delay setting isInputFocused to false to allow click events on suggestions
+    setTimeout(() => setIsInputFocused(false), 200);
   };
 
   const handleSuggestionClick = (resort) => {
     setQuery('');
     setShowSuggestions(false);
     setShowRecentSearches(false);
+    setIsInputFocused(false);
     addToRecentSearches(resort);
     navigate(`/resorts/${resort.url_segment}`);
   };
 
   const addToRecentSearches = (resort) => {
-    const updatedSearches = [resort, ...recentSearches.filter(r => r.id !== resort.id)].slice(0, 5);
+    const updatedSearches = [resort, ...recentSearches.filter((r) => r.id !== resort.id)].slice(0, 5);
     setRecentSearches(updatedSearches);
     localStorage.setItem('recentResortSearches', JSON.stringify(updatedSearches));
   };
@@ -123,6 +139,7 @@ const ResortSearchAutosuggest = () => {
         value={query}
         onChange={handleInputChange}
         onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         placeholder="Where to?"
         className="resort-search__input"
       />
@@ -140,7 +157,9 @@ const ResortSearchAutosuggest = () => {
             data.searchResorts.data.map(renderSuggestionItem)
           ) : showSuggestions ? (
             <CListGroupItem className="resort-search__no-results">
-              No results found for "{query}"
+              No results found for "
+              {query}
+              "
             </CListGroupItem>
           ) : null}
           {showRecentSearches && (
