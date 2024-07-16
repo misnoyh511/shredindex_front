@@ -99,6 +99,12 @@ const ResortSearchAutosuggest = () => {
     setTimeout(() => setIsInputFocused(false), 200);
   };
 
+  const addToRecentSearches = (resort) => {
+    const updatedSearches = [resort,
+      ...recentSearches.filter((r) => r.id !== resort.id)].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recentResortSearches', JSON.stringify(updatedSearches));
+  };
   const handleSuggestionClick = (resort) => {
     setQuery('');
     setShowSuggestions(false);
@@ -107,13 +113,6 @@ const ResortSearchAutosuggest = () => {
     addToRecentSearches(resort);
     navigate(`/resorts/${resort.url_segment}`);
   };
-
-  const addToRecentSearches = (resort) => {
-    const updatedSearches = [resort, ...recentSearches.filter((r) => r.id !== resort.id)].slice(0, 5);
-    setRecentSearches(updatedSearches);
-    localStorage.setItem('recentResortSearches', JSON.stringify(updatedSearches));
-  };
-
   const renderSuggestionItem = (resort) => (
     <CListGroupItem
       key={resort.id}
@@ -149,19 +148,36 @@ const ResortSearchAutosuggest = () => {
       />
       {(showSuggestions || showRecentSearches) && (
         <CListGroup className="resort-search__suggestions">
-          {loading ? (
-            <CListGroupItem className="resort-search__spinner">
-              <CImage src={snowboardBackflip} />
-            </CListGroupItem>
-          ) : showSuggestions && data?.searchResorts.data.length > 0 ? (
-            data.searchResorts.data.map(renderSuggestionItem)
-          ) : showSuggestions ? (
-            <CListGroupItem className="resort-search__no-results">
-              No results found for "
-              {query}
-              "
-            </CListGroupItem>
-          ) : null}
+          {(() => {
+            if (error) {
+              return (
+                <div>Error searching resorts.</div>
+              );
+            }
+            if (loading) {
+              return (
+                <CListGroupItem className="resort-search__spinner">
+                  <CImage src={snowboardBackflip} />
+                </CListGroupItem>
+              );
+            }
+
+            if (showSuggestions) {
+              if (data?.searchResorts.data.length > 0) {
+                return data.searchResorts.data.map(renderSuggestionItem);
+              }
+              return (
+                <CListGroupItem className="resort-search__no-results">
+                  No results found for
+                  {' "'}
+                  {query}
+                  {'" '}
+                </CListGroupItem>
+              );
+            }
+
+            return null;
+          })()}
           {showRecentSearches && (
             <>
               <CListGroupItem className="resort-search__recent-header">

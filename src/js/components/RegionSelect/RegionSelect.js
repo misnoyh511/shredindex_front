@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { CImage } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { currentFilterState } from '../../hooks/useQueryTypes';

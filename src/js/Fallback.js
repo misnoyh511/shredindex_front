@@ -13,7 +13,7 @@ const Fallback = () => (
   <CHeader className="header">
     <CContainer fluid className="header__container-main d-flex align-items-center">
       <div className="d-flex align-items-center header-col-flex">
-          <CIcon icon={cilMenu} size="lg" />
+        <CIcon icon={cilMenu} size="lg" />
         <div className="header__logo px-3 d-none d-md-block">
           <CImage src={Logo} className="header__logo-image " name="logo" height="28" alt="Logo" />
         </div>

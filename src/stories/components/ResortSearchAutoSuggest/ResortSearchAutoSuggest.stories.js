@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { IntlProvider } from 'react-intl';
+import { MemoryRouter } from 'react-router';
 import ResortSearchAutoSuggest, { SEARCH_RESORTS } from '../../../js/components/ResortSearchAutoSuggest/ResortSearchAutoSuggest';
 import ResortSearchAutoSuggestSkeleton from '../../../js/components/ResortSearchAutoSuggest/ResortSearchAutoSuggestSkeleton';
-import { IntlProvider } from 'react-intl';
 import langEn from '../../../js/lang/en.json';
-import { MemoryRouter } from 'react-router';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
