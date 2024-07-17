@@ -38,7 +38,6 @@ const ResortNumerics = ({
           options={options}
           disableImagesLoaded
           reloadOnUpdate
-          static
         >
           {numerics?.map(({
             id, title, name, value, type,

@@ -36,7 +36,6 @@ const ResortComments = ({ comments }) => {
         options={options}
         disableImagesLoaded
         reloadOnUpdate
-        static
       >
         {comments?.map(({
           id, author, comment,

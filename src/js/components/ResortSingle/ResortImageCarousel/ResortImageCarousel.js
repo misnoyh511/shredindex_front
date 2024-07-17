@@ -28,7 +28,6 @@ const ResortImageCarousel = ({ images }) => {
         options={options}
         disableImagesLoaded
         reloadOnUpdate
-        static
       >
         {images.length > 0 ? (images.filter((img) => img.image?.path)
           .map(({

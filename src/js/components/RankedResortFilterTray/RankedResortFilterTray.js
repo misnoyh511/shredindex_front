@@ -30,7 +30,10 @@ const RankedResortFilterTray = ({
   const onSubmit = () => {
     const activeFilters = formData.groupedType.filter(
       (item) => item.toggleOn,
-    ).map((item) => item.filters).flat();
+    ).map((item) => item.filters.map((filter) => ({
+      ...filter,
+      value: String(filter.value), // Convert value to string
+    }))).flat();
     setQuery({
       filters: {
         groupedType: activeFilters,

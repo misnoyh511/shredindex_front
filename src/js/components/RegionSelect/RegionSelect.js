@@ -17,8 +17,10 @@ const RegionSelect = () => {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    if (formData.locationType.continentId) {
-      setSelectedContinents(formData.locationType.continentId);
+    if (formData.locationType && formData.locationType.continentId) {
+      setSelectedContinents(Array.isArray(formData.locationType.continentId)
+        ? formData.locationType.continentId
+        : [formData.locationType.continentId]);
     } else {
       setSelectedContinents([]);
     }
