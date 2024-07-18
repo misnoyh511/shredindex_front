@@ -87,6 +87,8 @@
     "shredindex.resortcardnoresorts.HELP": "Let's try and get you back in side the boundary.",
     "shredindex.resortcardnoresorts.THEREARENORESULTSWITHYOURSEARCHCRITERIA": "There are no results within your search criteria.",
     "shredindex.statistics.STATISTICS": "Statistics",
+    "shredindex.statistics.NOSTATISTICSAVALIABLE": "No statistics available",
+    "shredindex.images.NOIMAGESAVALIBLE": "No images available",
     "shredindex.statistics.KEYINSIGHTS": "Key insights",
     "shredindex.generics.FEATURES": "Features"
 }

@@ -17,6 +17,14 @@ const ResortImageCarousel = ({ images }) => {
     cellAlign: 'left',
   };
 
+  if (images?.length < 1) {
+    return (
+      <div className="resort-card__small-label user-select-none mb-3">
+        <FormattedMessage id="shredindex.images.NOIMAGESAVALIBLE" defaultMessage="No images available" />
+      </div>
+    );
+  }
+
   return (
     <div className="resort-single resort-single__image-carousel mb-4">
       <div className="h6 user-select-none mb-2">

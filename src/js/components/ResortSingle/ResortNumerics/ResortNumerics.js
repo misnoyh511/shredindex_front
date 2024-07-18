@@ -12,8 +12,8 @@ const ResortNumerics = ({
 }) => {
   if (numerics?.length < 1) {
     return (
-      <div className="resort-card__small-label user-select-none">
-        <FormattedMessage id="shredindex.ratinglist.RESORT_IS_UNRATED" defaultMessage="Resort has no statistics" />
+      <div className="resort-card__small-label user-select-none mb-3">
+        <FormattedMessage id="shredindex.statistics.NOSTATISTICSAVALIABLE" defaultMessage="No statistics available" />
       </div>
     );
   }
