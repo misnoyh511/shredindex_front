@@ -16,16 +16,14 @@ const CATEGORY_ORDER = [
 ];
 
 const ResortRatings = ({ ratings }) => {
-  const groupedRatings = useMemo(() => {
-    return ratings.reduce((acc, rating) => {
-      const category = rating.type.score_category;
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-      acc[category].push(rating);
-      return acc;
-    }, {});
-  }, [ratings]);
+  const groupedRatings = useMemo(() => ratings.reduce((acc, rating) => {
+    const category = rating.type.score_category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(rating);
+    return acc;
+  }, {}), [ratings]);
 
   const renderCategoryRatings = (category) => {
     const categoryRatings = groupedRatings[category];
@@ -34,7 +32,9 @@ const ResortRatings = ({ ratings }) => {
     return (
       <div key={category} className="category-ratings">
         <h6 className="category-title">{category}</h6>
-        {categoryRatings.map(({ id, title, name, value }) => (
+        {categoryRatings.map(({
+          id, title, name, value,
+        }) => (
           <div key={id} className="rating-item">
             <Rating title={title} rating={value} name={name} />
           </div>
