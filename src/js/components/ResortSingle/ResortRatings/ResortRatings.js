@@ -1,60 +1,69 @@
-import {
-  CCard, CCardBody, CCol, CListGroup, CRow,
-} from '@coreui/react';
-
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { CCard, CCardBody, CListGroup } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
 import { resortAttributeType } from '../../../types/types';
 import Rating from '../../Rating/Rating';
 
+// Define the order of categories
+const CATEGORY_ORDER = [
+  'Terrain and Snow',
+  'Resort Characteristics',
+  'Facilities and Services',
+  'Lifestyle and Community',
+  'Seasonal Aspects',
+  'Accessibility and Convenience',
+];
+
 const ResortRatings = ({ ratings }) => {
-  const ratingsColumn1 = ratings.filter((_, index) => index % 2 === 0);
-  const ratingsColumn2 = ratings.filter((_, index) => index % 2 !== 0);
+  const groupedRatings = useMemo(() => ratings.reduce((acc, rating) => {
+    const category = rating.type.score_category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(rating);
+    return acc;
+  }, {}), [ratings]);
+
+  const renderCategoryRatings = (category) => {
+    const categoryRatings = groupedRatings[category];
+    if (!categoryRatings || categoryRatings.length === 0) return null;
+
+    return (
+      <div key={category} className="category-ratings">
+        <h6 className="category-title">{category}</h6>
+        {categoryRatings.map(({
+          id, title, name, value,
+        }) => (
+          <div key={id} className="rating-item">
+            <Rating title={title} rating={value} name={name} />
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
-    <>
-      <div className="h6 mb-2">
+    <div className="resort-ratings">
+      <h2 className="ratings-title h6">
         <FormattedMessage
           id="shredindex.rating.RATINGS"
           defaultMessage="Ratings"
         />
-      </div>
-      <CCard className="resort-rating__card resort-ratings mb-4">
+      </h2>
+      <CCard className="ratings-card">
         <CCardBody>
-          <CListGroup className="ratings-list">
-            <CRow>
-              <CCol xxl={6} xl={6}>
-                {ratingsColumn1.map(({
-                  id,
-                  title,
-                  name,
-                  value,
-                }) => (
-                  <div key={id} className="rating-list__rating mb-3">
-                    <Rating title={title} rating={value} name={name} />
-                  </div>
-                ))}
-              </CCol>
-              <CCol xxl={6} xl={6}>
-                {ratingsColumn2.map(({
-                  id,
-                  title,
-                  name,
-                  value,
-                }) => (
-                  <div key={id} className="rating-list__rating mb-3">
-                    <Rating title={title} rating={value} name={name} />
-                  </div>
-                ))}
-              </CCol>
-            </CRow>
+          <CListGroup>
+            <div className="ratings-grid">
+              {CATEGORY_ORDER.map(renderCategoryRatings)}
+            </div>
           </CListGroup>
         </CCardBody>
       </CCard>
-    </>
+    </div>
   );
 };
+
 ResortRatings.propTypes = {
   ratings: PropTypes.arrayOf(resortAttributeType).isRequired,
 };
