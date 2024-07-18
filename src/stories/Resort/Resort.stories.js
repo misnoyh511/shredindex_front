@@ -71,6 +71,9 @@ export const Resort = () => {
                 title: 'Digital Nomad Score',
                 value: 76,
                 name: 'digital_nomad_score',
+                type: {
+                  score_category: 'Lifestyle',
+                },
                 __typename: 'Rating',
               },
             ],
