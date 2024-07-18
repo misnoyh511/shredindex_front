@@ -33,6 +33,35 @@ const mountainSun = [
   '<path d="M364 263l4 2 10 15 9 13 15 22 16 24 8 11 12 18 13 19 51 75 11 16 16 24 8 11 10 15 19 28 13 19 17 25 19 28 15 22 11 16 16 24 5 8 1 3v35l-1 2-80 1h-512l-3-2v-38l7-11 15-22 13-19 49-72 11-16 40-59 15-22 13-19 19-28 13-19 19-28 13-19 19-28 36-53 12-17zm0-76l4 2 10 16 16 23 10 15 11 16 13 19 30 44 13 19 15 22 26 38 15 22 26 38 15 22 5 7 2 1 2-6 32-48 7-11 10-15 19-29 15-23 1-2 4 2 11 17 17 26 29 44 12 18 29 44 20 30 29 44 12 18 29 44 20 30 2 4v94l-1 9h-848l-1-1v-95l7-11 10-14 8-12 17-25 11-16 8-12 32-47 11-16 16-24 8-11 10-15 17-25 15-22 11-16 8-12 15-22 11-16 16-24 8-11 10-15 34-50 15-22 11-16 8-12 17-25zm0 76-8 11-14 20-12 18-13 19-22 33-8 11-16 24-7 10-11 16-19 28-17 25-51 75-11 16-21 31-13 19-51 75-3 5v38l3 2h514l78-1 1-2v-35l-5-10-11-16-16-24-8-11-8-12-36-53-13-19-19-28-11-16-16-24-8-11-10-15-51-75-13-19-19-28-11-16-16-24-8-11-16-24zM759 101h20l15 3 15 5 15 8 12 9 12 11 10 13 8 15 6 18 3 22-2 20-3 13-6 16-5 9-11 14-4 5-17 13-11 7-15 6-15 4-6 1h-21l-17-3-16-6-12-6-15-12-8-7-12-15-8-16-5-13-3-18v-19l4-21 5-13 7-14 9-11 7-8 15-12 11-7 15-6 15-4zM661 434l4 2 48 72 29 44 28 42 29 44 22 33 11 17 1 7v42l-2 2h-124l-2-1-1-51-4-8-14-20-8-12-11-16-17-25-13-19-15-22-13-19-10-15 1-4 10-15 13-20 36-54zM759 144h19l13 3 12 6 11 9 8 10 6 12 4 16v14l-4 17-7 13-11 12-8 6-8 4-13 4-7 1h-10l-15-3-12-5-11-8-9-10-6-11-4-11-2-11v-10l3-15 8-16 9-11 12-9 12-5z" fill="var(--ci-primary-color, currentColor)" class="ci-primary"/>',
 ];
 
+const averageAnnualSnowfall = [
+  '30 30',
+  '<path fill="none" stroke="currentColor" stroke-miterlimit="10" d="M21.1,22.8c0,3.4-2.7,6.1-6.1,6.1c-3.4,0-6.1-2.7-6.1-6.1  c0-2.3,1.2-4.2,3.1-5.3V4.1c0-1.7,1.4-3,3-3c0.8,0,1.6,0.3,2.1,0.9C17.7,2.5,18,3.3,18,4.1v13.5C19.8,18.6,21.1,20.6,21.1,22.8z"/>',
+  '<g>',
+  '  <g>',
+  '    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="15" y1="18.8" x2="15" y2="26.6"/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="13.7,19.4 15,20.7 16.3,19.4   "/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="13.7,26 15,24.6 16.3,26   "/>',
+  '  </g>',
+  '  <g>',
+  '    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="11.7" y1="20.7" x2="18.4" y2="24.6"/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="11.5,22.1 13.3,21.7 12.8,19.9   "/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="17.2,25.5 16.7,23.7 18.5,23.2   "/>',
+  '  </g>',
+  '  <g>',
+  '    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="18.3" y1="20.6" x2="11.7" y2="24.7"/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="17.1,19.8 16.7,21.6 18.5,22   "/>',
+  '    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" points="11.5,23.3 13.3,23.7 12.9,25.5   "/>',
+  '  </g>',
+  '</g>',
+  '<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="13.5" y1="15.7" x2="15" y2="15.7"/>',
+  '<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="13.5" y1="13.1" x2="16.5" y2="13.1"/>',
+  '<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="13.5" y1="10.5" x2="15" y2="10.5"/>',
+  '<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="13.5" y1="7.8" x2="16.5" y2="7.8"/>',
+  '<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" x1="13.5" y1="5.2" x2="15" y2="5.2"/>',
+];
+
 export {
-  helicopter, scenery, slopeVariety, chairLift, gondola, coworking, mountainSun,
+  helicopter,
+  scenery,
+  slopeVariety, chairLift, gondola, coworking, mountainSun, averageAnnualSnowfall,
 };

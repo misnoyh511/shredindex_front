@@ -61,7 +61,10 @@ query ResortByURLSegment($url_segment: String!) {
       value
       name
       type {
-        score_category
+        type_group {
+          id
+          title
+        }
       }
     }
     numerics {
