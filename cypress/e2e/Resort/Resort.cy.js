@@ -16,7 +16,7 @@ const dataProvider = {
       title: 'Digital Nomad Score',
       value: 76,
       type: {
-        score_category: 'Lifestyles',
+        score_category: 'Terrain and Snow',
       },
     },
   ],
