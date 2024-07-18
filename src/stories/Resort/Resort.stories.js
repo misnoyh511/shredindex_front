@@ -72,7 +72,10 @@ export const Resort = () => {
                 value: 76,
                 name: 'digital_nomad_score',
                 type: {
-                  score_category: 'Terrain and Snow',
+                  type_group: {
+                    id: 1,
+                    title: 'Smokey Boris',
+                  },
                 },
                 __typename: 'Rating',
               },
