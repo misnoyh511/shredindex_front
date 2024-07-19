@@ -10,7 +10,6 @@ const containerStyle = {
   position: 'relative',
 };
 
-// Replace with your Mapbox access token
 mapboxgl.accessToken = privateKeys.mapboxAccessToken;
 
 const ResortMap = ({ longitude, latitude }) => {
@@ -105,7 +104,14 @@ const ResortMap = ({ longitude, latitude }) => {
 
   return (
     <div style={containerStyle}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', borderRadius: '0.5rem' }} />
+      <div
+        ref={mapContainerRef}
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: '0.5rem',
+        }}
+      />
     </div>
   );
 };
