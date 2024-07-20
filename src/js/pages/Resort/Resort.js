@@ -11,12 +11,19 @@ import { cilArrowLeft } from '@coreui/icons';
 import ResortHeader from '../../components/ResortSingle/ResortHeader/ResortHeader';
 import ResortRatings from '../../components/ResortSingle/ResortRatings/ResortRatings';
 import ResortNumerics from '../../components/ResortSingle/ResortNumerics/ResortNumerics';
-import ResortSkeleton from '../../components/SkeletonState/ResortSkeleton';
 import ResortsParallaxBackground from '../../components/ResortsParallaxBackground/ResortsParallaxBackground';
 import ResortMap from '../../components/ResortSingle/ResortMap/ResortMap';
 import ResortComments from '../../components/ResortSingle/ResortComments/ResortComments';
 import ResortImageCarousel from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarousel';
 import ResortCardError from '../../components/ResortCard/ResortCardError/ResortCardError';
+import ResortHeaderSkeleton from '../../components/ResortSingle/ResortHeader/ResortHeaderSkeleton';
+import ResortImageCarouselSkeleton
+  from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarouselLoading';
+import ResortNumericsSkeleton
+  from '../../components/ResortSingle/ResortNumerics/ResortNumericsSkeleton';
+import ResortRatingsSkeleton
+  from '../../components/ResortSingle/ResortRatings/ResortRatingsSkeleton';
+import ResortMapSkeleton from '../../components/ResortSingle/ResortMap/ResortMapSkeleton';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -111,8 +118,38 @@ const Resort = () => {
     return (
       <CContainer>
         <ResortsParallaxBackground />
-        <div className="resort resort-single mt-4">
-          <ResortSkeleton />
+        <div className="resort resort-single mt-4 h-100 w-100">
+          <div
+            className="resort back-button-wrap mb-4 w-100 d-flex justify-content-end justify-content-lg-start"
+          >
+            <div
+              role="button"
+              aria-label="Back button"
+              tabIndex={0}
+              className="resort back-button"
+            />
+          </div>
+          <CRow>
+            <CCol lg={8}>
+              <ResortHeaderSkeleton />
+              <ResortImageCarouselSkeleton />
+              <ResortNumericsSkeleton />
+              <ResortRatingsSkeleton />
+            </CCol>
+            <CCol lg={4}>
+              <h3 className="resort__description-title h6">
+                <FormattedMessage
+                  id="shredindex.resort.Map"
+                  defaultMessage="Map"
+                />
+              </h3>
+              <CCard className="resort__map-card mb-4">
+                <CCardBody>
+                  <ResortMapSkeleton />
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
         </div>
       </CContainer>
     );
@@ -132,7 +169,11 @@ const Resort = () => {
   const {
     resortByUrlSegment: resort,
     resortByUrlSegment: {
-      resort_images, ratingScores: ratings, numerics, location, comments,
+      resort_images,
+      ratingScores: ratings,
+      numerics,
+      location,
+      comments,
     },
   } = data;
 
