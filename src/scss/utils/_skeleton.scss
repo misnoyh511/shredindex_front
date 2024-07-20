@@ -1,3 +1,46 @@
 .skeleton {
   background: $gray-400;
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton-text,
+.skeleton-background,
+.skeleton-icon,
+.skeleton-bar,
+.skeleton-indicator {
+  background: linear-gradient(to right, #1d2e39 8%, $gray-400 18%, #1d2e39 33%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.skeleton-text {
+  display: inline-block;
+  height: 1em;
+  width: 100%;
+  border-radius: .4rem;
+  margin-bottom: .25rem;
+}
+
+.skeleton-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.skeleton-bar {
+  height: 100%;
+}
+
+.skeleton-indicator {
+  width: 2px;
+  height: 100%;
+}

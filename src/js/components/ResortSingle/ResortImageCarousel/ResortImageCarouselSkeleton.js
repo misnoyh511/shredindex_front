@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import resortImagePlaceholderLoading from '../../../../images/resort-image-placeholder-loading.svg';
 
 const ResortImageCarouselSkeleton = () => (
   <div className="resort-single resort-single__image-carousel mb-2">
@@ -20,8 +21,10 @@ const ResortImageCarouselSkeleton = () => (
               animation: 'skeleton-loading 1s infinite alternate',
             }}
           >
-            <div
-              className="w-100 h-100 border-radius-medium"
+            <img
+              className="carousel__image--no-images"
+              src={resortImagePlaceholderLoading}
+              alt="shred-index-resort-placeholder"
             />
           </div>
         ))}

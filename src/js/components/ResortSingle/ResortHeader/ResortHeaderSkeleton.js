@@ -9,16 +9,19 @@ const ResortHeaderSkeleton = () => (
       <CCardHeader className="resort-card__header-wrap pb-0 mb-2">
         <div className="skeleton-card__header d-flex mb-3">
           <div className="skeleton-rating-header me-3" />
-          <div className="skeleton-rating-title w-100" />
+          <div className="skeleton-background skeleton-rating-title w-100" />
         </div>
         <div className="resort-card__location skeleton-location d-flex mb-2">
-          <div className="resort-card__country-flag-wrap country-flag-wrap me-3" />
-          <div className="skeleton-location-details w-50" />
+          <div className="skeleton-background resort-card__country-flag-wrap country-flag-wrap me-3" />
+          <div className="skeleton-background skeleton-location-details w-50" />
         </div>
       </CCardHeader>
       <CCardBody className="resort-card__body pt-0 pb-0 mb-3">
         <div className="skeleton-content-wrap d-flex mb-2">
-          <div className="skeleton-sub-rating-wrap mt-2 me-2" />
+          <div className="skeleton-text skeleton-sub-rating-wrap mt-2 me-2" />
+        </div>
+        <div className="skeleton-content-wrap d-flex mb-2">
+          <div className="skeleton-text skeleton-sub-rating-wrap mt-2 me-2" />
         </div>
       </CCardBody>
     </CCard>

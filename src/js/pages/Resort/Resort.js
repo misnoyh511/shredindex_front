@@ -18,7 +18,7 @@ import ResortImageCarousel from '../../components/ResortSingle/ResortImageCarous
 import ResortCardError from '../../components/ResortCard/ResortCardError/ResortCardError';
 import ResortHeaderSkeleton from '../../components/ResortSingle/ResortHeader/ResortHeaderSkeleton';
 import ResortImageCarouselSkeleton
-  from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarouselLoading';
+  from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarouselSkeleton';
 import ResortNumericsSkeleton
   from '../../components/ResortSingle/ResortNumerics/ResortNumericsSkeleton';
 import ResortRatingsSkeleton
@@ -114,7 +114,7 @@ const Resort = () => {
     navigate(-1);
   };
 
-  if (loading) {
+  // if (loading) {
     return (
       <CContainer>
         <ResortsParallaxBackground />
@@ -153,7 +153,7 @@ const Resort = () => {
         </div>
       </CContainer>
     );
-  }
+  // }
 
   if (error) {
     return (
