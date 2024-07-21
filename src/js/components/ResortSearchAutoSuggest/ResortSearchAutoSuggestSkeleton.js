@@ -3,10 +3,13 @@ import { CFormInput } from '@coreui/react';
 
 const ResortSearchAutosuggestSkeleton = () => (
   <div className="resort-search">
-    <CFormInput
-      type="text"
-      className="resort-search__input"
-    />
+    <div className="resort-search__input-wrapper skeleton">
+      <CFormInput
+        type="text"
+        className="resort-search__input resort-search__input--skeleton"
+        disabled
+      />
+    </div>
   </div>
 );
 

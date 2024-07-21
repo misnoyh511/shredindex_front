@@ -66,33 +66,40 @@
     }
   }
 }
-
 .resort-ratings {
   margin-bottom: 2rem;
-}
 
-.ratings-title {
-  margin-bottom: 1rem;
-}
+  .ratings-title {
+    margin-bottom: 1rem;
+  }
 
-.category-title {
-  font-size: .9rem;
-  font-weight: 600;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
+  .category-ratings {
+    .category-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
 
-.rating-item-wrap {
-  gap: .5rem 1rem
-}
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+  }
 
-.rating-item {
-  width: 100%;
-  margin-bottom: .5rem;
-}
+  .rating-item-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
 
-@media (min-width: 768px) {
   .rating-item {
-    width: calc(100%/2 - 1rem);
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .rating-item {
+      width: calc(50% - 0.5rem);  // Adjusted for gap
+    }
   }
 }

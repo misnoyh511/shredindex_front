@@ -18,7 +18,7 @@ const ResortImageCarousel = ({ images }) => {
   };
 
   return (
-    <div className="resort-single resort-single__image-carousel mb-4">
+    <div className="resort-single resort-single__image-carousel mb-3">
       <div className="h6 user-select-none mb-2">
         <FormattedMessage id="shredindex.resort.IMAGES" defaultMessage="Images" />
       </div>
@@ -43,7 +43,7 @@ const ResortImageCarousel = ({ images }) => {
               className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium"
             >
               <img
-                className="carousel__image-item carousel__image--no-images"
+                className="carousel__image--no-images"
                 src={resortImagePlaceholder}
                 alt="shred-index-resort-placeholder"
               />

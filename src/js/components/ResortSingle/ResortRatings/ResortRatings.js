@@ -6,12 +6,10 @@ import Rating from '../../Rating/Rating';
 
 const ResortRatings = ({ ratings }) => {
   const groupedRatings = useMemo(() => {
-    // Sort ratings by type_group.id
     const sortedRatings = [...ratings].sort((a, b) => (
       a.type.type_group?.id || 0) - (b.type.type_group?.id || 0
     ));
 
-    // Group sorted ratings by type_group.title
     return sortedRatings.reduce((acc, rating) => {
       const category = rating.type.type_group?.title || 'Uncategorized';
       if (!acc[category]) {
@@ -22,13 +20,13 @@ const ResortRatings = ({ ratings }) => {
     }, {});
   }, [ratings]);
 
-  const renderCategoryRatings = (category) => {
+  const renderCategoryRatings = (category, index) => {
     const categoryRatings = groupedRatings[category];
     if (!categoryRatings || categoryRatings.length === 0) return null;
 
     return (
       <div key={category} className="category-ratings">
-        <h6 className="category-title">{category}</h6>
+        <h6 className={`category-title ${index === 0 ? 'mt-0' : 'mt-4'}`}>{category}</h6>
         <div className="d-flex flex-wrap rating-item-wrap">
           {categoryRatings.map(({
             id, title, name, value,
@@ -54,7 +52,9 @@ const ResortRatings = ({ ratings }) => {
         <CCardBody>
           <CListGroup>
             <div className="ratings">
-              {Object.keys(groupedRatings).map(renderCategoryRatings)}
+              {Object.keys(groupedRatings).map(
+                (category, index) => renderCategoryRatings(category, index),
+              )}
             </div>
           </CListGroup>
         </CCardBody>

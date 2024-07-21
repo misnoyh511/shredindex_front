@@ -18,7 +18,7 @@ import ResortImageCarousel from '../../components/ResortSingle/ResortImageCarous
 import ResortCardError from '../../components/ResortCard/ResortCardError/ResortCardError';
 import ResortHeaderSkeleton from '../../components/ResortSingle/ResortHeader/ResortHeaderSkeleton';
 import ResortImageCarouselSkeleton
-  from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarouselLoading';
+  from '../../components/ResortSingle/ResortImageCarousel/ResortImageCarouselSkeleton';
 import ResortNumericsSkeleton
   from '../../components/ResortSingle/ResortNumerics/ResortNumericsSkeleton';
 import ResortRatingsSkeleton
@@ -125,9 +125,11 @@ const Resort = () => {
             <div
               role="button"
               aria-label="Back button"
-              tabIndex={0}
-              className="resort back-button"
-            />
+              tabIndex={-1}
+              className="resort back-button skeleton"
+            >
+              <span className="skeleton-text back-button-text" />
+            </div>
           </div>
           <CRow>
             <CCol lg={8}>
