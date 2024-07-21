@@ -2,11 +2,8 @@ import {
   CCard, CCardBody, CCardFooter, CCardHeader, CImage,
 } from '@coreui/react';
 import React from 'react';
-import NoResort from '../../../images/resort-image-placeholder.svg';
+import ResortImageLoading from '../../../images/resort-image-placeholder-loading.svg';
 import ResortCardSubRatingSkeleton from './ResortCardSubRatingSkeleton';
-import NumericList from '../NumericList/NumericList';
-import Statistic from '../Statistic/Statistic';
-import getUnit from '../../hooks/getUnit';
 import StatisticSkeleton from '../Statistic/StatisticSkeleton';
 
 const ResortCardSkeleton = () => (
@@ -25,8 +22,8 @@ const ResortCardSkeleton = () => (
       <CCardBody className="resort-card__body pt-0 pb-0 mb-3">
         <div className="resort-card__content-1 mb-2 d-flex">
           <div className="w-100 d-flex gap-3">
-            {[1, 2, 3, 4 ,5].map((number) => (
-              <div className="w-25">
+            {[1, 2, 3, 4, 5].map((number) => (
+              <div key={number} className="w-25">
                 <StatisticSkeleton />
               </div>
             ))}
@@ -34,10 +31,10 @@ const ResortCardSkeleton = () => (
         </div>
         <div className="skeleton-content-wrap d-flex mb-2">
           <div className="skeleton-sub-rating-wrap mt-2 me-2">
-            {[1, 2, 3].map((number) => <ResortCardSubRatingSkeleton key={number}/>)}
+            {[1, 2, 3].map((number) => <ResortCardSubRatingSkeleton key={number} />)}
           </div>
           <div className="skeleton-image mb-2 ms-2">
-          <CImage src={NoResort} />
+            <CImage src={ResortImageLoading} />
           </div>
         </div>
       </CCardBody>

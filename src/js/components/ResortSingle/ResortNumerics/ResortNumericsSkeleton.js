@@ -9,9 +9,8 @@ const ResortNumericsSkeleton = () => (
     </div>
     <div className="numeric-list__list">
       <div className="d-flex overflow-hidden">
-        {[...Array(4)].map((index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={index} className="numeric-list__numeric mb-3 me-3" style={{ flexShrink: 0 }}>
+        {[1, 2, 3, 4].map((number) => (
+          <div key={number} className="numeric-list__numeric mb-3 me-3" style={{ flexShrink: 0 }}>
             <StatisticSkeleton />
           </div>
         ))}

@@ -52,7 +52,9 @@ const ResortRatings = ({ ratings }) => {
         <CCardBody>
           <CListGroup>
             <div className="ratings">
-              {Object.keys(groupedRatings).map((category, index) => renderCategoryRatings(category, index))}
+              {Object.keys(groupedRatings).map(
+                (category, index) => renderCategoryRatings(category, index),
+              )}
             </div>
           </CListGroup>
         </CCardBody>

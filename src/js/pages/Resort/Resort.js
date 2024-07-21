@@ -114,7 +114,7 @@ const Resort = () => {
     navigate(-1);
   };
 
-  // if (loading) {
+  if (loading) {
     return (
       <CContainer>
         <ResortsParallaxBackground />
@@ -125,9 +125,11 @@ const Resort = () => {
             <div
               role="button"
               aria-label="Back button"
-              tabIndex={0}
-              className="resort back-button"
-            />
+              tabIndex={-1}
+              className="resort back-button skeleton"
+            >
+              <span className="skeleton-text back-button-text" />
+            </div>
           </div>
           <CRow>
             <CCol lg={8}>
@@ -153,7 +155,7 @@ const Resort = () => {
         </div>
       </CContainer>
     );
-  // }
+  }
 
   if (error) {
     return (
