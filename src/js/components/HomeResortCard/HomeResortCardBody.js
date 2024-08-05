@@ -8,7 +8,7 @@ import ShareButton from '../ShareButton/ShareButton';
 
 const isDifferentRatings = (a, b) => a.every(({ id }) => b.find((i) => i.id === id));
 
-const ResortCardBodyHome = ({
+const HomeResortCardBody = ({
   resort: {
     title,
     url,
@@ -95,8 +95,8 @@ const ResortCardBodyHome = ({
   </div>
 );
 
-ResortCardBodyHome.propTypes = {
+HomeResortCardBody.propTypes = {
   resort: resortType.isRequired,
 };
 
-export default ResortCardBodyHome;
+export default HomeResortCardBody;

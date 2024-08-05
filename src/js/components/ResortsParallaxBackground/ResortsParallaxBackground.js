@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ReactComponent as RankedResortsBackground } from '../../../images/RankedResortsBackground.svg';
+import { ReactComponent as RankedResortsBackground } from '../../../images/ranked-resorts-background.svg';
 
 const ResortsParallaxBackground = () => {
   useEffect(() => {

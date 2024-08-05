@@ -1,0 +1,31 @@
+.resort-stats {
+  margin: 6rem 0;
+}
+
+.snowboard-grab-wrap {
+  height: 200px;
+  z-index: 1000;
+  position: relative;
+  width: 80%;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+.ski-grab-wrap {
+  top: 0;
+  height: auto;
+  z-index: 1000;
+  position: relative;
+  width: 80%;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+.ski-grab {
+  max-width: 450px;
+}
+

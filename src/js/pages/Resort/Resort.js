@@ -24,6 +24,7 @@ import ResortNumericsSkeleton
 import ResortRatingsSkeleton
   from '../../components/ResortSingle/ResortRatings/ResortRatingsSkeleton';
 import ResortMapSkeleton from '../../components/ResortSingle/ResortMap/ResortMapSkeleton';
+import ColumbiaBanner from '../../components/Advertisers/ColumbiaBanner/ColumbiaBanner';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -217,6 +218,11 @@ const Resort = () => {
             <CCard className="resort__map-card mb-4">
               <CCardBody>
                 <ResortMap longitude={location.longitude} latitude={location.latitude} />
+              </CCardBody>
+            </CCard>
+            <CCard className="resort__map-card mb-4">
+              <CCardBody>
+                <ColumbiaBanner />
               </CCardBody>
             </CCard>
           </CCol>

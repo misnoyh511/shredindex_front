@@ -449,6 +449,16 @@
   }
 }
 
+.home {
+  .resort-card--skeleton {
+    width: -webkit-fill-available;
+
+    .single-image-container .skeleton-image {
+      height: 12.5rem;
+    }
+  }
+}
+
 @media (min-width: 576px) and (max-width: 1920px) {
   .resort-card__sub-ratings-list,
   .skeleton-sub-rating-wrap {

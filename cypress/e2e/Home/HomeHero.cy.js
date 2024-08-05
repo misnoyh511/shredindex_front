@@ -1,6 +1,6 @@
-describe('Hero', () => {
+describe('HomeHero', () => {
   beforeEach(() => {
-    cy.visit('/iframe.html?id=shred-index-components-hero--hero-story');
+    cy.visit('/iframe.html?id=shred-index-components-homehero--hero-story');
   });
 
   context('All devices', () => {
