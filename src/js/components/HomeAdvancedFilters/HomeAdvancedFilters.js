@@ -1,17 +1,16 @@
 import React from 'react';
 import { CButton, CImage } from '@coreui/react';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 import { ReactComponent as HeroDesktop } from '../../../images/homepage/advanced-filter-background-desktop.svg';
 import { ReactComponent as HeroTablet } from '../../../images/homepage/advanced-filter-background-tablet.svg';
 import { ReactComponent as HeroMobile } from '../../../images/homepage/advanced-filter-background-mobile.svg';
 import AdvancedFilterSystem from '../../../images/homepage/advanced-filter-filter.svg';
-import { FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
 
-
-const AdvancedWord = ({children}) => (
+const AdvancedWord = ({ children }) => (
   <span className="text-secondary">{children}</span>
-)
+);
 
 AdvancedWord.propTypes = {
   children: PropTypes.node.isRequired,

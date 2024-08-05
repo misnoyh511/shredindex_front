@@ -10,18 +10,18 @@ const HomeCTA = () => (
       <div className="font-weight-700 h3">
         <FormattedMessage
           id="shredindex.homeCTA.RESORTS_COUNT"
-          defaultMessage="<resortCount>6239</resortCount> resorts in"
+          defaultMessage="{resortCount} resorts in"
           values={{
-            resortCount: (chunks) => <span className="h2 text-info fw-bold">{chunks}</span>,
+            resortCount: <span className="h2 text-info fw-bold">6239</span>,
           }}
         />
       </div>
       <div className="font-weight-700 h3">
         <FormattedMessage
           id="shredindex.homeCTA.COUNTRIES_COUNT"
-          defaultMessage="<countryCount>94</countryCount> countries"
+          defaultMessage="{countryCount} countries"
           values={{
-            countryCount: (chunks) => <span className="h2 text-primary fw-bold">{chunks}</span>,
+            countryCount: <span className="h2 text-primary fw-bold">94</span>,
           }}
         />
       </div>
@@ -37,18 +37,18 @@ const HomeCTA = () => (
         <span className="h4">
           <FormattedMessage
             id="shredindex.homeCTA.SKI_ONE_RESORT"
-            defaultMessage="If you ski <one>one</one> resort a day, it'll take"
+            defaultMessage="If you ski {one} resort a day, it'll take"
             values={{
-              one: (chunks) => <span className="text-primary">{chunks}</span>,
+              one: <span className="text-primary">one</span>,
             }}
           />
         </span>
         <div className="h4">
           <FormattedMessage
             id="shredindex.homeCTA.YEARS_TO_SHRED"
-            defaultMessage="<years>16.7 years</years> to shred them all."
+            defaultMessage="{years} to shred them all."
             values={{
-              years: (chunks) => <span className="h4 text-info">{chunks}</span>,
+              years: <span className="h4 text-info">16.7 years</span>,
             }}
           />
         </div>
