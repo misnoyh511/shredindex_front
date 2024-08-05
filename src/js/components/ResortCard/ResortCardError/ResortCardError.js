@@ -5,7 +5,7 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import GnarlyCrash from '../../../../images/GnarlyCrash.svg';
+import GnarlyCrash from '../../../../images/gnarly-crash.svg';
 
 const ResortCardError = ({
   title, titleId, help, helpId, errorName, errorMessage, errorMessageId, suggestion, suggestionId,

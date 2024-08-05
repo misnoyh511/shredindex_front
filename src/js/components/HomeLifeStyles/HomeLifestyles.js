@@ -10,7 +10,7 @@ const HomeLifeStyles = () => {
   };
 
   return (
-    <div className="home-lifestyles">
+    <div className="home-lifestyles mb-4">
       <div className="home-lifestyles-title mb-4">
         <h4>
           <FormattedMessage
@@ -23,7 +23,7 @@ const HomeLifeStyles = () => {
         <HomeLifeStylesFilterButtons setLifeStyle={handleSetLifeStyle} />
       </div>
       <div className="home-lifestyles-cards">
-        <HomeRankedResortList lifestyle={selectedLifestyle} cardLimit={5} />
+        <HomeRankedResortList lifestyle={selectedLifestyle} cardLimit={3} />
       </div>
     </div>
   );

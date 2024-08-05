@@ -1,68 +1,85 @@
-.hero {
+.home-pro-member {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 1fr;
-  align-items: center;
+  align-items: start;
   justify-items: center;
   position: relative;
   width: 100%;
 }
 
-.advanced-filters-hero.hero svg {
-  min-height: 60rem;
-}
-
-.hero__image {
+.home-pro-member__image {
   grid-row: 1;
+  position: relative;
   grid-column: 1;
   width: 100%;
   overflow: hidden;
+  height: 964px;
+
+  & .top {
+    height: 50%;
+    overflow: hidden;
+  }
+
+  & .bottom-wrap {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  & .bottom {
+    height: 600px;
+    position: absolute;
+    overflow: hidden;
+
+    & svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: block;
+    }
+  }
 }
 
-.hero__svg {
+.home-pro-member__svg {
   width: 100%;
+  & svg {
+    width: 100%;
+  }
 }
 
-.hero__svg--desktop,
-.hero__svg--tablet,
-.hero__svg--mobile {
+.home-pro-member__svg--desktop,
+.home-pro-member__svg--tablet,
+.home-pro-member__svg--mobile {
   display: none;
   width: 100%;
 }
 
 @media (max-width: 767px) {
-  .hero__svg--mobile {
+  .home-pro-member__svg--mobile {
     display: block;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .hero__svg--tablet {
+  .home-pro-member__svg--tablet {
     display: block;
   }
 }
 
 @media (min-width: 1024px) {
-  .hero__svg--desktop {
+  .home-pro-member__svg--desktop {
     display: block;
   }
 }
 
-.advanced-filters-content {
-  &.hero__heading {
-    padding: 0 1rem;
-    margin-top: -22rem;
-  }
-}
-
-.hero__heading {
+.home-pro-member__heading {
   grid-row: 1;
   grid-column: 1;
-  padding: 2rem;
   color: #1d2e39;
   text-align: left;
   z-index: 1;
-  margin-top: 2rem;
+  margin-top: 5rem;
 
   h1 {
     font-weight: 700;
@@ -91,4 +108,8 @@
   button {
     color: white;
   }
+}
+
+.app-features-image {
+  max-width: 26rem;
 }

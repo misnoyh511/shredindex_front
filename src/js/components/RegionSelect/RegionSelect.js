@@ -3,13 +3,13 @@ import { CImage } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { currentFilterState } from '../../hooks/useQueryTypes';
 import { getContinent } from '../../hooks/getContinent';
-import worldMap from '../../../images/continent-world-map-2d.svg';
-import asia from '../../../images/continent-asia-map-2d.svg';
-import oceania from '../../../images/continent-oceania-map-2d.svg';
-import southAmerica from '../../../images/continent-south-america-map-2d.svg';
-import northAmerica from '../../../images/continent-north-america-map-2d.svg';
-import europe from '../../../images/continent-europe-map-2d.svg';
-import africa from '../../../images/continent-africa-map-2d.svg';
+import worldMap from '../../../images/continents/continent-world-map-2d.svg';
+import asia from '../../../images/continents/continent-asia-map-2d.svg';
+import oceania from '../../../images/continents/continent-oceania-map-2d.svg';
+import southAmerica from '../../../images/continents/continent-south-america-map-2d.svg';
+import northAmerica from '../../../images/continents/continent-north-america-map-2d.svg';
+import europe from '../../../images/continents/continent-europe-map-2d.svg';
+import africa from '../../../images/continents/continent-africa-map-2d.svg';
 
 const RegionSelect = () => {
   const [formData, setFormData] = useRecoilState(currentFilterState);

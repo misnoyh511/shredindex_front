@@ -6,10 +6,10 @@ import {
 import { JsonParam } from 'serialize-query-params';
 import PropTypes from 'prop-types';
 import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
-import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
 import useQueryResorts from '../../hooks/useQueryResorts';
-import ResortCardHome from '../ResortCardHome/ResortCardHome';
+import HomeResortCard from '../HomeResortCard/HomeResortCard';
 import ResortCardNoResults from '../ResortCard/ResortCardNoResults/ResortCardNoResults';
+import HomeResortCardSkeleton from '../SkeletonState/HomeResortCardSkeleton';
 
 const HomeRankedResortList = ({ query, cardLimit, lifestyle }) => {
   const {
@@ -52,19 +52,19 @@ const HomeRankedResortList = ({ query, cardLimit, lifestyle }) => {
     return (
       <div className="ranked-resort-list">
         <h3 className="lifestyles">
-          Top 5
+          Top
+          {' '}
+          {cardLimit}
           {` ${lifestyle} `}
           Resorts
         </h3>
-        <div className="ranked-resort-list--loading col-sm-12">
-          <div
-            className="home-ranked-resort-list ranked-resort-list__resort-card-list-wrap d-flex flex-wrap justify-content-center gap-4"
-          >
-            {Array.from({ length: cardLimit }, (x, i) => i)
-              .map((index) => (
-                <ResortCardSkeleton key={index} />
-              ))}
-          </div>
+        <div
+          className="home-ranked-resort-list ranked-resort-list__resort-card-list-wrap d-flex flex-wrap justify-content-center gap-4"
+        >
+          {Array.from({ length: cardLimit }, (x, i) => i)
+            .map((index) => (
+              <HomeResortCardSkeleton key={index} />
+            ))}
         </div>
       </div>
     );
@@ -75,7 +75,9 @@ const HomeRankedResortList = ({ query, cardLimit, lifestyle }) => {
   return (
     <div key={lifestyle} className="home-ranked-resort-list">
       <h3 className="lifestyles">
-        Top 5
+        Top
+        {' '}
+        {cardLimit}
         {` ${lifestyle} `}
         Resorts
       </h3>
@@ -83,7 +85,7 @@ const HomeRankedResortList = ({ query, cardLimit, lifestyle }) => {
         className="home-ranked-resort-list ranked-resort-list__resort-card-list-wrap d-flex flex-wrap justify-content-center gap-4"
       >
         {resorts?.length >= 1 ? resorts.map((resort) => (
-          <ResortCardHome key={resort.id} resortData={resort} />
+          <HomeResortCard key={resort.id} resortData={resort} />
         )) : (
           <ResortCardNoResults
             helpId="shredindex.resortcardnoresorts.HELP"

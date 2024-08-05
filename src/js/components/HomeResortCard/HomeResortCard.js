@@ -8,9 +8,9 @@ import ResortImageCarousel from '../ResortCard/ResortCardImageCarousel/ResortCar
 import { imageType } from '../../types/types';
 import ResortCardFooter from '../ResortCard/ResortCardFooter/ResortCardFooter';
 import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
-import ResortCardBodyHome from './ResortCardBodyHome';
+import HomeResortCardBody from './HomeResortCardBody';
 
-const ResortCardHome = ({ resortData }) => {
+const HomeResortCard = ({ resortData }) => {
   const [collapsed, setCollapsed] = useLocalStorageDrivenBooleanState('resortCollapsed', resortData.id);
 
   if (!resortData) {
@@ -33,7 +33,7 @@ const ResortCardHome = ({ resortData }) => {
           </CLink>
         </CCardHeader>
         <CCardBody className="resort-card__body-wrap pt-0 pb-0">
-          <ResortCardBodyHome resort={resortData} collapsed={!collapsed} />
+          <HomeResortCardBody resort={resortData} collapsed={!collapsed} />
         </CCardBody>
         {/* eslint-disable-next-line react/jsx-no-bind */}
         <CCardFooter className="resort-card__footer-wrap pointer-event" onClick={() => setCollapsed(!collapsed)}>
@@ -44,7 +44,7 @@ const ResortCardHome = ({ resortData }) => {
   );
 };
 
-ResortCardHome.propTypes = {
+HomeResortCard.propTypes = {
   resortData: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -57,4 +57,4 @@ ResortCardHome.propTypes = {
     affiliate_url: PropTypes.string.isRequired,
   }).isRequired,
 };
-export default ResortCardHome;
+export default HomeResortCard;

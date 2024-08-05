@@ -2,11 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CButton } from '@coreui/react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as HeroDesktop } from '../../../images/Hero-Desktop.svg';
-import { ReactComponent as HeroTablet } from '../../../images/Hero-Tablet.svg';
-import { ReactComponent as HeroMobile } from '../../../images/Hero-Mobile.svg';
+import { ReactComponent as HeroDesktop } from '../../../images/homepage/hero-desktop.svg';
+import { ReactComponent as HeroTablet } from '../../../images/homepage/hero-tablet.svg';
+import { ReactComponent as HeroMobile } from '../../../images/homepage/hero-mobile.svg';
 
-const Hero = () => (
+const HomeHero = () => (
   <div className="hero">
     <div className="hero__image">
       <div className="hero__svg hero__svg--desktop">
@@ -26,16 +26,16 @@ const Hero = () => (
           defaultMessage="Live your best adventure lifestyle."
         />
       </h1>
-      <div className="button-group d-flex align-items-start">
+      <div className="button-group d-flex align-items-start flex-wrap gap-3">
         <Link
           to="resorts"
         >
-          <CButton className="me-2" color="secondary" variant="">Explore resorts</CButton>
+          <CButton className="p-2 pe-4 ps-4" color="secondary" variant="">Explore resorts</CButton>
         </Link>
-        {/* <CButton className="me-2" color="warning" variant="">Become a member</CButton> */}
+        <CButton className="p-2 pe-4 ps-4" color="warning" variant="">Become a member</CButton>
       </div>
     </div>
   </div>
 );
 
-export default Hero;
+export default HomeHero;
