@@ -449,12 +449,12 @@
   }
 }
 
-.home {
-  .resort-card--skeleton {
-    width: -webkit-fill-available;
+.resort-card--skeleton {
+  width: -webkit-fill-available;
 
-    .single-image-container .skeleton-image {
-      height: 12.5rem;
+  .single-image-container {
+    .carousel__image.skeleton-image {
+      height: 12.25rem !important;
     }
   }
 }
