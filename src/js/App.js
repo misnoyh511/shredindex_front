@@ -52,7 +52,7 @@ const App = ({ suspenseQuery }) => {
                 <SidebarNav />
                 <div className="wrapper d-flex flex-column min-vh-100">
                   <Header />
-                  <div className="body flex-grow-1">
+                  <div className="body flex-grow-1 min-vh-100">
                     <GlobalToast />
                     <main className="c-main">
                       <DynamicSwitch />
