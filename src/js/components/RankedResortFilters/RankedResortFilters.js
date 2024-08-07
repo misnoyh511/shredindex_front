@@ -252,6 +252,7 @@ const RankedResortFilters = () => {
                       );
                     }
                   }}
+                  useGraph
                 />
               )}
             </FilterToggleButton>

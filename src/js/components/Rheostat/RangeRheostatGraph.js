@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import RheostatTicker from './RheostatTicker/RheostatTicker';
 import useQueryResortsRheostat from '../../hooks/useQueryResortsRheostat';
+
+const maxTickers = 100;
+const minTickerHeight = 1;
+const maxTickerHeight = 100;
 
 const RangeRheostatGraph = ({
   leftPosition,
@@ -13,39 +17,57 @@ const RangeRheostatGraph = ({
   lowerValue,
   graphTickerQuantity,
 }) => {
-  const tickerQuantity = Array.from(Array(graphTickerQuantity).keys());
-  const spanPercent = 100 / tickerQuantity.length;
-  const resortAverages = [];
-  const [maxResortInSpan, setMaxResortInSpan] = useState(0);
-  let height = 0;
-  let tickers = [];
-  const loadingTickers = [];
+  const { loading, data, error } = useQueryResortsRheostat(typeName);
 
-  // Loading state
-  for (let i = 0; i < 20; i += 1) {
-    const tick = i;
-    const tickHeight = tick + 1;
+  const spanPercent = useMemo(() => 100 / graphTickerQuantity, [graphTickerQuantity]);
 
-    const ticker = {
-      key: tick,
-      height: tickHeight,
-      backgroundColor: 'dark',
-    };
+  const tickers = useMemo(() => {
+    if (!data?.rheostatDirective) return [];
 
-    loadingTickers.push(ticker);
-  }
+    const { tickers: rawTickers } = data.rheostatDirective;
+    const aggregationFactor = Math.floor(maxTickers / graphTickerQuantity);
 
-  const { loading, data, error } = useQueryResortsRheostat(200, 1);
+    const aggregatedTickers = Array.from({ length: graphTickerQuantity }, (_, index) => {
+      const startIndex = index * aggregationFactor;
+      const endIndex = Math.min(startIndex + aggregationFactor, maxTickers);
+      return rawTickers.slice(startIndex, endIndex).reduce((sum, count) => sum + count, 0);
+    });
+
+    const maxCount = Math.max(...aggregatedTickers);
+
+    return aggregatedTickers.map((count, index) => {
+      const height = maxCount > 0 ? (count / maxCount) * maxTickerHeight : minTickerHeight;
+      const tickPosition = index * spanPercent;
+      const isOutOfRange = (upperValue < sliderMax && tickPosition > rightPosition)
+        || (lowerValue > sliderMin && tickPosition < leftPosition);
+
+      return {
+        key: index,
+        height: Math.max(height, minTickerHeight),
+        backgroundColor: isOutOfRange ? 'dark' : 'light',
+      };
+    });
+  }, [
+    data,
+    graphTickerQuantity,
+    leftPosition,
+    rightPosition,
+    sliderMin,
+    sliderMax,
+    upperValue,
+    lowerValue,
+    spanPercent,
+  ]);
 
   if (loading) {
     return (
       <div className="range-rheostat-graph">
         <div className="range-rheostat-graph__ticker-wrap d-flex justify-content-around">
-          {loadingTickers && loadingTickers.map((ticker) => (
+          {Array.from({ length: graphTickerQuantity }, (_, i) => (
             <RheostatTicker
-              key={ticker.key}
-              value={ticker.height}
-              backgroundColor={ticker.backgroundColor}
+              key={i}
+              value={i + 1}
+              backgroundColor="dark"
               isLoading
             />
           ))}
@@ -55,121 +77,29 @@ const RangeRheostatGraph = ({
   }
 
   if (error) {
-    return <>error</>;
+    return (
+      <div>
+        Error:
+        {error.message}
+      </div>
+    );
   }
 
-  const { resorts: { data: resorts } } = data;
-
-  // Todo: Remove filter to get average from current data,
-  //  as each resort will only have a single data point for rating type
-
-  if (!loading && resorts) {
-    resorts?.forEach((resort) => {
-      let avg = 0;
-
-      resort.ratings?.filter((rating) => rating.name === typeName).forEach((score) => {
-        avg += score.value;
-      });
-      avg /= (resort.ratings?.filter((rating) => rating.name === typeName).length) || 0;
-      resortAverages.push(avg);
-    });
-
-    // Get maxResortInSpan:
-    // Finds the most amount of resorts in a single ticker, so we can utilize full height.
-    tickerQuantity.forEach((tick) => {
-      const spanLow = spanPercent * tick;
-      const spanHigh = spanPercent * tick + spanPercent;
-
-      if (resortAverages.some((el) => el >= spanLow && el < spanHigh)) {
-        let resortQty = 0;
-
-        resortAverages.forEach((avg) => {
-          if (avg >= spanLow && avg <= spanHigh) {
-            resortQty += 1;
-          }
-          if (maxResortInSpan < resortQty) {
-            setMaxResortInSpan(resortQty);
-          }
-        });
-      }
-    });
-
-    // Set initial tickers
-    tickerQuantity.forEach((tick) => {
-      const spanLow = spanPercent * tick;
-      const spanHigh = spanPercent * tick + spanPercent;
-      let resortQty = 0;
-
-      if (resortAverages.some((el) => el >= spanLow && el < spanHigh)) {
-        resortQty = 0;
-
-        resortAverages.forEach((avg) => {
-          if (avg >= spanLow && avg <= spanHigh) {
-            resortQty += 1;
-          }
-        });
-      }
-
-      height = (100 / maxResortInSpan) * resortQty;
-
-      tickers.push({
-        key: tick,
-        height: height > 1 ? height : 5,
-        backgroundColor: 'light',
-      });
-    });
-
-    // Change color of graph ticks based on the sliders input.
-    if (upperValue < sliderMax) {
-      const tickersArray = tickers;
-
-      tickers.forEach((tick) => {
-        const tickObj = tick;
-        if ((tick.key * spanPercent) > rightPosition) {
-          tickObj.backgroundColor = 'dark';
-        } else {
-          tickObj.backgroundColor = 'light';
-        }
-        if (tick.key !== tickObj.key) {
-          tickersArray.push(tickObj);
-        }
-      });
-      tickers = tickersArray;
-    }
-    if (lowerValue > sliderMin) {
-      const tickersArray = tickers;
-
-      tickers.forEach((tick) => {
-        const tickObj = tick;
-        if ((tick.key * spanPercent) < leftPosition) {
-          tickObj.backgroundColor = 'dark';
-        } else if ((tick.key * spanPercent) < rightPosition) {
-          tickObj.backgroundColor = 'light';
-        }
-        if (tick.key !== tickObj.key) {
-          tickersArray.push(tickObj);
-        }
-      });
-      tickers = tickersArray;
-    }
-  }
+  const graphKey = `${leftPosition}-${rightPosition}-${upperValue}-${lowerValue}-${typeName}`;
 
   return (
-    <div className="range-rheostat-graph">
+    <div className="range-rheostat-graph" key={graphKey}>
       <div className="range-rheostat-graph__ticker-wrap d-flex justify-content-around">
-        {tickers && tickers.map((ticker) => (
+        {tickers.map(({ key, height, backgroundColor }) => (
           <RheostatTicker
-            key={ticker.key}
-            value={ticker.height}
-            backgroundColor={ticker.backgroundColor}
+            key={key}
+            value={height}
+            backgroundColor={backgroundColor}
           />
         ))}
       </div>
     </div>
   );
-};
-
-RangeRheostatGraph.defaultProps = {
 };
 
 RangeRheostatGraph.propTypes = {
@@ -183,4 +113,4 @@ RangeRheostatGraph.propTypes = {
   graphTickerQuantity: PropTypes.number.isRequired,
 };
 
-export default RangeRheostatGraph;
+export default React.memo(RangeRheostatGraph);
