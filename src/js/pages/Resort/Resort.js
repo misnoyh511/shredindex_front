@@ -25,6 +25,7 @@ import ResortRatingsSkeleton
   from '../../components/ResortSingle/ResortRatings/ResortRatingsSkeleton';
 import ResortMapSkeleton from '../../components/ResortSingle/ResortMap/ResortMapSkeleton';
 import ColumbiaBanner from '../../components/Advertisers/ColumbiaBanner/ColumbiaBanner';
+import ResortGenerics from '../../components/ResortSingle/ResortGenerics/ResortGenerics';
 
 export const QUERY_RESORT = gql`
 query ResortByURLSegment($url_segment: String!) {
@@ -175,6 +176,7 @@ const Resort = () => {
       resort_images,
       ratingScores: ratings,
       numerics,
+      generics,
       location,
       comments,
     },
@@ -205,6 +207,7 @@ const Resort = () => {
             <ResortHeader resort={resort} />
             <ResortImageCarousel images={resort_images} />
             <ResortNumerics numerics={numerics} />
+            <ResortGenerics generics={generics} />
             <ResortRatings ratings={ratings} />
             <ResortComments comments={comments} />
           </CCol>
