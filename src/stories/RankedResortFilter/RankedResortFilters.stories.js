@@ -5,9 +5,9 @@ import { IntlProvider } from 'react-intl';
 import { RecoilRoot } from 'recoil';
 import { MockedProvider } from '@apollo/client/testing';
 import { MemoryRouter } from 'react-router-dom';
-import langEn from '../../js/lang/en.json';
-import { QUERY_TYPES } from '../../js/hooks/useQueryTypes';
-import FiltersComponent from '../../js/components/RankedResortFilters/RankedResortFilters';
+import langEn from '../../../lang/en.json';
+import { QUERY_TYPES } from '../../../hooks/useQueryTypes';
+import FiltersComponent from '../../../components/RankedResortFilters/RankedResortFilters';
 
 export default {
   title: 'Shred index/components/RankedResortFilter',

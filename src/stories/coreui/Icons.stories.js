@@ -2,7 +2,7 @@ import React from 'react';
 import {
   CCard, CCardBody, CCardHeader, CCol, CRow,
 } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
+import { CIcon } from '@coreui/icons-react';
 import { freeSet } from '@coreui/icons';
 
 export default { title: 'CoreUI/Icons' };

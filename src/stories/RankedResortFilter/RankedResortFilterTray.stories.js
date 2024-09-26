@@ -5,8 +5,8 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { MemoryRouter } from 'react-router';
 import { MockedProvider } from '@apollo/react-testing';
-import FilterMenuComponent from '../../js/components/RankedResortFilterMenu/RankedResortFilterMenu';
-import langEn from '../../js/lang/en.json';
+import FilterMenuComponent from '../../../components/RankedResortFilterMenu/RankedResortFilterMenu';
+import langEn from '../../../lang/en.json';
 
 export default {
   title: 'Shred index/components/RankedResortFilter',

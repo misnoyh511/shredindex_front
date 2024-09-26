@@ -3,9 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import ResortSearchAutoSuggest, { SEARCH_RESORTS } from '../../../js/components/ResortSearchAutoSuggest/ResortSearchAutoSuggest';
-import ResortSearchAutoSuggestSkeleton from '../../../js/components/ResortSearchAutoSuggest/ResortSearchAutoSuggestSkeleton';
-import langEn from '../../../js/lang/en.json';
+import ResortSearchAutoSuggest, { SEARCH_RESORTS } from '../../../../components/ResortSearchAutoSuggest/ResortSearchAutoSuggest';
+import ResortSearchAutoSuggestSkeleton from '../../../../components/ResortSearchAutoSuggest/ResortSearchAutoSuggestSkeleton';
+import langEn from '../../../../lang/en.json';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -91,7 +91,7 @@ WithResults.parameters = {
               data: [
                 {
                   id: '1',
-                  title: 'Test Resort',
+                  title: 'Test ResortSingle',
                   url_segment: 'test-resort',
                   location: {
                     city: 'Test City',
@@ -101,7 +101,7 @@ WithResults.parameters = {
                 },
                 {
                   id: '2',
-                  title: 'Another Test Resort',
+                  title: 'Another Test ResortSingle',
                   url_segment: 'another-test-resort',
                   location: {
                     city: 'Another City',

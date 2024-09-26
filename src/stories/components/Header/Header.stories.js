@@ -1,13 +1,14 @@
+import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
-import React, { useMemo, useState } from 'react';
-import { withRouter } from 'storybook-addon-react-router-v6';
+import { withRouter } from 'storybook-addon-remix-react-router';
 import { IntlProvider } from 'react-intl';
-import HeaderComponent from '../../../js/components/Header/Header';
-import { menuCode as headerMenuCode } from '../../../js/components/HeaderMenuMain/HeaderMenuMain';
-import SidebarNav from '../../../js/components/SidebarNav/SidebarNav';
-import ViewContext from '../../../js/components/ViewContext/ViewContext';
-import { QUERY_STATIC_MENU } from '../../../js/hooks/useStaticMenu';
-import langEn from '../../../js/lang/en.json';
+import { RecoilRoot } from 'recoil';
+import HeaderComponent from '../../../../components/Header/Header';
+import { menuCode as headerMenuCode } from '../../../../components/HeaderMenuMain/HeaderMenuMain';
+import SidebarNav from '../../../../components/SidebarNav/SidebarNav';
+import { showSidebar } from '../../../../atoms/showSidebar';
+import { QUERY_STATIC_MENU } from '../../../../hooks/useStaticMenu';
+import langEn from '../../../../lang/en.json';
 
 export default {
   title: 'Shred index/components/Header',
@@ -45,19 +46,16 @@ export const Header = () => {
     },
   };
 
-  const [showSidebar, setShowSidebar] = useState(false);
-  const viewData = useMemo(() => ({ showSidebar, setShowSidebar }), [showSidebar]);
-
   return (
-    <IntlProvider locale="en" message={langEn}>
-      <ViewContext.Provider value={viewData}>
+    <RecoilRoot initializeState={({ set }) => set(showSidebar, false)}>
+      <IntlProvider locale="en" messages={langEn}>
         <MockedProvider mocks={[mocks.staticMenu]} addTypename={false}>
           <>
             <SidebarNav />
             <HeaderComponent />
           </>
         </MockedProvider>
-      </ViewContext.Provider>
-    </IntlProvider>
+      </IntlProvider>
+    </RecoilRoot>
   );
 };

@@ -4,7 +4,14 @@
   position: relative;
   max-width: 16rem;
 
-  &__spinner img{
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Adjust as needed */
+  }
+
+  .spinner-svg {
     height: 3.5rem;
     width: 3.5rem;
     animation: rotate 1s linear infinite;

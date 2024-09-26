@@ -18,11 +18,11 @@ describe('Footer', () => {
   });
 
   context('All devices', () => {
-    it.skip('Should show a copyright message', () => {
-      const d = new Date();
-      const year = d.getFullYear();
-      cy.get('.footer__copyright').should('contain', `Copyright ${year} Shred Index`);
-    });
+    // it.skip('Should show a copyright message', () => {
+    //   const d = new Date();
+    //   const year = d.getFullYear();
+    //   cy.get('.footer__copyright').should('contain', `Copyright ${year} Shred Index`);
+    // });
 
     it('Should render a link', () => {
       cy.get('.footer__copyright').contains('a', 'Shred Index').should('have.attr', 'href', '#');

@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RecoilRoot } from 'recoil';
-import { reactRouterParameters } from 'storybook-addon-react-router-v6';
+import { reactRouterParameters } from 'storybook-addon-remix-react-router';
 import { MockedProvider } from '@apollo/react-testing';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import {
-  QueryParamProvider,
-} from 'use-query-params';
-import RankedResortListComponent from '../../js/components/RankedResortList/RankedResortList';
-import ResortsParallaxBackground
-  from '../../js/components/ResortsParallaxBackground/ResortsParallaxBackground';
-import langEn from '../../js/lang/en.json';
-import ResortCardSkeleton from '../../js/components/SkeletonState/ResortCardSkeleton';
-import { QUERY_RESORTS } from '../../js/hooks/useQueryResorts';
-import RankedResortFilterMenuSkeleton from '../../js/components/RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
-import RankedResortResultCountSkeleton
-  from '../../js/components/RankedResortResultCount/RankedResortResultCountSkeleton';
+import { QueryParamProvider } from 'use-query-params';
+import RankedResortListComponent from '../../../components/RankedResortList/RankedResortList';
+import ResortsParallaxBackground from '../../../components/ResortsParallaxBackground/ResortsParallaxBackground';
+import langEn from '../../../lang/en.json';
+import ResortCardSkeleton from '../../../components/SkeletonState/ResortCardSkeleton';
+import { QUERY_RESORTS } from '../../../hooks/useQueryResorts';
+import RankedResortFilterMenuSkeleton from '../../../components/RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
+import RankedResortResultCountSkeleton from '../../../components/RankedResortResultCount/RankedResortResultCountSkeleton';
 import resortOne from '../../../cypress/e2e/RankedResortList/dummyResortOne';
 import resortTwo from '../../../cypress/e2e/RankedResortList/dummyResortTwo';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
 export default {
   title: 'Shred index/components',
@@ -38,6 +35,48 @@ export default {
       routing: { path: '/resorts/?page=:page' },
     }),
   },
+  decorators: [
+    (Story) => {
+      const [currentPage, setCurrentPage] = useState('1');
+      const [key, setKey] = useState(0);
+
+      const mockRouter = {
+        basePath: '',
+        pathname: '/',
+        route: '/',
+        asPath: '/',
+        query: { page: currentPage },
+        push: (url) => {
+          let newPage = '1';
+          if (typeof url === 'object' && url.query && url.query.page) {
+            newPage = url.query.page;
+          }
+          setCurrentPage(newPage);
+          setKey(prevKey => prevKey + 1);  // Force re-render
+          return Promise.resolve(true);
+        },
+        replace: () => Promise.resolve(true),
+        reload: () => Promise.resolve(true),
+        back: () => {},
+        prefetch: () => Promise.resolve(),
+        beforePopState: () => {},
+        events: {
+          on: () => {},
+          off: () => {},
+          emit: () => {},
+        },
+        isFallback: false,
+      };
+
+      return (
+        <RouterContext.Provider value={mockRouter}>
+          <div key={key}>
+            <Story />
+          </div>
+        </RouterContext.Provider>
+      );
+    },
+  ],
 };
 
 export const RankedResortList = (args) => {
@@ -173,7 +212,7 @@ export const RankedResortList = (args) => {
   if (listState === 'Error') {
     return (
       <MemoryRouter initialEntries={['?first=2', '?page=1']}>
-        <IntlProvider locale="en" message={langEn}>
+        <IntlProvider locale="en" messages={langEn}>
           <RecoilRoot>
             <QueryParamProvider adapter={ReactRouter6Adapter}>
               <MockedProvider
@@ -191,7 +230,7 @@ export const RankedResortList = (args) => {
 
   return (
     <MemoryRouter initialEntries={['?first=2', '?page=1']}>
-      <IntlProvider locale="en" message={langEn}>
+      <IntlProvider locale="en" messages={langEn}>
         <RecoilRoot>
           <MockedProvider
             mocks={[

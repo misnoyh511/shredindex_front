@@ -6,29 +6,60 @@
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:cypress/recommended",
-    "airbnb",
-    "plugin:storybook/recommended"
+    "airbnb-typescript",
+    "plugin:storybook/recommended",
+    "plugin:@next/next/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "allowImportExportEverywhere": true
+    "project": "./tsconfig.json"
   },
   "plugins": [
     "react",
+    "@typescript-eslint",
+    "import",
     "jest",
     "cypress"
   ],
   "rules": {
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "default",
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+        "leadingUnderscore": "allow",
+        "trailingUnderscore": "allow"
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase", "PascalCase", "UPPER_CASE", "snake_case"],
+        "leadingUnderscore": "allow",
+        "trailingUnderscore": "allow"
+      },
+      {
+        "selector": "property",
+        "format": null
+      },
+      {
+        "selector": "parameter",
+        "format": ["camelCase", "PascalCase", "snake_case"],
+        "leadingUnderscore": "allow"
+      }
+    ],
     "react/jsx-props-no-spreading": 0,
     "react/function-component-definition": [
       1,
@@ -40,8 +71,10 @@
       1,
       {
         "extensions": [
-          ".js",
-          ".jsx"
+          ".tsx",
+          ".ts",
+          ".jsx",
+          ".js"
         ]
       }
     ],
@@ -51,12 +84,34 @@
         "devDependencies": true
       }
     ],
-    "camelcase": [
-      0
+    "camelcase": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/require-default-props": 0,
+    "react/prop-types": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-explicit-any": [
+      "warn",
+      {
+        "ignoreRestArgs": true
+      }
     ]
   },
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     "import/resolver": {
+      "typescript": {},
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }

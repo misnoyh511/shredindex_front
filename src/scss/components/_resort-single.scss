@@ -1,5 +1,17 @@
 .resort-single {
 
+  & .caption-text {
+    font-weight: 200;
+    position: relative;
+    font-size: 0.9rem;
+  }
+
+  & .resort-single-card-heading {
+    font-size: 1.1rem;
+    font-weight: 200;
+    font-family: "Plus Jakarta Sans";
+  }
+
   & .numeric-list__numeric {
     padding: 1rem;
     border-left: .25rem solid #245773;
@@ -19,7 +31,7 @@
   }
 
   & .resort-single__image-carousel {
-    height: 14rem;
+    height: 15rem;
     .flickity-viewport {
       height: 100% !important;
     }
@@ -44,6 +56,7 @@
   }
 
   & .resort-comments__card {
+    overflow: hidden;
     width: 12rem;
     margin-right: 1rem;
   }

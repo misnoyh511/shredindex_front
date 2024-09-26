@@ -1,6 +1,6 @@
 const dataProvider = Array.from(Array(10).keys());
 
-describe('Ranked Resort List Full', () => {
+describe('Ranked ResortSingle List Full', () => {
   beforeEach(() => {
     context('All devices', () => {
       cy.visit('/iframe.html?id=shred-index-components--pagination');

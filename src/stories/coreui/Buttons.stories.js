@@ -7,8 +7,8 @@ import {
   CRow,
 } from '@coreui/react';
 
-import CIcon from '@coreui/icons-react';
-import cilBell from '@coreui/icons';
+import { CIcon } from '@coreui/icons-react';
+import { cilBell } from '@coreui/icons';
 import React from 'react';
 
 /* eslint-disable react/no-array-index-key */

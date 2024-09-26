@@ -3,56 +3,41 @@ const path = require('path');
 const config = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-onboarding",
-    "storybook-addon-react-router-v6",
-    "@storybook/addon-interactions",
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
   ],
   framework: {
-    name: "@storybook/react-webpack5",
+    name: '@storybook/nextjs',
     options: {
-      fsCache: true,
+      builder: 'webpack5',
       lazyCompilation: true,
-      builder: {
-        useSWC: true,
-      },
+      fsCache: true,
     },
   },
   docs: {
     autodocs: "tag",
   },
+  core: {
+    builder: "webpack5", // Storybook now defaults to Webpack 5, so ensure it's specified
+  },
   async webpackFinal(config) {
+    // Exclude SVGs from file-loader
+    const fileLoaderRule = config.module.rules.find(rule => rule.test && rule.test.test('.svg'));
+    if (fileLoaderRule) {
+      fileLoaderRule.exclude = /\.svg$/;
+    }
 
-    const fileLoaderRule = config.module.rules.find(rule => rule.test.test('.svg'));
-    fileLoaderRule.exclude = /\.svg$/;
-
+    // Add SVGR loader for handling SVGs as React components
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack", "file-loader"],
+      use: ["@svgr/webpack"],
+      issuer: /\.[jt]sx?$/,
     });
 
-    config.module.rules.push(      {
-      test: /\.(ts|tsx|js|jsx)$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: 'babel-loader',
-        },
-      ],
-    });
-    config.module.rules.push(            {
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: 'javascript/auto',
-    });
-
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: ['style-loader', 'css-loader', 'sass-loader'],
-      include: path.resolve(__dirname, '../'),
-    });
     return config;
   },
 };
+
 export default config;

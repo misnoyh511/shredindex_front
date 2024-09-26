@@ -2,10 +2,10 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import SupportBannerComponent, {
   QUERY_SUPPORTERS,
-} from '../../../js/components/SupportBanner/SupportBanner';
+} from '../../../../components/SupportBanner/SupportBanner';
 import NoCacheMockedProvider
-  from '../../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
-import langEn from '../../../js/lang/en.json';
+  from '../../../../components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
+import langEn from '../../../../lang/en.json';
 
 export default {
   title: 'Shred index/components/Support Banner',

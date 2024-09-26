@@ -3,8 +3,8 @@ import { IntlProvider } from 'react-intl';
 import {
   CCard, CRow, CCol, CCardHeader, CCardBody,
 } from '@coreui/react';
-import DoubleRangeSliderComponent from '../../../js/components/DoubleRangeSlider/DoubleRangeSlider';
-import langEn from '../../../js/lang/en.json';
+import DoubleRangeSliderComponent from '../../../../components/DoubleRangeSlider/DoubleRangeSlider';
+import langEn from '../../../../lang/en.json';
 
 export default {
   title: 'Shred index/components',

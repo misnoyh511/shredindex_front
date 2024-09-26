@@ -1,3 +1,4 @@
+/.next/*
 node_modules
 public/dist/
 public/index.html
@@ -16,3 +17,6 @@ jest-coverage/
 reports/
 coverage/
 /cypress-coverage/lcov-report/
+/.next/
+/out/
+next-env.d.ts

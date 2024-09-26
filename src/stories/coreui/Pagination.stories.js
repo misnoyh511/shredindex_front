@@ -1,15 +1,48 @@
-import React from 'react';
-import {
-  QueryParamProvider,
-} from 'use-query-params';
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import { withRouter } from 'storybook-addon-react-router-v6';
-import PaginationComponent from '../../js/components/Pagination/Pagination';
+import React, { useState } from 'react';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import PaginationComponent from '../../../components/Pagination/Pagination';
 
 export default {
   title: 'Shred index/components',
   component: PaginationComponent,
-  decorators: [withRouter],
+  decorators: [
+    (Story) => {
+      const [currentPage, setCurrentPage] = useState('1');
+
+      const mockRouter = {
+        basePath: '',
+        pathname: '/',
+        route: '/',
+        asPath: '/',
+        query: { page: currentPage },
+        push: (url) => {
+          let newPage = '1';
+          if (typeof url === 'object' && url.query && url.query.page) {
+            newPage = url.query.page;
+          }
+          setCurrentPage(newPage);
+          return Promise.resolve(true);
+        },
+        replace: () => Promise.resolve(true),
+        reload: () => Promise.resolve(true),
+        back: () => {},
+        prefetch: () => Promise.resolve(),
+        beforePopState: () => {},
+        events: {
+          on: () => {},
+          off: () => {},
+          emit: () => {},
+        },
+        isFallback: false,
+      };
+
+      return (
+        <RouterContext.Provider value={mockRouter}>
+          <Story />
+        </RouterContext.Provider>
+      );
+    },
+  ],
 };
 
 export const Pagination = () => {
@@ -20,12 +53,10 @@ export const Pagination = () => {
   };
 
   return (
-    <QueryParamProvider adapter={ReactRouter6Adapter}>
-      <PaginationComponent
-        paginationTabLimit={mocks.paginationTabLimit}
-        size={mocks.size}
-        lastPage={mocks.lastPage}
-      />
-    </QueryParamProvider>
+    <PaginationComponent
+      paginationTabLimit={mocks.paginationTabLimit}
+      size={mocks.size}
+      lastPage={mocks.lastPage}
+    />
   );
 };

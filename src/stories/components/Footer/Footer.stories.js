@@ -1,13 +1,13 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import { withRouter } from 'storybook-addon-react-router-v6';
+import { withRouter } from 'storybook-addon-remix-react-router';
 import FooterComponent, {
   QUERY_SETTINGS,
   QUERY_TEAM_MEMBERS,
-} from '../../../js/components/Footer/Footer';
+} from '../../../../components/Footer/Footer';
 import NoCacheMockedProvider
-  from '../../../js/components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
-import langEn from '../../../js/lang/en.json';
+  from '../../../../components/tests/NoCacheMockedProvider/NoCacheMockedProvider';
+import langEn from '../../../../lang/en.json';
 
 export default {
   title: 'Shred index/components/Footer',

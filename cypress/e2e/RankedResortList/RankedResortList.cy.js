@@ -12,7 +12,7 @@ const dataProvider = {
       },
     },
     {
-      data: [resortOne, resortTwo, resortOne, resortTwo, resortOne],
+      data: [resortTwo, resortOne, resortTwo, resortOne, resortTwo],
       paginatorInfo: {
         currentPage: 2,
         lastPage: 3,
@@ -28,7 +28,7 @@ const dataProvider = {
   ],
 };
 
-describe('Ranked Resort List Full', () => {
+describe('Ranked ResortSingle List Full', () => {
   before(() => {
     cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list');
   });
@@ -89,7 +89,7 @@ describe('Ranked Resort List Full', () => {
   });
 });
 
-describe('Ranked Resort List Error', () => {
+describe('Ranked ResortSingle List Error', () => {
   beforeEach(() => {
     cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Error');
   });
@@ -103,7 +103,7 @@ describe('Ranked Resort List Error', () => {
   });
 });
 
-describe('Ranked Resort List Loading', () => {
+describe('Ranked ResortSingle List Loading', () => {
   beforeEach(() => {
     cy.visit('/iframe.html?id=shred-index-components--ranked-resort-list&args=listState:Loading');
   });
