@@ -1,0 +1,69 @@
+steps:
+  # Create .env.local file
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cat << EOF > .env.local
+        NEXT_PUBLIC_MAPBOX_API_KEY=${_MAPBOX_API_KEY}
+        NEXT_PUBLIC_GRAPHQL_ENDPOINT=${_GRAPHQL_ENDPOINT}
+        NEXTAUTH_URL=${_NEXTAUTH_URL}
+        NEXTAUTH_SECRET=${_NEXTAUTH_SECRET}
+        GOOGLE_ID=${_GOOGLE_ID}
+        GOOGLE_SECRET=${_GOOGLE_SECRET}
+        FACEBOOK_ID=${_FACEBOOK_ID}
+        FACEBOOK_SECRET=${_FACEBOOK_SECRET}
+        EMAIL_SERVER=${_EMAIL_SERVER}
+        EMAIL_FROM=${_EMAIL_FROM}
+        OCTOBERCMS_API_URL=${_OCTOBERCMS_API_URL}
+        DATABASE_URL=${_DATABASE_URL}
+        EOF
+
+  # Build frontend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'us-central1-docker.pkg.dev/shred-index-social-login/shredindex-repo/frontend:$BUILD_ID',
+      '--build-arg', 'NEXT_PUBLIC_MAPBOX_API_KEY=${_MAPBOX_API_KEY}',
+      '--build-arg', 'NEXT_PUBLIC_GRAPHQL_ENDPOINT=${_GRAPHQL_ENDPOINT}',
+      '.'
+    ]
+
+  # Push frontend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/shred-index-social-login/shredindex-repo/frontend:$BUILD_ID']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'frontend'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/shred-index-social-login/shredindex-repo/frontend:$BUILD_ID'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'NEXT_PUBLIC_MAPBOX_API_KEY=${_MAPBOX_API_KEY},NEXT_PUBLIC_GRAPHQL_ENDPOINT=${_GRAPHQL_ENDPOINT},NEXTAUTH_URL=${_NEXTAUTH_URL},NEXTAUTH_SECRET=${_NEXTAUTH_SECRET},GOOGLE_ID=${_GOOGLE_ID},GOOGLE_SECRET=${_GOOGLE_SECRET},FACEBOOK_ID=${_FACEBOOK_ID},FACEBOOK_SECRET=${_FACEBOOK_SECRET},EMAIL_SERVER=${_EMAIL_SERVER},EMAIL_FROM=${_EMAIL_FROM},OCTOBERCMS_API_URL=${_OCTOBERCMS_API_URL},DATABASE_URL=${_DATABASE_URL}'
+
+images:
+  - 'us-central1-docker.pkg.dev/shred-index-social-login/shredindex-repo/frontend:$BUILD_ID'
+
+substitutions:
+  _MAPBOX_API_KEY: 'pk.eyJ1Ijoia3JhbmszbiIsImEiOiJjam9hNjZpNmYwaDE4M3JsY2hsaDBkdnRvIn0.Xfi0W6hZTxWA0vYnQPUeFA'
+  _GRAPHQL_ENDPOINT: 'http://localhost:8080/graphql'
+  _NEXTAUTH_URL: 'http://localhost:3000'
+  _NEXTAUTH_SECRET: 'your_nextauth_secret_here_replace_with_a_random_string'
+  _GOOGLE_ID: 'your_google_client_id'
+  _GOOGLE_SECRET: 'your_google_client_secret'
+  _FACEBOOK_ID: 'your_facebook_app_id'
+  _FACEBOOK_SECRET: 'your_facebook_app_secret'
+  _EMAIL_SERVER: 'smtp://username:password@smtp.example.com:587'
+  _EMAIL_FROM: 'noreply@example.com'
+  _OCTOBERCMS_API_URL: 'https://your-october-cms-url/api'
+  _DATABASE_URL: 'postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public'

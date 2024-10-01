@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import privateKeys from '../../../../privateKeys';
 
 const containerStyle: React.CSSProperties = {
   width: '100%',
@@ -9,7 +8,8 @@ const containerStyle: React.CSSProperties = {
   position: 'relative',
 };
 
-mapboxgl.accessToken = privateKeys.mapboxAccessToken;
+// @ts-expect-error it will error
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
 
 interface ResortMapProps {
   longitude: number;
@@ -68,7 +68,7 @@ const ResortMap: React.FC<ResortMapProps> = ({ longitude, latitude }) => {
     if (mapContainerRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: privateKeys.mapboxStyle,
+        style: process.env.NEXT_PUBLIC_MAPBOX_STYLE,
         center: [longitude, latitude],
         zoom: 13,
         pitch: 60,

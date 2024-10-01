@@ -7,6 +7,7 @@ infrastructure
 .idea/
 debug.log
 privateKeys.js
+cloudbuild.yaml
 
 # Tests and coverage reports
 cypress.env.json

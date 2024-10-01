@@ -8,6 +8,7 @@ import { menuCode as footerMenuCode } from '../components/FooterMenuMain/FooterM
 import { menuCode as headerMenuCode } from '../components/HeaderMenuMain/HeaderMenuMain';
 import queryCMSPage from '../utility/query-cms-page';
 import DynamicLayout from '../components/DynamicLayout/DynamicLayout';
+import Home from '../components/Home/home';
 
 interface HomeProps {
   cmsPageData: unknown;
@@ -15,8 +16,11 @@ interface HomeProps {
   footerMenuItems: unknown[];
 }
 
-const Home: React.FC<HomeProps> = ({ cmsPageData, headerMenuItems, footerMenuItems }) => {
-  if (!cmsPageData || !cmsPageData.cmsPage) return <div>Home page not found</div>;
+const Index: React.FC<HomeProps> = ({ cmsPageData, headerMenuItems, footerMenuItems }) => {
+  if (!cmsPageData || !cmsPageData.cmsPage) {
+    console.error('CMS Page data is missing:', cmsPageData);
+    return <Home />;
+  }
 
   return (
     <DynamicLayout
@@ -33,9 +37,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   try {
     const [
-      cmsPageData,
+      { data: cmsPageData },
       ,
-      ,,
       { data: headerMenuData },
       { data: footerMenuData },
     ] = await Promise.all([
@@ -53,10 +56,15 @@ export const getStaticProps: GetStaticProps = async () => {
       }),
     ]);
 
+    if (!cmsPageData || !cmsPageData.cmsPage) {
+      console.error('CMS Page data is missing in getStaticProps:', cmsPageData);
+      throw new Error('Failed to fetch CMS Page data');
+    }
+
     return {
       props: {
         initialApolloState: apolloClient.cache.extract(),
-        cmsPageData: cmsPageData.data,
+        cmsPageData,
         headerMenuItems: headerMenuData?.staticMenu?.items || [],
         footerMenuItems: footerMenuData?.staticMenu?.items || [],
       },
@@ -64,8 +72,11 @@ export const getStaticProps: GetStaticProps = async () => {
     };
   } catch (error) {
     console.error('Error fetching data:', error);
-    return { props: {}, revalidate: 60 };
+    return {
+      props: {},
+      revalidate: 60,
+    };
   }
 };
 
-export default Home;
+export default Index;

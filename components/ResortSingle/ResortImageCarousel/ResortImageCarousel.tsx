@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Flickity from 'react-flickity-component';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
 import { Image as ImageType } from '../../../types/types';
 import flickityOptions from '../../../src/js/components/config/flickity-options';
 import ResortImagePlaceholder from '../../../images/resort-image-placeholder.svg';
+import ResortImageModal from './ResortImageModal';
+import { CIcon } from '@coreui/icons-react';
+import { cilFullscreen } from '@coreui/icons';
 
 interface ResortImageCarouselProps {
   images: ImageType[];
 }
 
 const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   const options = {
     ...flickityOptions,
     isDraggable: true,
-    prevNextButtons: false,
+    prevNextButtons: true,
     contain: true,
     pageDots: false,
     imagesLoaded: true,
@@ -25,8 +31,24 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
     img !== null && img !== undefined && img.image?.path !== undefined,
   );
 
-  const renderImage = (image: ImageType) => (
-    <div key={image.id} className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium">
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index);
+    setModalOpen(true);
+  };
+
+  const renderImage = (image: ImageType, index: number) => (
+    <div
+      key={image.id}
+      className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium cursor-pointer"
+    >
+      <div
+        className="fullscreen-icon-wrap d-none d-lg-flex"
+      >
+        <CIcon
+          icon={cilFullscreen}
+          onClick={() => handleImageClick(index)}
+        />
+      </div>
       <Image
         className="carousel__image-item border-radius-medium position-relative"
         src={image.image.path}
@@ -63,9 +85,16 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
         static
       >
         {filteredImages.length > 0
-          ? filteredImages.map(renderImage)
+          ? filteredImages.map((image, index) => renderImage(image, index))
           : [renderPlaceholder()]}
       </Flickity>
+
+      <ResortImageModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        images={filteredImages}
+        initialIndex={selectedImageIndex}
+      />
     </div>
   );
 };

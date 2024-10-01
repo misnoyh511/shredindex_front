@@ -28,12 +28,16 @@ export const QUERY_CMS_PAGES = gql`
   {
     cmsPages {
       url
+      layout
+      title
     }
   }
 `;
 
 interface CMSPage {
   url: string;
+  layout: string | null;
+  title: string;
 }
 
 interface CMSPagesData {
@@ -57,11 +61,11 @@ const DynamicSwitch: React.FC = () => {
     <>
       <ScrollToTop />
       <Routes>
-        {cmsPages.map(({ url }) => (
+        {cmsPages.map(({ url, layout, title }) => (
           <Route
             key={url}
             path={url}
-            element={<DynamicLayout url={url} />}
+            element={<DynamicLayout url={url} layout={layout} title={title} />}
           />
         ))}
         <Route

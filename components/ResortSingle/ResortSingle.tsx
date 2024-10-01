@@ -27,7 +27,9 @@ import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
 
 interface ResortProps {
   resortData: Resort | null;
-  error?: Error | null;
+  error?: {
+    message: string
+  };
   loading?: boolean;
 }
 

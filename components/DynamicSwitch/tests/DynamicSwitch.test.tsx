@@ -1,103 +1,79 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import { MockedProvider } from '@apollo/client/testing';
 import DynamicSwitch, { QUERY_CMS_PAGES } from '../DynamicSwitch';
-import queryCMSPage from '../../../utility/query-cms-page';
-import { layoutsAtom } from '../../../atoms/layoutsType';
 
-const mocks = {
-  cmsPagesEmpty: {
-    request: {
-      query: QUERY_CMS_PAGES,
-    },
-    result: {
-      data: {
-        cmsPages: [],
-      },
-    },
+// Mock the layouts
+jest.mock('../../../pages/_app', () => ({
+  layouts: {
+    foo: () => <div>Foo layout</div>,
+    fooBar: () => <div>FooBar layout</div>, // Changed from 'foo/:bar' to 'fooBar'
   },
-  cmsPages: {
+}));
+
+// Mock the DynamicLayout component
+jest.mock('../../DynamicLayout/DynamicLayout', () => ({
+  __esModule: true,
+  default: ({ layout }) => <div>{layout || 'default'} layout</div>,
+}));
+
+// Mock the ResortCardError component
+jest.mock('../../ResortCard/ResortCardError/ResortCardError', () => ({
+  __esModule: true,
+  default: () => <div>404 Error</div>,
+}));
+
+// Mock the Apollo query
+const mocks = [
+  {
     request: {
       query: QUERY_CMS_PAGES,
     },
     result: {
       data: {
         cmsPages: [
-          {
-            url: '/foo',
-          },
-          {
-            url: '/foo/:bar',
-          },
+          { url: '/foo', layout: 'foo' },
+          { url: '/foo/:bar', layout: 'fooBar' }, // Changed from 'foo/:bar' to 'fooBar'
         ],
       },
     },
   },
-  cmsPageFoo: {
-    request: queryCMSPage('/foo'),
-    result: {
-      data: {
-        cmsPage: {
-          layout: 'foo',
-        },
-      },
-    },
-  },
-  cmsPageFooBar: {
-    request: queryCMSPage('/foo/:bar'),
-    result: {
-      data: {
-        cmsPage: {
-          layout: 'fooBar',
-        },
-      },
-    },
-  },
-};
+];
 
-const layouts = {
-  foo: () => <h1>Foo layout</h1>,
-  fooBar: () => <h1>FooBar layout</h1>,
-};
-
-const AllTheProviders = ({ children, testMocks, initialEntries }) => (
-  <RecoilRoot initializeState={({ set }) => set(layoutsAtom, layouts)}>
-    <MockedProvider mocks={testMocks} addTypename={false}>
-      <MemoryRouter initialEntries={initialEntries}>
-        {children}
-      </MemoryRouter>
-    </MockedProvider>
-  </RecoilRoot>
-);
-
-describe('Test <DynamicSwitch />', () => {
-  beforeEach(() => {
-    Object.defineProperty(window, 'scrollTo', { value: jest.fn() });
-  });
+describe('DynamicSwitch Component', () => {
+  const renderWithRouter = (initialEntry: string) => {
+    return render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter initialEntries={[initialEntry]}>
+          <DynamicSwitch />
+        </MemoryRouter>
+      </MockedProvider>,
+    );
+  };
 
   it('Produces routes from CMS data for "/foo"', async () => {
-    render(
-      <AllTheProviders testMocks={[mocks.cmsPages, mocks.cmsPageFoo]} initialEntries={['/foo']}>
-        <DynamicSwitch />
-      </AllTheProviders>,
-    );
+    renderWithRouter('/foo');
 
     await waitFor(() => {
-      expect(screen.getByText('Foo layout')).toBeInTheDocument();
+      expect(screen.getByText('foo layout')).toBeInTheDocument();
     });
   });
 
   it('Produces routes from CMS data for "/foo/bar"', async () => {
-    render(
-      <AllTheProviders testMocks={[mocks.cmsPages, mocks.cmsPageFooBar]} initialEntries={['/foo/bar']}>
-        <DynamicSwitch />
-      </AllTheProviders>,
-    );
+    renderWithRouter('/foo/bar');
 
     await waitFor(() => {
-      expect(screen.getByText('FooBar layout')).toBeInTheDocument();
+      expect(screen.getByText('fooBar layout')).toBeInTheDocument();
+    });
+  });
+
+  it('Renders 404 error for unknown route', async () => {
+    renderWithRouter('/unknown');
+
+    await waitFor(() => {
+      expect(screen.getByText('404 Error')).toBeInTheDocument();
     });
   });
 });

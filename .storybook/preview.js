@@ -1,7 +1,7 @@
 import React from 'react';
 import '../src/scss/style.scss';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import  { MockNextRouter } from './mockNextRouter';
+import { MockNextRouter } from './mockNextRouter';
 
 const createMockRouter = (overrides = {}) => ({
   push: () => Promise.resolve(),
@@ -41,7 +41,12 @@ export const parameters = {
   },
 };
 
+export const globals = {
+  NEXT_PUBLIC_MAPBOX_API_KEY: process.env.NEXT_PUBLIC_MAPBOX_API_KEY,
+};
+
 export default {
   decorators,
   parameters,
+  globals,
 };

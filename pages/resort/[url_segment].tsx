@@ -5,14 +5,7 @@ import { gql, ApolloError } from '@apollo/client';
 import { initializeApollo } from '../../lib/apollo-client';
 import ResortSingle from '@/ResortSingle/ResortSingle';
 import { Resort } from '../../types/resortTypes';
-
-const QUERY_ALL_RESORTS = gql`
-  query AllResorts {
-    resorts {
-      url_segment
-    }
-  }
-`;
+import { QUERY_RESORTS_URL } from '../../hooks/useQueryResortsUrl';
 
 const QUERY_RESORT = gql`
   query ResortByURLSegment($url_segment: String!) {
@@ -89,13 +82,11 @@ const QUERY_RESORT = gql`
   }
 `;
 
-interface ErrorObject {
-  message: string;
-}
-
 interface ResortPageProps {
   resortData: Resort | null;
-  error?: ErrorObject;
+  error?: {
+    message: string
+  };
   initialApolloState: unknown; // You might want to type this more specifically if possible
 }
 
@@ -103,10 +94,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = initializeApollo();
 
   try {
-    const { data } = await apolloClient.query({ query: QUERY_ALL_RESORTS });
+    const { data } = await apolloClient.query({ query: QUERY_RESORTS_URL });
 
-    const paths = data.resorts.map((resort: { url_segment: string }) => ({
-      params: { url_segment: resort.url_segment },
+    console.error('data:', data);
+
+
+    const paths = data?.map((url_segment: string) => ({
+      params: { url_segment: url_segment },
     }));
 
     return { paths, fallback: 'blocking' };
@@ -134,7 +128,7 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
         resortData: data.resortByUrlSegment,
         initialApolloState: apolloClient.cache.extract(),
       },
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 3600,
     };
   } catch (error) {
     console.error('Error fetching resort data:', error);

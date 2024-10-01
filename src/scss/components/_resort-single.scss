@@ -31,19 +31,39 @@
   }
 
   & .resort-single__image-carousel {
-    height: 15rem;
+    .carousel {
+      height: 12rem !important;
+    }
+
     .flickity-viewport {
       height: 100% !important;
     }
   }
 
-  & .carousel__image-item {
-    height: 100%;
+  & .fullscreen-icon-wrap {
+    z-index: 1;
+    position: absolute;
+    background: rgb(40 60 73 / 14%);
+    padding: .5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    border-radius: 1rem;
+    right: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    margin: .5rem !important;
+    cursor: zoom-in;
+    transition-duration: $card-animation-transition-time;
+
+    &:hover {
+      background: rgb(40 60 73 / 64%);
+    }
   }
 
-  &__image-carousel-item {
-    height: 10rem;
-    max-height: 10rem;
+  & .carousel__image-item {
+    height: 100%;
   }
 
   & .card {
@@ -114,5 +134,12 @@
     .rating-item {
       width: calc(50% - 0.5rem);  // Adjusted for gap
     }
+  }
+}
+
+.resort-image-modal {
+  & .flickity-viewport {
+    height: 80vh !important;
+    max-height: 1000px;
   }
 }

@@ -25,11 +25,11 @@ const Statistic: React.FC<StatisticProps> = ({
 
   return (
     <>
-      <span className="statistic__title display-5 text-left user-select-none" color="secondary">
+      <span className="statistic__title display-5 text-left user-select-none text-end" color="secondary">
         {title}
       </span>
       <div className={`statistic statistic--${statisticType}`}>
-        <div className="d-flex statistic__number-bar-wrap">
+        <div className="d-flex statistic__number-bar-wrap justify-content-between">
           <div className="statistic__number-border">
             <div className="statistic__border--100 statistic__icon-wrap me-2 d-inline">
               <span

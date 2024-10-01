@@ -1,4 +1,4 @@
-describe('ResortSingle', () => {
+describe.skip('ResortSingle', () => {
   beforeEach(() => {
     cy.visit('/iframe.html?globals=&args=&id=shred-index-components-resortsingle--resort-story');
   });

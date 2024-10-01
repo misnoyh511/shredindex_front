@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
@@ -14,6 +14,7 @@ import GlobalToast from '../components/GlobalToast/GlobalToast';
 import { useApollo } from '../lib/apollo-client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '../src/scss/style.scss';
+import { useRouter } from 'next/router';
 
 const t = {
   en: langEn,
@@ -21,13 +22,33 @@ const t = {
 
 const locale = 'en';
 
-const layouts = {
-  home: dynamic(() => import('./homepage')),
+export const layouts = {
   resorts: dynamic(() => import('./resorts')),
   resort: dynamic(() => import('@/ResortSingle/ResortSingle')),
   about: dynamic(() => import('./about')),
   privacy: dynamic(() => import('./privacy-policy')),
   terms: dynamic(() => import('./terms-and-conditions')),
+  home: dynamic(() => import('./../components/Home/home')),
+};
+
+const ScrollToTop: React.FC = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      window.scrollTo(0, 0);
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
+  return null;
 };
 
 const InitializeRecoilState = () => {
@@ -47,6 +68,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <ApolloProvider client={apolloClient}>
       <IntlProvider locale={locale} messages={t[locale]}>
         <RecoilRoot>
+          <ScrollToTop />
           <InitializeRecoilState />
           <div className="c-app c-default-layout">
             <SidebarNav />

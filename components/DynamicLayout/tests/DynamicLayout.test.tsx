@@ -1,85 +1,58 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
-import { RecoilRoot } from 'recoil';
-import queryCMSPage from '../../../utility/query-cms-page';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import DynamicLayout from '../DynamicLayout';
-import { layoutsAtom } from '../../../atoms/layoutsType';
 
-const mocks = {
-  cmsPageFailure: {
-    request: queryCMSPage('/foo'),
-    error: new Error('An error occurred'),
+// Mock the layouts
+jest.mock('../../../pages/_app', () => ({
+  layouts: {
+    foo: () => <div>Foo layout</div>,
+    fooBar: () => <div>FooBar layout</div>, // Changed from 'foo/:bar' to 'fooBar'
   },
-  cmsPageFoo: {
-    request: queryCMSPage('/foo'),
-    result: {
-      data: {
-        cmsPage: {
-          layout: 'foo',
-        },
-      },
-    },
-  },
-  cmsPageFooBar: {
-    request: queryCMSPage('/foo/:bar'),
-    result: {
-      data: {
-        cmsPage: {
-          layout: 'fooBar',
-        },
-      },
-    },
-  },
-};
+}));
 
-const layouts = {
-  foo: () => <h1>Foo layout</h1>,
-  fooBar: () => <h1>FooBar layout</h1>,
-};
+// Mock Helmet to avoid warnings
+jest.mock('react-helmet', () => ({
+  Helmet: () => null,
+}));
 
-const AllTheProviders = ({ children, testMocks }) => (
-  <RecoilRoot initializeState={({ set }) => set(layoutsAtom, layouts)}>
-    <MockedProvider mocks={testMocks} addTypename={false}>
-      {children}
-    </MockedProvider>
-  </RecoilRoot>
-);
-
-describe('Test <DynamicLayout />', () => {
-  it('Fails when the CMS does not provide data for the current url', async () => {
+describe('DynamicLayout Component', () => {
+  it('Renders layout for /foo', () => {
     render(
-      <AllTheProviders testMocks={[mocks.cmsPageFailure]}>
-        <DynamicLayout url="/foo" />
-      </AllTheProviders>,
+      <DynamicLayout
+        url="/foo"
+        layout="foo"
+        headerMenuItems={[]}
+        footerMenuItems={[]}
+      />,
     );
-
-    await waitFor(() => {
-      expect(screen.queryByRole('heading')).not.toBeInTheDocument();
-    });
+    expect(screen.getByText('Foo layout')).toBeInTheDocument();
   });
 
-  it('Renders layout for /foo', async () => {
+  it('Renders layout for /foo/:bar', () => {
     render(
-      <AllTheProviders testMocks={[mocks.cmsPageFoo]}>
-        <DynamicLayout url="/foo" />
-      </AllTheProviders>,
+      <DynamicLayout
+        url="/foo/bar"
+        layout="fooBar" // Changed from 'foo/:bar' to 'fooBar'
+        headerMenuItems={[]}
+        footerMenuItems={[]}
+      />,
     );
-
-    await waitFor(() => {
-      expect(screen.getByText('Foo layout')).toBeInTheDocument();
-    });
+    expect(screen.getByText('FooBar layout')).toBeInTheDocument();
   });
 
-  it('Renders layout for /foo/:bar', async () => {
-    render(
-      <AllTheProviders testMocks={[mocks.cmsPageFooBar]}>
-        <DynamicLayout url="/foo/:bar" />
-      </AllTheProviders>,
+  it('Renders null for unknown layout', () => {
+    const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+    const { container } = render(
+      <DynamicLayout
+        url="/unknown"
+        layout="unknown"
+        headerMenuItems={[]}
+        footerMenuItems={[]}
+      />,
     );
-
-    await waitFor(() => {
-      expect(screen.getByText('FooBar layout')).toBeInTheDocument();
-    });
+    expect(container.firstChild).toBeNull();
+    expect(consoleWarnMock).toHaveBeenCalledWith('Layout "unknown" not found');
+    consoleWarnMock.mockRestore();
   });
 });
