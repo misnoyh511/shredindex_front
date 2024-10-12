@@ -2,6 +2,7 @@ import React from 'react';
 import '../src/scss/style.scss';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { MockNextRouter } from './mockNextRouter';
+import { RecoilRoot } from 'recoil';
 
 const createMockRouter = (overrides = {}) => ({
   push: () => Promise.resolve(),
@@ -26,7 +27,9 @@ export const decorators = [
     const router = createMockRouter(context.parameters.nextRouter);
     return (
       <MockNextRouter router={router}>
-        <Story />
+        <RecoilRoot>
+          <Story />
+        </RecoilRoot>
       </MockNextRouter>
     );
   },

@@ -2,6 +2,8 @@ import React from 'react';
 import { CButton, CCard, CCardBody } from '@coreui/react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRecoilState } from 'recoil';
+import { showLogin } from '../../atoms/showLogin';
 
 interface NoUserAccessProps {
   title: string;
@@ -10,6 +12,8 @@ interface NoUserAccessProps {
 }
 
 const NoUserAccess: React.FC<NoUserAccessProps> = ({ title, image, height }) => {
+  const [loginVisible, setLoginVisible] = useRecoilState(showLogin);
+
   return (
     <>
       <h3 className="no-user-access">
@@ -34,11 +38,9 @@ const NoUserAccess: React.FC<NoUserAccessProps> = ({ title, image, height }) => 
             </p>
             <div className="d-flex justify-content-center align-content-center">
               <div className="button-group align-items-center">
-                <Link href="/resorts" passHref>
-                  <CButton className="p-2 pe-4 ps-4 m-2" color="primary">
-                    Login
-                  </CButton>
-                </Link>
+                <CButton className="p-2 pe-4 ps-4 m-2" color="primary" onClick={() => setLoginVisible(!loginVisible)}>
+                  Login
+                </CButton>
                 <Link href="/resorts" passHref>
                   <CButton className="p-2 pe-4 ps-4 m-2" color="secondary">
                     Become a member

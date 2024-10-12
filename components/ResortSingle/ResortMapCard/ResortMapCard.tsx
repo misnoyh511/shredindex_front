@@ -5,8 +5,12 @@ import ResortMap from '@/ResortSingle/ResortMapCard/ResortMap/ResortMap';
 import NoUserAccess from '@/FeatureToggle/NoUserAccess';
 import MapDummy from '../../../images/map-dummy.png';
 import { Location } from '../../../types/resortTypes';
+import { useRecoilState } from 'recoil';
+import { loggedInUserName } from '../../../atoms/userName';
 
 const ResortMapCard: React.FC <Location> = ({ location }) => {
+  const [loggedInUsername] = useRecoilState(loggedInUserName);
+
   return (
     <>
       <h3 className="resort-single__map resort-single-card-heading user-select-none mb-2">
@@ -15,16 +19,19 @@ const ResortMapCard: React.FC <Location> = ({ location }) => {
           defaultMessage="Map"
         />
       </h3>
-      <NoUserAccess image={MapDummy} height={'400px'}/>
-      <CCard className="resort__map-card mb-4">
-        <CCardBody>
-          {location?.longitude && location?.latitude ? (
-            <ResortMap longitude={location?.longitude} latitude={location?.latitude}/>
-          ) : (
-            <span>No map available</span>
-          )}
-        </CCardBody>
-      </CCard>
+      {loggedInUsername ? (
+        <CCard className="resort__map-card mb-4">
+          <CCardBody>
+            {location?.longitude && location?.latitude ? (
+              <ResortMap longitude={location?.longitude} latitude={location?.latitude}/>
+            ) : (
+              <span>No map available</span>
+            )}
+          </CCardBody>
+        </CCard>
+      ) : (
+        <NoUserAccess image={MapDummy} height={'400px'}/>
+      )}
     </>
   );
 };

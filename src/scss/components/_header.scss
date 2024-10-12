@@ -9,6 +9,10 @@
     }
   }
 
+  & .nav-item.dropdown {
+    list-style: none;
+  }
+
   & .header-col-flex {
     flex: 1 0;
 

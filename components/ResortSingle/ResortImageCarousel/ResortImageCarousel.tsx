@@ -20,7 +20,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
   const options = {
     ...flickityOptions,
     isDraggable: true,
-    prevNextButtons: true,
+    prevNextButtons: images.length > 1,
     contain: true,
     pageDots: false,
     imagesLoaded: true,

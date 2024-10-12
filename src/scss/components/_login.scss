@@ -1,0 +1,55 @@
+.login {
+  & .login-body-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  & .login-button-group-wrap {
+    width: 100%;
+    display: flex;
+    gap: 0rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  & .login-signin-register {
+    width: 100%;
+    min-width: 16rem;
+  }
+
+  & .login-email-button-wrap {
+    width: 100%;
+    max-width: 19rem;
+  }
+  & .login-email-wrap {
+    width: 100%;
+    max-width: 20rem;
+    min-width: 12rem;
+  }
+  & .icon-chevron {
+    transition: transform 0.3s ease;
+  }
+
+  & .rotate-up {
+    transform: rotate(180deg);
+  }
+
+  .facebook {
+    background-color: #0866ff;
+    border-color: #0866ff;
+  }
+
+  & .x-logo {
+    border-color: $gray-100;
+    background-color: $gray-100;
+    & svg {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+
+  & .tab-underline {
+    min-width: 6rem;
+    display: flex;
+    justify-content: center;
+  }
+}

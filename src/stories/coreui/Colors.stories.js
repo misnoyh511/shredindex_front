@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { CCol, CRow } from '@coreui/react';
-import { rgbToHex } from '@coreui/utils/src';
+import { rgbToHex } from '@coreui/utils';
 
 export default { title: 'CoreUI/Colors' };
 

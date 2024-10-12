@@ -7,10 +7,10 @@ import {
 } from '@coreui/react';
 import Link from 'next/link';
 import Logo from '../../images/logo.svg';
-import MobileLogo from '../../images/s-i-logo-small-png.svg';
 import HeaderMenuMain from '../HeaderMenuMain/HeaderMenuMain';
 import { showSidebar as showSidebarAtom } from '../../atoms/showSidebar';
 import ResortSearchAutosuggest from '../ResortSearchAutoSuggest/ResortSearchAutoSuggest';
+import UserProfileMenu from '@/User/UserProfileMenu';
 
 const Header: React.FC = () => {
   const [showSidebar, setShowSidebar] = useRecoilState(showSidebarAtom);
@@ -34,9 +34,7 @@ const Header: React.FC = () => {
           <ResortSearchAutosuggest />
         </div>
         <div className="d-flex justify-content-end header-col-flex">
-          <Link className="header__logo px-3 d-md-none" href="/">
-            <MobileLogo className="header__logo-image" name="logo" height={28} alt="Logo" />
-          </Link>
+          <UserProfileMenu />
         </div>
       </CContainer>
     </CHeader>

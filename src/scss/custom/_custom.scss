@@ -121,6 +121,10 @@ button {
   }
 }
 
+.nav-underline .nav-link.active, .nav-underline .show > .nav-link {
+  color: $primary-25;
+}
+
 // Scroll bar
 ::-webkit-scrollbar {
   width: 1rem;

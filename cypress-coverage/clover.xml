@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727740276817" clover="3.2.0">
-  <project timestamp="1727740276817" name="All files">
+<coverage generated="1728707710590" clover="3.2.0">
+  <project timestamp="1728707710590" name="All files">
     <metrics statements="1140" coveredstatements="175" conditionals="693" coveredconditionals="48" methods="381" coveredmethods="47" elements="2214" coveredelements="270" complexity="0" loc="1140" ncloc="1140" packages="86" files="115" classes="115"/>
     <package name=".storybook">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -77,16 +77,16 @@
       <metrics statements="10" coveredstatements="9" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="2"/>
       <file name="Debug.tsx" path="/Users/hansen/Documents/GitHub/shredindex-frontend/components/Debug/Debug.tsx">
         <metrics statements="10" coveredstatements="9" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="2"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="15" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="19" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="15" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="19" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="21" count="0" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="26" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="26" count="4" type="cond" truecount="2" falsecount="0"/>
       </file>
     </package>
     <package name="components.DoubleRangeSlider">
@@ -155,49 +155,49 @@
       <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="DynamicLayout.tsx" path="/Users/hansen/Documents/GitHub/shredindex-frontend/components/DynamicLayout/DynamicLayout.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="20" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="25" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="20" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
       </file>
     </package>
     <package name="components.DynamicLink">
       <metrics statements="10" coveredstatements="7" conditionals="4" coveredconditionals="1" methods="2" coveredmethods="2"/>
       <file name="DynamicLink.tsx" path="/Users/hansen/Documents/GitHub/shredindex-frontend/components/DynamicLink/DynamicLink.tsx">
         <metrics statements="10" coveredstatements="7" conditionals="4" coveredconditionals="1" methods="2" coveredmethods="2"/>
-        <line num="15" count="1" type="cond" truecount="0" falsecount="2"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="20" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="2" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="20" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
       </file>
     </package>
     <package name="components.DynamicSwitch">
       <metrics statements="15" coveredstatements="14" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="4"/>
       <file name="DynamicSwitch.tsx" path="/Users/hansen/Documents/GitHub/shredindex-frontend/components/DynamicSwitch/DynamicSwitch.tsx">
         <metrics statements="15" coveredstatements="14" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="4"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="48" count="6" type="stmt"/>
-        <line num="50" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="51" count="3" type="stmt"/>
-        <line num="54" count="3" type="stmt"/>
-        <line num="56" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="12" type="stmt"/>
+        <line num="50" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="6" type="stmt"/>
+        <line num="54" count="6" type="stmt"/>
+        <line num="56" count="6" type="cond" truecount="3" falsecount="1"/>
         <line num="57" count="0" type="stmt"/>
-        <line num="60" count="3" type="stmt"/>
-        <line num="65" count="6" type="stmt"/>
+        <line num="60" count="6" type="stmt"/>
+        <line num="65" count="12" type="stmt"/>
       </file>
     </package>
     <package name="components.FeatureToggle">

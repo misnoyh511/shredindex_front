@@ -4,10 +4,11 @@ import {
 } from '@coreui/react';
 import { CIcon } from '@coreui/icons-react';
 import {
-  cilCopy, cilShareAlt, cibFacebook, cibLinkedin, cibWhatsapp, cilX,
+  cilCopy, cilShareAlt, cibFacebook, cibLinkedin, cibWhatsapp,
 } from '@coreui/icons';
 import { useSetRecoilState } from 'recoil';
 import { toastState } from '@/GlobalToast/GlobalToast';
+import { xLogo } from '../../icons/awesomeIcons';
 
 interface ShareButtonProps {
   title: string;
@@ -56,7 +57,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ title, resortUrl = null }) =>
       </CDropdownToggle>
       <CDropdownMenu>
         <CDropdownItem onClick={() => handleShareClick('twitter')}>
-          <CIcon icon={cilX} className="me-2" />
+          <CIcon icon={xLogo} className={'me-2'}/>
           Share on X.com
         </CDropdownItem>
         <CDropdownItem onClick={() => handleShareClick('facebook')}>

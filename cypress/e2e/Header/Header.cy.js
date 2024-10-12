@@ -17,9 +17,7 @@ describe('Header', () => {
     });
 
     it('Displays the app logo for mobile', () => {
-      cy.get('.header__logo.d-md-none').should('exist'); // Check the mobile logo wrapper exists
-      cy.get('.header__logo-image').should('exist'); // Check that the SVG logo is rendered
-      cy.get('.header__logo-image').should('have.attr', 'name', 'logo'); // Verify that the name attribute matches
+      cy.get('.user-button-menu').should('exist'); // Check the mobile logo wrapper exists
     });
 
     it('Should toggle the sidebar on mobile', () => {
