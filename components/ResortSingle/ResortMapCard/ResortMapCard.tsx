@@ -4,12 +4,11 @@ import { FormattedMessage } from 'react-intl';
 import ResortMap from '@/ResortSingle/ResortMapCard/ResortMap/ResortMap';
 import NoUserAccess from '@/FeatureToggle/NoUserAccess';
 import MapDummy from '../../../images/map-dummy.png';
-import { Location } from '../../../types/resortTypes';
 import { useRecoilState } from 'recoil';
-import { loggedInUserName } from '../../../atoms/userName';
+import { loggedInUserProfile } from '../../../atoms/userProfile';
 
-const ResortMapCard: React.FC <Location> = ({ location }) => {
-  const [loggedInUsername] = useRecoilState(loggedInUserName);
+const ResortMapCard: React.FC = ({ location } ) => {
+  const [userProfile] = useRecoilState(loggedInUserProfile);
 
   return (
     <>
@@ -19,7 +18,7 @@ const ResortMapCard: React.FC <Location> = ({ location }) => {
           defaultMessage="Map"
         />
       </h3>
-      {loggedInUsername ? (
+      {userProfile ? (
         <CCard className="resort__map-card mb-4">
           <CCardBody>
             {location?.longitude && location?.latitude ? (

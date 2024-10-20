@@ -13,12 +13,12 @@ export interface State {
 }
 
 export interface Location {
-  id: string;
+  id?: string;
   city?: string | null;
   country?: Country;
   state?: State | null;
-  latitude?: string | null;
-  longitude?: string | null;
+  latitude?: string | number | null;
+  longitude?: string | number | null;
 }
 
 export interface Score {

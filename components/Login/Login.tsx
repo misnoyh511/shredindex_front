@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CModal,
   CModalHeader,
@@ -12,9 +12,9 @@ import {
   CNavItem,
   CNavLink,
 } from '@coreui/react';
-import { showLogin } from '../../atoms/showLogin';
+import { showLoginTray } from '../../atoms/showLoginTray';
 import { useRecoilState } from 'recoil';
-import { loggedInUserName } from '../../atoms/userName';
+import { loggedInUserProfile } from '../../atoms/userProfile';
 import { CIcon } from '@coreui/icons-react';
 import {
   cibFacebookF,
@@ -24,18 +24,25 @@ import useWindowDimensions from '../../hooks/getWindowDimensions';
 import breakpoints from '@/js/components/config/breakpoints';
 import { googleIcon, xLogo } from '../../icons/awesomeIcons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { postLoginAction } from '../../atoms/postLoginAction';
+import { showMembershipTray } from '../../atoms/showMembershipTray';
+import { mockProfiles } from '../../mocks/UserMocks';
 
 const LoginModal: React.FC = () => {
   const { width } = useWindowDimensions();
-  const [, setLoggedInUserName] = useRecoilState(loggedInUserName);
-
-  const [visible, setVisible] = useRecoilState(showLogin);
+  const [, setUserProfile] = useRecoilState(loggedInUserProfile);
+  const [postLoginActionState, setPostLoginAction] = useRecoilState(postLoginAction);
+  const [, setShowMembershipModal] = useRecoilState(showMembershipTray);
+  const [showLoginState, setShowLoginState] = useRecoilState(showLoginTray);
+  const visible = showLoginState !== null;
+  const [isSigningUp, setIsSigningUp] = useState(showLoginState === 'signup');
   const [visibleEmail, setVisibleEmail] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(true);
   const [acceptEmails, setAcceptEmails] = useState(true);
 
+  const router = useRouter();
   const backendBaseUrl = 'https://your-backend-url.com';
 
   const TermsConditionsLabel = () => (
@@ -44,8 +51,27 @@ const LoginModal: React.FC = () => {
     </span>
   );
 
+  useEffect(() => {
+    if (showLoginState === 'signup') {
+      setIsSigningUp(true);
+    } else if (showLoginState === 'login') {
+      setIsSigningUp(false);
+    }
+  }, [showLoginState]);
+
+  const handleSuccess = () => {
+
+    // Get UserProfileData then store it for use.
+    setUserProfile(mockProfiles.janedoe);
+    if (postLoginActionState === 'showMembershipModal') {
+      setShowMembershipModal(true);
+    }
+    setShowLoginState(null);
+    setPostLoginAction(null);
+  };
+
+
   const handleOAuthSignIn = async (provider: string) => {
-    const router = useRouter();
     try {
       // Call your Next.js API route that will initiate the OAuth flow with October CMS
       const response = await fetch(`/api/auth/${provider}`);
@@ -57,8 +83,7 @@ const LoginModal: React.FC = () => {
           router.push(data.url);
         } else {
           // Handle successful authentication
-          setVisible(false);
-          router.push('/dashboard'); // or wherever you want to redirect after login
+          handleSuccess();
         }
       } else {
         // Handle errors
@@ -102,7 +127,7 @@ const LoginModal: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setVisible(false);
+        handleSuccess();
       } else {
         setErrorMessage(data.message || 'Authentication failed');
       }
@@ -114,7 +139,13 @@ const LoginModal: React.FC = () => {
 
   return (
     <>
-      <CModal className="login" fullscreen="xl" alignment="center" visible={visible} onClose={() => setVisible(false)}>
+      <CModal
+        className="login"
+        fullscreen="xl"
+        alignment="center"
+        visible={visible}
+        onClose={() => setShowLoginState(null)}
+      >
         {width < breakpoints.md && (
           <CModalHeader>
             <h5>
@@ -125,16 +156,33 @@ const LoginModal: React.FC = () => {
         <CModalBody>
           <div className="login-body-wrap">
             <div className="login-email-button-wrap">
-              <CNav className="justify-content-evenly mb-4" variant="underline" onClick={() => setIsSigningUp(!isSigningUp)}>
+              <CNav
+                className="justify-content-evenly mb-4"
+                variant="underline"
+              >
                 <CNavItem>
-                  <CNavLink href="#" active={isSigningUp}>
+                  <CNavLink
+                    href="#"
+                    active={isSigningUp}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsSigningUp(true);
+                    }}
+                  >
                     <span className={'tab-underline'}>
                       Sign up
                     </span>
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink href="#" active={!isSigningUp}>
+                  <CNavLink
+                    href="#"
+                    active={!isSigningUp}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsSigningUp(false);
+                    }}
+                  >
                     <span className={'tab-underline'}>
                       Login
                     </span>
@@ -146,12 +194,9 @@ const LoginModal: React.FC = () => {
                   color="warning"
                   className="mb-2 w-100"
                   disabled={!acceptTerms && isSigningUp}
-                  onClick={
-                  () => {
-                    setLoggedInUserName('janedoe');
-                    setVisible(false);
-                  }
-                }
+                  onClick={() => {
+                    handleSuccess();
+                  }}
                 >
                   Sign in fake user
                 </CButton>
@@ -162,7 +207,7 @@ const LoginModal: React.FC = () => {
                   disabled={!acceptTerms && isSigningUp}
                   onClick={() => handleOAuthSignIn('google')}
                 >
-                  <CIcon icon={googleIcon} className="me-2"/>
+                  <CIcon icon={googleIcon} className="me-2" />
                   Continue with Google
                 </CButton>
                 <CButton
@@ -171,7 +216,7 @@ const LoginModal: React.FC = () => {
                   className="facebook mb-2 w-100"
                   onClick={() => handleOAuthSignIn('facebook')}
                 >
-                  <CIcon icon={cibFacebookF} className="me-2"/>
+                  <CIcon icon={cibFacebookF} className="me-2" />
                   Continue with Facebook
                 </CButton>
                 <CButton
@@ -180,12 +225,16 @@ const LoginModal: React.FC = () => {
                   className="x-logo mb-4 w-100"
                   onClick={() => handleOAuthSignIn('x')}
                 >
-                  <CIcon icon={xLogo} className={'me-2'}/>
+                  <CIcon icon={xLogo} className={'me-2'} />
                   Continue with X
                 </CButton>
               </div>
 
-              {errorMessage && <div style={{ color: 'red', marginBottom: '1rem' }}>{errorMessage}</div>}
+              {errorMessage && (
+                <div style={{ color: 'red', marginBottom: '1rem' }}>
+                  {errorMessage}
+                </div>
+              )}
 
               <CButton
                 className="mb-3"
@@ -194,11 +243,14 @@ const LoginModal: React.FC = () => {
                 aria-expanded={visibleEmail}
                 aria-controls="collapseWidthExample"
               >
-                <CIcon icon={cilChevronBottom} className={`me-2 icon-chevron ${visibleEmail && 'rotate-up' }`}/>
-                {!visibleEmail ? 'Or via email...' : 'show less'}
+                <CIcon
+                  icon={cilChevronBottom}
+                  className={`me-2 icon-chevron ${visibleEmail && 'rotate-up'}`}
+                />
+                {!visibleEmail ? 'Or via email...' : 'Show less'}
               </CButton>
               <CCollapse id="collapseWidthExample" visible={visibleEmail}>
-                <hr/>
+                <hr />
                 <div className="login-email-wrap">
                   <CForm onSubmit={handleEmailAuth}>
                     {isSigningUp && (

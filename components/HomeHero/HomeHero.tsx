@@ -6,10 +6,10 @@ import HeroDesktop from '../../images/homepage/hero-desktop.svg';
 import HeroTablet from '../../images/homepage/hero-tablet.svg';
 import HeroMobile from '../../images/homepage/hero-mobile.svg';
 import { useRecoilState } from 'recoil';
-import { showLogin } from '../../atoms/showLogin';
+import { showMembershipTray } from '../../atoms/showMembershipTray';
 
 const HomeHero = () => {
-  const [loginVisible, setLoginVisible] = useRecoilState(showLogin);
+  const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
 
   return (
     <div className="hero">
@@ -40,7 +40,7 @@ const HomeHero = () => {
           <CButton
             className="p-2 pe-4 ps-4"
             color="warning"
-            onClick={() => setLoginVisible(!loginVisible)}
+            onClick={() => setMembershipVisible(!membershipVisible)}
           >Become a member</CButton>
         </div>
       </div>

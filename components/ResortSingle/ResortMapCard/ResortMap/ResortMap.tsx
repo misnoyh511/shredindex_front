@@ -12,8 +12,8 @@ const containerStyle: React.CSSProperties = {
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
 
 interface ResortMapProps {
-  longitude: number;
-  latitude: number;
+  longitude: string | number;
+  latitude: string | number;
 }
 
 const ResortMap: React.FC<ResortMapProps> = ({ longitude, latitude }) => {

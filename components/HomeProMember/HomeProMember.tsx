@@ -7,11 +7,11 @@ import HeroMobile from '../../images/homepage/second-hero-mid-mountain-mobile.sv
 import SkiGrabFlip from '../../images/ski-grab-flip.svg';
 import ProMemberResortList from './ProMemberResortList';
 import breakpoints from '../../src/js/components/config/breakpoints';
-import { showLogin } from '../../atoms/showLogin';
 import { useRecoilState } from 'recoil';
+import { showMembershipTray } from '../../atoms/showMembershipTray';
 
 const HomeProMember: React.FC = () => {
-  const [loginVisible, setLoginVisible] = useRecoilState(showLogin);
+  const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
 
   return (
     <div className="home-pro-member">
@@ -56,7 +56,7 @@ const HomeProMember: React.FC = () => {
             <CButton
               className="p-2 pe-4 ps-4 m-2"
               color="secondary"
-              onClick={() => setLoginVisible(!loginVisible)}
+              onClick={() => setMembershipVisible(!membershipVisible)}
             >
               Become a pro member
             </CButton>

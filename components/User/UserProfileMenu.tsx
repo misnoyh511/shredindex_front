@@ -6,58 +6,51 @@ import {
   CDropdownItem,
   CDropdownToggle,
 } from '@coreui/react';
-import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { loggedInUserName } from '../../atoms/userName';
-import { showLogin } from '../../atoms/showLogin';
-
-export const GET_USER_PROFILE = gql`
-  query GetUserProfile {
-    userProfile {
-      id
-      member_tier
-      profile_picture
-    }
-  }
-`;
-
+import { loggedInUserProfile } from '../../atoms/userProfile';
+import { showLoginTray } from '../../atoms/showLoginTray';
+import { showMembershipTray } from '../../atoms/showMembershipTray';
 
 const UserProfileMenu: React.FC = () => {
-  const [loggedInUsername, setLoggedInUserName] = useRecoilState(loggedInUserName); // Change this to test different scenarios
-  const [, setShowLoginState] = useRecoilState(showLogin); // Change this to test different scenarios
+  const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
+  const [userProfile, setUserProfile] = useRecoilState(loggedInUserProfile);
+  const [, setShowLoginState] = useRecoilState(showLoginTray);
 
   const router = useRouter();
 
   const handleViewProfile = () => {
-    router.push(`/profile/${loggedInUsername}`);
+    router.push(`/profile/${userProfile?.username}`);
   };
-
-  const profilePicture = 'https://lh3.googleusercontent.com/ogw/AF2bZyglPyEFm4b62iHIYJBimPhUp937NSGC1QnJCtQYkkWiDhw=s64-c-mo';
 
   const handleLogout = () => {
-    setLoggedInUserName('');
+    setUserProfile(null);
+    // Optionally, perform logout actions like clearing tokens, calling logout API, etc.
   };
 
-  if (!loggedInUsername)
+  if (!userProfile)
     return (
-    <>
-      <div className="user-button-menu" onClick={() => setShowLoginState(true)}>
-        Login
-      </div>
-    </>
+      <>
+        <div className="user-button-menu" onClick={() => setShowLoginState('login')}>
+          Login
+        </div>
+      </>
     );
 
   return (
     <>
       <CDropdown className="user-button-menu" variant="nav-item" alignment={'end'}>
         <CDropdownToggle caret={false}>
-          <CAvatar src={profilePicture} size="md" />
+          <CAvatar src={userProfile.profile_picture} size="md" />
         </CDropdownToggle>
         <CDropdownMenu>
-          <CDropdownItem onClick={handleViewProfile}>
-            View Profile
+          <CDropdownItem onClick={() => setMembershipVisible(!membershipVisible)}>
+            Membership (Tier {userProfile.member_tier})
           </CDropdownItem>
+          <CDropdownItem onClick={handleViewProfile}>
+            View Profile ({userProfile.username})
+          </CDropdownItem>
+          <CDropdownItem>Points: {userProfile.member_points}</CDropdownItem>
           <CDropdownItem onClick={handleLogout}>Logout</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>

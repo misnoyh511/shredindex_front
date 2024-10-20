@@ -168,7 +168,6 @@ const ResortSingle: React.FC<ResortProps> = ({ resortData, error, loading }) => 
             <Accomodation affiliateUrl={affiliate_url} />
             <AdvertiseHere affiliateUrl={affiliate_url}/>
             <Gear />
-            {/* Members Only Toggle */}
             <ResortMapCard location={location}/>
           </CCol>
         </CRow>

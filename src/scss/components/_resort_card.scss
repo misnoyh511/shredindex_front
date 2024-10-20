@@ -118,14 +118,20 @@
   }
 
   .numeric-list__list {
-    overflow: hidden;
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
 
     .numeric-list__numeric {
-      overflow: hidden;
-      width: 6.5rem;
+      width: 8.5rem;
+
+      & .percentile {
+        display: none;
+      }
+    }
+
+    & .statistic__title {
+      text-align: start !important;
     }
   }
 

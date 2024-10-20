@@ -15,6 +15,7 @@ import { useApollo } from '../lib/apollo-client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '../src/scss/style.scss';
 import Login from '@/Login/Login';
+import MembershipModal from '@/MembershipModal/MembershipModal';
 
 const t = {
   en: langEn,
@@ -56,6 +57,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               <div className="body flex-grow-1 min-vh-100">
                 <GlobalToast />
                 <Login />
+                <MembershipModal />
                 <main className="c-main">
                   <Component {...pageProps} />
                 </main>

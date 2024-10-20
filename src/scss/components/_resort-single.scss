@@ -17,7 +17,24 @@
     border-left: .25rem solid #245773;
     background: #283c49;
     border-radius: .5rem;
-    width: 14rem;
+    width: 12rem;
+
+    & .statistic__title {
+      text-align: end !important;
+    }
+
+    & .statistic__icon-wrap svg {
+      height: 2rem !important;
+      width: 2rem !important;
+    }
+  }
+
+  & .generic-list__generic {
+    padding: 1rem;
+    border: #245773 1px solid;
+    border-left: 0.25rem solid #245773;
+    background: #283c49;
+    border-radius: .5rem;
   }
 
   &__carousel-image-item-wrap {

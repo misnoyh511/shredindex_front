@@ -35,7 +35,7 @@ const ResortGenerics: React.FC<ResortGenericsProps> = ({ generics }) => (
         reloadOnUpdate
       >
         {generics?.map(({ id, title, value }) => (
-          <div key={id} className="numeric-list__numeric generics-item me-2">
+          <div key={id} className="generic-list__generic generics-item me-2">
             {value === 'yes'
               ? <CIcon icon={cilCheck} size="sm" />
               : <CIcon icon={cilX} size="sm" />}

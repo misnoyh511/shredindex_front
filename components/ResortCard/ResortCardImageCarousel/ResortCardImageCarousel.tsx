@@ -44,7 +44,7 @@ const ResortCardImageCarousel: React.FC<ResortCardImageCarouselProps> = ({ showO
   if (showOneImage || imagesToShow.length === 1) {
     return (
       <div className="resort-card__image-carousel">
-        <div className="single-image-container w-100 h-100 gray-300-bg border-radius-medium">
+        <div className="carousel w-100 h-100 gray-300-bg border-radius-medium position-relative">
           {imagesToShow.length > 0 ? renderImage(imagesToShow[0]) : renderPlaceholder()}
         </div>
       </div>

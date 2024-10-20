@@ -8,12 +8,12 @@ import {
   CButton, CContainer, CCardBody, CCard,
   CModal, CModalHeader, CModalBody, CModalFooter,
 } from '@coreui/react';
-import { UserProfileData } from '../../types/userProfileTypes';
+import { UserProfileType } from '../../types/userProfileTypes';
 import ResortsParallaxBackground from '@/ResortsParallaxBackground/ResortsParallaxBackground';
 import Image from 'next/image';
 
 interface UserProfileProps {
-  userProfileData: UserProfileData;
+  userProfileData: UserProfileType;
   isOwner: boolean;
 }
 

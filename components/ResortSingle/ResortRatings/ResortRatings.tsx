@@ -69,7 +69,7 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
         <CCardBody>
           <CListGroup>
             <div className="ratings">
-              {Object.keys(groupedRatings).map(
+              {groupedRatings && Object.keys(groupedRatings).map(
                 (category, index) => renderCategoryRatings(category, index),
               )}
             </div>

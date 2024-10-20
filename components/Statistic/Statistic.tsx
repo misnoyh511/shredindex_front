@@ -25,7 +25,7 @@ const Statistic: React.FC<StatisticProps> = ({
 
   return (
     <>
-      <span className="statistic__title display-5 text-left user-select-none text-end" color="secondary">
+      <span className="statistic__title display-5 text-left user-select-none" color="secondary">
         {title}
       </span>
       <div className={`statistic statistic--${statisticType}`}>
@@ -60,6 +60,9 @@ const Statistic: React.FC<StatisticProps> = ({
             className="statistic__bar--100 statistic__bar-indicator"
             style={{ left: barWidth }}
           />
+        </div>
+        <div className="statistic__percentile percentile">
+          {parseInt(barWidth)}% Percentile
         </div>
       </div>
     </>

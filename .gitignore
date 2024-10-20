@@ -6,7 +6,6 @@ infrastructure
 .env
 .idea/
 debug.log
-privateKeys.js
 cloudbuild.yaml
 
 # Tests and coverage reports
