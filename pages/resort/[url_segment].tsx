@@ -96,12 +96,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   try {
     const { data } = await apolloClient.query({ query: QUERY_RESORTS_URL });
 
-    console.error('data:', data);
+    // Log the entire data object to see what's actually being returned
+    console.log('Data from QUERY_RESORTS_URL:', data);
 
-
-    const paths = data?.map((url_segment: string) => ({
-      params: { url_segment: url_segment },
-    }));
+    const paths = data?.getAllResortUrlSegments?.map((url_segment: string) => ({
+      params: { url_segment },
+    })) || [];
 
     return { paths, fallback: 'blocking' };
   } catch (error) {

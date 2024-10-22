@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { layouts } from '../../pages/_app';
 
 interface DynamicLayoutProps {
@@ -24,11 +24,11 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
 
   return (
     <>
-      <Helmet>
-        <meta charSet="utf-8" />
+      <Head>
+        <meta charSet="utf-8"/>
         <title>Shred Index</title>
-        <meta name="description" content="Shred Index - Snow resort rankings" />
-      </Helmet>
+        <meta name="description" content="Shred Index - Snow resort rankings"/>
+      </Head>
       <Component
         url={url}
         headerMenuItems={headerMenuItems}
