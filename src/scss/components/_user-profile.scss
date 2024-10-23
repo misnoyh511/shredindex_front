@@ -1,3 +1,18 @@
+.custom-avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    height: inherit;
+    width: inherit;
+  }
+}
+
 .user-profile-card-wrap {
   display: flex;
   align-items: center;

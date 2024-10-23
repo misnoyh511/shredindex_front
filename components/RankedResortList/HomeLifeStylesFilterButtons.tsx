@@ -1,26 +1,22 @@
 import React, { useMemo } from 'react';
 import { CForm, CRow, CButton } from '@coreui/react';
-import { CIcon } from '@coreui/icons-react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import {
   cilBaby,
-  cilDiamond,
-  cilSpeedometer,
-  cilSnowflake,
-  cilMoney,
 } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import useQueryOrderBy, { currentOrderByState } from '../../hooks/useQueryOrderBy';
-import { helicopter } from '../../icons/awesomeIcons';
+import { helicopter, extreme, family, luxury, averageAnnualSnowfall, affordable } from '../../icons/awesomeIcons';
+import SVGToCIcon from '@/SvgToIcon/SvgToIcon';
 
 const lifestyles = [
-  { key: 'family_friendly', icon: cilBaby, label: 'Family' },
-  { key: 'shops', icon: cilDiamond, label: 'Luxury' },
-  { key: 'expert_terrain_score', icon: cilSpeedometer, label: 'Hardcore' },
-  { key: 'average_annual_snowfall', icon: cilSnowflake, label: 'Powder' },
+  { key: 'family_friendly', icon: family, label: 'Family' },
+  { key: 'shops', icon: luxury, label: 'Luxury' },
+  { key: 'expert_terrain_score', icon: extreme, label: 'Extreme' },
+  { key: 'average_annual_snowfall', icon: averageAnnualSnowfall, label: 'Powder' },
   { key: 'total_score', icon: helicopter, label: 'Helicopter' },
-  { key: 'affordability', icon: cilMoney, label: 'Cheap' },
+  { key: 'affordability', icon: affordable, label: 'Affordable' },
 ];
 
 const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
@@ -73,7 +69,7 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
       className="d-flex flex-column align-items-center p-2 m-1"
       onClick={() => handleLifestyleChange(lifestyle)}
     >
-      <CIcon icon={lifestyle.icon} size="xl" />
+      <SVGToCIcon src={lifestyle.icon} size="3rem" />
       <span className="mt-2">{lifestyle.label}</span>
     </CButton>
   )), [router.query.orderBy, handleLifestyleChange]);

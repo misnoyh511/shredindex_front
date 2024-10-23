@@ -99,7 +99,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
             <CCardBody>
               <div className="user-profile-card-header">
                 <Image
-                  src={formState.profile_picture}
+                  src={formState.profile_picture || ''}
                   alt={`${formState.username}'s profile`}
                   onClick={handleProfilePictureEdit}
                   style={{ cursor: 'pointer' }}
@@ -395,7 +395,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
             <CCardBody>
               <div className="user-profile-card-header">
                 <Image
-                  src={userProfileData.profile_picture}
+                  src={userProfileData?.profile_picture || ''}
                   alt={`${userProfileData.username}'s profile`}
                   width={300}
                   height={300}

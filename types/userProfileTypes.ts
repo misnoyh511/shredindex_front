@@ -3,7 +3,7 @@ export interface UserProfileType {
   username?: string;
   member_tier?: string;
   preferred_sport?: string;
-  profile_picture?: string;
+  profile_picture?: string | null | undefined;
   member_points?: number;
   skill_level?: string;
   years_experience?: number;

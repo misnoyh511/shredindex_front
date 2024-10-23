@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  CAvatar,
   CDropdown,
   CDropdownMenu,
   CDropdownItem,
@@ -11,6 +10,9 @@ import { useRecoilState } from 'recoil';
 import { loggedInUserProfile } from '../../atoms/userProfile';
 import { showLoginTray } from '../../atoms/showLoginTray';
 import { showMembershipTray } from '../../atoms/showMembershipTray';
+import UserAvatar from '@/UserAvatar/UserAvatar';
+
+
 
 const UserProfileMenu: React.FC = () => {
   const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
@@ -28,33 +30,30 @@ const UserProfileMenu: React.FC = () => {
     // Optionally, perform logout actions like clearing tokens, calling logout API, etc.
   };
 
-  if (!userProfile)
+  if (!userProfile) {
     return (
-      <>
-        <div className="user-button-menu" onClick={() => setShowLoginState('login')}>
-          Login
-        </div>
-      </>
+      <div className="user-button-menu" onClick={() => setShowLoginState('login')}>
+        Login
+      </div>
     );
+  }
 
   return (
-    <>
-      <CDropdown className="user-button-menu" variant="nav-item" alignment={'end'}>
-        <CDropdownToggle caret={false}>
-          <CAvatar src={userProfile.profile_picture} size="md" />
-        </CDropdownToggle>
-        <CDropdownMenu>
-          <CDropdownItem onClick={() => setMembershipVisible(!membershipVisible)}>
-            Membership (Tier {userProfile.member_tier})
-          </CDropdownItem>
-          <CDropdownItem onClick={handleViewProfile}>
-            View Profile ({userProfile.username})
-          </CDropdownItem>
-          <CDropdownItem>Points: {userProfile.member_points}</CDropdownItem>
-          <CDropdownItem onClick={handleLogout}>Logout</CDropdownItem>
-        </CDropdownMenu>
-      </CDropdown>
-    </>
+    <CDropdown className="user-button-menu" variant="nav-item" alignment={'end'}>
+      <CDropdownToggle caret={false}>
+        <UserAvatar src={userProfile.profile_picture} />
+      </CDropdownToggle>
+      <CDropdownMenu>
+        <CDropdownItem onClick={() => setMembershipVisible(!membershipVisible)}>
+          Membership (Tier {userProfile.member_tier})
+        </CDropdownItem>
+        <CDropdownItem onClick={handleViewProfile}>
+          View Profile ({userProfile.username})
+        </CDropdownItem>
+        <CDropdownItem>Points: {userProfile.member_points}</CDropdownItem>
+        <CDropdownItem onClick={handleLogout}>Logout</CDropdownItem>
+      </CDropdownMenu>
+    </CDropdown>
   );
 };
 
