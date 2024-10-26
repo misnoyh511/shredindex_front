@@ -7,17 +7,16 @@ import {
 } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import useQueryOrderBy, { currentOrderByState } from '../../hooks/useQueryOrderBy';
-import { helicopter, extreme, family, luxury, averageAnnualSnowfall, affordable } from '../../icons/awesomeIcons';
-import SVGToCIcon from '@/SvgToIcon/SvgToIcon';
+import { TypeIcon } from '@/Icons/TypeIcon';
 
 const lifestyles = [
-  { key: 'family_friendly', icon: family, label: 'Family' },
-  { key: 'shops', icon: luxury, label: 'Luxury' },
-  { key: 'expert_terrain_score', icon: extreme, label: 'Extreme' },
-  { key: 'average_annual_snowfall', icon: averageAnnualSnowfall, label: 'Powder' },
-  { key: 'total_score', icon: helicopter, label: 'Helicopter' },
-  { key: 'affordability', icon: affordable, label: 'Affordable' },
-];
+  { key: 'family_friendly', name: 'family_friendly', label: 'Family' },
+  { key: 'shops', name: 'shops', label: 'Luxury' },
+  { key: 'expert_terrain_score', name: 'expert_terrain_score', label: 'Extreme' },
+  { key: 'average_annual_snowfall', name: 'average_annual_snowfall', label: 'Powder' },
+  { key: 'total_score', name: 'helicopter', label: 'Helicopter' },
+  { key: 'affordability', name: 'affordability', label: 'Affordable' },
+] as const;
 
 const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
   const [formData, setFormData] = useRecoilState(currentOrderByState);
@@ -69,7 +68,10 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
       className="d-flex flex-column align-items-center p-2 m-1"
       onClick={() => handleLifestyleChange(lifestyle)}
     >
-      <SVGToCIcon src={lifestyle.icon} size="3rem" />
+      <TypeIcon
+        typeName={lifestyle.name}
+        size="3rem"
+      />
       <span className="mt-2">{lifestyle.label}</span>
     </CButton>
   )), [router.query.orderBy, handleLifestyleChange]);

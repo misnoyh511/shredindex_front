@@ -64,6 +64,11 @@ $sub-rating-border: $sub-rating-line-width solid;
     gap: 0.25rem;
     height: 1.4rem;
     align-items: center;
+
+    & .rating__type {
+      margin-bottom: .3rem;
+      margin-right: .15rem;
+    }
   }
 
   &__title {

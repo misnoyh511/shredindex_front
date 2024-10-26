@@ -69,6 +69,8 @@
 
         &-close {
           cursor: pointer;
+          display: flex;
+          align-items: center;
 
           &:hover {
             color: $gray-400;

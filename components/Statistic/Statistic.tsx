@@ -1,6 +1,5 @@
 import React from 'react';
-import { CIcon } from '@coreui/icons-react';
-import getTypeIcon from '../../hooks/getTypeIcon';
+import { TypeIcon } from '@/Icons/TypeIcon';
 
 interface StatisticProps {
   title: string;
@@ -31,11 +30,11 @@ const Statistic: React.FC<StatisticProps> = ({
       <div className={`statistic statistic--${statisticType}`}>
         <div className="d-flex statistic__number-bar-wrap justify-content-between">
           <div className="statistic__number-border">
-            <div className="statistic__border--100 statistic__icon-wrap me-2 d-inline">
+            <div className="statistic__border--100 statistic__icon-wrap me-2">
               <span
                 className={`user-select-none ${isMax ? 'statistic__is-100' : ''}`}
               >
-                <CIcon className="statistic__icon" icon={getTypeIcon(name)} />
+                <TypeIcon className="statistic__icon" typeName={name} size={'2rem'}/>
               </span>
             </div>
           </div>

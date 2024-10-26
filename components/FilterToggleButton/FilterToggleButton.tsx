@@ -2,8 +2,8 @@ import React, { useState, ReactNode } from 'react';
 import { CBadge, CTooltip } from '@coreui/react';
 import { CIcon } from '@coreui/icons-react';
 import { cilX, cilLockLocked } from '@coreui/icons';
-import getTypeIcon from '../../hooks/getTypeIcon';
 import { FilterToggleButtonProps } from '../../types/filterTypes';
+import { TypeIcon } from '@/Icons/TypeIcon';
 
 const FilterToggleButton: React.FC<FilterToggleButtonProps> = ({
   id,
@@ -46,7 +46,12 @@ const FilterToggleButton: React.FC<FilterToggleButtonProps> = ({
       >
         <div className="filter-toggle-button__frame-header d-flex w-100">
           <div className="filter-toggle-button__frame-header-left-align d-flex align-items-center gap-2 w-100">
-            <CIcon size="lg" className="statistic__icon" icon={getTypeIcon(name)} />
+            <div className="statistic__icon position-relative d-flex">
+              <TypeIcon
+              typeName={name}
+              size="2.5rem"
+            />
+            </div>
             {' '}
             <div className="filter-toggle-button__frame-header-title">
               {isLocked && (

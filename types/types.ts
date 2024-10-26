@@ -11,20 +11,6 @@ export interface Comment {
   author: string;
   comment: string;
 }
-
-export interface CountryState {
-  id?: string;
-  code: string;
-  name: string;
-}
-
-export interface Location {
-  id?: string;
-  city: string;
-  country: CountryState;
-  state?: CountryState;
-}
-
 export interface Image {
   id: string;
   name: string;
@@ -33,13 +19,4 @@ export interface Image {
     path: string;
     content_type: string;
   };
-}
-
-export interface Resort {
-  description: string;
-  location: Location;
-  highlights: ResortAttribute[];
-  lowlights: ResortAttribute[];
-  comments: Comment[];
-  resort_images: Image[];
 }

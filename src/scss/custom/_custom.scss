@@ -102,6 +102,11 @@ button {
   background-color: unset;
 }
 
+// Icon
+.icon-negative-margin {
+  margin: -.3rem;
+}
+
 // Pagination
 .page-item {
   &:not(.disabled) {

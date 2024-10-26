@@ -37,7 +37,7 @@ export interface Type {
   category: string;
   unit?: string;
   unit_id?: string;
-  icon?: string;
+  icon?: string | null;
   max_value?: number;
 }
 
@@ -52,6 +52,10 @@ export interface FilterToggleButtonProps {
   onChange?: () => Promise<void>;
   toggle: boolean;
   isLocked?: boolean;
+}
+
+export interface IconSpriteQuery {
+  iconSprite: string;
 }
 
 // This type alias makes it clear that FormData and CurrentFilterState are the same

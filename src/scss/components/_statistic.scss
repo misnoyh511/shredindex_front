@@ -25,18 +25,6 @@ $sub-rating-border: $sub-rating-line-width solid;
     font-size: .5rem;
   }
 
-  &__is-100 {
-    margin-left: -0.1rem;
-  }
-
-  &__icon-wrap {
-    & svg {
-      height: 1.5rem !important;
-      width: 1.5rem !important;
-    }
-
-  }
-
   &__title {
     position: relative;
     line-height: 1;

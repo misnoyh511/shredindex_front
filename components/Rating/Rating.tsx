@@ -1,7 +1,6 @@
 import React from 'react';
-import { CIcon } from '@coreui/icons-react';
-import getTypeIcon from '../../hooks/getTypeIcon';
 import isNumber from '../../utility/helperFunctions';
+import { TypeIcon } from '@/Icons/TypeIcon';
 
 interface RatingProps {
   name?: string | null;
@@ -46,12 +45,9 @@ const Rating: React.FC<RatingProps> = ({
         </div>
       </div>
       <div className="rating__icon-label-wrap">
-        <span className={`rating__icon--${styleSuffix} user-select-none`}>
+        <span className={`rating__icon--${styleSuffix} user-select-none rating__type`}>
           {name && ratingType === 'sub-rating' && (
-            <CIcon
-              className="rating__icon"
-              icon={getTypeIcon(name)}
-            />
+            <TypeIcon className="rating__icon" typeName={name} size={'1.45rem'}/>
           )}
         </span>
         <span className="rating__title display-5 text-left user-select-none">

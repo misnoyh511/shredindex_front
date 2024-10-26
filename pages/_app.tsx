@@ -15,6 +15,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '../src/scss/style.scss';
 
 // Dynamic imports with SSR disabled for interactive components
+const IconSprite = dynamic(() => import('../components/Icons/IconSprite'), {
+  ssr: false,
+});
+
 const GlobalToast = dynamic(() => import('../components/GlobalToast/GlobalToast'), {
   ssr: false,
 });
@@ -64,6 +68,7 @@ const ClientOnlyPortal = ({ children }) => {
 
   return (
     <>
+      <IconSprite />
       <GlobalToast />
       <Login />
       <MembershipModal />
