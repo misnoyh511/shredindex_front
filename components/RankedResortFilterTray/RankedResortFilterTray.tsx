@@ -11,7 +11,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'next/router';
 import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
-import { currentFilterState } from '../../hooks/useQueryTypes';
+import { currentFilterState } from '../../atoms/filterState';
 import { FormData, FilterGroup, FilterType } from '../../types/filterTypes';
 import { showFilterTrayState } from '../../atoms/showFilterTray';
 

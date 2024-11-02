@@ -7,7 +7,8 @@ import {
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useRecoilState } from 'recoil';
-import useQueryOrderBy, { currentOrderByState } from '../../../hooks/useQueryOrderBy';
+import useQueryOrderBy from '../../../hooks/useQueryOrderBy';
+import { currentOrderByState } from '../../../atoms/filterState';
 
 const RankedResortLifeStyles = () => {
   const [formData, setFormData] = useRecoilState(currentOrderByState);

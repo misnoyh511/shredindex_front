@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { gql, useQuery } from '@apollo/client';
-import { CurrentFilterState, Type, FilterGroup } from '../types/filterTypes';
+import { Type, FilterGroup } from '../types/filterTypes';
+import { currentFilterState } from '../atoms/filterState';
 
 export const QUERY_TYPES = gql`
   {
@@ -19,42 +20,6 @@ export const QUERY_TYPES = gql`
 
 const LOCAL_STORAGE_KEY = 'currentFilterState';
 
-function getFilterState(): CurrentFilterState {
-  if (typeof window === 'undefined') {
-    return { groupedType: [], locationType: {} };
-  }
-
-  const savedState = localStorage.getItem('currentFilterState');
-  if (savedState) {
-    try {
-      return JSON.parse(savedState);
-    } catch (error) {
-      console.error('Error parsing filter state from localStorage:', error);
-    }
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const filtersParam = params.get('filters');
-
-  if (filtersParam) {
-    try {
-      const parsedFilters = JSON.parse(filtersParam);
-      return {
-        groupedType: Array.isArray(parsedFilters) ? parsedFilters : parsedFilters.groupedType || [],
-        locationType: parsedFilters.locationType || {},
-      };
-    } catch (error) {
-      console.error('Error parsing filters from URL:', error);
-    }
-  }
-
-  return { groupedType: [], locationType: {} };
-}
-
-export const currentFilterState = atom<CurrentFilterState>({
-  key: 'showCurrentFiltersState',
-  default: getFilterState(),
-});
 
 const useQueryTypes = () => {
   const { loading, error, data } = useQuery<{ types: Type[] }>(QUERY_TYPES);
@@ -85,7 +50,7 @@ const useQueryTypes = () => {
 
   useEffect(() => {
     if (data && !initializedFromState) {
-      const savedState = getFilterState();
+      const savedState = currentFilter;
       const scores = data.types.filter((item) => item?.category === 'Underflip\\Resorts\\Models\\Rating');
       const numerics = data.types.filter((item) => item?.category === 'Underflip\\Resorts\\Models\\Numeric');
       const generics = data.types.filter((item) => item?.category === 'Underflip\\Resorts\\Models\\Generic');

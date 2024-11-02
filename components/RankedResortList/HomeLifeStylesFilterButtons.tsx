@@ -6,7 +6,8 @@ import {
   cilBaby,
 } from '@coreui/icons';
 import PropTypes from 'prop-types';
-import useQueryOrderBy, { currentOrderByState } from '../../hooks/useQueryOrderBy';
+import { currentOrderByState } from '../../atoms/filterState';
+import useQueryOrderBy from '../../hooks/useQueryOrderBy';
 import { TypeIcon } from '@/Icons/TypeIcon';
 
 const lifestyles = [

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Select, { StylesConfig, MultiValue } from 'react-select';
 import countryList from 'react-select-country-list';
 import { useRecoilState } from 'recoil';
-import { currentFilterState } from '../../hooks/useQueryTypes';
+import { currentFilterState } from '../../atoms/filterState';
 import { getContinent } from '../../hooks/getContinent';
 import { FormData } from '../../types/filterTypes';
 import Image from 'next/image';

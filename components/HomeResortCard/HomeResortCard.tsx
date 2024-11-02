@@ -27,12 +27,11 @@ const HomeResortCard: React.FC<HomeResortCardProps> = ({ resortData }) => {
     alt: img.alt,
     sort_order: index,
     image: {
-      path: img.url,
+      path: img?.image?.path,
       content_type: 'image/jpeg',  // Add a default value if not available
     },
   }));
 
-  // Create a proper totalScore object for ResortCardHeader
   const totalScoreForHeader: Score = {
     id: `${id}-total-score`,
     name: 'Total Score',

@@ -60,9 +60,6 @@ const Statistic: React.FC<StatisticProps> = ({
             style={{ left: barWidth }}
           />
         </div>
-        <div className="statistic__percentile percentile">
-          {parseInt(barWidth)}% Percentile
-        </div>
       </div>
     </>
   );

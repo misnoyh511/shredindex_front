@@ -53,10 +53,6 @@ describe('Ranked ResortSingle List Full', () => {
     });
   });
 
-  it('Should have a filtering area', () => {
-    cy.get('.ranked-resort-list__filters-wrap').should('exist');
-  });
-
   dataProvider.resortPage.forEach((resort, index) => {
     const pageIndex = index + 1;
 

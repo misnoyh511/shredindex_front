@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   gap: .75rem;
   user-select: none;
+  justify-content: center;
 
   input[type="checkbox"] {
     opacity: 0;
@@ -50,8 +51,8 @@
     text-align: center;
 
     .region-image {
-      max-height: 5rem;
-      max-width: 5rem;
+      max-height: 4.5rem;
+      max-width: 4.5rem;
     }
   }
 

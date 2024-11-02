@@ -88,3 +88,23 @@
     color: white;
   }
 }
+
+.advanced-filters-content {
+  &.hero__heading {
+    padding: 0 1rem;
+    margin-top: clamp(-34rem, calc(-10rem - 20vw), -10rem);
+  }
+}
+
+/* Add specific overrides if needed */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .advanced-filters-content.hero__heading {
+    margin-top: -20rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .advanced-filters-content.hero__heading {
+    margin-top: -12rem;
+  }
+}

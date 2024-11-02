@@ -12,7 +12,7 @@ import {
 } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'next/router';
-import { currentFilterState } from '../../hooks/useQueryTypes';
+import { currentFilterState } from '../../atoms/filterState';
 import RegionSelect from '../RegionSelect/RegionSelect';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import { showLocationTrayState } from '../../atoms/showLocationTray';

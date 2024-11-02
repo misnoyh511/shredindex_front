@@ -38,6 +38,7 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
           >
             <ResortCardLocation location={location} />
           </Link>
+          <ShareButton key={title} title={title} resortUrl={url} />
         </div>
         {description && (
           <div className="resort-card__description mb-3 me-2 user-select-none">
@@ -54,7 +55,6 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
           </div>
         )}
       </div>
-      <ShareButton key={title} title={title} resortUrl={url} />
     </div>
     <div className="resort-card__content-wrap">
       {numerics?.length > 1 && (

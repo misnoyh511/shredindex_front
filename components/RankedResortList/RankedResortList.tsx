@@ -4,12 +4,10 @@ import ResortCard from '../ResortCard/ResortCard';
 import Pagination, { paginationSize } from '../Pagination/Pagination';
 import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
 import ResortCardSkeleton from '../SkeletonState/ResortCardSkeleton';
-import RankedResortFilterMenu from '../RankedResortFilterMenu/RankedResortFilterMenu';
 import useQueryResorts from '../../hooks/useQueryResorts';
 import useWindowDimensions from '../../hooks/getWindowDimensions';
 import RankedResortResultCount from '../RankedResortResultCount/RankedResortResultCount';
 import breakpoints from '../../src/js/components/config/breakpoints';
-import RankedResortFilterMenuSkeleton from '../RankedResortFilterMenu/RankedResortFilterMenuSkeleton';
 import RankedResortResultCountSkeleton from '../RankedResortResultCount/RankedResortResultCountSkeleton';
 import ResortCardNoResults from '../ResortCard/ResortCardNoResults/ResortCardNoResults';
 import { Resort } from '../../types/resortTypes';
@@ -73,9 +71,9 @@ const RankedResortList: React.FC<RankedResortListProps> = ({ cardLimit }) => {
   if (loading) {
     return (
       <div className="ranked-resort-list">
-        <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
-          <RankedResortFilterMenuSkeleton />
-        </div>
+        {/*<div className="ranked-resort-list__filters-wrap col-sm-12 w-100">*/}
+        {/*  <RankedResortFilterMenuSkeleton />*/}
+        {/*</div>*/}
         <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
           <RankedResortResultCountSkeleton />
         </div>
@@ -103,13 +101,6 @@ const RankedResortList: React.FC<RankedResortListProps> = ({ cardLimit }) => {
 
   return (
     <div className="ranked-resort-list">
-      <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
-        <RankedResortFilterMenu
-          filterQuantity={filtersObject.groupedType
-            ? [...new Set(filtersObject.groupedType.map((i) => i.type_name))].length
-            : 0}
-        />
-      </div>
       <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
         <RankedResortResultCount total={total} currentPage={currentPage} lastPage={lastPage} />
       </div>

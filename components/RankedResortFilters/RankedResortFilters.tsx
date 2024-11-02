@@ -5,7 +5,8 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { useRecoilState } from 'recoil';
 import FilterToggleButton from '../FilterToggleButton/FilterToggleButton';
-import useQueryFilters, { currentFilterState } from '../../hooks/useQueryTypes';
+import useQueryFilters from '../../hooks/useQueryTypes';
+import { currentFilterState } from '../../atoms/filterState';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
 import DoubleRangeSlider from '../DoubleRangeSlider/DoubleRangeSlider';
 import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';

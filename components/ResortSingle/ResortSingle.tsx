@@ -165,7 +165,9 @@ const ResortSingle: React.FC<ResortProps> = ({ resortData, error, loading }) => 
             <ResortComments comments={comments} />
           </CCol>
           <CCol lg={4}>
-            <Accomodation affiliateUrl={affiliate_url} />
+            {affiliate_url && (
+              <Accomodation affiliateUrl={affiliate_url} />
+            )}
             <AdvertiseHere affiliateUrl={affiliate_url}/>
             <Gear />
             <ResortMapCard location={location}/>

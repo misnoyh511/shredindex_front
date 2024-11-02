@@ -1,29 +1,6 @@
-import { atom } from 'recoil';
 import { useQuery } from '@apollo/client';
 import { QUERY_TYPES } from './useQueryTypes';
 
-function getCurrentOrderByFromUrl() {
-  if (typeof window === 'undefined') {
-    return { params: [], paramsLoaded: false };
-  }
-  const params = new URLSearchParams(window.location.search);
-
-  try {
-    const orderBy = params.get('orderBy');
-    if (orderBy) {
-      const parsedOrderBy = JSON.parse(orderBy);
-
-      return { params: parsedOrderBy, paramsLoaded: true };
-    }
-  } catch (error) { /* empty */ }
-
-  return { params: [], paramsLoaded: false };
-}
-
-export const currentOrderByState = atom({
-  key: 'showCurrentOrderByState',
-  default: getCurrentOrderByFromUrl().params,
-});
 
 const UseQueryOrderBy = () => {
   const {

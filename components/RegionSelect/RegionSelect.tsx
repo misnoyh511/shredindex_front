@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { currentFilterState } from '../../hooks/useQueryTypes';
+import { currentFilterState } from '../../atoms/filterState';
 import { getContinent } from '../../hooks/getContinent';
 import worldMap from '../../images/continents/continent-world-map-2d.svg';
 import asia from '../../images/continents/continent-asia-map-2d.svg';
