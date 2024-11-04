@@ -21,7 +21,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
   const setShowLocationTray = useSetRecoilState(showLocationTrayState);
 
   return (
-    <div className="filter-menu mb-4 d-flex flex-row gap-4">
+    <div className="filter-menu mb-4 d-flex flex-row gap-3">
       <CButton
         color="dark"
         aria-roledescription={(
@@ -30,7 +30,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
             defaultMessage="Show Location tray"
           />
         ).toString()}
-        className="me-2 w-100 filter-menu__show-location-tray"
+        className="w-100 filter-menu__show-location-tray"
         onClick={() => setShowLocationTray(true)}
       >
         <FormattedMessage
@@ -46,7 +46,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
             defaultMessage="Show lifestyles tray"
           />
         ).toString()}
-        className="me-2 w-100 filter-menu__show-lifestyles-tray"
+        className="w-100 filter-menu__show-lifestyles-tray"
         onClick={() => setShowLifestyleTray(true)}
       >
         <FormattedMessage
@@ -62,7 +62,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
             defaultMessage="Show filters tray"
           />
         ).toString()}
-        className="ms-2 w-100 filter-menu__show-filters-tray position-relative"
+        className="w-100 filter-menu__show-filters-tray position-relative"
         onClick={() => setShowFilterTray(true)}
       >
         <CIcon icon={cilSettings} />

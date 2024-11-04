@@ -1,5 +1,40 @@
 .resort-single {
 
+  & .resort-comments__card {
+    overflow: hidden;
+    width: 14rem;
+    margin-right: 1rem;
+  }
+
+  .carousel {
+    &__comment-text {
+      display: -webkit-box;
+      font-size: small;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: unset;
+      margin: .2rem;
+    }
+
+    &__author {
+      margin: 1rem 0rem;
+    }
+
+    &__comment-background {
+      min-width: 100%;
+      width: 15rem;
+      max-width: 256%;
+      left: 50%;
+      transform: translate(-50%);
+      bottom: 0;
+    }
+  }
+
+  .carousel__comment {
+    height: auto !important;
+  }
+
   & .caption-text {
     font-weight: 200;
     position: relative;
@@ -86,13 +121,6 @@
       font-size: .9rem;
     }
   }
-
-  & .resort-comments__card {
-    overflow: hidden;
-    width: 12rem;
-    margin-right: 1rem;
-  }
-
   & .back-button {
     cursor: pointer;
     background-color: #2b414d;

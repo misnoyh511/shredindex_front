@@ -36,7 +36,19 @@
   }
 
   &__location-wrap {
-    max-width: 82%;
+    width: 100%;
+    display: block;
+    position: relative;
+    top: -0.425rem;
+
+    & .resort-card__location {
+      & a {
+        width: 100%;
+        display: block;
+        width: -webkit-fill-available;
+        overflow: hidden;
+      }
+    }
   }
 
   &__country-flag-wrap {
@@ -58,6 +70,7 @@
     width: 100%;
     min-height: 1.25rem;
     margin-bottom: .2rem;
+    align-items: center;
   }
 
   &__location-title {
@@ -109,7 +122,6 @@
     background-color: $card-bg-semi-transparent;
     border-radius: 5rem;
     position: relative;
-    top: -0.425rem;
     transition-duration: $card-animation-transition-time;
 
     &:hover {

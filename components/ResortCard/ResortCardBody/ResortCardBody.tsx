@@ -36,9 +36,10 @@ const ResortCardBody: React.FC<ResortCardBodyProps> = ({
           <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
             <ResortCardLocation location={location} />
           </CLink>
+          <ShareButton title={title} resortUrl={url} />
         </div>
         {description && (
-          <div className="resort-card__description mb-3 me-2 user-select-none">
+          <div className="resort-card__description user-select-none">
             <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank" href={affiliate_url}>
               <span className="m-0">
                 {description}
@@ -47,7 +48,6 @@ const ResortCardBody: React.FC<ResortCardBodyProps> = ({
           </div>
         )}
       </div>
-      <ShareButton title={title} resortUrl={url} />
     </div>
     <div className="resort-card__content-wrap">
       {numerics?.length > 1 && (

@@ -51,7 +51,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ title, resortUrl = null }) =>
   return (
     <CDropdown className="align-items-center">
       <CDropdownToggle color="link" className="p-0">
-        <div className="resort-card__share-wrap me-2">
+        <div className="resort-card__share-wrap ms-2">
           <CIcon icon={cilShareAlt} />
         </div>
       </CDropdownToggle>

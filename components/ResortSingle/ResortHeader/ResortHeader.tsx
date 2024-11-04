@@ -67,16 +67,14 @@ const ResortHeader: React.FC<ResortHeaderProps> = ({ resort }) => {
                 target="_blank"
                 href={affiliate_url ? affiliate_url : ''}
               >
-                <ResortCardLocation location={location} />
+                <ResortCardLocation location={location}/>
               </Link>
+                <ShareButton title={title}/>
             </div>
             <ResortDescription
               description={description}
               affiliateUrl={affiliate_url}
             />
-          </div>
-          <div className="share-button-wrap">
-            <ShareButton title={title} />
           </div>
         </div>
       </CCardBody>
