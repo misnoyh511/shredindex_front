@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
-import {
-  CRow, CFormLabel, CForm, CButton,
-} from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
+import {
+  CFormLabel, CForm,
+} from '@coreui/react';
 import { useRecoilState } from 'recoil';
-import FilterToggleButton from '../FilterToggleButton/FilterToggleButton';
 import useQueryFilters from '../../hooks/useQueryTypes';
 import { currentFilterState } from '../../atoms/filterState';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
-import DoubleRangeSlider from '../DoubleRangeSlider/DoubleRangeSlider';
 import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
-import { FormData, FilterGroup } from '../../types/filterTypes';
+import { FormData, ResortTypeFilters } from '../../types/filterTypes';
+import FilterSection from './../FilterSections/FilterSections';
 
 const RankedResortFilters: React.FC = () => {
   const {
@@ -21,6 +20,18 @@ const RankedResortFilters: React.FC = () => {
   const [showMoreRatings, setShowMoreRatings] = useLocalStorageDrivenBooleanState('showMoreFilters', 'ratings');
   const [showMoreNumerics, setShowMoreNumerics] = useLocalStorageDrivenBooleanState('showMoreFilters', 'numerics');
   const [showMoreGenerics, setShowMoreGenerics] = useLocalStorageDrivenBooleanState('showMoreFilters', 'generics');
+  const [showMoreResortTypes, setShowMoreResortTypes] = useLocalStorageDrivenBooleanState('showMoreFilters', 'resortTypes');
+
+  // Split genericFilters into resort types and other features
+  const resortTypeFilters = ResortTypeFilters
+    .map(type => genericFilters?.find(
+      filter => filter.filters[0] && filter.filters[0].type_name === type,
+    ))
+    .filter((filter): filter is FilterGroup => !!filter);
+
+  const otherGenericFilters = genericFilters?.filter(
+    filter => filter.filters[0] && !ResortTypeFilters.includes(filter.filters[0].type_name),
+  );
 
   const filterDescriptionToolTip = useCallback((label: string) => {
     const formattedLabel = label.toUpperCase().replace(/ /g, '_');
@@ -104,10 +115,10 @@ const RankedResortFilters: React.FC = () => {
   if (loading) {
     return (
       <>
-        <CFormLabel className="form-label filters__scores">
+        <CFormLabel className="form-label filters__resort_types">
           <FormattedMessage
-            id="shredindex.filter.SCORES"
-            defaultMessage="Scores"
+            id="shredindex.filter.RESORT_TYPES"
+            defaultMessage="Resort type"
           />
         </CFormLabel>
         {Array(8).fill(null).map((_, index) => (
@@ -118,222 +129,73 @@ const RankedResortFilters: React.FC = () => {
   }
 
   if (error) {
-    return (
-      <p>Error Loading filters</p>
-    );
+    return <p>Error Loading filters</p>;
   }
 
   return (
     <CForm>
-      <CRow>
-        <CFormLabel className="form-label filters__scores">
-          <FormattedMessage
-            id="shredindex.filter.Ratings"
-            defaultMessage="Ratings"
-          />
-        </CFormLabel>
-        {scoreFilters?.map((item: FilterGroup, filterIndex: number) => (
-          (showMoreRatings || filterIndex < 5) && (
-            <FilterToggleButton
-              key={item.filterToggleButtonID}
-              label={item.label || ''}
-              name={item.name}
-              className="mt-4"
-              id={item.filterToggleButtonID}
-              updateForm={handleUpdateForm}
-              tooltip={filterDescriptionToolTip(item.label || '')}
-              toggle={item.toggleOn}
-            >
-              {(id: string, toggleOn: boolean) => (
-                item.filters && item.filters[0] && item.filters[1] ? ( // Ensure filters exist before rendering
-                  <DoubleRangeSlider
-                    title={item.label || ''}
-                    name={item.filters[0].type_name}
-                    unit={item.unit}
-                    sliderMin={0}
-                    sliderMax={100}
-                    initialLowerVal={
-                      parseInt(
-                        getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
-                        10,
-                      ) || 0
-                    }
-                    initialUpperVal={
-                      parseInt(
-                        getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
-                        10,
-                      ) || 100
-                    }
-                    onChangeLower={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      updateForm(
-                        id,
-                        toggleOn,
-                        item.filters[0].type_name,
-                        item.filters[0].operator,
-                        e.target.value,
-                      );
-                    }}
-                    onChangeUpper={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      updateForm(
-                        id,
-                        toggleOn,
-                        item.filters[1].type_name,
-                        item.filters[1].operator,
-                        e.target.value,
-                      );
-                    }}
-                    useGraph
-                  />
-                ) : null
-              )}
-            </FilterToggleButton>
-          )
-        ))}
-        <div className="d-flex justify-content-center align-content-center">
-          <CButton
-            id="showMoreRatings"
-            className="mt-4 align-content-center "
-            onClick={() => setShowMoreRatings((prevState: unknown) => !prevState)}
-            variant="outline"
-            color="light"
-            shape="rounded-pill"
-          >
-            {showMoreRatings
-              ? <span>Show less ratings -</span>
-              : <span>Show more ratings +</span>}
-          </CButton>
-        </div>
-      </CRow>
-      <CRow>
-        <hr className="form-hr" />
-        <CFormLabel className="form-label filters__stats">
-          <FormattedMessage
-            id="shredindex.filter.STATS"
-            defaultMessage="Stats"
-          />
-        </CFormLabel>
-        {numericFilters?.map((item, filterIndex) => (
-          (showMoreNumerics || filterIndex < 5) && (
-            <FilterToggleButton
-              key={item.filterToggleButtonID}
-              label={item.label}
-              name={item.name}
-              className="mt-4"
-              id={item.filterToggleButtonID}
-              updateForm={handleUpdateForm}
-              tooltip={filterDescriptionToolTip(item.label || '')}
-              toggle={item.toggleOn}
-            >
-              {(id, toggleOn) => (
-                <DoubleRangeSlider
-                  title={item.label}
-                  name={item.filters[0].type_name}
-                  sliderMin={0}
-                  sliderMax={item?.max_value || 100}
-                  unit={item.unit}
-                  initialLowerVal={
-                    parseInt(
-                      getFormValue(id, item.filters[0].type_name, item.filters[0].operator),
-                      10,
-                    ) || 0
-                  }
-                  initialUpperVal={
-                    parseInt(
-                      getFormValue(id, item.filters[1].type_name, item.filters[1].operator),
-                      10,
-                    )
-                  }
-                  onChangeLower={(e) => {
-                    if (item.filters && item.filters[0]) {
-                      updateForm(
-                        id,
-                        toggleOn,
-                        item.filters[0].type_name,
-                        item.filters[0].operator,
-                        e.target.value,
-                      );
-                    }
-                  }}
-                  onChangeUpper={(e) => {
-                    if (item.filters && item.filters[1]) {
-                      updateForm(
-                        id,
-                        toggleOn,
-                        item.filters[1].type_name,
-                        item.filters[1].operator,
-                        e.target.value,
-                      );
-                    }
-                  }}
-                  useGraph
-                />
-              )}
-            </FilterToggleButton>
-          )
-        ))}
-        <div className="d-flex justify-content-center align-content-center">
-          <CButton
-            id="showMoreNumeric"
-            className="mt-4"
-            onClick={() => setShowMoreNumerics((prevState) => !prevState)}
-            label="Show more"
-            variant="outline"
-            shape="rounded-pill"
-          >
-            {showMoreNumerics
-              ? <span>Show less stats -</span>
-              : <span>Show more stats +</span>}
-          </CButton>
-        </div>
-      </CRow>
-      <hr className="form-hr" />
-      <CFormLabel className="form-label filters__features">
-        <FormattedMessage
-          id="shredindex.filter.FEATURES"
-          defaultMessage="Must have features"
-        />
-      </CFormLabel>
-      {genericFilters?.map((item, filterIndex) => (
-        (showMoreGenerics || filterIndex < 5) && (
-          <FilterToggleButton
-            key={item.filterToggleButtonID}
-            label={item.label}
-            name={item.name}
-            className="mt-4"
-            id={item.filterToggleButtonID}
-            updateForm={handleUpdateForm}
-            tooltip={filterDescriptionToolTip(item.label || '')}
-            toggle={item.toggleOn}
-            onChange={(e) => {
-              if (item.filters && item.filters[0]) {
-                updateForm(
-                  item.filterToggleButtonID,
-                  item.toggleOn,
-                  item.filters[0].type_name,
-                  item.filters[0].operator,
-                  e.target.value,
-                );
-              }
-            }}
-          />
-        )
-      ))}
-      {(genericFilters.length > 5) && (
-        <div className="d-flex justify-content-center align-content-center">
-          <CButton
-            id="showMoreGenerics"
-            className="mt-4 "
-            onClick={() => setShowMoreGenerics((prevState) => !prevState)}
-            label="Show more"
-            variant="outline"
-            shape="rounded-pill"
-          >
-            {showMoreGenerics
-              ? <span>Show less features -</span>
-              : <span>Show more features +</span>}
-          </CButton>
-        </div>
-      )}
+      <FilterSection
+        title="Resort type"
+        titleId="shredindex.filter.RESORT_TYPES"
+        filters={resortTypeFilters}
+        showMore={showMoreResortTypes}
+        onToggleShowMore={setShowMoreResortTypes}
+        handleUpdateForm={handleUpdateForm}
+        updateForm={updateForm}
+        getFormValue={getFormValue}
+        filterDescriptionToolTip={filterDescriptionToolTip}
+        showMoreButtonText="Show more resort types +"
+        showLessButtonText="Show less resort types -"
+      />
+      <hr className="form-hr"/>
+
+      <FilterSection
+        title="Must have features"
+        titleId="shredindex.filter.FEATURES"
+        filters={otherGenericFilters}
+        showMore={showMoreGenerics}
+        onToggleShowMore={setShowMoreGenerics}
+        handleUpdateForm={handleUpdateForm}
+        updateForm={updateForm}
+        getFormValue={getFormValue}
+        filterDescriptionToolTip={filterDescriptionToolTip}
+        showMoreButtonText="Show more features +"
+        showLessButtonText="Show less features -"
+      />
+      <hr className="form-hr"/>
+
+      <FilterSection
+        title="Stats"
+        titleId="shredindex.filter.STATS"
+        filters={numericFilters}
+        showMore={showMoreNumerics}
+        onToggleShowMore={setShowMoreNumerics}
+        handleUpdateForm={handleUpdateForm}
+        updateForm={updateForm}
+        getFormValue={getFormValue}
+        filterDescriptionToolTip={filterDescriptionToolTip}
+        showMoreButtonText="Show more stats +"
+        showLessButtonText="Show less stats -"
+        useRangeSlider
+      />
+      <hr className="form-hr"/>
+
+      <FilterSection
+        title="Ratings"
+        titleId="shredindex.filter.Ratings"
+        filters={scoreFilters}
+        showMore={showMoreRatings}
+        onToggleShowMore={setShowMoreRatings}
+        handleUpdateForm={handleUpdateForm}
+        updateForm={updateForm}
+        getFormValue={getFormValue}
+        filterDescriptionToolTip={filterDescriptionToolTip}
+        showMoreButtonText="Show more ratings +"
+        showLessButtonText="Show less ratings -"
+        useRangeSlider
+      />
+      <hr className="form-hr"/>
+
     </CForm>
   );
 };

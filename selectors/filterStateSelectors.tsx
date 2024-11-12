@@ -36,7 +36,7 @@ export const currentOrderByNameSelector = selector({
   },
 });
 
-// Helper hook to easily access all filter information
+// Helper hook to easily access all filter information unused.
 export const useFilterInfo = () => {
   const activeFilterTypes = useRecoilValue(activeFilterTypesSelector);
   const locationFilters = useRecoilValue(locationFiltersSelector);

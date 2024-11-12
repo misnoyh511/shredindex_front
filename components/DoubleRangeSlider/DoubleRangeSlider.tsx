@@ -157,7 +157,7 @@ const DoubleRangeSlider: React.FC<DoubleRangeSliderProps> = ({
           {sliderMax}
         </CFormLabel>
       </div>
-      <div className="range-slider-input-wrap mt-2 d-flex justify-content-between p-3">
+      <div className="range-slider-input-wrap d-flex justify-content-between p-3">
         <div className="range-slider-input w-100 position-relative">
           <CFormLabel htmlFor={`${name}_lower_input`} className="w-100 label-inside-input label-inside-input-lower resort-card__small-label">
             Min -

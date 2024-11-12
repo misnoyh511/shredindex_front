@@ -4,8 +4,6 @@
     border-radius: 0;
 
     .modal-header {
-      padding: 1.35rem 1rem;
-
       .btn-close {
         height: 0.625rem;
         width: 0.625rem;
@@ -24,9 +22,6 @@
         }
       }
     }
-    .modal-footer {
-      padding: 1.35rem 1rem;
-    }
   }
 }
 
@@ -43,8 +38,6 @@
       border-radius: 1rem !important;
 
       .modal-header {
-        padding: 1.5rem 2rem;
-
         .btn-close {
           right: 2rem;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' class='icon icon-xl' role='img'%3E%3Cpolygon fill='%23ffffff' points='427.314 107.313 404.686 84.687 256 233.373 107.314 84.687 84.686 107.313 233.373 256 84.686 404.687 107.314 427.313 256 278.627 404.686 427.313 427.314 404.687 278.627 256 427.314 107.313' class='ci-primary'%3E%3C/polygon%3E%3C/svg%3E");
@@ -53,10 +46,6 @@
 
       .modal-body {
         padding: 2rem;
-      }
-
-      .modal-footer {
-        padding: 1.5rem 2rem;
       }
     }
   }

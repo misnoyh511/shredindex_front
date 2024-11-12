@@ -54,9 +54,29 @@ export interface FilterToggleButtonProps {
   isLocked?: boolean;
 }
 
+export interface FilterGroup {
+  filterToggleButtonID: string;
+  label?: string;
+  name?: string;
+  unit?: string;
+  max_value?: number;
+  toggleOn: boolean;
+  filters: Filter[];
+}
+
 export interface IconSpriteQuery {
   iconSprite: string;
 }
+
+export const ResortTypeFilters = [
+  'traditional_ski_resort',
+  'helicopter',
+  'dry_slope',
+  'indoor',
+  'cross_country_skiing',
+  'cat_skiing',
+  'sand_skiing',
+];
 
 // This type alias makes it clear that FormData and CurrentFilterState are the same
 export type FormData = CurrentFilterState;

@@ -4,9 +4,10 @@
   max-width: 32rem;
   display: flex;
   align-items: center;
+  font-size: 0.875rem;
 
   &__skeleton {
-    margin-top: 1rem;
+    margin-top: .5rem;
     min-width: 16rem;
   }
 
@@ -27,9 +28,15 @@
 
   .filter-toggle-button__skeleton {
     min-width: 16rem;
-    height: 4rem !important;
+    height: 2.5rem !important;
     .filter-toggle-button__frame {
       border: none;
+    }
+  }
+
+  .filter-toggle-button__frame-header {
+    &-title {
+      font-size: 0.875rem;
     }
   }
 
@@ -39,7 +46,7 @@
     border-style: solid;
     border-width: 1px;
     width: fit-content;
-    padding: 0.563rem 1rem;
+    padding: 0.263rem 1rem;
 
     &--filter-on {
       background-color: $primary;
@@ -65,10 +72,12 @@
       }
 
       .filter-toggle-button__frame-header {
-        padding: 0.563rem 1rem;
+        padding: 0.263rem 1rem;
 
-        &-title {
-          font-weight: 600;
+        .filter-toggle-button__frame-header {
+          &-title {
+            font-weight: 600;
+          }
         }
 
         &-close {
@@ -96,7 +105,7 @@
     }
 
     &--filter-off {
-      border-radius: 50rem;
+      border-radius: 150rem;
     }
   }
 }

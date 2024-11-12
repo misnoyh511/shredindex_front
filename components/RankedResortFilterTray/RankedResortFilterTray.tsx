@@ -164,6 +164,7 @@ const RankedResortFilterTray: React.FC = () => {
     <CModal
       className="filter-tray"
       fullscreen="lg"
+      size="lg"
       scrollable
       visible={visible}
       onClose={handleClose}

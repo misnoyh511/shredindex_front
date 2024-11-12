@@ -49,7 +49,7 @@ const FilterToggleButton: React.FC<FilterToggleButtonProps> = ({
             <div className="statistic__icon position-relative d-flex">
               <TypeIcon
               typeName={name}
-              size="2.5rem"
+              size="2.2rem"
             />
             </div>
             {' '}

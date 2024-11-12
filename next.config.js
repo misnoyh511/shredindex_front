@@ -56,6 +56,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'backend.shredindex.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'source.unsplash.com',
       },
       {
@@ -79,6 +83,7 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_MAPBOX_API_KEY: process.env.NEXT_PUBLIC_MAPBOX_API_KEY,
+    NEXT_PUBLIC_MAPBOX_STYLE: process.env.NEXT_PUBLIC_MAPBOX_STYLE,
     NEXT_PUBLIC_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
