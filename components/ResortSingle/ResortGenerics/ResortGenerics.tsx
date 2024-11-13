@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CIcon } from '@coreui/icons-react';
-import { cilCheck, cilX } from '@coreui/icons';
 import Flickity from 'react-flickity-component';
 import flickityOptions from '../../../src/js/components/config/flickity-options';
 import { Generic } from '../../../types/resortTypes';
+import { TypeIcon } from '@/Icons/TypeIcon';
+import { TypeDescription } from '@/TypeDescription/TypeDescription';
 
 interface ResortGenericsProps {
   generics: Generic[];
@@ -20,7 +20,7 @@ const options = {
 
 const ResortGenerics: React.FC<ResortGenericsProps> = ({ generics }) => (
   <div className="resort-single__generics generics numeric-list mb-4">
-    <h3 className="resort-single-card-heading user-select-none mb-2">
+    <h3 className="resort-single-card-heading user-select-none">
       <FormattedMessage
         id="shredindex.generics.FEATURES"
         defaultMessage="Features"
@@ -34,12 +34,17 @@ const ResortGenerics: React.FC<ResortGenericsProps> = ({ generics }) => (
         disableImagesLoaded
         reloadOnUpdate
       >
-        {generics?.map(({ id, title, value }) => (
+        {generics?.map(({ id, title, name }) => (
           <div key={id} className="generic-list__generic generics-item me-2">
-            {value === 'yes'
-              ? <CIcon icon={cilCheck} size="sm" />
-              : <CIcon icon={cilX} size="sm" />}
-            <span>{` ${title}`}</span>
+            <div className={'d-inline-flex gap-2 align-items-center'}>
+              <TypeIcon className="statistic__icon" typeName={name} size={'2rem'}/>
+              <div>
+                <span> {` ${title}`}</span>
+                <div className="generic-description fw-light small mt-2">
+                  <TypeDescription label={name} />.
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </Flickity>

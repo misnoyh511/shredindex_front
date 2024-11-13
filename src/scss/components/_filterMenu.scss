@@ -3,3 +3,26 @@
   width: 100%;
   margin: auto;
 }
+
+.dropdown-modal {
+  background-color: $gray-300;
+
+  .container {
+    max-width: 30rem;
+  }
+
+  .back-button {
+    color: white;
+    cursor: pointer;
+    background-color: #2b414d;
+    border-radius: 50%;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.3s;
+  }
+}

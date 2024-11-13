@@ -170,9 +170,9 @@ const ResortSingle: React.FC<ResortProps> = ({ resortData, error, loading }) => 
             )}
             <AdvertiseHere affiliateUrl={affiliate_url}/>
             <Gear />
-            <ResortMapCard location={location}/>
           </CCol>
         </CRow>
+        <ResortMapCard location={location}/>
       </div>
     </CContainer>
   );

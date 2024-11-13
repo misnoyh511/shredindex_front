@@ -12,10 +12,10 @@ const ResortMapCard: React.FC = ({ location } ) => {
 
   return (
     <>
-      <h3 className="resort-single__map resort-single-card-heading user-select-none mb-2">
+      <h3 className="resort-single__map resort-single-card-heading user-select-none">
         <FormattedMessage
           id="shredindex.resort.Map"
-          defaultMessage="Map"
+          defaultMessage="Where you'll shred"
         />
       </h3>
       {userProfile ? (
@@ -29,7 +29,7 @@ const ResortMapCard: React.FC = ({ location } ) => {
           </CCardBody>
         </CCard>
       ) : (
-        <NoUserAccess image={MapDummy} height={'400px'}/>
+        <NoUserAccess image={MapDummy} height={'480px'}/>
       )}
     </>
   );

@@ -1,10 +1,27 @@
 .resort-single {
 
+  .statistic__number-big {
+    font-size: 1.185rem;
+    font-weight: 500;
+  }
+
   & .resort-comments__card {
     overflow: hidden;
     width: 14rem;
     margin-right: 1rem;
   }
+
+  & .resort-card__comment-carousel {
+    background-color: #2b414d;
+    margin-bottom: 1.5rem;
+    margin-left: 0 !important;
+    width: 100% !important;
+
+    & .carousel__comment {
+      padding: 1rem;
+    }
+  }
+
 
   .carousel {
     &__comment-text {
@@ -42,7 +59,8 @@
   }
 
   & .resort-single-card-heading {
-    font-size: 1.1rem;
+    font-size: 1.38rem;
+    margin-bottom: 1.5rem;
     font-weight: 200;
     font-family: "Plus Jakarta Sans";
   }
@@ -60,7 +78,7 @@
   }
 
   & .generic-list__generic {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     border: #245773 1px solid;
     border-left: 0.25rem solid #245773;
     background: #283c49;
@@ -148,9 +166,9 @@
 
   .category-ratings {
     .category-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
       margin-top: 1rem;
 
       &:first-of-type {
@@ -173,6 +191,20 @@
   @media (min-width: 768px) {
     .rating-item {
       width: calc(50% - 0.5rem);  // Adjusted for gap
+    }
+
+    .rating--total-rating .rating__title {
+      font-size: 1.62rem !important;
+      font-weight: 500 !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .resort-single {
+    .rating--total-rating .rating__title {
+      font-size: 1.62rem !important;
+      font-weight: 500 !important;
     }
   }
 }

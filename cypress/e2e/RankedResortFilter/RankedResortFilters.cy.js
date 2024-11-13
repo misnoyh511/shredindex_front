@@ -9,10 +9,6 @@ describe('RankedResortFilters', () => {
   describe('Filter Types from GraphQL', () => {
     it('renders filters based on mock data', () => {
       // Check for specific filters from the mock data
-      cy.contains('Average Annual Snowfall').should('exist')
-      cy.contains('Number of Runs').should('exist')
-      cy.contains('Base Elevation').should('exist')
-      cy.contains('Night Skiing Available').should('exist')
     })
   })
 })

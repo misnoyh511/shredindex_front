@@ -1,15 +1,20 @@
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  CFormLabel, CForm,
-} from '@coreui/react';
+import { CFormLabel, CForm } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import useQueryFilters from '../../hooks/useQueryTypes';
 import { currentFilterState } from '../../atoms/filterState';
 import FilterToggleButtonSkeleton from '../SkeletonState/FilterToggleButtonSkeleton';
 import useLocalStorageDrivenBooleanState from '../../hooks/useLocalStorageDrivenBooleanState';
-import { FormData, ResortTypeFilters } from '../../types/filterTypes';
+import {
+  FormData,
+  ResortTypeFilters,
+  StatisticTypeFilters,
+  ScoreTypeFilters,
+  FilterGroup,
+} from '../../types/filterTypes';
 import FilterSection from './../FilterSections/FilterSections';
+import { TypeDescription } from '@/TypeDescription/TypeDescription';
 
 const RankedResortFilters: React.FC = () => {
   const {
@@ -22,25 +27,44 @@ const RankedResortFilters: React.FC = () => {
   const [showMoreGenerics, setShowMoreGenerics] = useLocalStorageDrivenBooleanState('showMoreFilters', 'generics');
   const [showMoreResortTypes, setShowMoreResortTypes] = useLocalStorageDrivenBooleanState('showMoreFilters', 'resortTypes');
 
-  // Split genericFilters into resort types and other features
+  // Create ordered resort type filters based on ResortTypeFilters array
   const resortTypeFilters = ResortTypeFilters
-    .map(type => genericFilters?.find(
-      filter => filter.filters[0] && filter.filters[0].type_name === type,
-    ))
-    .filter((filter): filter is FilterGroup => !!filter);
+    .reduce<FilterGroup[]>((acc, type) => {
+    const filter = genericFilters?.find(
+      f => f.filters[0] && f.filters[0].type_name === type,
+    );
+    if (filter) acc.push(filter);
+    return acc;
+  }, []);
 
+  // Filter out resort types from generic filters
   const otherGenericFilters = genericFilters?.filter(
     filter => filter.filters[0] && !ResortTypeFilters.includes(filter.filters[0].type_name),
-  );
+  ) || [];
+
+  // Create ordered statistic filters based on StatisticTypeFilters array
+  const statisticFilters = StatisticTypeFilters
+    .reduce<FilterGroup[]>((acc, type) => {
+    const filter = numericFilters?.find(
+      f => f.filters[0] && f.filters[0].type_name === type,
+    );
+    if (filter) acc.push(filter);
+    return acc;
+  }, []);
+
+  // Create ordered score filters based on ScoreTypeFilters array
+  const orderedScoreFilters = ScoreTypeFilters
+    .reduce<FilterGroup[]>((acc, type) => {
+    const filter = scoreFilters?.find(
+      f => f.filters[0] && f.filters[0].type_name === type,
+    );
+    if (filter) acc.push(filter);
+    return acc;
+  }, []);
 
   const filterDescriptionToolTip = useCallback((label: string) => {
-    const formattedLabel = label.toUpperCase().replace(/ /g, '_');
     return (
-      <FormattedMessage
-        id={`shredindex.filterdescription.${formattedLabel}`}
-        description={`shredindex.filterdescription.${formattedLabel}`}
-        defaultMessage="NO_DESCRIPTION"
-      />
+      <TypeDescription label={label} />
     );
   }, []);
 
@@ -56,28 +80,25 @@ const RankedResortFilters: React.FC = () => {
 
   const updateForm = useCallback(
     (filterToggleButtonID: string, toggleOn: boolean, type_name: string, operator: string, value: string) => {
-      // Clone the current formData and find the group with the matching filterToggleButtonID
       const updatedGroupedType = formData.groupedType.map((group) => {
         if (group.filterToggleButtonID === filterToggleButtonID) {
-          // Update the filters in the existing group
           const updatedFilters = group.filters.map((filter) => {
             if (filter.type_name === type_name && filter.operator === operator) {
-              return { ...filter, value }; // Update the filter value
+              return { ...filter, value };
             }
-            return filter; // Leave other filters untouched
+            return filter;
           });
 
           return {
             ...group,
             toggleOn,
-            filters: updatedFilters, // Replace filters with updated ones
+            filters: updatedFilters,
           };
         }
 
-        return group; // Return other groups untouched
+        return group;
       });
 
-      // If no group with matching ID exists, add a new group
       const groupExists = updatedGroupedType.some(group => group.filterToggleButtonID === filterToggleButtonID);
 
       if (!groupExists) {
@@ -88,7 +109,6 @@ const RankedResortFilters: React.FC = () => {
         });
       }
 
-      // Set the updated state immutably
       setFormData((prev) => ({
         ...prev,
         groupedType: updatedGroupedType,
@@ -167,7 +187,7 @@ const RankedResortFilters: React.FC = () => {
       <FilterSection
         title="Stats"
         titleId="shredindex.filter.STATS"
-        filters={numericFilters}
+        filters={statisticFilters}
         showMore={showMoreNumerics}
         onToggleShowMore={setShowMoreNumerics}
         handleUpdateForm={handleUpdateForm}
@@ -183,7 +203,7 @@ const RankedResortFilters: React.FC = () => {
       <FilterSection
         title="Ratings"
         titleId="shredindex.filter.Ratings"
-        filters={scoreFilters}
+        filters={orderedScoreFilters}
         showMore={showMoreRatings}
         onToggleShowMore={setShowMoreRatings}
         handleUpdateForm={handleUpdateForm}
@@ -195,7 +215,6 @@ const RankedResortFilters: React.FC = () => {
         useRangeSlider
       />
       <hr className="form-hr"/>
-
     </CForm>
   );
 };

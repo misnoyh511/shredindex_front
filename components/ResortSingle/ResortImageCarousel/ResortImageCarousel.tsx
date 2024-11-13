@@ -73,7 +73,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
 
   return (
     <div className="resort-single resort-single__image-carousel mb-4">
-      <div className="resort-single-card-heading user-select-none mb-2">
+      <div className="resort-single-card-heading user-select-none">
         <FormattedMessage id="shredindex.resort.IMAGES" defaultMessage="Images" />
       </div>
       <Flickity

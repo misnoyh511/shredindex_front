@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 const containerStyle: React.CSSProperties = {
   width: '100%',
-  height: '400px',
+  height: '480px',
   position: 'relative',
 };
 

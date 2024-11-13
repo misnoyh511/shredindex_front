@@ -21,66 +21,68 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
   const setShowLocationTray = useSetRecoilState(showLocationTrayState);
 
   return (
-    <div className="filter-menu mb-4 d-flex flex-row gap-3">
-      <CButton
-        color="dark"
-        aria-roledescription={(
+    <>
+      <div className="filter-menu mb-4 d-flex flex-row gap-3">
+        <CButton
+          color="primary"
+          aria-roledescription={(
+            <FormattedMessage
+              id="shredindex.filter.SHOW_LIFESTYLES_TRAY"
+              defaultMessage="Show Location tray"
+            />
+          ).toString()}
+          className="w-100 filter-menu__show-location-tray"
+          onClick={() => setShowLocationTray(true)}
+        >
           <FormattedMessage
-            id="shredindex.filter.SHOW_LIFESTYLES_TRAY"
-            defaultMessage="Show Location tray"
+            id="shredindex.filter.LOCATION"
+            defaultMessage="Location"
           />
-        ).toString()}
-        className="w-100 filter-menu__show-location-tray"
-        onClick={() => setShowLocationTray(true)}
-      >
-        <FormattedMessage
-          id="shredindex.filter.LOCATION"
-          defaultMessage="Location"
-        />
-      </CButton>
-      <CButton
-        color="dark"
-        aria-roledescription={(
+        </CButton>
+        <CButton
+          color="warning"
+          aria-roledescription={(
+            <FormattedMessage
+              id="shredindex.filter.SHOW_LIFESTYLES_TRAY"
+              defaultMessage="Show lifestyles tray"
+            />
+          ).toString()}
+          className="w-100 filter-menu__show-lifestyles-tray"
+          onClick={() => setShowLifestyleTray(true)}
+        >
           <FormattedMessage
-            id="shredindex.filter.SHOW_LIFESTYLES_TRAY"
-            defaultMessage="Show lifestyles tray"
+            id="shredindex.filter.SORTING"
+            defaultMessage="Sorting"
           />
-        ).toString()}
-        className="w-100 filter-menu__show-lifestyles-tray"
-        onClick={() => setShowLifestyleTray(true)}
-      >
-        <FormattedMessage
-          id="shredindex.filter.SORTING"
-          defaultMessage="Sorting"
-        />
-      </CButton>
-      <CButton
-        color="primary"
-        aria-roledescription={(
+        </CButton>
+        <CButton
+          variant="outline"
+          aria-roledescription={(
+            <FormattedMessage
+              id="shredindex.filter.SHOW_FILTERS_TRAY"
+              defaultMessage="Show filters tray"
+            />
+          ).toString()}
+          className="w-100 filter-menu__show-filters-tray position-relative"
+          onClick={() => setShowFilterTray(true)}
+        >
+          <CIcon icon={cilSettings}/>
+          {filterQuantity >= 1 && (
+            <CBadge id="filterQuanitity" position="top-end" shape="rounded-pill" color="secondary">
+              {filterQuantity}
+            </CBadge>
+          )}
+          &nbsp;
           <FormattedMessage
-            id="shredindex.filter.SHOW_FILTERS_TRAY"
-            defaultMessage="Show filters tray"
+            id="shredindex.filter.FILTERS"
+            defaultMessage="Filters"
           />
-        ).toString()}
-        className="w-100 filter-menu__show-filters-tray position-relative"
-        onClick={() => setShowFilterTray(true)}
-      >
-        <CIcon icon={cilSettings} />
-        {filterQuantity >= 1 && (
-          <CBadge id="filterQuanitity" position="top-end" shape="rounded-pill" color="secondary">
-            {filterQuantity}
-          </CBadge>
-        )}
-        &nbsp;
-        <FormattedMessage
-          id="shredindex.filter.FILTERS"
-          defaultMessage="Filters"
-        />
-      </CButton>
-      <RankedResortLocationTray />
-      <RankedResortFilterTray />
-      <RankedResortLifeStyleTray />
-    </div>
+        </CButton>
+        <RankedResortLocationTray/>
+        <RankedResortFilterTray/>
+        <RankedResortLifeStyleTray/>
+      </div>
+    </>
   );
 };
 

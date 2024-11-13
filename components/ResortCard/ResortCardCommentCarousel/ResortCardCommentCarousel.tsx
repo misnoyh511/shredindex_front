@@ -23,7 +23,7 @@ const ResortCardCommentCarousel: React.FC<ResortCardCommentCarouselProps> = ({ c
           <span className="resort-card__small-label d-block mb-4 user-select-none">
             <FormattedMessage
               id="shredindex.commentcard.RESORT_HAS_NO_COMMENTS"
-              defaultMessage="ResortSingle has no comments"
+              defaultMessage="Resort has no comments"
             />
           </span>
         </div>

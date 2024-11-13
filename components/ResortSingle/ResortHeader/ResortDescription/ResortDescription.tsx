@@ -18,7 +18,7 @@ const textWithLineBreaks = ({ text }: { text: string }): string => {
 
 const ResortDescription: React.FC<ResortDescriptionProps> = ({ affiliateUrl, description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxLength = 200; // Adjust this value to change the initial visible length
+  const maxLength = 600; // Adjust this value to change the initial visible length
 
   if (!description) return null;
 

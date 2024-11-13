@@ -29,7 +29,7 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
 
     return (
       <div key={category} className="category-ratings">
-        <h6 className={`category-title ${index === 0 ? 'mt-0' : 'mt-4'}`}>{category}</h6>
+        <h4 className={`category-title ${index === 0 ? 'mt-0' : 'mt-4'}`}>{category}</h4>
         <div className="d-flex flex-wrap rating-item-wrap">
           {categoryRatings.map(({
             id, title, name, value,
@@ -49,7 +49,7 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
         <CCardBody>
           <CListGroup>
             <p className="ratings caption-text">
-              No available ratings
+              No available scores
             </p>
           </CListGroup>
         </CCardBody>
@@ -59,10 +59,10 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
 
   return (
     <div className="resort-ratings mb-4">
-      <h3 className="resort-single-card-heading user-select-none mb-2">
+      <h3 className="resort-single-card-heading user-select-none">
         <FormattedMessage
           id="shredindex.rating.RATINGS"
-          defaultMessage="Ratings"
+          defaultMessage="Scores"
         />
       </h3>
       <CCard className="ratings-card">

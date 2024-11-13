@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Gear: React.FC = () => (
   <>
-    <h3 className="resort-single-card-heading user-select-none mb-2">
+    <h3 className="resort-single-card-heading user-select-none">
       <FormattedMessage id="shredindex.resort.GEAR" defaultMessage="Gear" />
     </h3>
     <CCard className="resort-single__gear resort__gear-card mb-4">

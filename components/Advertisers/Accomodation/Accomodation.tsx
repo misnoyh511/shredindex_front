@@ -8,7 +8,7 @@ import LuxuryAccomodation from '../../../images/accomodation-luxury.webp';
 
 const Accomodation: React.FC <AffiliateUrl> = ({ affiliateUrl }) => (
   <>
-    <h3 className="resort-single-card-heading user-select-none mb-2">
+    <h3 className="resort-single-card-heading user-select-none">
       <FormattedMessage id="shredindex.resort.ACCOMMODATION" defaultMessage="Accommodation" />
     </h3>
     <CCard className="resort-single__accomodation resort__accomodation-card mb-4">

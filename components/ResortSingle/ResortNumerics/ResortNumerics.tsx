@@ -14,7 +14,7 @@ interface ResortNumericsProps {
 const ResortNumerics: React.FC<ResortNumericsProps> = ({ numerics }) => {
   if (numerics?.length < 1) {
     return (
-      <div className="resort-single-card-heading user-select-none mb-4">
+      <div className="resort-single-card-heading user-select-none">
         <FormattedMessage id="shredindex.statistics.NOSTATISTICSAVALIABLE" defaultMessage="No statistics available" />
       </div>
     );
@@ -30,7 +30,7 @@ const ResortNumerics: React.FC<ResortNumericsProps> = ({ numerics }) => {
 
   return (
     <div className="resort-single numeric-list mb-4">
-      <h3 className="resort-single-card-heading user-select-none mb-2">
+      <h3 className="resort-single-card-heading user-select-none">
         <FormattedMessage id="shredindex.statistics.KEYINSIGHTS" defaultMessage="Key insights" />
       </h3>
       {numerics ? (
