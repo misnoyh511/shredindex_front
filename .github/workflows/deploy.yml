@@ -3,7 +3,7 @@ name: Combined CI/CD Pipeline on Docker Contabo
 on:
   push:
     branches:
-      - pulls/develop
+      - develop
 
 jobs:
   build-frontend:
