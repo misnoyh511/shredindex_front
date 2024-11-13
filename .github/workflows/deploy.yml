@@ -3,7 +3,7 @@ name: Combined CI/CD Pipeline on Docker Contabo
 on:
   push:
     branches:
-      - pulls/github-autodeploy
+      - pulls/develop
 
 jobs:
   build-frontend:
@@ -102,7 +102,7 @@ jobs:
 
             # Enable the virtual host configuration
             sudo ln -s /etc/nginx/sites-available/shredindex-frontend.conf /etc/nginx/sites-enabled/
-  
+
             # Test and restart Nginx to apply changes
             sudo nginx -t
             sudo systemctl restart nginx
