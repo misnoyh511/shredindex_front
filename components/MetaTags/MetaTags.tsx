@@ -2,111 +2,90 @@ import React from 'react';
 import Head from 'next/head';
 import { Resort } from '../../types/resortTypes';
 
-interface MetaData {
-  title: string;
-  description: string;
-  images: Array<{
-    url: string;
-    alt?: string;
-  }>;
-  url: string;
-  type: string;
-  siteName: string;
-  location?: {
-    latitude?: number;
-    longitude?: number;
-    city?: string;
-    state?: string;
-    country?: string;
-  };
-  rating?: {
-    value: number;
-    count?: number;
-    reviews?: Array<{
-      author: string;
-      comment: string;
-    }>;
-  };
-}
-
 const DEFAULT_IMAGE = '../../images/ShredIndexMetaImage.jpg';
 const MAX_DESCRIPTION_LENGTH = 200;
 const SITE_NAME = 'Your Ski Resort Guide';
 
-export const generateMetadata = (resort: Resort | null, baseUrl: string = typeof window !== 'undefined' ? window.location.origin : ''): MetaData => {
-  if (!resort) {
+interface MetaTagsProps {
+  resortData: Resort | null;
+}
+
+export const MetaTags: React.FC<MetaTagsProps> = ({ resortData }) => {
+  // Get base URL from environment or fallback to default
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.snowmadlist.com';
+
+  const generateMetadata = () => {
+    if (!resortData) {
+      return {
+        title: 'Ski Resort Information - Not Found',
+        description: 'Detailed information about ski resorts, including reviews, ratings, and facilities.',
+        images: [{ url: `${baseUrl}${DEFAULT_IMAGE}`, alt: 'Default ski resort image' }],
+        url: baseUrl,
+        location: null,
+        rating: null,
+      };
+    }
+
+    // Generate location string
+    const locationStr = [
+      resortData.location?.city,
+      resortData.location?.state?.name,
+      resortData.location?.country?.name,
+    ].filter(Boolean).join(', ');
+
+    // Clean and format description
+    const cleanDescription = resortData.description
+      ?.replace(/[\r\n]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const description = cleanDescription
+      ? `${cleanDescription.substring(0, MAX_DESCRIPTION_LENGTH)}${cleanDescription.length > MAX_DESCRIPTION_LENGTH ? '...' : ''}`
+      : `Discover ${resortData.title} ski resort in ${locationStr}. Read reviews and get detailed information about this stunning winter destination.`;
+
+    // Process images
+    const images = resortData.resort_images
+      ?.filter(img => img?.image?.path)
+      .map(img => ({
+        url: img.image.path.startsWith('http') ? img.image.path : `${baseUrl}${img.image.path}`,
+        alt: img.alt || `${resortData.title} ski resort - ${img.name}`,
+      })) || [{
+      url: `${baseUrl}${DEFAULT_IMAGE}`,
+      alt: `${resortData.title} ski resort`,
+    }];
+
+    // Format reviews
+    const reviews = resortData.comments?.map(comment => ({
+      author: comment.author,
+      comment: comment.comment,
+    }));
+
     return {
-      title: 'Ski Resort Information - Not Found',
-      description: 'Detailed information about ski resorts, including reviews, ratings, and facilities.',
-      images: [{ url: `${baseUrl}${DEFAULT_IMAGE}`, alt: 'Default ski resort image' }],
-      url: baseUrl,
-      type: 'website',
-      siteName: SITE_NAME,
+      title: `${resortData.title} Ski Resort ${locationStr ? `- ${locationStr}` : ''} | Reviews & Information`,
+      description,
+      images,
+      url: `${baseUrl}/resort/${resortData.url_segment}`,
+      location: {
+        latitude: resortData.location?.latitude,
+        longitude: resortData.location?.longitude,
+        city: resortData.location?.city,
+        state: resortData.location?.state?.name,
+        country: resortData.location?.country?.name,
+      },
+      rating: resortData.total_score ? {
+        value: resortData.total_score.value,
+        count: reviews?.length || 0,
+        reviews,
+      } : null,
     };
-  }
-
-  // Generate location string
-  const locationStr = [
-    resort.location?.city,
-    resort.location?.state?.name,
-    resort.location?.country?.name,
-  ].filter(Boolean).join(', ');
-
-  // Clean and format description
-  const cleanDescription = resort.description
-    ?.replace(/[\r\n]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  const description = cleanDescription
-    ? `${cleanDescription.substring(0, MAX_DESCRIPTION_LENGTH)}${cleanDescription.length > MAX_DESCRIPTION_LENGTH ? '...' : ''}`
-    : `Discover ${resort.title} ski resort in ${locationStr}. Read reviews and get detailed information about this stunning winter destination.`;
-
-  // Process images
-  const images = resort.resort_images
-    ?.filter(img => img?.image?.path)
-    .map(img => ({
-      url: img.image.path.startsWith('http') ? img.image.path : `${baseUrl}${img.image.path}`,
-      alt: img.alt || `${resort.title} ski resort - ${img.name}`,
-    })) || [{
-    url: `${baseUrl}${DEFAULT_IMAGE}`,
-    alt: `${resort.title} ski resort`,
-  }];
-
-  // Format reviews/ratings
-  const reviews = resort.comments?.map(comment => ({
-    author: comment.author,
-    comment: comment.comment,
-  }));
-
-  return {
-    title: `${resort.title} Ski Resort ${locationStr ? `- ${locationStr}` : ''} | Reviews & Information`,
-    description,
-    images,
-    url: `${baseUrl}/resorts/${resort.url_segment}`,
-    type: 'website',
-    siteName: SITE_NAME,
-    location: {
-      latitude: resort.location?.latitude,
-      longitude: resort.location?.longitude,
-      city: resort.location?.city,
-      state: resort.location?.state?.name,
-      country: resort.location?.country?.name,
-    },
-    rating: resort.total_score ? {
-      value: resort.total_score.value,
-      count: reviews?.length || 0,
-      reviews,
-    } : undefined,
   };
-};
 
-export const MetaTags: React.FC<{ metadata: MetaData }> = ({ metadata }) => {
-  const locationString = [
-    metadata.location?.city,
-    metadata.location?.state,
-    metadata.location?.country,
-  ].filter(Boolean).join(', ');
+  const metadata = generateMetadata();
+  const locationString = metadata.location ? [
+    metadata.location.city,
+    metadata.location.state,
+    metadata.location.country,
+  ].filter(Boolean).join(', ') : '';
 
   return (
     <Head>
@@ -124,10 +103,10 @@ export const MetaTags: React.FC<{ metadata: MetaData }> = ({ metadata }) => {
       <meta name="robots" content="index, follow, max-image-preview:large" />
 
       {/* Open Graph Meta Tags */}
-      <meta property="og:site_name" content={metadata.siteName} />
+      <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:title" content={metadata.title} />
       <meta property="og:description" content={metadata.description} />
-      <meta property="og:type" content={metadata.type} />
+      <meta property="og:type" content="website" />
       <meta property="og:url" content={metadata.url} />
       {metadata.images.map((image, index) => (
         <React.Fragment key={`og:image:${index}`}>
@@ -192,7 +171,6 @@ export const MetaTags: React.FC<{ metadata: MetaData }> = ({ metadata }) => {
                 reviewBody: review.comment,
               })),
             }),
-            // Add breadcrumbs for better site structure understanding
             breadcrumb: {
               '@type': 'BreadcrumbList',
               itemListElement: [
