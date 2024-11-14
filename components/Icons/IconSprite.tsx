@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useQuery } from '@apollo/client';
-import { iconSpriteState } from '../../atoms/iconSpriteState';
+import { iconSpriteLoading, iconSpriteState } from '../../atoms/iconSpriteState';
 import { GET_ICON_SPRITE } from '../../hooks/getIconSprite';
 
 const IconSprite = () => {
   const [, setSprite] = useRecoilState(iconSpriteState);
+  const [, setSpriteLoading] = useRecoilState(iconSpriteLoading);
   const { loading, error, data } = useQuery(GET_ICON_SPRITE);
 
   useEffect(() => {
@@ -31,6 +32,12 @@ const IconSprite = () => {
       document.getElementById('icon-sprite')?.remove();
     };
   }, []);
+
+  if (loading) {
+    setSpriteLoading(true);
+  } else {
+    setSpriteLoading(false);
+  }
 
   if (loading || error) {
     if (error) console.error('Failed to load icons:', error);
