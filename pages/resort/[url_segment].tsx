@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { gql, ApolloError } from '@apollo/client';
@@ -7,26 +6,7 @@ import { initializeApollo } from '../../lib/apollo-client';
 import ResortSingle from '@/ResortSingle/ResortSingle';
 import { Resort } from '../../types/resortTypes';
 import { QUERY_RESORTS_URL } from '../../hooks/useQueryResortsUrl';
-
-interface MetaData {
-  title: string;
-  description: string;
-  images: string[];
-  url: string;
-  type: string;
-}
-
-const generateMetadata = (resort: Resort, baseUrl: string): MetaData => {
-  const images = resort.resort_images.map(img => `${baseUrl}${img.image.path}`);
-
-  return {
-    title: `${resort.title} - Ski Resort Details and Reviews`,
-    description: resort.description?.substring(0, 155) || `Details and reviews for ${resort.title} ski resort`,
-    images: images,
-    url: `${baseUrl}/resorts/${resort.url_segment}`,
-    type: 'website',
-  };
-};
+import { generateMetadata, MetaTags } from '../../components/MetaTags/MetaTags';
 
 const QUERY_RESORT = gql`
   query ResortByURLSegment($url_segment: String!) {
@@ -98,6 +78,7 @@ const QUERY_RESORT = gql`
         id
         author
         comment
+        created_at
       }
     }
   }
@@ -120,10 +101,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { url_segment },
     })) || [];
 
-    return { paths, fallback: 'blocking' };
+    return {
+      paths,
+      fallback: 'blocking', // Show the fallback page while generating new pages
+    };
   } catch (error) {
     console.error('Error fetching resort paths:', error);
-    return { paths: [], fallback: 'blocking' };
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
   }
 };
 
@@ -136,8 +123,12 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
       variables: { url_segment: params?.url_segment },
     });
 
+    // If no data was found, return 404
     if (!data || !data.resortByUrlSegment) {
-      return { notFound: true };
+      return {
+        notFound: true,
+        revalidate: 60, // Revalidate every minute in case the resort becomes available
+      };
     }
 
     return {
@@ -145,20 +136,25 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
         resortData: data.resortByUrlSegment,
         initialApolloState: apolloClient.cache.extract(),
       },
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 3600, // Revalidate every hour for existing resorts
     };
   } catch (error) {
     console.error('Error fetching resort data:', error);
+
+    // Handle error message
     let errorMessage = 'An unknown error occurred';
     if (error instanceof ApolloError || error instanceof Error) {
       errorMessage = error.message;
     }
+
+    // Return error state but don't show 404
     return {
       props: {
-        error: { message: errorMessage },
         resortData: null,
+        error: { message: errorMessage },
         initialApolloState: apolloClient.cache.extract(),
       },
+      revalidate: 60, // Revalidate more frequently when there's an error
     };
   }
 };
@@ -167,73 +163,31 @@ const ResortPage: React.FC<ResortPageProps> = ({ resortData, error }) => {
   const router = useRouter();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourwebsite.com';
 
-  // Show loading state if the page is being generated
+  // Show loading state while the page is being generated
   if (router.isFallback) {
-    return <ResortSingle loading resortData={null} />;
+    return (
+      <>
+        <MetaTags
+          metadata={generateMetadata(null, baseUrl)}
+        />
+        <ResortSingle loading resortData={null} />
+      </>
+    );
   }
 
-  // Generate metadata if resort data is available
-  const metadata = resortData ? generateMetadata(resortData, baseUrl) : null;
+  // Generate metadata for the current resort
+  const metadata = generateMetadata(resortData, baseUrl);
 
   return (
     <>
-      {metadata && (
-        <>
-
-        <Head>
-          {/* Basic Meta Tags */}
-          <title>{metadata.title}</title>
-          <meta name="description" content={metadata.description} />
-
-          {/* Open Graph Meta Tags */}
-          <meta property="og:title" content={metadata.title} />
-          <meta property="og:description" content={metadata.description} />
-          <meta property="og:type" content={metadata.type} />
-          <meta property="og:url" content={metadata.url} />
-          {metadata.images[0] && <meta property="og:image" content={metadata.images[0]} />}
-
-          {/* Twitter Card Meta Tags */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={metadata.title} />
-          <meta name="twitter:description" content={metadata.description} />
-          {metadata.images[0] && <meta name="twitter:image" content={metadata.images[0]} />}
-
-          {/* Schema.org JSON-LD */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                '@context': 'https://schema.org',
-                '@type': 'TouristAttraction',
-                name: resortData?.title,
-                description: metadata.description,
-                image: metadata.images,
-                address: {
-                  '@type': 'PostalAddress',
-                  addressLocality: resortData?.location?.city,
-                  addressRegion: resortData?.location?.state?.code,
-                  addressCountry: resortData?.location?.country?.code,
-                },
-                geo: {
-                  '@type': 'GeoCoordinates',
-                  latitude: resortData?.location?.latitude,
-                  longitude: resortData?.location?.longitude,
-                },
-                aggregateRating: resortData?.total_score ? {
-                  '@type': 'AggregateRating',
-                  ratingValue: resortData?.total_score.value,
-                  bestRating: '100',
-                  worstRating: '0',
-                } : undefined,
-              }),
-            }}
-          />
-        </Head>
-        <ResortSingle resortData={resortData} error={error} />
-        </>
-      )}
-</>
+      <MetaTags metadata={metadata} />
+      <ResortSingle
+        resortData={resortData}
+        error={error}
+      />
+    </>
   );
 };
 
+// Enable automatic static optimization
 export default ResortPage;
