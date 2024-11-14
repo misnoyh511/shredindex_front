@@ -4,22 +4,61 @@ import {
   CFormCheck,
   CButtonGroup,
 } from '@coreui/react';
-import { TypeIcon } from '@/Icons/TypeIcon';
+import { CIcon } from '@coreui/icons-react';
+import { cilArrowLeft } from '@coreui/icons';
 import { useRecoilState } from 'recoil';
 import { currentOrderByState } from '../../../atoms/filterState';
 import useQueryOrderBy from '../../../hooks/useQueryOrderBy';
 import { TypeDescription } from '@/TypeDescription/TypeDescription';
-import { CIcon } from '@coreui/icons-react';
-import { cilArrowLeft } from '@coreui/icons';
+import { SvgIcon } from '@/Icons/SvgIcon';
+import { TypeIcon } from '@/Icons/TypeIcon';
+import TotalScore from '../../../icons/total-score.svg';
 
-const CustomSelect = ({ value, onChange, options }) => {
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface FormData {
+  type_name: string;
+  direction: 'asc' | 'desc';
+}
+
+interface CustomOptionProps {
+  typeName: string;
+  label: string;
+  selected: boolean;
+}
+
+interface CustomSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: Option[];
+}
+
+const CustomOption: React.FC<CustomOptionProps> = ({ typeName, label, selected }) => (
+  <div>
+    <div className="d-flex align-items-center gap-2 py-2 px-3">
+      {typeName === 'total_score' ? (
+        <SvgIcon svgContent={TotalScore} size="2rem" />
+      ) : (
+        <TypeIcon className="flex-shrink-0" typeName={typeName} size="2rem" />
+      )}
+      <span className={selected ? 'fw-semibold' : ''}>{label}</span>
+    </div>
+    <div className="generic-description fw-light small mt-2">
+      <TypeDescription label={typeName} />
+    </div>
+  </div>
+);
+
+const CustomSelect: React.FC<CustomSelectProps> = ({ value, onChange, options }) => {
   const [showCustom, setShowCustom] = useState(false);
-  const customSelectRef = useRef(null);
+  const customSelectRef = useRef<HTMLDivElement>(null);
 
-  // Close custom dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (customSelectRef.current && !customSelectRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (customSelectRef.current && !customSelectRef.current.contains(event.target as Node)) {
         setShowCustom(false);
       }
     };
@@ -30,21 +69,9 @@ const CustomSelect = ({ value, onChange, options }) => {
 
   const selectedOption = options.find(opt => opt.value === value);
 
-  const CustomOption = ({ typeName, label, selected }) => (
-    <div>
-      <div className="d-flex align-items-center gap-2 py-2 px-3">
-        <TypeIcon className="flex-shrink-0" typeName={typeName} size="2rem"/>
-        <span className={selected ? 'fw-semibold' : ''}>{label}</span>
-      </div>
-      <div className="generic-description fw-light small mt-2">
-        <TypeDescription label={typeName}/>.
-      </div>
-    </div>
-  );
-
   return (
     <div className="position-relative" ref={customSelectRef}>
-      <div className="">
+      <div>
         <button
           type="button"
           className="form-select d-flex align-items-center w-100 text-start"
@@ -60,17 +87,19 @@ const CustomSelect = ({ value, onChange, options }) => {
         </button>
 
         {showCustom && (
-          <div className="position-fixed start-0 end-0 shadow-lg border rounded-bottom dropdown-modal"
-               style={{
-                 top: '0',
-                 height: '100vh',
-                 zIndex: 1050,
-                 overflowY: 'auto',
-                 paddingTop: '1rem',
-               }}>
+          <div
+            className="position-fixed start-0 end-0 shadow-lg border rounded-bottom dropdown-modal"
+            style={{
+              top: '0',
+              height: '100vh',
+              zIndex: 1050,
+              overflowY: 'auto',
+              paddingTop: '1rem',
+            }}
+          >
             <div className="container">
               <div className="d-flex justify-content-between align-items-center mb-3">
-                <div/>
+                <div />
                 <h5 className="mb-0">Select Option</h5>
                 <div
                   role="button"
@@ -78,15 +107,19 @@ const CustomSelect = ({ value, onChange, options }) => {
                   tabIndex={0}
                   onClick={() => setShowCustom(false)}
                   className="resort back-button"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setShowCustom(false);
+                    }
+                  }}
                 >
-                  <CIcon icon={cilArrowLeft}/>
+                  <CIcon icon={cilArrowLeft} />
                 </div>
               </div>
               {options.map(option => (
-                <>
-                  <hr/>
+                <React.Fragment key={option.value}>
+                  <hr />
                   <button
-                    key={option.value}
                     type="button"
                     className="d-block w-100 text-start border-0 bg-transparent py-2 text-white"
                     onClick={() => {
@@ -100,7 +133,7 @@ const CustomSelect = ({ value, onChange, options }) => {
                       selected={option.value === value}
                     />
                   </button>
-                </>
+                </React.Fragment>
               ))}
             </div>
           </div>
@@ -110,10 +143,10 @@ const CustomSelect = ({ value, onChange, options }) => {
   );
 };
 
-const RankedResortLifeStyles = () => {
-  const [formData, setFormData] = useRecoilState(currentOrderByState);
+const RankedResortLifeStyles: React.FC = () => {
+  const [formData, setFormData] = useRecoilState<FormData | null>(currentOrderByState);
   const defaultType = 'total_score';
-  const defaultDirection = 'desc';
+  const defaultDirection = 'desc' as const;
 
   const {
     loading,
@@ -130,14 +163,14 @@ const RankedResortLifeStyles = () => {
     }
   }, [formData, setFormData]);
 
-  const onClickSetDirection = (direction) => {
+  const onClickSetDirection = (direction: 'asc' | 'desc') => {
     setFormData({
       type_name: formData?.type_name || defaultType,
       direction,
     });
   };
 
-  const handleSelect = (value) => {
+  const handleSelect = (value: string) => {
     setFormData({
       type_name: value,
       direction: formData?.direction || defaultDirection,
