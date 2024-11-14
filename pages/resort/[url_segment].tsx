@@ -78,7 +78,6 @@ const QUERY_RESORT = gql`
         id
         author
         comment
-        created_at
       }
     }
   }
@@ -161,7 +160,7 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
 
 const ResortPage: React.FC<ResortPageProps> = ({ resortData, error }) => {
   const router = useRouter();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourwebsite.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.snowmadlist.com';
 
   // Show loading state while the page is being generated
   if (router.isFallback) {

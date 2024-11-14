@@ -5,6 +5,6 @@ export const iconSpriteState = atom<string>({
 });
 
 export const iconSpriteLoading = atom<boolean>({
-  key: 'iconSpriteState',
+  key: 'iconSpriteLoading',
   default: true,
 });
