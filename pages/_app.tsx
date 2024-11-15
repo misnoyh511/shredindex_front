@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import { IntlProvider } from 'react-intl';
 import dynamic from 'next/dynamic';
+import type { NextComponentType } from 'next';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import SidebarNav from '../components/SidebarNav/SidebarNav';
@@ -13,6 +14,7 @@ import langEn from '../lang/en.json';
 import { useApollo } from '../lib/apollo-client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '../src/scss/style.scss';
+import Favicon from '@/Favicon/Favicon';
 
 // Dynamic imports with SSR disabled for interactive components
 const IconSprite = dynamic(() => import('../components/Icons/IconSprite'), {
@@ -22,9 +24,11 @@ const IconSprite = dynamic(() => import('../components/Icons/IconSprite'), {
 const GlobalToast = dynamic(() => import('../components/GlobalToast/GlobalToast'), {
   ssr: false,
 });
+
 const Login = dynamic(() => import('@/Login/Login'), {
   ssr: false,
 });
+
 const MembershipModal = dynamic(() => import('@/MembershipModal/MembershipModal'), {
   ssr: false,
 });
@@ -54,8 +58,12 @@ const InitializeRecoilState = () => {
   return null;
 };
 
+interface ClientOnlyPortalProps {
+  children: React.ReactNode;
+}
+
 // Client-side only wrapper for interactive components
-const ClientOnlyPortal = ({ children }) => {
+const ClientOnlyPortal: React.FC<ClientOnlyPortalProps> = ({ children }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -77,7 +85,12 @@ const ClientOnlyPortal = ({ children }) => {
   );
 };
 
-const AppContent = ({ Component, pageProps }) => {
+interface AppContentProps {
+  Component: NextComponentType;
+  pageProps: any;
+}
+
+const AppContent: React.FC<AppContentProps> = ({ Component, pageProps }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -107,14 +120,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <ApolloProvider client={apolloClient}>
-      <IntlProvider locale={locale} messages={t[locale]}>
-        <RecoilRoot>
-          <InitializeRecoilState />
-          <AppContent Component={Component} pageProps={pageProps} />
-        </RecoilRoot>
-      </IntlProvider>
-    </ApolloProvider>
+    <>
+      <Favicon />
+      <ApolloProvider client={apolloClient}>
+        <IntlProvider locale={locale} messages={t[locale]}>
+          <RecoilRoot>
+            <InitializeRecoilState />
+            <AppContent Component={Component} pageProps={pageProps} />
+          </RecoilRoot>
+        </IntlProvider>
+      </ApolloProvider>
+    </>
   );
 };
 

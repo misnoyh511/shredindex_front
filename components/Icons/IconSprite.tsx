@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { useQuery } from '@apollo/client';
 import { iconSpriteLoading, iconSpriteState } from '../../atoms/iconSpriteState';
@@ -9,40 +9,38 @@ const IconSprite = () => {
   const [, setSpriteLoading] = useRecoilState(iconSpriteLoading);
   const { loading, error, data } = useQuery(GET_ICON_SPRITE);
 
-  useEffect(() => {
-    if (!data?.iconSprite) return;
-
-    try {
-      setSprite(data.iconSprite);
-
-      if (!document.getElementById('icon-sprite')) {
-        const div = document.createElement('div');
-        div.id = 'icon-sprite';
-        div.style.display = 'none';
-        div.innerHTML = data.iconSprite;
-        document.body.appendChild(div);
-      }
-    } catch (err) {
-      console.error('Failed to load sprite:', err);
+  // Memoize the sprite creation function
+  const createSpriteElement = useCallback((spriteData: string) => {
+    if (!document.getElementById('icon-sprite')) {
+      const div = document.createElement('div');
+      div.id = 'icon-sprite';
+      div.style.display = 'none';
+      div.innerHTML = spriteData;
+      document.body.appendChild(div);
     }
-  }, [data, setSprite]);
+  }, []);
 
   useEffect(() => {
+    setSpriteLoading(loading);
+
+    if (error) {
+      console.error('Failed to load icons:', error);
+      return;
+    }
+
+    if (data?.iconSprite) {
+      try {
+        setSprite(data.iconSprite);
+        createSpriteElement(data.iconSprite);
+      } catch (err) {
+        console.error('Failed to load sprite:', err);
+      }
+    }
+
     return () => {
       document.getElementById('icon-sprite')?.remove();
     };
-  }, []);
-
-  if (loading) {
-    setSpriteLoading(true);
-  } else {
-    setSpriteLoading(false);
-  }
-
-  if (loading || error) {
-    if (error) console.error('Failed to load icons:', error);
-    return null;
-  }
+  }, [loading, error, data, setSprite, setSpriteLoading, createSpriteElement]);
 
   return null;
 };
