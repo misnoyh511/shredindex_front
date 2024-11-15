@@ -12,7 +12,9 @@ interface MetaTagsProps {
 
 export const MetaTags: React.FC<MetaTagsProps> = ({ resortData }) => {
   // Get base URL from environment or fallback to default
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.snowmadlist.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://snowmadlist.com';
+
+  console.log('MetaTags', resortData);
 
   const generateMetadata = () => {
     if (!resortData) {
