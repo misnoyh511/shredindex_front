@@ -11,13 +11,13 @@ const Favicon = ({ title = 'Shred Index' }: FaviconProps) => {
       <link
         rel="icon"
         type="image/svg+xml"
-        href="/images/shredindex-favicon.svg"
+        href="/shredindex-favicon.svg"
       />
       {/* Fallback for browsers that don't support SVG favicons */}
       <link
         rel="alternate icon"
         type="image/png"
-        href="/images/shredindex-favicon.svg"
+        href="/shredindex-favicon.svg"
       />
       <meta name="application-name" content={title} />
       <meta name="theme-color" content="#1d2e39" />
