@@ -1,10 +1,12 @@
 import React from 'react';
-import { CCard, CCardBody } from '@coreui/react';
+import { CButton, CCard, CCardBody } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AffiliateUrl } from '../../../types/resortTypes';
 import LuxuryAccomodation from '../../../images/accomodation-luxury.webp';
+import { CIcon } from '@coreui/icons-react';
+import { cilExternalLink, cilMap, cilUser } from '@coreui/icons';
 
 const Accomodation: React.FC <AffiliateUrl> = ({ affiliateUrl }) => (
   <>
@@ -22,16 +24,33 @@ const Accomodation: React.FC <AffiliateUrl> = ({ affiliateUrl }) => (
             objectFit="fill"
           />
         </Link>
-          &nbsp;
-        <p className="h6 user-select-none mb-2 caption-text">
-          Find your ideal &nbsp;
-          <Link href={affiliateUrl} target="_blank">
-            accomodation..
-          </Link>
-        </p>
+        &nbsp;
+        <div>
+          <div className="d-flex justify-content-between align-items-start mb-2 flex-column">
+            <h4 className="fw-bold mb-2">Find Your Perfect Stay </h4>
+            <ul className="p-0 small fw-lighter mb-2">
+              <li className="d-flex align-items-center gap-2">
+                <CIcon icon={cilUser} className="w-4 h-4"/>
+                <span>Various room types available</span>
+              </li>
+              <li className="d-flex align-items-center gap-2">
+                <CIcon icon={cilMap} className="w-4 h-4"/>
+                <span>Multiple locations near slopes</span>
+              </li>
+            </ul>
+          </div>
+          <CButton color="primary" href={affiliateUrl} className="w-100 mt-2" target="_blank">
+            View Available Properties <CIcon icon={cilExternalLink} className="w-4 h-4"/>
+          </CButton>
+          <p className="small fw-lighter text-center mt-2 text-muted">
+            You&apos;ll be redirected to Booking.com or Trip.com to complete your reservation
+          </p>
+        </div>
+
       </CCardBody>
     </CCard>
   </>
-);
+)
+;
 
 export default Accomodation;

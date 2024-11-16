@@ -1,101 +1,125 @@
+// Resort Single Component Styles
 .resort-single {
 
+  & .rating--total-rating {
+    height: 2.8rem !important;
+
+    .rating__number-big {
+      font-size: 1.6rem;
+    }
+
+    .rating__number-wrap {
+      height: 2.8rem;
+    }
+
+    .rating__number-border {
+      height: 2.8rem;
+    }
+
+    .rating__icon-label-wrap {
+      height: 2.8rem;
+      padding-left: 4rem;
+    }
+  }
+
+
+  // Typography
+  &-card-heading {
+    font-family: "Plus Jakarta Sans";
+    font-size: 1.38rem;
+    font-weight: 200;
+    margin-bottom: 1.5rem;
+  }
+
+  .caption-text {
+    font-size: 0.9rem;
+    font-weight: 200;
+    position: relative;
+  }
+
+  // Rating Component
+  .rating {
+    height: 2rem;
+
+    &__icon-label-wrap {
+      height: 2rem;
+      padding-left: 4rem;
+
+      .rating__type {
+        margin-bottom: 0.8rem;
+      }
+    }
+
+    &__title {
+      font-size: 1rem;
+    }
+
+    &__number {
+      &-big {
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+
+      &-wrap,
+      &-border {
+        height: 2rem;
+      }
+    }
+
+    span.position-relative.d-block {
+      width: 2rem !important;
+      height: 2rem !important;
+    }
+  }
+
+  // Statistic Component
   .statistic__number-big {
-    font-size: 1.185rem;
+    font-size: 1.25rem;
     font-weight: 500;
   }
 
-  & .resort-comments__card {
-    overflow: hidden;
-    width: 14rem;
-    margin-right: 1rem;
-  }
+  .numeric-item {
+    width: 100%;
 
-  & .resort-card__comment-carousel {
-    background-color: #2b414d;
-    margin-bottom: 1.5rem;
-    margin-left: 0 !important;
-    width: 100% !important;
-
-    & .carousel__comment {
-      padding: 1rem;
+    .generic-description {
+      margin-top: .75rem !important;
     }
   }
 
-
-  .carousel {
-    &__comment-text {
-      display: -webkit-box;
-      font-size: small;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: unset;
-      margin: .2rem;
-    }
-
-    &__author {
-      margin: 1rem 0rem;
-    }
-
-    &__comment-background {
-      min-width: 100%;
-      width: 15rem;
-      max-width: 256%;
-      left: 50%;
-      transform: translate(-50%);
-      bottom: 0;
-    }
-  }
-
-  .carousel__comment {
-    height: auto !important;
-  }
-
-  & .caption-text {
-    font-weight: 200;
-    position: relative;
-    font-size: 0.9rem;
-  }
-
-  & .resort-single-card-heading {
-    font-size: 1.38rem;
-    margin-bottom: 1.5rem;
-    font-weight: 200;
-    font-family: "Plus Jakarta Sans";
-  }
-
-  & .numeric-list__numeric {
-    padding: 1rem;
-    border-left: .25rem solid #245773;
+  // List Components
+  .numeric-list__numeric {
     background: #283c49;
-    border-radius: .5rem;
-    width: 12rem;
-
-    & .statistic__title {
-      text-align: end !important;
-    }
-  }
-
-  & .generic-list__generic {
-    padding: 0.5rem 1rem;
-    border: #245773 1px solid;
     border-left: 0.25rem solid #245773;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+
+    .statistic__title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .generic-list__generic {
     background: #283c49;
-    border-radius: .5rem;
+    border: 1px solid #245773;
+    border-left: 0.25rem solid #245773;
+    border-radius: 0.5rem;
+    padding: 1rem;
   }
 
+  // Carousel Components
   &__carousel-image-item-wrap {
-    height: 12rem;
-    overflow: hidden;
-    display: flex;
-    margin-right: 1rem;
     align-content: center;
-    justify-content: center;
     align-items: center;
+    display: flex;
+    height: 12rem;
+    justify-content: center;
+    margin-right: 1rem;
+    overflow: hidden;
   }
 
-  & .resort-single__image-carousel {
+  .resort-single__image-carousel {
     .carousel {
       height: 12rem !important;
     }
@@ -105,58 +129,114 @@
     }
   }
 
-  & .fullscreen-icon-wrap {
-    z-index: 1;
-    position: absolute;
-    background: rgb(40 60 73 / 14%);
-    padding: .5rem;
-    height: 2.5rem;
-    width: 2.5rem;
-    display: flex;
-    border-radius: 1rem;
-    right: 0;
-    top: 0;
-    align-items: center;
-    justify-content: center;
-    margin: .5rem !important;
-    cursor: zoom-in;
-    transition-duration: $card-animation-transition-time;
-
-    &:hover {
-      background: rgb(40 60 73 / 64%);
-    }
-  }
-
-  & .carousel__image-item {
-    height: 100%;
-  }
-
-  & .card {
-    border-radius: $border-radius-lg;
-
-    & .resort-card__description-single-resort {
+  .carousel {
+    &__comment-text {
+      display: -webkit-box;
+      font-size: 1rem;
       font-weight: 200;
-      font-size: .9rem;
+      margin: 0.2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: unset;
+    }
+
+    &__author {
+      margin: 1rem 0;
+    }
+
+    &__comment-background {
+      bottom: 0;
+      left: 50%;
+      max-width: 256%;
+      min-width: 100%;
+      transform: translate(-50%);
+      width: 15rem;
+    }
+
+    &__comment {
+      height: auto !important;
+    }
+
+    &__image-item {
+      height: 100%;
     }
   }
-  & .back-button {
-    cursor: pointer;
+
+  // Comment Components
+  .resort-comments__card {
+    margin-right: 1rem;
+    overflow: hidden;
+    width: 14rem;
+  }
+
+  .resort-card {
+    &__comment-carousel {
+      background-color: #2b414d;
+      margin-bottom: 1.5rem;
+      margin-left: 0 !important;
+      width: 100% !important;
+
+      .carousel__comment {
+        padding: 1rem;
+      }
+    }
+
+    &__description-single-resort {
+      font-size: 0.9rem;
+      font-weight: 200;
+    }
+  }
+
+  // Card Component
+  .card {
+    border-radius: var(--border-radius-lg, 0.5rem);
+  }
+
+  // Back Button
+  .back-button {
+    align-content: center;
+    align-items: center;
     background-color: #2b414d;
     border-radius: 50%;
-    height: 2.5rem;
-    width: 2.5rem;
+    cursor: pointer;
     display: flex;
-    align-content: center;
     flex-direction: row;
+    height: 2.5rem;
     justify-content: center;
-    align-items: center;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
+    width: 2.5rem;
 
     &:hover {
       background-color: #1d2e39;
     }
   }
+
+  // Fullscreen Icon
+  .fullscreen-icon-wrap {
+    align-items: center;
+    background: rgba(40, 60, 73, 0.14);
+    border-radius: 1rem;
+    cursor: zoom-in;
+    display: flex;
+    height: 2.5rem;
+    justify-content: center;
+    margin: 0.5rem !important;
+    padding: 0.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition-duration: var(--card-animation-transition-time, 0.3s);
+    width: 2.5rem;
+    z-index: 1;
+
+    &:hover {
+      background: rgba(40, 60, 73, 0.64);
+    }
+  }
 }
+
+// Resort Ratings Component
 .resort-ratings {
   margin-bottom: 2rem;
 
@@ -166,8 +246,8 @@
 
   .category-ratings {
     .category-title {
-      font-size: 1.125rem;
-      font-weight: 500;
+      font-size: 1.25rem;
+      font-weight: 700;
       margin-bottom: 1.5rem;
       margin-top: 1rem;
 
@@ -180,38 +260,43 @@
   .rating-item-wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1rem;
+    gap: 1rem;
   }
 
   .rating-item {
-    width: 100%;
     margin-bottom: 0.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .rating-item {
-      width: calc(50% - 0.5rem);  // Adjusted for gap
-    }
-
-    .rating--total-rating .rating__title {
-      font-size: 1.62rem !important;
-      font-weight: 500 !important;
-    }
+    width: 100%;
   }
 }
 
-@media (min-width: 768px) {
-  .resort-single {
-    .rating--total-rating .rating__title {
-      font-size: 1.62rem !important;
-      font-weight: 500 !important;
-    }
-  }
-}
-
+// Resort Image Modal
 .resort-image-modal {
-  & .flickity-viewport {
+  .flickity-viewport {
     height: 80vh !important;
     max-height: 1000px;
+  }
+}
+
+// Media Queries
+@media (min-width: 768px) {
+
+  .numeric-item {
+    width: calc(50% - 0.5rem) !important;
+  }
+
+  .resort-ratings .rating-item {
+    width: calc(50% - 0.5rem);
+  }
+
+  .resort-single .rating--total-rating .rating__title,
+  .resort-ratings .rating--total-rating .rating__title {
+    font-size: 1.62rem !important;
+    font-weight: 500 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .numeric-list__list {
+    flex-wrap: wrap;
   }
 }

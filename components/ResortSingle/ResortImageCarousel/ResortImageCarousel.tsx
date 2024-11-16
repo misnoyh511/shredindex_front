@@ -25,6 +25,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
     pageDots: false,
     imagesLoaded: true,
     cellAlign: 'left',
+    lazyLoad: true,
   };
 
   const filteredImages = images.filter((img): img is NonNullable<typeof img> =>

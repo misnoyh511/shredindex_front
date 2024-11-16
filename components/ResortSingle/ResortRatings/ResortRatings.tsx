@@ -4,6 +4,7 @@ import { CCard, CCardBody, CListGroup } from '@coreui/react';
 import { FormattedMessage } from 'react-intl';
 import Rating from '../../Rating/Rating';
 import { Score } from '../../../types/resortTypes';
+import { TypeDescription } from '@/TypeDescription/TypeDescription';
 
 const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
   const groupedRatings = useMemo(() => {
@@ -35,7 +36,10 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
             id, title, name, value,
           }) => (
             <div key={id} className="rating-item">
-              <Rating title={title} rating={value} name={name} />
+              <Rating title={title} rating={value} name={name}/>
+              <div className="generic-description fw-light small mt-2 text-muted">
+                <TypeDescription label={name}/>.
+              </div>
             </div>
           ))}
         </div>

@@ -40,7 +40,7 @@ const ResortGenerics: React.FC<ResortGenericsProps> = ({ generics }) => (
               <TypeIcon className="statistic__icon" typeName={name} size={'2rem'}/>
               <div>
                 <span> {` ${title}`}</span>
-                <div className="generic-description fw-light small mt-2">
+                <div className="generic-description fw-light small mt-1 text-muted">
                   <TypeDescription label={name} />.
                 </div>
               </div>

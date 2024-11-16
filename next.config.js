@@ -79,6 +79,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'backend.shredindex.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.lduhtrp.net',
+      },
     ],
   },
   env: {

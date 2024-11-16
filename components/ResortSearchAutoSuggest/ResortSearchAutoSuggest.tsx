@@ -6,9 +6,10 @@ import {
   CFormInput, CListGroup, CListGroupItem,
 } from '@coreui/react';
 import { CIcon } from '@coreui/icons-react';
-import { cilLocationPin, cilMagnifyingGlass, cilHistory } from '@coreui/icons';
+import { cilMagnifyingGlass, cilHistory } from '@coreui/icons';
 import { gql, useLazyQuery } from '@apollo/client';
 import SnowboardBackflip from '../../images/snowboard-backflip.svg';
+import { TypeIcon } from '@/Icons/TypeIcon';
 
 export const SEARCH_RESORTS = gql`
   query SearchResorts($query: String!, $page: Int = 1, $perPage: Int = 20) {
@@ -123,12 +124,16 @@ const ResortSearchAutosuggest = () => {
       className="resort-search__suggestion-item"
     >
       <div className="icon-wrapper">
-        <CIcon icon={cilLocationPin} size="lg" />
+        <TypeIcon typeName='traditional_ski_resort' size="2rem" />
       </div>
       <div className="text-wrapper">
         <div className="title">{resort.title}</div>
         <div className="location">
-          {`${resort.location.city}, ${resort.location.state?.name || ''}, ${resort.location.country.name}`}
+          {[
+            resort.location.city,
+            resort.location.state?.name,
+            resort.location.country.name,
+          ].filter(Boolean).join(', ')}
         </div>
       </div>
     </CListGroupItem>

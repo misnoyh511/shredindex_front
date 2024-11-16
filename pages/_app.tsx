@@ -87,7 +87,7 @@ const ClientOnlyPortal: React.FC<ClientOnlyPortalProps> = ({ children }) => {
 
 interface AppContentProps {
   Component: NextComponentType;
-  pageProps: any;
+  pageProps: never;
 }
 
 const AppContent: React.FC<AppContentProps> = ({ Component, pageProps }) => {

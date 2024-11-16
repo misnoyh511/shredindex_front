@@ -20,7 +20,7 @@ import ResortMapSkeleton from '@/ResortSingle/ResortMapCard/ResortMap/ResortMapS
 import Gear from '@/Advertisers/Gear/Gear';
 import ResortGenerics from '@/ResortSingle/ResortGenerics/ResortGenerics';
 import Accomodation from '@/Advertisers/Accomodation/Accomodation';
-import AdvertiseHere from '@/Advertisers/AdvertiseHere/AdvertiseHere';
+// import AdvertiseHere from '@/Advertisers/AdvertiseHere/AdvertiseHere';
 import ResortMapCard from '@/ResortSingle/ResortMapCard/ResortMapCard';
 import { Resort } from '../../types/resortTypes';
 import ResortCardError from '../ResortCard/ResortCardError/ResortCardError';
@@ -168,7 +168,7 @@ const ResortSingle: React.FC<ResortProps> = ({ resortData, error, loading }) => 
             {affiliate_url && (
               <Accomodation affiliateUrl={affiliate_url} />
             )}
-            <AdvertiseHere affiliateUrl={affiliate_url}/>
+            {/*<AdvertiseHere affiliateUrl={affiliate_url}/>*/}
             <Gear />
           </CCol>
         </CRow>

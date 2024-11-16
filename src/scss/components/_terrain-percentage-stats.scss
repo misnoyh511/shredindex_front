@@ -1,0 +1,48 @@
+.terrain-stat {
+  position: relative;
+}
+
+.terrain-stat__bar-container {
+  height: 2px;
+  background: #1d2e39 !important;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.terrain-stat__bar {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.terrain-stat__value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cui-body-color);
+}
+
+.terrain-overview {
+  position: relative;
+}
+
+.terrain-overview__bar {
+  height: 12px;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.terrain-overview__segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.terrain-overview__segment:first-child {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.terrain-overview__segment:last-child {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
