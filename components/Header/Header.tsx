@@ -9,8 +9,8 @@ import Link from 'next/link';
 import Logo from '../../images/logo.svg';
 import HeaderMenuMain from '../HeaderMenuMain/HeaderMenuMain';
 import { showSidebar as showSidebarAtom } from '../../atoms/showSidebar';
-import ResortSearchAutosuggest from '../ResortSearchAutoSuggest/ResortSearchAutoSuggest';
 import UserProfileMenu from '@/User/UserProfileMenu';
+import AdvancedSearch from '@/ResortSearchAutoSuggest/AdvancedSearch';
 
 const Header: React.FC = () => {
   const [showSidebar, setShowSidebar] = useRecoilState(showSidebarAtom);
@@ -31,7 +31,7 @@ const Header: React.FC = () => {
           <HeaderMenuMain />
         </div>
         <div className="d-flex justify-content-center header-col-flex-search">
-          <ResortSearchAutosuggest />
+          <AdvancedSearch />
         </div>
         <div className="d-flex justify-content-end header-col-flex">
           <UserProfileMenu />

@@ -59,12 +59,16 @@
     transform: translateX(-50%);
     margin-top: 1.4rem;
     z-index: 1000;
-    background-color: $gray-400;
+    background-color: $gray-300;
     box-shadow: $box-shadow-lg;
     border-radius: 1rem;
     overflow-x: hidden;
-    width: 23rem;
+    width: 35rem;
     max-width: 100vw;
+
+    .list-group-item {
+      padding: 1rem;
+    }
   }
 
   &__suggestion-item {

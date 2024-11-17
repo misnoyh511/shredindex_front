@@ -124,6 +124,7 @@ const ResortSearchAutosuggest = () => {
       className="resort-search__suggestion-item"
     >
       <div className="icon-wrapper">
+        {/*<CIcon icon={cilLocationPin} size="lg" />*/}
         <TypeIcon typeName='traditional_ski_resort' size="2rem" />
       </div>
       <div className="text-wrapper">
