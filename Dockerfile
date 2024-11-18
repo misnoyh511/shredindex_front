@@ -7,10 +7,6 @@ WORKDIR /app
 ARG NEXT_PUBLIC_MAPBOX_API_KEY
 ARG NEXT_PUBLIC_GRAPHQL_ENDPOINT
 
-# Set environment variables
-# ENV NEXT_PUBLIC_MAPBOX_API_KEY=$NEXT_PUBLIC_MAPBOX_API_KEY
-# ENV NEXT_PUBLIC_GRAPHQL_ENDPOINT=$NEXT_PUBLIC_GRAPHQL_ENDPOINT
-
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
@@ -26,7 +22,7 @@ COPY .env.local* ./
 # Build the Next.js application
 RUN npm run build
 
-# Build the site map application
+# Generate sitemap
 RUN npm run postbuild
 
 # Production stage
@@ -40,13 +36,18 @@ ENV NODE_ENV production
 # Copy necessary files from builder stage
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.env.local* ./
+# Copy sitemap files
+COPY --from=builder /app/public/sitemap*.xml ./public/
+COPY --from=builder /app/public/robots.txt ./public/
 
 # Use a non-root user for better security
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
+RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # Expose the port the app runs on
