@@ -2,8 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { CFormInput, CListGroup, CListGroupItem } from '@coreui/react';
-import { CIcon } from '@coreui/icons-react';
-import { cilMap } from '@coreui/icons';
+import LocationMap from '../../icons/location-map.svg';
 import { gql, useLazyQuery } from '@apollo/client';
 import countryList from 'react-select-country-list';
 import SnowboardBackflip from '../../images/snowboard-backflip.svg';
@@ -11,6 +10,7 @@ import { TypeIcon } from '@/Icons/TypeIcon';
 import RegionSelect from './../RegionSelect/RegionSelectSearch';
 import { currentFilterState } from '../../atoms/filterState';
 import { getContinent } from '../../hooks/getContinent';
+import { SvgIcon } from '@/Icons/SvgIcon';
 
 export const SEARCH_RESORTS = gql`
   query SearchResorts($query: String!, $page: Int = 1, $perPage: Int = 20) {
@@ -162,10 +162,13 @@ const AdvancedSearch = () => {
 
   const renderSuggestionItem = (item) => {
     let icon;
+    let iconType;
     if (item.type === 'resort') {
       icon = <TypeIcon typeName='traditional_ski_resort' size="2rem" />;
+      iconType = 'traditional-ski-resort';
     } else if (item.type === 'country' || item.type === 'continent') {
-      icon = <CIcon icon={cilMap} size="xl" />;
+      icon = <SvgIcon svgContent={LocationMap} size="2.6rem" />;
+      iconType = 'country-continent';
     }
 
     return (
@@ -174,7 +177,7 @@ const AdvancedSearch = () => {
         onClick={() => handleSuggestionClick(item)}
         className="resort-search__suggestion-item"
       >
-        <div className="icon-wrapper">
+        <div className={`icon-wrapper ${iconType}`}>
           {icon}
         </div>
         <div className="text-wrapper">

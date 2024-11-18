@@ -87,6 +87,7 @@ export const StatisticTypeFilters = [
   'number_of_runs',          // Total number of marked runs
   'number_of_lifts',         // Total number of operational lifts
   'longest_run',             // Length of the longest run
+  'total_runs_distance',     // Length of all the runs combined
 ] as const;
 
 // Score-based filters for qualitative aspects of resorts

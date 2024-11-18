@@ -8,8 +8,14 @@ import ResortCardLocation from '../ResortCardLocation/ResortCardLocation';
 import NumericList from '../../NumericList/NumericList';
 import ShareButton from '../../ShareButton/ShareButton';
 
-const isDifferentRatings = (a: Score[], b: Score[]): boolean =>
-  a.every(({ id }) => b.find((i) => i.id === id));
+const hasDistinctRatings = (highlights: Score[], lowlights: Score[]): boolean => {
+  const highlightIds = new Set(highlights.map(h => h.id));
+  const lowlightIds = new Set(lowlights.map(l => l.id));
+
+  const overlap = [...highlightIds].filter(id => lowlightIds.has(id)).length;
+
+  return overlap < Math.min(highlights.length, lowlights.length) / 2;
+};
 
 interface ResortCardBodyProps {
   resort: Resort;
@@ -63,7 +69,7 @@ const ResortCardBody: React.FC<ResortCardBodyProps> = ({
       )}
       <div className="resort-card__content-1 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">
-          {!isDifferentRatings(highlights, lowlights)
+          {hasDistinctRatings(highlights, lowlights)
             ? (
               <RatingList
                 labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
@@ -84,7 +90,7 @@ const ResortCardBody: React.FC<ResortCardBodyProps> = ({
       </div>
       <div className="resort-card__content-2 mb-2 d-flex">
         <div className="resort-card__sub-ratings-list me-2">
-          {!isDifferentRatings(highlights, lowlights) && (
+          {hasDistinctRatings(highlights, lowlights) && (
             <RatingList
               labelMessageId="shredindex.ratinglist.LOWLIGHTS"
               label="Lowlights"
