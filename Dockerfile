@@ -26,6 +26,9 @@ COPY .env.local* ./
 # Build the Next.js application
 RUN npm run build
 
+# Build the site map application
+RUN npm run postbuild
+
 # Production stage
 FROM node:18-alpine AS runner
 
