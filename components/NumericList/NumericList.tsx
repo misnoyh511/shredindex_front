@@ -4,8 +4,6 @@ import Flickity from 'react-flickity-component';
 import Statistic from '../Statistic/Statistic';
 import flickityOptions from '../../src/js/components/config/flickity-options';
 import getUnit from '../../hooks/getUnit';
-import breakpoints from '../../src/js/components/config/breakpoints';
-import useWindowDimensions from '../../hooks/getWindowDimensions';
 
 interface NumericType {
   id: string;
@@ -26,7 +24,6 @@ interface NumericListProps {
 }
 
 const NumericList: React.FC<NumericListProps> = ({
-  isMini = false,
   numerics,
   label,
   labelMessageId,
@@ -39,12 +36,10 @@ const NumericList: React.FC<NumericListProps> = ({
     );
   }
 
-  const { width } = useWindowDimensions();
-
   const options = {
     ...flickityOptions,
     cellAlign: 'left',
-    prevNextButtons: isMini && width < breakpoints.md,
+    prevNextButtons: true,
     pageDots: false,
   };
 

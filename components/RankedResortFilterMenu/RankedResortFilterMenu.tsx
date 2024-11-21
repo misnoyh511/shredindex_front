@@ -1,17 +1,18 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { CBadge, CButton } from '@coreui/react';
 import filtersGoggles from '../../icons/filters-goggles.svg';
-// import locationEarth from '../../icons/location-earth.svg';
-import sortBy from '../../icons/sort-by.svg';
 import { FormattedMessage } from 'react-intl';
 import RankedResortFilterTray from '../RankedResortFilterTray/RankedResortFilterTray';
 import { showFilterTrayState } from '../../atoms/showFilterTray';
 import RankedResortLifeStyleTray from '../RankedResortLifeStyleTray/RankedResortLifeStyleTray';
-import { showLifestyleTrayState } from '../../atoms/showLifestyleTray';
 import RankedResortLocationTray from '../RankedResortLocationTray/RankedResortLocationTray';
-// import { showLocationTrayState } from '../../atoms/showLocationTray';
 import { SvgIcon } from '@/Icons/SvgIcon';
+import LifestyleFilterBar from '@/RankedResortLifeStyleTray/RankedResortLifeStyles/LifestyleCarousel';
+import useWindowDimensions from '../../hooks/getWindowDimensions';
+import breakpoints from '@/js/components/config/breakpoints';
+import { TypeDescription } from '@/TypeDescription/TypeDescription';
+import { currentOrderByState } from '../../atoms/filterState';
 
 interface RankedResortFilterMenuProps {
   filterQuantity: number;
@@ -19,64 +20,27 @@ interface RankedResortFilterMenuProps {
 
 const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQuantity }) => {
   const setShowFilterTray = useSetRecoilState(showFilterTrayState);
-  const setShowLifestyleTray = useSetRecoilState(showLifestyleTrayState);
-  // const setShowLocationTray = useSetRecoilState(showLocationTrayState);
+  const [currentFilter] = useRecoilState(currentOrderByState);
+  const { width } = useWindowDimensions();
+  const isMobile = width < breakpoints.md;
 
   return (
     <>
-      <div className="filter-menu mb-4 d-flex flex-row gap-3">
-        {/*<CButton*/}
-        {/*  // variant="outline"*/}
-        {/*  color="primary"*/}
-        {/*  aria-roledescription={(*/}
-        {/*    <FormattedMessage*/}
-        {/*      id="shredindex.filter.SHOW_LIFESTYLES_TRAY"*/}
-        {/*      defaultMessage="Show Location tray"*/}
-        {/*    />*/}
-        {/*  ).toString()}*/}
-        {/*  className="w-100 filter-menu__show-location-tray"*/}
-        {/*  onClick={() => setShowLocationTray(true)}*/}
-        {/*>*/}
-        {/*  <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap">*/}
-        {/*    <SvgIcon svgContent={locationEarth} size="2.5rem"/>*/}
-        {/*    &nbsp;*/}
-        {/*    <FormattedMessage*/}
-        {/*      id="shredindex.filter.LOCATION"*/}
-        {/*      defaultMessage="Location"*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*</CButton>*/}
-        <CButton
-          // variant="outline"
-          color="warning"
-          aria-roledescription={(
-            <FormattedMessage
-              id="shredindex.filter.SHOW_LIFESTYLES_TRAY"
-              defaultMessage="Show lifestyles tray"
-            />
-          ).toString()}
-          className="w-100 filter-menu__show-lifestyles-tray"
-          onClick={() => setShowLifestyleTray(true)}
-        >
-          <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap">
-            <SvgIcon svgContent={sortBy} size="2.5rem"/>
-            &nbsp;
-            <FormattedMessage
-              id="shredindex.filter.SORTING"
-              defaultMessage="Sorting"
-            />
-          </div>
-        </CButton>
+      <div className="filter-menu d-flex flex-row align-items-center gap-2">
+        <div className="w-100">
+          <LifestyleFilterBar/>
+        </div>
         <CButton
           // variant="outline"
           color="primary"
+          size={isMobile && 'sm'}
           aria-roledescription={(
             <FormattedMessage
               id="shredindex.filter.SHOW_FILTERS_TRAY"
               defaultMessage="Show filters tray"
             />
           ).toString()}
-          className="w-100 filter-menu__show-filters-tray position-relative"
+          className="filter-menu__show-filters-tray position-relative "
           onClick={() => setShowFilterTray(true)}
         >
           {filterQuantity >= 1 && (
@@ -84,8 +48,8 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
               {filterQuantity}
             </CBadge>
           )}
-          <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap">
-            <SvgIcon svgContent={filtersGoggles} size="2.5rem"/>
+          <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap small">
+            <SvgIcon svgContent={filtersGoggles} size="2.2rem"/>
             &nbsp;
             <FormattedMessage
               id="shredindex.filter.FILTERS"
@@ -96,6 +60,13 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
         <RankedResortLocationTray/>
         <RankedResortFilterTray/>
         <RankedResortLifeStyleTray/>
+      </div>
+      <div className="lifestyle-filter__description mb-4">
+        <div className="generic-description fw-light small text-md-center text-center">
+          <CBadge color="dark" size={isMobile && 'sm'} className={'small fw-light'}>
+            <TypeDescription className={'small fw-light'} label={currentFilter?.type_name || 'total_score'}/>
+          </CBadge>
+        </div>
       </div>
     </>
   );

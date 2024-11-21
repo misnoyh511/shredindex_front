@@ -1,0 +1,59 @@
+.lifestyle-filter {
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    min-width: fit-content;
+    background: none;
+    border: none;
+    color: var(--cui-white);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    //margin-right: 0.75rem;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &--active {
+      opacity: 1;
+    }
+  }
+
+  &__icon {
+    width: 2.2rem;
+    height: 1.5rem;
+    margin-bottom: 0.25rem;
+
+    svg {
+      fill: currentColor;
+    }
+  }
+
+  &__label {
+    font-size: 0.775rem;
+    white-space: nowrap;
+  }
+
+  &__indicator {
+    height: 2px;
+    background-color: var(--cui-white);
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+// Flickity overrides
+.flickity-button {
+  background: rgba(var(--cui-dark-rgb), 0.5) !important;
+
+  &:hover {
+    background: rgba(var(--cui-dark-rgb), 0.7) !important;
+  }
+
+  svg {
+    fill: var(--cui-white);
+  }
+}
