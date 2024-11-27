@@ -59,12 +59,11 @@ const LoginModal: React.FC = () => {
     setIsAuthenticating(false);
   };
 
-  // Watch for successful login via user state
   useEffect(() => {
     if (user && isAuthenticating) {
       handleSuccess();
     }
-  }, [user]);
+  }, [user, isAuthenticating, postLoginActionState]);
 
   const handleOAuthSignIn = async (provider: string) => {
     try {
@@ -73,7 +72,7 @@ const LoginModal: React.FC = () => {
       await oauth_login(provider);
     } catch (error) {
       console.error('OAuth Sign-in error:', error);
-      setErrorMessage('An error occurred during authentication');
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred during authentication');
       setIsAuthenticating(false);
     }
   };
@@ -107,6 +106,7 @@ const LoginModal: React.FC = () => {
       }
     } catch (error) {
       console.error('An error occurred:', error);
+      setErrorMessage(error instanceof Error ? error.message : 'Authentication failed');
       setIsAuthenticating(false);
     }
   };
@@ -133,7 +133,6 @@ const LoginModal: React.FC = () => {
     setValidated(false);
   };
 
-  // Only show loading state when actually authenticating
   if (isAuthenticating) {
     return (
       <CModal

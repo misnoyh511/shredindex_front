@@ -13,6 +13,25 @@ export const useAuth = () => {
 
   const API_URL = process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
 
+  // Helper function to get the appropriate callback URL based on environment
+  const getCallbackUrl = (provider: string) => {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    const callbackUrls: Record = {
+      'google': isDevelopment
+        ? process.env.NEXT_DEVELOPMENT_GOOGLE_CALLBACK_URL
+        : process.env.NEXT_PUBLIC_GOOGLE_CALLBACK_URL,
+      'facebook': isDevelopment
+        ? process.env.NEXT_DEVELOPMENT_FACEBOOK_CALLBACK_URL
+        : process.env.NEXT_PUBLIC_FACEBOOK_CALLBACK_URL,
+      'x': isDevelopment
+        ? process.env.NEXT_DEVELOPMENT_X_CALLBACK_URL
+        : process.env.NEXT_PUBLIC_X_CALLBACK_URL,
+    };
+
+    return callbackUrls[provider];
+  };
+
   const graphqlRequest = async (query: string, variables = {}) => {
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -104,22 +123,29 @@ export const useAuth = () => {
       setLoading(true);
       setError(null);
 
+      const callbackUrl = getCallbackUrl(provider);
+      console.log('Callback URL for provider:', provider, callbackUrl); // Debug log
+
+      if (!callbackUrl) {
+        throw new Error(`Missing callback URL configuration for provider: ${provider}`);
+      }
+
       const { data } = await graphqlRequest(MUTATIONS.OAUTH_LOGIN, {
         provider,
+        callbackUrl,
       });
 
-      // Instead of redirecting, open a popup
+      console.log(`${provider} OAuth redirect URL:`, data.oauthRedirect.url);
+
       const width = 375;
       const height = 500;
       const left = window.screen.width / 2 - width / 2;
       const top = window.screen.height / 2 - height / 2;
 
-      // Close any existing popup
       if (popupRef.current) {
         popupRef.current.close();
       }
 
-      // Clear any existing interval
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
@@ -134,33 +160,34 @@ export const useAuth = () => {
         throw new Error('Popup was blocked. Please allow popups for this site.');
       }
 
-      // Start monitoring the popup
       intervalRef.current = setInterval(() => {
         try {
-          if (popupRef.current?.closed) {
+          if (!popupRef.current || popupRef.current.closed) {
             clearInterval(intervalRef.current);
             setLoading(false);
             return;
           }
 
-          const currentUrl = popupRef.current?.location.href;
-          if (currentUrl?.includes('code=')) {
+          const currentUrl = popupRef.current.location.href;
+
+          if (currentUrl && currentUrl.includes('code=')) {
             const url = new URL(currentUrl);
             const code = url.searchParams.get('code');
+
             if (code) {
               clearInterval(intervalRef.current);
-              popupRef.current?.close();
+              popupRef.current.close();
               oauth_callback(code);
             }
           }
         } catch (e) {
-          // Cross-origin errors will be thrown until the redirect is complete
-          // We can safely ignore these
+          // Ignore cross-origin errors - these are expected until the redirect completes
         }
       }, 500);
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
+      setError(errorMessage);
       setLoading(false);
       throw err;
     }
@@ -245,7 +272,6 @@ export const useAuth = () => {
     }
   }, [checkAuth, user]);
 
-  // Cleanup popup and interval on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
