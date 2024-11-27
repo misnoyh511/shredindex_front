@@ -256,6 +256,7 @@ const LoginModal: React.FC = () => {
               <div className="login-email-wrap">
                 <CForm
                   className="needs-validation"
+                  noValidate
                   validated={validated}
                   onSubmit={handleEmailAuth}
                 >
@@ -263,6 +264,7 @@ const LoginModal: React.FC = () => {
                     <CFormInput
                       type="text"
                       name="username"
+                      autoComplete="off"
                       disabled={!acceptTerms && isSigningUp}
                       placeholder="Username"
                       className="mb-3"
@@ -275,6 +277,7 @@ const LoginModal: React.FC = () => {
                   <CFormInput
                     type={isSigningUp ? 'email' : 'text'}
                     name="email"
+                    autoComplete="off"
                     disabled={!acceptTerms && isSigningUp}
                     placeholder={isSigningUp ? 'Email' : 'Email or Username'}
                     className="mb-3"
@@ -286,6 +289,7 @@ const LoginModal: React.FC = () => {
                   <CFormInput
                     type="password"
                     name="password"
+                    autoComplete="new-password"
                     disabled={!acceptTerms && isSigningUp}
                     placeholder="Password"
                     className="mb-3"
