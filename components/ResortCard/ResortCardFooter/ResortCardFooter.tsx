@@ -5,7 +5,7 @@ import { CIcon } from '@coreui/icons-react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import queryCMSPage from '../../../utility/query-cms-page';
+import queryCMSPage from '../../../utils/query-cms-page';
 
 
 const QUERY_RESORT = gql`

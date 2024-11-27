@@ -6,7 +6,7 @@ import { QUERY_SETTINGS, QUERY_TEAM_MEMBERS } from '../components/Footer/Footer'
 import { QUERY_STATIC_MENU } from '../hooks/useStaticMenu';
 import { menuCode as footerMenuCode } from '../components/FooterMenuMain/FooterMenuMain';
 import { menuCode as headerMenuCode } from '../components/HeaderMenuMain/HeaderMenuMain';
-import queryCMSPage from '../utility/query-cms-page';
+import queryCMSPage from '../utils/query-cms-page';
 import DynamicLayout from '../components/DynamicLayout/DynamicLayout';
 import Home from '../components/Home/home';
 

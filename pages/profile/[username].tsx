@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GetServerSideProps } from 'next';
 import UserProfile from '../../components/User/UserProfile';
 import { UserProfileType } from '../../types/userProfileTypes';
-import { useRecoilState } from 'recoil';
-import { loggedInUserProfile } from '../../atoms/userProfile';
-import { mockProfiles } from '../../mocks/UserMocks';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ProfilePageProps {
-  initialLoggedInUsername: string | null;
+  username: string;
   userProfileData: UserProfileType | null;
   error?: {
     message: string;
@@ -16,50 +14,146 @@ interface ProfilePageProps {
 
 export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (context) => {
   const { username } = context.params as { username: string };
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/graphql';
 
-  // Simulate fetching the profile data based on the username
-  const userProfileData = mockProfiles[username] || null;
+  try {
+    // Changed from mutation to query for fetching user profile
+    const userProfileResponse = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query GetUserProfile($username: String!) {
+            getUserProfile(username: $username) {
+              user {
+                id
+                username
+                email
+              }
+              shredProfile {
+                member_tier
+                preferred_sport
+                skill_level
+                years_experience
+                favorite_resort
+                current_resort_location
+                visited_resorts
+                preferred_terrain
+                preferred_resort_type
+                equipment_brand
+                owns_equipment
+                season_pass_type
+                emergency_contact_name
+                emergency_contact_phone
+                bio
+                profile_picture
+                preferred_lessons
+                interested_in_competitions
+                achievements
+              }
+            }
+          }
+        `,
+        variables: {
+          username,
+        },
+      }),
+    });
 
-  if (!userProfileData) {
-    return { notFound: true };
+    const userProfileData = await userProfileResponse.json();
+
+    // Handle the case where we successfully got a response
+    if (userProfileData.data?.getUserProfile) {
+      return {
+        props: {
+          username,
+          userProfileData: {
+            id: userProfileData.data.getUserProfile.user.id,
+            username: userProfileData.data.getUserProfile.user.username,
+            email: userProfileData.data.getUserProfile.user.email,
+            shredProfile: userProfileData.data.getUserProfile.shredProfile || {},
+          },
+        },
+      };
+    }
+
+    // If no profile found but no error (new user case)
+    return {
+      props: {
+        username,
+        userProfileData: {
+          username,
+          id: '',
+          email: '',
+          shredProfile: {
+            member_tier: '',
+            preferred_sport: '',
+            skill_level: '',
+            profile_picture: '',
+            years_experience: '',
+            favorite_resort: '',
+            current_resort_location: '',
+            visited_resorts: [],
+            preferred_terrain: '',
+            preferred_resort_type: '',
+            equipment_brand: '',
+            owns_equipment: false,
+            season_pass_type: '',
+            emergency_contact_name: '',
+            emergency_contact_phone: '',
+            bio: '',
+            preferred_lessons: '',
+            interested_in_competitions: false,
+            achievements: [],
+          },
+        },
+      },
+    };
+
+  } catch (error) {
+    console.error('Profile fetch error:', error);
+    return {
+      props: {
+        username,
+        error: {
+          message: 'Failed to fetch user profile',
+        },
+        userProfileData: null,
+      },
+    };
   }
-
-  // Simulate getting the logged-in username from a cookie
-  const initialLoggedInUsername = context.req.cookies.loggedInUser || null;
-
-  return {
-    props: {
-      userProfileData,
-      initialLoggedInUsername,
-    },
-  };
 };
 
 const ProfilePage: React.FC<ProfilePageProps> = ({
+  username,
   userProfileData,
-  initialLoggedInUsername,
   error,
 }) => {
-  const [user, setUser] = useRecoilState(loggedInUserProfile);
-
-  useEffect(() => {
-    // Update Recoil state with the initial value from SSR
-    if (initialLoggedInUsername && initialLoggedInUsername !== user?.username) {
-      setUser(user);
-    }
-  }, [initialLoggedInUsername, user, setUser]);
-
-  const isOwner = user?.username === userProfileData?.username;
+  const { user } = useAuth();
+  const isOwner = user?.username === username;
 
   if (error) {
-    return <p>Error: {error.message}</p>;
+    return <div className="text-center p-4 text-red-600">{error.message}</div>;
   }
 
-  if (!userProfileData) {
-    return <p>User profile data not found.</p>;
-  }
-
-  return <UserProfile userProfileData={userProfileData} isOwner={isOwner} />;
+  return (
+    <UserProfile
+      userProfileData={userProfileData || {
+        username,
+        id: '',
+        email: '',
+        shredProfile: {
+          member_tier: '',
+          preferred_sport: '',
+          skill_level: '',
+          profile_picture: '',
+        },
+      }}
+      isOwner={isOwner}
+    />
+  );
 };
 
 export default ProfilePage;

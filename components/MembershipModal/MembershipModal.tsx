@@ -14,7 +14,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { stripePublishableKey } from '../../stripeConfig';
 import MembershipForm from '@/MembershipModal/MembershipForm';
 import { showLoginTray } from '../../atoms/showLoginTray';
-import { postLoginAction } from '../../atoms/postLoginAction';
+import { postLoginAction } from '../../atoms/authAtoms';
 
 // Load your Stripe publishable key
 const stripePromise = loadStripe(stripePublishableKey);

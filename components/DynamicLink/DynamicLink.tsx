@@ -2,7 +2,7 @@
 import { useApolloClient } from '@apollo/client';
 import React from 'react';
 import Link from 'next/link';
-import queryCMSPage from '../../utility/query-cms-page';
+import queryCMSPage from '../../utils/query-cms-page';
 
 interface DynamicLinkProps {
   to: string;

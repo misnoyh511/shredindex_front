@@ -1,43 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  CForm,
-  CFormInput,
-  CFormSelect,
-  CFormCheck,
-  CFormTextarea,
-  CButton, CContainer, CCardBody, CCard,
-  CModal, CModalHeader, CModalBody, CModalFooter,
+  CButton,
+  CContainer,
+  CCardBody,
+  CCard,
 } from '@coreui/react';
 import { UserProfileType } from '../../types/userProfileTypes';
 import ResortsParallaxBackground from '@/ResortsParallaxBackground/ResortsParallaxBackground';
 import Image from 'next/image';
+import EditProfileModal from '../EditProfileModel/EditProfileModel';
+import { MUTATIONS } from '../../graphql/auth';
 
 interface UserProfileProps {
   userProfileData: UserProfileType;
   isOwner: boolean;
 }
 
+const DEFAULT_PROFILE_PICTURE = '/images/default-avatar.png';
+
 const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) => {
   const [formState, setFormState] = useState({ ...userProfileData });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [isEditingUsername, setIsEditingUsername] = useState(false);
-  const [isEditingProfilePicture, setIsEditingProfilePicture] = useState(false);
-  const [newProfilePictureUrl, setNewProfilePictureUrl] = useState('');
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+
+  // Update form state when userProfileData changes
+  useEffect(() => {
+    setFormState(userProfileData);
+  }, [userProfileData]);
 
   const handleChange = (
-    e: React.ChangeEvent<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
     if (type === 'checkbox') {
-      setFormState((prevState) => ({
+      setFormState(prevState => ({
         ...prevState,
-        [name]: checked,
+        [name]: (e.target as HTMLInputElement).checked,
       }));
     } else {
-      setFormState((prevState) => ({
+      setFormState(prevState => ({
         ...prevState,
         [name]: value,
       }));
@@ -49,421 +51,160 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
     setLoading(true);
     setError(null);
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/graphql';
+
+    // Only include fields that have values
+    const profileData = Object.entries(formState).reduce((acc, [key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        if (Array.isArray(value)) {
+          // Only include non-empty arrays
+          if (value.length > 0 && value.some(item => item.trim() !== '')) {
+            acc[key] = value.filter(item => item.trim() !== '');
+          }
+        } else if (typeof value === 'boolean') {
+          // Always include booleans
+          acc[key] = value;
+        } else if (typeof value === 'number') {
+          // Only include numbers that aren't 0
+          if (value !== 0) {
+            acc[key] = value;
+          }
+        } else if (typeof value === 'string' && value.trim() !== '') {
+          // Only include non-empty strings
+          acc[key] = value.trim();
+        }
+      }
+      return acc;
+    }, {} as Partial<typeof formState>);
+
     try {
-      // Simulate an API call with a timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Update the userProfileData with formState (in a real app, this would be saved to the backend)
-      // For now, we just display an alert
-      alert('Profile updated successfully!');
-      setLoading(false);
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          query: MUTATIONS.UPDATE_PROFILE,
+          variables: {
+            input: {
+              username: formState.username, // Required field
+              ...profileData,
+            },
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.errors) {
+        throw new Error(data.errors[0].message);
+      }
+
+      if (data.data?.updateProfile) {
+        setFormState({
+          ...formState,
+          ...data.data.updateProfile,
+        });
+        setIsEditingProfile(false);
+        alert('Profile updated successfully!');
+      }
     } catch (err) {
-      console.error(err);
+      console.error('Failed to update profile:', err);
       setError(err as Error);
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleUsernameEdit = () => {
-    setIsEditingUsername(true);
-  };
+  const renderProfileInfo = () => (
+    <>
+      <div className="user-profile-card-header">
+        <div className="relative w-32 h-32 mx-auto mb-4">
+          <Image
+            src={formState.shredProfile?.profile_picture || DEFAULT_PROFILE_PICTURE}
+            alt={`${formState.username}'s profile`}
+            width={300}
+            height={300}
+            className="rounded-full object-cover"
+          />
+        </div>
+        <h2 className="text-2xl font-bold mb-4">{formState.username}</h2>
+        {isOwner && (
+          <CButton
+            color="primary"
+            onClick={() => setIsEditingProfile(true)}
+            className="mb-4"
+          >
+            Edit Profile
+          </CButton>
+        )}
+      </div>
 
-  const handleUsernameSubmit = () => {
-    setIsEditingUsername(false);
-    // Here you would typically update the backend with the new username
-  };
+      {/* Profile Information */}
+      {Object.entries({
+        'Member Tier': formState.shredProfile?.member_tier,
+        'Preferred Sport': formState.shredProfile?.preferred_sport,
+        'Skill Level': formState.shredProfile?.skill_level,
+        'Years of Experience': formState.shredProfile?.years_experience,
+        'Favorite Resort': formState.shredProfile?.favorite_resort,
+        'Current Location': formState.shredProfile?.current_resort_location,
+        'Visited Resorts': formState.shredProfile?.visited_resorts?.join(', '),
+        'Preferred Terrain': formState.shredProfile?.preferred_terrain,
+        'Bio': formState.shredProfile?.bio,
+        'Interested in Competitions': formState.shredProfile?.interested_in_competitions ? 'Yes' : 'No',
+      }).map(([label, value]) =>
+        value && (
+            <p key={label} className="mb-2">
+              <strong>{label}:</strong> {value}
+            </p>
+        ),
+      )}
+    </>
+  );
 
-  const handleProfilePictureEdit = () => {
-    setIsEditingProfilePicture(true);
-  };
-
-  const handleProfilePictureSubmit = () => {
-    setIsEditingProfilePicture(false);
-    setFormState(prevState => ({
-      ...prevState,
-      profile_picture: newProfilePictureUrl,
-    }));
-    // Here you would typically update the backend with the new profile picture URL
-  };
-
-  const handleUpdateMembership = () => {
-    // Implement membership update logic here
-    alert('Redirecting to membership update page...');
-  };
-
-  if (isOwner) {
+  if (loading) {
     return (
-      <CContainer alignContent={'center'}>
+      <CContainer>
         <ResortsParallaxBackground />
         <div className="user-profile-card-wrap">
           <CCard className="user-profile-card">
-            <CCardBody>
-              <div className="user-profile-card-header">
-                <Image
-                  src={formState.profile_picture || ''}
-                  alt={`${formState.username}'s profile`}
-                  onClick={handleProfilePictureEdit}
-                  style={{ cursor: 'pointer' }}
-                  width={300}
-                  height={300}
-                />
-                {isEditingUsername ? (
-                  <CFormInput
-                    type="text"
-                    value={formState.username}
-                    onChange={(e) => setFormState(prevState => ({ ...prevState, username: e.target.value }))}
-                    onBlur={handleUsernameSubmit}
-                    autoFocus
-                  />
-                ) : (
-                  <h2 onClick={handleUsernameEdit} style={{ cursor: 'pointer' }}>{formState.username}</h2>
-                )}
+            <CCardBody className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+                <p>Loading profile...</p>
               </div>
-              <CForm onSubmit={handleSubmit}>
-                {/* Member Tier */}
-                <div className="d-flex align-items-center mb-3">
-                  <CFormInput
-                    label="Member Tier"
-                    name="member_tier"
-                    value={formState.member_tier || ''}
-                    readOnly
-                    className="me-2"
-                  />
-                  <CButton onClick={handleUpdateMembership}>Update Membership</CButton>
-                </div>
-
-                {/* Preferred Sport */}
-                <CFormSelect
-                  label="Preferred Sport"
-                  name="preferred_sport"
-                  value={formState.preferred_sport || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                >
-                  <option value="">Select Preferred Sport</option>
-                  <option value="skiing">Skiing</option>
-                  <option value="snowboarding">Snowboarding</option>
-                  <option value="both">Both</option>
-                  <option value="other">Other</option>
-                </CFormSelect>
-
-                {/* Skill Level */}
-                <CFormSelect
-                  label="Skill Level"
-                  name="skill_level"
-                  value={formState.skill_level || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                >
-                  <option value="">Select Skill Level</option>
-                  <option value="beginner">Beginner</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                  <option value="expert">Expert</option>
-                </CFormSelect>
-
-                {/* Years of Experience */}
-                <CFormInput
-                  type="number"
-                  label="Years of Experience"
-                  name="years_experience"
-                  value={formState.years_experience || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Favorite Resort */}
-                <CFormInput
-                  type="text"
-                  label="Favorite Resort"
-                  name="favorite_resort"
-                  value={formState.favorite_resort || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Current Resort Location */}
-                <CFormInput
-                  type="text"
-                  label="Current Resort Location"
-                  name="current_resort_location"
-                  value={formState.current_resort_location || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Visited Resorts */}
-                <CFormInput
-                  type="text"
-                  label="Visited Resorts (comma-separated)"
-                  name="visited_resorts"
-                  value={formState.visited_resorts?.join(', ') || ''}
-                  onChange={(e) => {
-                    setFormState((prevState) => ({
-                      ...prevState,
-                      visited_resorts: e.target.value.split(',').map((s) => s.trim()),
-                    }));
-                  }}
-                  className="mb-3"
-                />
-
-                {/* Preferred Terrain */}
-                <CFormSelect
-                  label="Preferred Terrain"
-                  name="preferred_terrain"
-                  value={formState.preferred_terrain || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                >
-                  <option value="">Select Preferred Terrain</option>
-                  <option value="groomed">Groomed</option>
-                  <option value="off-piste">Off-Piste</option>
-                  <option value="park">Park</option>
-                  <option value="half-pipe">Half-Pipe</option>
-                  <option value="tree-runs">Tree Runs</option>
-                  <option value="all">All</option>
-                </CFormSelect>
-
-                {/* Preferred Resort Type */}
-                <CFormSelect
-                  label="Preferred Resort Type"
-                  name="preferred_resort_type"
-                  value={formState.preferred_resort_type || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                >
-                  <option value="">Select Preferred Resort Type</option>
-                  <option value="family">Family</option>
-                  <option value="seasonal_worker">Seasonal Worker</option>
-                  <option value="hardcore">Hardcore</option>
-                  <option value="helicopter">Helicopter</option>
-                  <option value="ski-bum">Ski Bum</option>
-                  <option value="average-joe">Average Joe</option>
-                  <option value="racer">Racer</option>
-                  <option value="moguls">Moguls</option>
-                  <option value="freestyle">Freestyle</option>
-                </CFormSelect>
-
-                {/* Equipment Brand */}
-                <CFormInput
-                  type="text"
-                  label="Equipment Brand"
-                  name="equipment_brand"
-                  value={formState.equipment_brand || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Owns Equipment */}
-                <CFormCheck
-                  type="checkbox"
-                  label="Owns Equipment"
-                  name="owns_equipment"
-                  checked={formState.owns_equipment || false}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Season Pass Type */}
-                <CFormInput
-                  type="text"
-                  label="Season Pass Type"
-                  name="season_pass_type"
-                  value={formState.season_pass_type || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Emergency Contact Name */}
-                <CFormInput
-                  type="text"
-                  label="Emergency Contact Name"
-                  name="emergency_contact_name"
-                  value={formState.emergency_contact_name || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Emergency Contact Phone */}
-                <CFormInput
-                  type="text"
-                  label="Emergency Contact Phone"
-                  name="emergency_contact_phone"
-                  value={formState.emergency_contact_phone || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Bio */}
-                <CFormTextarea
-                  label="Bio"
-                  name="bio"
-                  value={formState.bio || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Profile Picture */}
-                <CFormInput
-                  type="text"
-                  label="Profile Picture URL"
-                  name="profile_picture"
-                  value={formState.profile_picture || ''}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Preferred Lessons */}
-                <CFormInput
-                  type="text"
-                  label="Preferred Lessons (comma-separated)"
-                  name="preferred_lessons"
-                  value={formState.preferred_lessons?.join(', ') || ''}
-                  onChange={(e) => {
-                    setFormState((prevState) => ({
-                      ...prevState,
-                      preferred_lessons: e.target.value.split(',').map((s) => s.trim()),
-                    }));
-                  }}
-                  className="mb-3"
-                />
-
-                {/* Interested in Competitions */}
-                <CFormCheck
-                  type="checkbox"
-                  label="Interested in Competitions"
-                  name="interested_in_competitions"
-                  checked={formState.interested_in_competitions || false}
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-
-                {/* Achievements */}
-                <CFormInput
-                  type="text"
-                  label="Achievements (comma-separated)"
-                  name="achievements"
-                  value={formState.achievements?.join(', ') || ''}
-                  onChange={(e) => {
-                    setFormState((prevState) => ({
-                      ...prevState,
-                      achievements: e.target.value.split(',').map((s) => s.trim()),
-                    }));
-                  }}
-                  className="mb-3"
-                />
-
-                <CButton type="submit" color="primary" disabled={loading}>
-                  {loading ? 'Saving...' : 'Save Changes'}
-                </CButton>
-                {error && (
-                  <p style={{ color: 'red' }}>An error occurred: {error.message}</p>
-                )}
-              </CForm>
-            </CCardBody>
-          </CCard>
-        </div>
-
-        {/* Modal for editing profile picture */}
-        <CModal visible={isEditingProfilePicture} onClose={() => setIsEditingProfilePicture(false)}>
-          <CModalHeader closeButton>Update Profile Picture</CModalHeader>
-          <CModalBody>
-            <CFormInput
-              type="text"
-              label="New Profile Picture URL"
-              value={newProfilePictureUrl}
-              onChange={(e) => setNewProfilePictureUrl(e.target.value)}
-            />
-            {/* You can add file upload functionality here */}
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" onClick={() => setIsEditingProfilePicture(false)}>
-              Cancel
-            </CButton>
-            <CButton color="primary" onClick={handleProfilePictureSubmit}>
-              Update
-            </CButton>
-          </CModalFooter>
-        </CModal>
-      </CContainer>
-    );
-  } else {
-    return (
-      <CContainer>
-        <ResortsParallaxBackground/>
-        <div className="user-profile-card-wrap">
-          <CCard className="user-profile-card">
-            <CCardBody>
-              <div className="user-profile-card-header">
-                <Image
-                  src={userProfileData?.profile_picture || ''}
-                  alt={`${userProfileData.username}'s profile`}
-                  width={300}
-                  height={300}
-                />
-                <h2>{userProfileData.username}</h2>
-              </div>
-              <p>
-                <strong>Member Tier:</strong> {userProfileData.member_tier}
-              </p>
-              <p>
-                <strong>Preferred Sport:</strong> {userProfileData.preferred_sport}
-              </p>
-              <p>
-                <strong>Skill Level:</strong> {userProfileData.skill_level}
-              </p>
-              <p>
-                <strong>Years of Experience:</strong> {userProfileData.years_experience}
-              </p>
-              <p>
-                <strong>Favorite Resort:</strong> {userProfileData.favorite_resort}
-              </p>
-              <p>
-                <strong>Current Resort Location:</strong>{' '}
-                {userProfileData.current_resort_location}
-              </p>
-              <p>
-                <strong>Visited Resorts:</strong>{' '}
-                {userProfileData.visited_resorts?.join(', ')}
-              </p>
-              <p>
-                <strong>Preferred Terrain:</strong> {userProfileData.preferred_terrain}
-              </p>
-              <p>
-                <strong>Preferred Resort Type:</strong>{' '}
-                {userProfileData.preferred_resort_type}
-              </p>
-              <p>
-                <strong>Equipment Brand:</strong> {userProfileData.equipment_brand}
-              </p>
-              <p>
-                <strong>Owns Equipment:</strong>{' '}
-                {userProfileData.owns_equipment ? 'Yes' : 'No'}
-              </p>
-              <p>
-                <strong>Season Pass Type:</strong> {userProfileData.season_pass_type}
-              </p>
-              <p>
-                <strong>Bio:</strong> {userProfileData.bio}
-              </p>
-              <p>
-                <strong>Preferred Lessons:</strong>{' '}
-                {userProfileData.preferred_lessons?.join(', ')}
-              </p>
-              <p>
-                <strong>Interested in Competitions:</strong>{' '}
-                {userProfileData.interested_in_competitions ? 'Yes' : 'No'}
-              </p>
-              <p>
-                <strong>Achievements:</strong>{' '}
-                {userProfileData.achievements?.join(', ')}
-              </p>
-              {/* Note: Do not display emergency contact info or other sensitive data */}
             </CCardBody>
           </CCard>
         </div>
       </CContainer>
     );
   }
+
+  return (
+    <CContainer>
+      <ResortsParallaxBackground />
+      <div className="user-profile-card-wrap">
+        <CCard className="user-profile-card">
+          <CCardBody>
+            {renderProfileInfo()}
+          </CCardBody>
+        </CCard>
+      </div>
+
+      {isOwner && (
+        <EditProfileModal
+          visible={isEditingProfile}
+          onClose={() => setIsEditingProfile(false)}
+          formState={formState}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          loading={loading}
+          error={error}
+        />
+      )}
+    </CContainer>
+  );
 };
 
 export default UserProfile;

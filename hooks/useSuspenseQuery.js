@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import { useMemo } from 'react';
-import suspenseQuery from '../utility/suspense-query';
+import suspenseQuery from '../utils/suspense-query';
 
 /**
  * A helpful hook suggested by https://isamatov.com/react-suspense-graphql-hooks/
