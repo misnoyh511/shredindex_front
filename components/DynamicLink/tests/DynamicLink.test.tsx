@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/client/testing';
-import queryCMSPage from '../../../utility/query-cms-page';
+import queryCMSPage from '../../../utils/query-cms-page';
 import DynamicLink from '../DynamicLink';
 
 const mocks = {

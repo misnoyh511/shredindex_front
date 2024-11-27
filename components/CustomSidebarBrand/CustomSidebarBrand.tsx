@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
-import queryCMSPage from '../../utility/query-cms-page';
+import queryCMSPage from '../../utils/query-cms-page';
 
 interface CustomSidebarBrandProps {
   className?: string;

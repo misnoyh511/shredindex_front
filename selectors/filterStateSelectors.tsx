@@ -1,6 +1,6 @@
 import { selector, useRecoilValue } from 'recoil';
 import { currentFilterState, currentOrderByState } from '../atoms/filterState';
-import {convertToLabel} from "../utility/helperFunctions";
+import {convertToLabel} from "../utils/helperFunctions";
 
 // Selector to get active filter type names
 export const activeFilterTypesSelector = selector({

@@ -1,5 +1,5 @@
 import React from 'react';
-import isNumber from '../../utility/helperFunctions';
+import isNumber from '../../utils/helperFunctions';
 import { TypeIcon } from '@/Icons/TypeIcon';
 
 interface RatingProps {
