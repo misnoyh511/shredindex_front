@@ -36,7 +36,7 @@ const ResortCardError = ({
             <FormattedMessage id={suggestionId} defaultMessage={suggestion} />
           </p>
           <div className="d-flex flex-row">
-            <CButton href="/" className="me-2 w-100">Go To Home</CButton>
+            <CButton variant="outline" color="primary" href="/" className="me-2 w-100">Go To Home</CButton>
             <CButton href="resorts" color="warning" className="w-100">Reset Filters</CButton>
           </div>
         </div>

@@ -1,3 +1,11 @@
+.filter-menu-wrap {
+  border-bottom: 1px solid $gray-400;
+
+  @include media-breakpoint-up(md) {
+    border-bottom: none;
+  }
+}
+
 .filter-menu {
   width: 100%;
   margin: auto;
@@ -27,7 +35,5 @@
 }
 
 .filter-menu__show-filters-tray {
-  @include media-breakpoint-up(md) {
-    min-width: 100px;
-  }
+
 }

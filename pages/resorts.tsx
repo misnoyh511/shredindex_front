@@ -12,11 +12,11 @@ const Resorts: React.FC = () => {
   const activeFilterCount = formData.groupedType?.filter(filter => filter.toggleOn).length || 0;
 
   return (
-    <CContainer>
-      <div className="resorts mt-4">
+    <CContainer fluid>
+      <div className="resorts mt-1">
         <div className="ranked-resort-list row">
           <ResortsParallaxBackground/>
-          <div className="ranked-resort-list__filters-wrap col-sm-12 w-100">
+          <div className="ranked-resort-list__filters-wrap p-0 w-100">
             <RankedResortFilterMenu
               filterQuantity={activeFilterCount}
             />

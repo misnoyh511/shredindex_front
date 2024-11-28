@@ -25,50 +25,53 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
   const isMobile = width < breakpoints.md;
 
   return (
-    <>
-      <div className="filter-menu d-flex flex-row align-items-center gap-2">
+    <div className="filter-menu-wrap mb-3">
+      <div className="filter-menu d-flex flex-row align-items-center gap-2 pe-2">
         <div className="w-100">
           <LifestyleFilterBar/>
         </div>
-        <CButton
-          // variant="outline"
-          color="primary"
-          size={isMobile && 'sm'}
-          aria-roledescription={(
-            <FormattedMessage
-              id="shredindex.filter.SHOW_FILTERS_TRAY"
-              defaultMessage="Show filters tray"
-            />
-          ).toString()}
-          className="filter-menu__show-filters-tray position-relative "
-          onClick={() => setShowFilterTray(true)}
-        >
-          {filterQuantity >= 1 && (
-            <CBadge id="filterQuanitity" position="top-end" shape="rounded-pill" color="secondary">
-              {filterQuantity}
-            </CBadge>
-          )}
-          <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap small">
-            <SvgIcon svgContent={filtersGoggles} size="2.2rem"/>
-            &nbsp;
-            <FormattedMessage
-              id="shredindex.filter.FILTERS"
-              defaultMessage="Filters"
-            />
-          </div>
-        </CButton>
+        {/*{!isMobile && (*/}
+          <CButton
+            // variant="outline"
+            color="secondary"
+            variant="outline"
+            size={isMobile && 'sm'}
+            aria-roledescription={(
+              <FormattedMessage
+                id="shredindex.filter.SHOW_FILTERS_TRAY"
+                defaultMessage="Show filters tray"
+              />
+            ).toString()}
+            className="filter-menu__show-filters-tray position-relative text-light"
+            onClick={() => setShowFilterTray(true)}
+          >
+            {filterQuantity >= 1 && (
+              <CBadge id="filterQuanitity" position="top-end" shape="rounded-pill" color="secondary">
+                {filterQuantity}
+              </CBadge>
+            )}
+            <div className="d-flex align-items-center align-content-center justify-content-center gap-1 flex-wrap small">
+              <SvgIcon svgContent={filtersGoggles} size="2.2rem"/>
+              &nbsp;
+              <FormattedMessage
+                id="shredindex.filter.FILTERS"
+                defaultMessage="Filters"
+              />
+            </div>
+          </CButton>
+        {/*)}*/}
         <RankedResortLocationTray/>
         <RankedResortFilterTray/>
         <RankedResortLifeStyleTray/>
       </div>
-      <div className="lifestyle-filter__description mb-4">
+      <div className="lifestyle-filter__description mb-3">
         <div className="generic-description fw-light small text-md-center text-center">
           <CBadge color="dark" size={isMobile && 'sm'} className={'small fw-light'}>
             <TypeDescription className={'small fw-light'} label={currentFilter?.type_name || 'total_score'}/>
           </CBadge>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

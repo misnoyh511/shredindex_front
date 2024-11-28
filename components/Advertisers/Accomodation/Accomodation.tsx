@@ -37,7 +37,7 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
   // Sticky footer with improved layout
   const StickyFooter = () => (
     <div
-      className={`position-fixed bottom-0 start-0 w-100 bg-dark text-white p-3 ${
+      className={`accomodation-wrap position-fixed bottom-0 start-0 w-100 text-white p-3 ${
         (!isMobile && !isSticky) ? 'd-none' : ''
       }`}
       style={{
@@ -47,20 +47,21 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
       }}
     >
       <div className="container">
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center gap-2">
           <div className="d-flex flex-column" style={{ maxWidth: '60%' }}>
-            <h4 className="h5 fw-bold mb-1">{isMobile ? 'Find Accom' : 'Find Your Perfect Stay'}</h4>
+            <h4 className="h5 fw-bold mb-1">{isMobile ? 'Accomodation' : 'Find Your Perfect Stay'}</h4>
             <span className="text-white-50 small">Multiple locations near slopes</span>
           </div>
           <CButton
             color="primary"
+            shape="rounded-pill"
             className="px-3"
             href={affiliateUrl}
             target="_blank"
-            size={isMobile && 'lg'}
+            size={'lg'}
             style={{
               border: 'none',
-              minWidth: '188px',
+              minWidth: !isMobile ? '188px' : '140px',
             }}
           >
             {isMobile ? 'Reserve' : 'View Available Properties'}

@@ -14,6 +14,7 @@ const ResortCardCommentCarousel: React.FC<ResortCardCommentCarouselProps> = ({ c
     ...flickityOptions,
     prevNextButtons: comments.length > 1,
     pageDots: comments.length > 1,
+    adaptiveHeight: true,
   };
 
   if (comments.length === 0) {

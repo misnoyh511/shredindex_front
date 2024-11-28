@@ -3,6 +3,10 @@
 }
 
 .header {
+  border-bottom: none;
+  @include media-breakpoint-up(md) {
+    border-bottom: 1px solid $gray-500;
+  }
   &__toggler {
     &--placeholder {
       opacity: 0.2;

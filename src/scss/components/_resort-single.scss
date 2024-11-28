@@ -1,5 +1,11 @@
 // Resort Single Component Styles
+@import "../darktheme";
+
 .resort-single {
+
+  & .accomodation-wrap {
+    background-color: $gray-400 !important;
+  }
 
   & .rating--total-rating {
     height: 2.8rem !important;
