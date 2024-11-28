@@ -8,24 +8,47 @@ interface ResortCommentsProps {
 }
 
 const ResortComments: React.FC<ResortCommentsProps> = ({ comments }) => {
-  if (comments && comments?.length < 1) {
+  const commentsId = 'resort-comments-section';
+
+  if (!comments?.length) {
     return (
-      <span className="resort-card__small-label d-block mb-4 user-select-none mb-2">
-        <FormattedMessage
-          id="shredindex.commentcard.RESORT_HAS_NO_COMMENTS"
-          defaultMessage="Resort has no comments"
-        />
-      </span>
+      <section
+        aria-label="Resort comments"
+        className="resort-comments-empty"
+      >
+        <p
+          className="resort-card__small-label d-block mb-4 user-select-none mb-2"
+          role="status"
+          aria-live="polite"
+        >
+          <FormattedMessage
+            id="shredindex.commentcard.RESORT_HAS_NO_COMMENTS"
+            defaultMessage="Resort has no comments"
+          />
+        </p>
+      </section>
     );
   }
 
   return (
-    <div className="resort-comments">
-      <h3 className="resort-single-card-heading user-select-none">
-        <FormattedMessage id="shredindex.commentcard.COMMENTS" defaultMessage="Comments" />
-      </h3>
-      <ResortCardCommentCarousel comments={comments} />
-    </div>
+    <section
+      className="resort-comments"
+      aria-labelledby={commentsId}
+    >
+      <h2
+        id={commentsId}
+        className="resort-single-card-heading user-select-none"
+      >
+        <FormattedMessage
+          id="shredindex.commentcard.COMMENTS"
+          defaultMessage="Comments"
+        />
+      </h2>
+      <ResortCardCommentCarousel
+        comments={comments}
+        aria-label="Resort visitor comments carousel"
+      />
+    </section>
   );
 };
 

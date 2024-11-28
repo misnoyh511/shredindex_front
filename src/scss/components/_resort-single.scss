@@ -4,7 +4,7 @@
 .resort-single {
 
   & .accomodation-wrap {
-    background-color: $gray-400 !important;
+    background: linear-gradient(map-get($dark-gradient, "start"), map-get($dark-gradient, "stop")) !important;
   }
 
   & .rating--total-rating {

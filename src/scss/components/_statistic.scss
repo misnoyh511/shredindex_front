@@ -26,6 +26,7 @@ $sub-rating-border: $sub-rating-line-width solid;
   }
 
   &__title {
+    margin-bottom: .2rem;
     position: relative;
     line-height: 1;
     font-weight: 400;

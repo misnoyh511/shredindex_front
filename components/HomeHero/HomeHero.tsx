@@ -12,41 +12,74 @@ const HomeHero = () => {
   const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
 
   return (
-    <div className="hero">
-      <div className="hero__image">
+    <section
+      className="hero"
+      role="banner"
+      aria-labelledby="hero-heading"
+    >
+      <div
+        className="hero__image"
+        role="presentation"
+        aria-hidden="true"
+      >
         <div className="hero__svg hero__svg--desktop">
           <HeroDesktop
-            priority={true}
+            aria-hidden="true"
+            alt=""
           />
         </div>
         <div className="hero__svg hero__svg--tablet">
-          <HeroTablet/>
+          <HeroTablet
+            aria-hidden="true"
+            alt=""
+          />
         </div>
         <div className="hero__svg hero__svg--mobile">
-          <HeroMobile/>
+          <HeroMobile
+            aria-hidden="true"
+            alt=""
+          />
         </div>
       </div>
-      <div className="hero__heading">
-        <h1>
+      <div
+        className="hero__heading"
+        role="presentation"
+      >
+        <h1 id="hero-heading">
           <FormattedMessage
             id="shredindex.app.SUBTITLE"
             defaultMessage="Live your best adventure lifestyle."
           />
         </h1>
-        <div className="button-group d-flex align-items-start flex-wrap gap-3">
+        <nav
+          className="button-group d-flex align-items-start flex-wrap gap-3"
+          aria-label="Primary actions"
+        >
           <Link
             href="resorts"
+            className="d-inline-block"
+            aria-label="Explore resorts"
           >
-            <CButton className="p-2 pe-4 ps-4" color="secondary">Explore resorts</CButton>
+            <CButton
+              className="p-2 pe-4 ps-4"
+              color="secondary"
+            >
+              Explore resorts
+            </CButton>
           </Link>
           <CButton
             className="p-2 pe-4 ps-4"
             color="warning"
             onClick={() => setMembershipVisible(!membershipVisible)}
-          >Become a member</CButton>
-        </div>
+            aria-expanded={membershipVisible}
+            aria-controls="membership-tray"
+            aria-label="Toggle membership information"
+          >
+            Become a member
+          </CButton>
+        </nav>
       </div>
-    </div>
+    </section>
   );
 };
 

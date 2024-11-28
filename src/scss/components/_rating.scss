@@ -247,6 +247,7 @@ $sub-rating-border: $sub-rating-line-width solid;
       }
 
       &__title {
+        margin-bottom: .2rem;
         font-family: $headings-font-family;
         font-size: 1.1875rem;
         font-weight: bold;

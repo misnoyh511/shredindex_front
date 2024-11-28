@@ -36,7 +36,7 @@ const ResortRatings: React.FC <Score[]> = ({ ratings }) => {
             id, title, name, value,
           }) => (
             <div key={id} className="rating-item">
-              <Rating title={title} rating={value} name={name}/>
+              <Rating title={title} rating={value} name={name} headingLevel="h3"/>
               <div className="generic-description fw-light small mt-2 text-muted">
                 <TypeDescription label={name}/>.
               </div>
