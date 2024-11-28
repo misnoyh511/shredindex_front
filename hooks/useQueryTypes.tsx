@@ -40,8 +40,8 @@ const useQueryTypes = () => {
       filters: category === 'Generic'
         ? [{ type_name: item.name, operator: '=', value: existingGroup?.filters[0]?.value || 'no' }]
         : [
-          { type_name: item.name, operator: '>', value: existingGroup?.filters[0]?.value || '0' },
-          { type_name: item.name, operator: '<', value: existingGroup?.filters[1]?.value || (category === 'Numeric' ? (item.max_value?.toString() || '100') : '100') },
+          { type_name: item.name, operator: '>=', value: existingGroup?.filters[0]?.value || '0' },
+          { type_name: item.name, operator: '<=', value: existingGroup?.filters[1]?.value || (category === 'Numeric' ? (item.max_value?.toString() || '100') : '100') },
         ],
     };
 
