@@ -15,7 +15,9 @@ const HomeHero = () => {
     <div className="hero">
       <div className="hero__image">
         <div className="hero__svg hero__svg--desktop">
-          <HeroDesktop/>
+          <HeroDesktop
+            priority={true}
+          />
         </div>
         <div className="hero__svg hero__svg--tablet">
           <HeroTablet/>

@@ -28,6 +28,7 @@ const LifestyleFilterBar: React.FC = () => {
     prevNextButtons: isMobile ? false : true,
     pageDots: false,
     wrapAround: false,
+    cellAlign: isMobile ? 'left' : 'center',
     dragThreshold: 30,
     selectedAttraction: 0.01,
     freeScroll: true,

@@ -3,14 +3,63 @@ import React from 'react';
 
 const Document = () => {
   return (
-    <Html>
+    <Html lang="en">
       <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
+        {/* Preload fonts with highest priority */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700;800;900&family=Roboto:wght@100;300;500;700;900&family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+          as="style"
+          crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+          as="style"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+          as="style"
+          crossOrigin="anonymous"
+        />
+
+        {/* Establish early connections */}
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* Load actual font styles */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+          rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+          rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'"
+        />
+
+        {/* Meta tags for performance */}
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta httpEquiv="x-dns-prefetch-control" content="on"/>
       </Head>
       <body>
       <Main/>

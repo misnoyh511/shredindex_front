@@ -71,36 +71,33 @@ export interface IconSpriteQuery {
 export const OrderBySortedLifeStyles = [
   // Very High Priority
   'skiable_terrain',          // Total skiable area
-  'extreme_terrain',          // Extreme skiing opportunities
+  'expert_terrain_score',    // Quality of expert terrain
+  'beginner_terrain_score',  // Quality of beginner terrain
   'snow_quality',             // Quality of snow conditions
-  'helicopter',               // Helicopter skiing access
+  // 'helicopter',               // Helicopter skiing access
 
   // High Priority
-  'seasonal_worker',          // Seasonal employment opportunities
+  'elevation_peak',          // Peak elevation
   'family_friendly',          // Family-friendly amenities
+  'seasonal_worker',          // Seasonal employment opportunities
+  'uncrowded',               // Lower crowd levels
   'affordability',            // Cost-effectiveness
   'backcountry',             // Backcountry access
   'fresh_tracks',            // Access to untracked snow
-  'uncrowded',               // Lower crowd levels
-  'expert_terrain_score',    // Quality of expert terrain
   'terrain_park',            // Terrain park facilities
-  'co-working',              // Co-working facilities
-  'average_annual_snowfall', // Annual snowfall amount
-  'elevation_peak',          // Peak elevation
+  // 'co-working',              // Co-working facilities
+  // 'average_annual_snowfall', // Annual snowfall amount
   'number_of_lifts',         // Number of operational lifts
   'total_runs_distance',     // Total distance of all runs
   'vertical_drop',           // Vertical drop
-  'beginner_terrain_score',  // Quality of beginner terrain
   'cultural_experience',     // Cultural experience opportunities
-  'sand_skiing',             // Sand skiing opportunities
+  // 'sand_skiing',             // Sand skiing opportunities
 
   // Medium Priority
   'slackcountry',            // Side-country access
   'nearby_sled_/_snowmobile_access', // Snowmobile accessibility
   'ski-in_ski-out',          // Ski-in/ski-out access
   'housing_availability',     // Housing options
-  'summer_activities',        // Summer activity options
-  'english_level',           // English language prevalence
   'apres',                   // After-ski activities
   'night_life',              // Nightlife options
   'longest_run',             // Length of longest run
@@ -111,6 +108,8 @@ export const OrderBySortedLifeStyles = [
   'tree_skiing',            // Tree skiing opportunities
 
   // Low Priority
+  'connectivity',            // Internet connectivity
+  'summer_activities',        // Summer activity options
   'money_saving_potential',   // Potential for saving money
   'avalanche_safety',        // Avalanche safety measures
   'lift_access',             // Lift accessibility
@@ -120,29 +119,19 @@ export const OrderBySortedLifeStyles = [
   'lgbt_friendly',           // LGBT-friendliness
   'positive_vibes',          // General atmosphere
   'camper_friendly',         // Camping facilities
-  'connectivity',            // Internet connectivity
   'number_of_runs',          // Number of runs
-  'terrain_expert',          // Expert terrain availability
-  'terrain_intermediate',    // Intermediate terrain
-  'terrain_beginner',        // Beginner terrain
-  'dry_slope',              // Dry slope facilities
-  'snow_making',            // Snow-making capabilities
   'customer_service',        // Quality of customer service
   'day_care',               // Day care facilities
 
   // Very Low Priority
-  'cannabis_friendly',        // Cannabis accessibility
+  'english_level',           // English language prevalence
+  'snow_making',            // Snow-making capabilities
   'international_ratio',      // International visitor ratio
   'gender_ratio',            // Gender balance
   'navigation_signage',      // Quality of signage
   'parking_accessibility',    // Parking facilities
+  'cannabis_friendly',        // Cannabis accessibility
 
-  // Not Rated or Missing Data
-  'indoor',                  // Indoor facilities
-  'cross_country_skiing',    // Cross-country skiing
-  'night_skiing',            // Night skiing availability
-  'skiable_terrain_(night)', // Night skiing area
-  'snowmaking'              // Snow-making capabilities
 ] as const;
 
 export const ResortTypeFilters = [
