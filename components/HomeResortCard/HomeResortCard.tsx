@@ -48,7 +48,7 @@ const HomeResortCard: React.FC<HomeResortCardProps> = ({ resortData }) => {
         <CCardHeader className="resort-card__header-wrap pb-0">
           <CLink className="resort-card__affiliate-link link-unstyled" rel="noreferrer noopener" target="_blank"
                  href={affiliate_url}>
-            <ResortCardHeader title={title} totalScore={totalScoreForHeader} />
+            <ResortCardHeader title={title} totalScore={totalScoreForHeader} headingLevel="h2" />
           </CLink>
         </CCardHeader>
         <CCardBody className="resort-card__body-wrap pt-0 pb-0">

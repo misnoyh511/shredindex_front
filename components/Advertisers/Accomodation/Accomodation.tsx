@@ -14,6 +14,7 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
   const [isSticky, setIsSticky] = useState(false);
   const { width } = useWindowDimensions();
   const isMobile = width < breakpoints.md;
+  const accommodationId = 'accommodation-section';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +25,7 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
 
     if (!isMobile) {
       window.addEventListener('scroll', handleScroll);
-      handleScroll(); // Initial check
+      handleScroll();
     }
 
     return () => {
@@ -34,22 +35,25 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
     };
   }, [isMobile]);
 
-  // Sticky footer with improved layout
   const StickyFooter = () => (
     <div
+      role="complementary"
+      aria-label="Quick accommodation booking"
       className={`accomodation-wrap position-fixed bottom-0 start-0 w-100 text-white p-3 ${
         (!isMobile && !isSticky) ? 'd-none' : ''
       }`}
       style={{
         zIndex: 1000,
-        background: 'rgba(44, 56, 74, 0.95)', // CoreUI dark color with opacity
+        background: 'rgba(44, 56, 74, 0.95)',
         backdropFilter: 'blur(8px)',
       }}
     >
       <div className="container">
         <div className="d-flex justify-content-between align-items-center gap-2">
           <div className="d-flex flex-column" style={{ maxWidth: '60%' }}>
-            <h4 className="h5 fw-bold mb-1">{isMobile ? 'Accomodation' : 'Find Your Perfect Stay'}</h4>
+            <h2 className="h5 fw-bold mb-1">
+              {isMobile ? 'Accommodation' : 'Find Your Perfect Stay'}
+            </h2>
             <span className="text-white-50 small">Multiple locations near slopes</span>
           </div>
           <CButton
@@ -58,14 +62,18 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
             className="px-3"
             href={affiliateUrl}
             target="_blank"
+            rel="sponsored noopener noreferrer"
             size={'lg'}
             style={{
               border: 'none',
               minWidth: !isMobile ? '188px' : '140px',
             }}
+            aria-label="View available properties on booking platform (opens in new tab)"
           >
-            {isMobile ? 'Reserve' : 'View Available Properties'}
-            <CIcon icon={cilExternalLink} className="ms-2 w-4 h-4"/>
+            <span className="me-2">
+            {isMobile ? 'View' : 'View Available Properties'}
+            </span>
+            <CIcon icon={cilExternalLink} className="w-4 h-4" aria-hidden="true"/>
           </CButton>
         </div>
       </div>
@@ -73,48 +81,70 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
   );
 
   return (
-    <>
-      <h3 className="resort-single-card-heading user-select-none">
+    <section
+      aria-labelledby={accommodationId}
+      className="accommodation-section"
+    >
+      <h2
+        id={accommodationId}
+        className="resort-single-card-heading user-select-none"
+      >
         <FormattedMessage id="shredindex.resort.ACCOMMODATION" defaultMessage="Accommodation" />
-      </h3>
+      </h2>
       <CCard className="resort-single__accomodation resort__accomodation-card mb-4">
         <CCardBody>
-          <Link href={affiliateUrl || ''} target="_blank">
+          <Link
+            href={affiliateUrl || '#'}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            aria-label="View accommodation photos and details (opens in new tab)"
+          >
             <Image
               className="carousel__image-item border-radius-medium position-relative"
               src={LuxuryAccomodation}
-              alt="Accommodation image"
+              alt="Preview of available accommodation options"
               layout="fill"
               objectFit="fill"
+              priority
             />
           </Link>
-          &nbsp;
           <div>
             <div className="d-flex justify-content-between align-items-start mb-2 flex-column">
-              <h4 className="fw-bold mb-2">Find Your Perfect Stay</h4>
-              <ul className="p-0 small fw-lighter mb-2">
+              <h3 className="fw-bold mb-2 h4 pt-3">Find Your Perfect Stay</h3>
+              <ul
+                className="p-0 small fw-lighter mb-2"
+                aria-label="Accommodation features"
+              >
                 <li className="d-flex align-items-center gap-2">
-                  <CIcon icon={cilUser} className="w-4 h-4"/>
+                  <CIcon icon={cilUser} className="w-4 h-4" aria-hidden="true"/>
                   <span>Various room types available</span>
                 </li>
                 <li className="d-flex align-items-center gap-2">
-                  <CIcon icon={cilMap} className="w-4 h-4"/>
+                  <CIcon icon={cilMap} className="w-4 h-4" aria-hidden="true"/>
                   <span>Multiple locations near slopes</span>
                 </li>
               </ul>
             </div>
-            <CButton color="primary" href={affiliateUrl} className="w-100 mt-2" target="_blank">
-              View Available Properties <CIcon icon={cilExternalLink} className="w-4 h-4"/>
+            <CButton
+              color="primary"
+              href={affiliateUrl}
+              className="w-100 mt-2"
+              target="_blank"
+              rel="sponsored noopener noreferrer"
+              aria-label="View available properties on booking platform (opens in new tab)"
+            >
+              View Available Properties
+              <CIcon icon={cilExternalLink} className="ms-2 w-4 h-4" aria-hidden="true"/>
             </CButton>
-            <p className="small fw-lighter text-center mt-2 text-muted">
-              You&apos;ll be redirected to Booking.com or Trip.com to complete your reservation
+            <p className="small fw-lighter text-center mt-2 text-muted" role="note">
+              You&apos;ll be redirected to Booking.com or Expedia.com to complete your reservation
             </p>
           </div>
         </CCardBody>
       </CCard>
       <StickyFooter />
-      {isMobile && <div className="pb-5" />}
-    </>
+      {isMobile && <div className="pb-5" aria-hidden="true" />}
+    </section>
   );
 };
 

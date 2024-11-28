@@ -46,7 +46,7 @@ const RatingList: React.FC<RatingListProps> = ({
             value,
           }) => (
             <div key={id} className="rating-list__rating mb-3 me-1">
-              <Rating name={name} title={title} rating={value} />
+              <Rating name={name} title={title} rating={value} headingLevel="h3" />
             </div>
           ))}
         </div>

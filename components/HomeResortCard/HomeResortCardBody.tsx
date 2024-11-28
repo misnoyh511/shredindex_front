@@ -11,8 +11,12 @@ interface HomeResortCardBodyProps {
   collapsed: boolean;
 }
 
-const isDifferentRatings = (a: Score[], b: Score[]): boolean =>
-  !a.every(({ id }) => b.some((i) => i.id === id));
+const hasDistinctRatings = (highlights: Score[], lowlights: Score[]): boolean => {
+  const highlightIds = new Set(highlights.map(h => h.id));
+  const lowlightIds = new Set(lowlights.map(l => l.id));
+  const overlap = [...highlightIds].filter(id => lowlightIds.has(id)).length;
+  return overlap < Math.min(highlights.length, lowlights.length) / 2;
+};
 
 const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
   resort: {
@@ -70,7 +74,7 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
       )}
     </div>
     <div className="resort-card__content-home mb-2 d-flex gap-2">
-      {isDifferentRatings(highlights, lowlights)
+      {hasDistinctRatings(highlights, lowlights)
         ? (
           <RatingList
             labelMessageId="shredindex.ratinglist.HIGHLIGHTS"
@@ -87,7 +91,7 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
             affiliateUrl={affiliate_url}
           />
         )}
-      {isDifferentRatings(highlights, lowlights) && (
+      {hasDistinctRatings(highlights, lowlights) && (
         <RatingList
           labelMessageId="shredindex.ratinglist.LOWLIGHTS"
           label="Lowlights"
