@@ -42,21 +42,13 @@ const Statistic: React.FC<StatisticProps> = ({
         aria-labelledby={statisticId}
       >
         <div className="d-flex statistic__number-bar-wrap justify-content-between">
-          <div className="statistic__number-border">
-            <div className="statistic__border--100 statistic__icon-wrap me-2">
-              <span
-                className={`user-select-none ${isMax ? 'statistic__is-100' : ''}`}
-                aria-hidden="true"
-              >
-                <TypeIcon
-                  className="statistic__icon"
-                  typeName={name}
-                  size={'2rem'}
-                />
-              </span>
-            </div>
+          <div className="statistic__border--100 statistic__icon-wrap me-2 user-select-none">
+            <TypeIcon
+              className="statistic__icon"
+              typeName={name}
+              size={'2rem'}
+            />
           </div>
-
           <div
             className="d-flex align-items-end"
             aria-label={`${statistic}${unit ? ` ${unit}` : ''}`}
