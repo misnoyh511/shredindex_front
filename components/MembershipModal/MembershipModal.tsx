@@ -6,7 +6,6 @@ import {
 } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { showMembershipTray } from '../../atoms/showMembershipTray';
-import { loggedInUserProfile } from '../../atoms/userProfile';
 import useWindowDimensions from '../../hooks/getWindowDimensions';
 import breakpoints from '@/js/components/config/breakpoints';
 import { loadStripe } from '@stripe/stripe-js';
@@ -14,7 +13,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { stripePublishableKey } from '../../stripeConfig';
 import MembershipForm from '@/MembershipModal/MembershipForm';
 import { showLoginTray } from '../../atoms/showLoginTray';
-import { postLoginAction } from '../../atoms/authAtoms';
+import { postLoginAction, userState } from '../../atoms/authAtoms';
 
 // Load your Stripe publishable key
 const stripePromise = loadStripe(stripePublishableKey);
@@ -25,7 +24,7 @@ const MembershipModal: React.FC = () => {
   const [visible, setVisible] = useRecoilState(showMembershipTray);
   const [, setPostLoginAction] = useRecoilState(postLoginAction);
   const [, setShowLoginState] = useRecoilState(showLoginTray);
-  const [userProfile ] = useRecoilState(loggedInUserProfile);
+  const [userProfile ] = useRecoilState(userState);
 
   const handleLogin = () => {
     setShowLoginState('login');
