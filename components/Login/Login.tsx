@@ -100,7 +100,7 @@ const LoginModal: React.FC = () => {
     try {
       if (isSigningUp) {
         const username = (form.elements.namedItem('username') as HTMLInputElement).value;
-        await signup(username, email, password);
+        await signup(username, email, password, acceptEmails);
       } else {
         await login(email, password);
       }

@@ -219,12 +219,12 @@ export const useAuth = () => {
     }
   };
 
-  const signup = async (username: string, email: string, password: string) => {
+  const signup = async (username: string, email: string, password: string, is_mail_blocked:boolean) => {
     try {
       setLoading(true);
       setError(null);
       const { data } = await graphqlRequest(MUTATIONS.CREATE_USER, {
-        input: { username, email, password },
+        input: { username, email, password, is_mail_blocked },
       });
 
       if (data?.createUser?.token) {
