@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Flickity from 'react-flickity-component';
 import Image from 'next/image';
-import ResortImagePlaceholder from '../../../images/resort-image-placeholder.svg';
-import flickityOptions from '../../../src/js/components/config/flickity-options';
-import { Image as ImageArray } from '../../../types/resortTypes';
+import ResortImagePlaceholder from '../../images/resort-image-placeholder.svg';
+import flickityOptions from '../../src/js/components/config/flickity-options';
+import { Image as ImageArray } from '../../types/resortTypes';
 
 interface ResortCardImageCarouselProps {
   showOneImage?: boolean;
   images: ImageArray[];
 }
 
-
-const ResortCardImageCarousel: React.FC<ResortCardImageCarouselProps> = ({ showOneImage = false, images }) => {
+const RankedResortMapPopupImageCarousel: React.FC<ResortCardImageCarouselProps> = ({
+  images,
+}) => {
+  const flickityRef = useRef(null);
   const filteredImages = images.filter((img) => img.image?.path);
-  const imagesToShow = showOneImage ? filteredImages.slice(0, 1) : filteredImages;
 
   const options = {
     ...flickityOptions,
-    prevNextButtons: !showOneImage && imagesToShow.length > 1,
-    pageDots: !showOneImage && imagesToShow.length > 1,
+    prevNextButtons: filteredImages.length > 1,
+    pageDots: filteredImages.length > 1,
   };
+
+  // Cleanup Flickity instance on unmount
+  useEffect(() => {
+    return () => {
+      if (flickityRef.current?.flkty) {
+        flickityRef.current.flkty.destroy();
+      }
+    };
+  }, []);
 
   const renderImage = (image: ImageArray) => (
     <div key={image.id} className="carousel__image-wrapper w-100 h-100">
@@ -41,19 +51,10 @@ const ResortCardImageCarousel: React.FC<ResortCardImageCarouselProps> = ({ showO
     </div>
   );
 
-  if (showOneImage || imagesToShow.length === 1) {
-    return (
-      <div className="resort-card__image-carousel">
-        <div className="carousel w-100 h-100 gray-300-bg border-radius-medium position-relative">
-          {imagesToShow.length > 0 ? renderImage(imagesToShow[0]) : renderPlaceholder()}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="resort-card__image-carousel">
+    <div className="map-pop-up-image">
       <Flickity
+        ref={flickityRef}
         className="carousel w-100 h-100 gray-300-bg border-radius-medium position-relative"
         elementType="div"
         options={options}
@@ -61,12 +62,12 @@ const ResortCardImageCarousel: React.FC<ResortCardImageCarouselProps> = ({ showO
         reloadOnUpdate
         static
       >
-        {imagesToShow.length > 0
-          ? imagesToShow.map(renderImage)
+        {filteredImages.length > 0
+          ? filteredImages.map(renderImage)
           : [renderPlaceholder()]}
       </Flickity>
     </div>
   );
 };
 
-export default ResortCardImageCarousel;
+export default RankedResortMapPopupImageCarousel;

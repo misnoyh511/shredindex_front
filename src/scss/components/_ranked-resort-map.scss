@@ -1,0 +1,31 @@
+.sticky-resort-map {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Ensure the parent container allows scrolling */
+.main-content,
+.content-wrapper,
+.page-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.map-pop-up-image {
+  height: 8rem; /* Default height for larger screens */
+
+  @media screen and (max-width: 767px) {
+    height: -webkit-fill-available;
+  }
+
+  & .flickity-prev-next-button.previous {
+    left: 0;
+  }
+  & .flickity-prev-next-button.next {
+    right: 0;
+  }
+}

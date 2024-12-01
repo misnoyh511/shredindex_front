@@ -25,7 +25,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
   const isMobile = width < breakpoints.md;
 
   return (
-    <div className="filter-menu-wrap mb-3">
+    <div className={`filter-menu-wrap ${isMobile ? '' : 'mb-3'}`}>
       <div className="filter-menu d-flex flex-row align-items-center gap-2 pe-2">
         <div className="w-100">
           <LifestyleFilterBar/>
@@ -35,7 +35,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
             // variant="outline"
             color="secondary"
             variant="outline"
-            size={isMobile && 'sm'}
+            size="sm"
             aria-roledescription={(
               <FormattedMessage
                 id="shredindex.filter.SHOW_FILTERS_TRAY"
@@ -66,8 +66,8 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
       </div>
       <div className="lifestyle-filter__description mb-3">
         <div className="generic-description fw-light small text-md-center text-center">
-          <CBadge color="dark" size={isMobile && 'sm'} className={'small fw-light'}>
-            <TypeDescription className={'small fw-light'} label={currentFilter?.type_name || 'total_score'}/>
+          <CBadge color="dark" className={'small fw-light'}>
+            <TypeDescription label={currentFilter?.type_name || 'total_score'}/>
           </CBadge>
         </div>
       </div>

@@ -39,7 +39,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
 
   const renderImage = (image: ImageType, index: number) => (
     <div
-      key={image.id}
+      key={image.id + index}
       className="resort-single__carousel-image-item-wrap gray-300-bg border-radius-medium cursor-pointer"
     >
       <div
@@ -54,8 +54,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
         className="carousel__image-item border-radius-medium position-relative"
         src={image.image.path}
         alt={image.name || ''}
-        layout='fill'
-        objectFit='cover'
+        fill={true}
       />
     </div>
   );
