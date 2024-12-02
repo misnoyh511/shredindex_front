@@ -18,6 +18,11 @@
 .map-pop-up-image {
   height: 8rem; /* Default height for larger screens */
 
+  .flickity-viewport {
+    height: 100%
+  }
+
+
   @media screen and (max-width: 767px) {
     height: -webkit-fill-available;
   }

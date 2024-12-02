@@ -74,7 +74,7 @@ const Resorts: React.FC = () => {
   const getSheetHeight = () => {
     switch (sheetPosition) {
       case 'full':
-        return '83vh';
+        return '90vh';
       case 'half':
         return '50vh';
       case 'peek':
@@ -90,7 +90,7 @@ const Resorts: React.FC = () => {
         <ResortsParallaxBackground/>
 
         {/* Filter Menu */}
-        <div className="ranked-resort-list__filters-wrap">
+        <div className="ranked-resort-list__filters-wrap z-3">
           <RankedResortFilterMenu filterQuantity={activeFilterCount}/>
         </div>
 
