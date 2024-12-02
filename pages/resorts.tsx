@@ -13,7 +13,7 @@ import breakpoints from '../src/js/components/config/breakpoints';
 const Resorts: React.FC = () => {
   const [formData] = useRecoilState<FormData>(currentFilterState);
   const { width } = useWindowDimensions();
-  const isMobile = width <= breakpoints.sm;
+  const isMobileTablet = width <= breakpoints.md;
   const activeFilterCount = formData.groupedType?.filter(filter => filter.toggleOn).length || 0;
 
   const [sheetPosition, setSheetPosition] = useState('full');
@@ -84,7 +84,7 @@ const Resorts: React.FC = () => {
     }
   };
 
-  if (isMobile) {
+  if (isMobileTablet) {
     return (
       <div style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
         <ResortsParallaxBackground/>

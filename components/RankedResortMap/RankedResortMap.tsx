@@ -55,7 +55,7 @@ const RankedResortMap: React.FC = () => {
   const [isMapReady, setIsMapReady] = useState(false);
   const [displayResorts, setDisplayResorts] = useState<Resort[]>([]);
   const { width } = useWindowDimensions();
-  const isMobile = width <= breakpoints.sm;
+  const isMobileTablet = width <= breakpoints.md;
   const userInteractionRef = useRef(false);
   const shouldUpdateFiltersRef = useRef(false);
   const previousResortsRef = useRef<Resort[]>([]);
@@ -120,25 +120,25 @@ const RankedResortMap: React.FC = () => {
 
   const mapContainerStyle = useMemo(() => ({
     width: '100%',
-    height: isMobile ? '100%' : 'calc(100vh - 80px)',
+    height: isMobileTablet ? '100%' : 'calc(100vh - 80px)',
     position: 'sticky' as const,
     top: 0,
-  }), [isMobile]);
+  }), [isMobileTablet]);
 
   const wrapperStyle = useMemo(() => ({
     position: 'relative' as const,
     height: '100%',
     paddingBottom: '2rem',
-    paddingTop: isMobile ? '0rem' : '2rem',
-  }), [isMobile]);
+    paddingTop: isMobileTablet ? '0rem' : '2rem',
+  }), [isMobileTablet]);
 
   const stickyContainerStyle = useMemo(() => ({
     position: 'sticky' as const,
-    top: isMobile ? '0rem' : '2rem',
+    top: isMobileTablet ? '0rem' : '2rem',
     left: '0',
     right: '0',
-    height: isMobile ? '100%' : 'calc(100vh - 80px)',
-  }), [isMobile]);
+    height: isMobileTablet ? '100%' : 'calc(100vh - 80px)',
+  }), [isMobileTablet]);
 
   // Process resorts data
   const resorts = useMemo(() => {
@@ -191,7 +191,7 @@ const RankedResortMap: React.FC = () => {
   }, [apiFilters, router]);
 
   const debouncedUpdateFilters = useMemo(
-    () => debounce(updateFiltersForMapArea, 800),
+    () => debounce(updateFiltersForMapArea, 500),
     [updateFiltersForMapArea],
   );
 
@@ -313,7 +313,7 @@ const RankedResortMap: React.FC = () => {
 
   return (
     <div style={wrapperStyle}>
-      <div style={stickyContainerStyle} className={`sticky-resort-map overflow-hidden ${isMobile ? '' : 'border-radius-large'}`}>
+      <div style={stickyContainerStyle} className={`sticky-resort-map overflow-hidden ${isMobileTablet ? '' : 'border-radius-large'}`}>
         <div className="h-100">
           {error && (
             <div className="d-flex align-items-center justify-content-center h-100 bg-dark">
@@ -350,7 +350,7 @@ const RankedResortMap: React.FC = () => {
               );
             })}
 
-            {selectedResort && isMobile && (
+            {selectedResort && isMobileTablet && (
               <ResortPopup
                 resort={selectedResort}
                 onClose={() => setSelectedResort(null)}
@@ -358,7 +358,7 @@ const RankedResortMap: React.FC = () => {
               />
             )}
 
-            {selectedResort && !isMobile && (
+            {selectedResort && !isMobileTablet && (
               <OverlayView
                 key={`popup-${selectedResort.id}`}
                 position={{

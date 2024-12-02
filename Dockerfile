@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Add build arguments for public environment variables
 ARG NEXT_PUBLIC_MAPBOX_API_KEY
+ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 ARG NEXT_PUBLIC_GRAPHQL_ENDPOINT
 
 # Copy package.json and package-lock.json
