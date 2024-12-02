@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
+import { Resort } from '../../types/resortTypes';
 
-const ResortMarker = ({ resort, isSelected, onClick }) => {
+interface ResortMarkerProps {
+  resort: Resort;
+  isSelected: boolean;
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+const ResortMarker: React.FC<ResortMarkerProps> = memo(({ resort, isSelected, onClick }) => {
   return (
     <div
       onClick={onClick}
@@ -18,9 +25,10 @@ const ResortMarker = ({ resort, isSelected, onClick }) => {
       `}
       style={{
         transform: 'translate(-50%, -50%)',
-        transition: 'all 0.2s ease',
         cursor: 'pointer',
         maxWidth: '150px',
+        willChange: 'transform',
+        backfaceVisibility: 'hidden',
       }}
     >
       <span
@@ -38,6 +46,8 @@ const ResortMarker = ({ resort, isSelected, onClick }) => {
       </span>
     </div>
   );
-};
+});
+
+ResortMarker.displayName = 'ResortMarker';
 
 export default ResortMarker;

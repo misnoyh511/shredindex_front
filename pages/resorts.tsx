@@ -14,14 +14,25 @@ const Resorts: React.FC = () => {
   const [formData] = useRecoilState<FormData>(currentFilterState);
   const { width } = useWindowDimensions();
   const isMobileTablet = width <= breakpoints.md;
+  const isTablet = width > breakpoints.sm && width <= breakpoints.md;
   const activeFilterCount = formData.groupedType?.filter(filter => filter.toggleOn).length || 0;
 
-  const [sheetPosition, setSheetPosition] = useState('full');
+  const [sheetPosition, setSheetPosition] = useState(() => {
+    if (isTablet) return 'half';
+    return 'peek';
+  });
   const [isAtTop, setIsAtTop] = useState(true);
   const sheetRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const dragStartY = useRef(0);
   const dragStartHeight = useRef(0);
+
+  // Update sheet position when device type changes
+  useEffect(() => {
+    if (isTablet) {
+      setSheetPosition('half');
+    }
+  }, [isTablet]);
 
   const handleScroll = useCallback(() => {
     if (contentRef.current) {
@@ -46,41 +57,46 @@ const Resorts: React.FC = () => {
 
   const handleDrag = (e: React.TouchEvent) => {
     const deltaY = e.touches[0].clientY - dragStartY.current;
-    const DRAG_THRESHOLD = window.innerHeight * 0.1; // 10% of screen height for major transitions
-    const HALF_THRESHOLD = window.innerHeight * 0.05; // 5% for half-state transitions
-
-    // Determine drag direction
     const isDraggingUp = deltaY < 0;
 
+    // If on tablet, disable drag
+    if (isTablet) {
+      return;
+    }
+
+    // On mobile, only allow upward dragging
+    if (!isDraggingUp) {
+      return;
+    }
+
+    const DRAG_THRESHOLD = window.innerHeight * 0.1;
+
     if (Math.abs(deltaY) > DRAG_THRESHOLD) {
-      // Major transitions (full <-> peek)
-      if (isDraggingUp && sheetPosition === 'peek') {
-        setSheetPosition('half');
-      } else if (!isDraggingUp && sheetPosition === 'full') {
-        setSheetPosition('half');
-      }
-    } else if (Math.abs(deltaY) > HALF_THRESHOLD) {
-      // More sensitive transitions involving half state
-      if (sheetPosition === 'half') {
-        setSheetPosition(isDraggingUp ? 'full' : 'peek');
-      } else if (sheetPosition === 'peek' && isDraggingUp) {
-        setSheetPosition('half');
-      } else if (sheetPosition === 'full' && !isDraggingUp) {
-        setSheetPosition('half');
+      if (sheetPosition === 'peek') {
+        setSheetPosition('full');
       }
     }
   };
 
+  const handleViewMap = () => {
+    setSheetPosition('peek');
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  };
+
   const getSheetHeight = () => {
+    if (isTablet) {
+      return '50vh';
+    }
+
     switch (sheetPosition) {
       case 'full':
-        return '91vh';
-      case 'half':
-        return '50vh';
+        return 'calc(100vh - 5rem)';
       case 'peek':
         return '5rem';
       default:
-        return '50vh';
+        return 'calc(100vh - 5rem)';
     }
   };
 
@@ -141,75 +157,63 @@ const Resorts: React.FC = () => {
             <RankedResortList cardLimit={5} />
           </div>
 
-          {/* Navigation pills */}
-          {sheetPosition === 'peek' ? (
-            <div
-              style={{
-                position: 'fixed',
-                bottom: '32px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: '#343a40',
-                borderRadius: '24px',
-                padding: '8px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                cursor: 'pointer',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                zIndex: 2000,
-              }}
-              onClick={() => setSheetPosition('full')}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 6h18M3 12h18M3 18h18"/>
-              </svg>
-              <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View List</span>
-            </div>
-          ) : (
-            isAtTop === false && (
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '32px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background: '#343a40',
-                  borderRadius: '24px',
-                  padding: '8px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                  zIndex: 2000,
-                }}
-                onClick={() => setSheetPosition('peek')}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View Map</span>
-              </div>
-            )
+          {/* Navigation pills - Only show on mobile, not tablet */}
+          {!isTablet && (
+            <>
+              {sheetPosition === 'peek' ? (
+                <div
+                  style={{
+                    position: 'fixed',
+                    bottom: '32px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: '#343a40',
+                    borderRadius: '24px',
+                    padding: '8px 16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    zIndex: 2000,
+                  }}
+                  onClick={() => setSheetPosition('full')}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                  </svg>
+                  <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View List</span>
+                </div>
+              ) : (
+                isAtTop === false && (
+                  <div
+                    style={{
+                      position: 'fixed',
+                      bottom: '32px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: '#343a40',
+                      borderRadius: '24px',
+                      padding: '8px 16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                      zIndex: 2000,
+                    }}
+                    onClick={handleViewMap}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View Map</span>
+                  </div>
+                )
+              )}
+            </>
           )}
-
-          {/* Expand/collapse handle */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '8px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '100px',
-              height: '4px',
-              background: '#6c757d',
-              borderRadius: '2px',
-              cursor: 'pointer',
-            }}
-            onClick={() => setSheetPosition(sheetPosition === 'full' ? 'half' : 'full')}
-          />
         </div>
       </div>
     );
