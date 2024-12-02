@@ -191,7 +191,7 @@ const RankedResortMap: React.FC = () => {
   }, [apiFilters, router]);
 
   const debouncedUpdateFilters = useMemo(
-    () => debounce(updateFiltersForMapArea, 500),
+    () => debounce(updateFiltersForMapArea, 800),
     [updateFiltersForMapArea],
   );
 

@@ -25,7 +25,7 @@ const RankedResortFilterMenu: React.FC<RankedResortFilterMenuProps> = ({ filterQ
   const isMobile = width < breakpoints.md;
 
   return (
-    <div className={`filter-menu-wrap ${isMobile ? '' : 'mb-3'}`}>
+    <div className={`filter-menu-wrap ${isMobile ? '' : 'mb-3'} bg-gray-300`}>
       <div className="filter-menu d-flex flex-row align-items-center gap-2 pe-2">
         <div className="w-100">
           <LifestyleFilterBar/>

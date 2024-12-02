@@ -16,7 +16,7 @@ const Resorts: React.FC = () => {
   const isMobile = width <= breakpoints.sm;
   const activeFilterCount = formData.groupedType?.filter(filter => filter.toggleOn).length || 0;
 
-  const [sheetPosition, setSheetPosition] = useState('half');
+  const [sheetPosition, setSheetPosition] = useState('full');
   const [isAtTop, setIsAtTop] = useState(true);
   const sheetRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -74,7 +74,7 @@ const Resorts: React.FC = () => {
   const getSheetHeight = () => {
     switch (sheetPosition) {
       case 'full':
-        return '90vh';
+        return '91vh';
       case 'half':
         return '50vh';
       case 'peek':
@@ -90,7 +90,7 @@ const Resorts: React.FC = () => {
         <ResortsParallaxBackground/>
 
         {/* Filter Menu */}
-        <div className="ranked-resort-list__filters-wrap z-3">
+        <div className="ranked-resort-list__filters-wrap z-3 position-relative">
           <RankedResortFilterMenu filterQuantity={activeFilterCount}/>
         </div>
 
@@ -109,7 +109,7 @@ const Resorts: React.FC = () => {
             height: getSheetHeight(),
             transition: 'height 300ms ease',
             touchAction: 'none',
-            zIndex: 1000,
+            zIndex: 2,
             backgroundColor: 'rgb(29, 46, 57)',
             borderTop: 'solid rgb(40, 60, 73)',
             borderTopLeftRadius: '16px',
@@ -120,7 +120,7 @@ const Resorts: React.FC = () => {
           onTouchMove={handleDrag}
         >
           {/* Drag handle at top */}
-          <div style={{ width: '100%', height: '40px', textAlign: 'center' }}>
+          <div className="mb-2" style={{ width: '100%', height: '20px', textAlign: 'center' }}>
             <div style={{ width: '48px', height: '8px', background: '#6c757d', margin: '8px auto', borderRadius: '2px' }}></div>
           </div>
 
