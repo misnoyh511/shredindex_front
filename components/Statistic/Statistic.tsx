@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TypeIcon } from '@/Icons/TypeIcon';
 
 interface StatisticProps {
-  title: string; // Changed from title to label
+  title: string;
   name: string;
   statistic: number | string;
   statisticType?: string;
@@ -10,17 +10,58 @@ interface StatisticProps {
   maxValue: number;
 }
 
+const useCountAnimation = (targetValue: number, duration: number = 1000) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number;
+    let animationFrameId: number;
+
+    const updateCount = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      setCount(Math.min(targetValue * progress, targetValue));
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(updateCount);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(updateCount);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [targetValue, duration]);
+
+  return count;
+};
+
 const Statistic: React.FC<StatisticProps> = ({
-  title,  // Changed from title to label
+  title,
   name,
   statistic,
   statisticType = 'sub-statistic',
   unit = '',
   maxValue,
 }) => {
-  const [statisticInt, statisticDecimal] = statistic.toString().split('.');
+  const [animatedWidth, setAnimatedWidth] = useState('0%');
+  const animatedNumber = useCountAnimation(Number(statistic), 200);
+
+  useEffect(() => {
+    // Start animation after component mount
+    const timer = setTimeout(() => {
+      setAnimatedWidth(`${(Number(statistic) / maxValue) * 100}%`);
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [statistic, maxValue]);
+
+  const [statisticInt, statisticDecimal] = animatedNumber.toFixed(1).split('.');
   const isMax = Number(statistic) >= 100 || statistic === 'n/a';
-  const barWidth = `${(Number(statistic) / maxValue) * 100}%`;
   const statisticId = `statistic-${name?.toLowerCase()}`;
 
   return (
@@ -83,12 +124,18 @@ const Statistic: React.FC<StatisticProps> = ({
         >
           <div
             className="statistic__bar--100 statistic__bar"
-            style={{ width: barWidth }}
+            style={{
+              width: animatedWidth,
+              transition: 'width 200ms ease-out',
+            }}
             aria-hidden="true"
           />
           <div
             className="statistic__bar--100 statistic__bar-indicator"
-            style={{ left: barWidth }}
+            style={{
+              left: animatedWidth,
+              transition: 'left 200ms ease-out',
+            }}
             aria-hidden="true"
           />
         </div>

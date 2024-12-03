@@ -1,4 +1,4 @@
-const continents = [
+export const continents = [
   {
     name: 'Africa',
     code: 'AF',

@@ -19,7 +19,7 @@ const Resorts: React.FC = () => {
 
   const [sheetPosition, setSheetPosition] = useState(() => {
     if (isTablet) return 'half';
-    return 'peek';
+    return 'full';
   });
   const [isAtTop, setIsAtTop] = useState(true);
   const sheetRef = useRef<HTMLDivElement>(null);

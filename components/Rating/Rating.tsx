@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import isNumber from '../../utils/helperFunctions';
 import { TypeIcon } from '@/Icons/TypeIcon';
 
@@ -9,7 +9,45 @@ interface RatingProps {
   ratingType?: 'sub-rating' | string;
   headingId?: string;
   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | null;
+  error?: boolean;
+  warningCodes?: string[];
 }
+
+const useCountAnimation = (targetValue: number | string | 'n/a', duration: number = 200) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (targetValue === 'n/a' || !isNumber(targetValue)) {
+      setCount(0);
+      return;
+    }
+
+    let startTime: number;
+    let animationFrameId: number;
+    const targetNumber = Number(targetValue);
+
+    const updateCount = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      setCount(Math.min(targetNumber * progress, targetNumber));
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(updateCount);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(updateCount);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [targetValue, duration]);
+
+  return count;
+};
 
 const Rating: React.FC<RatingProps> = ({
   name = null,
@@ -18,21 +56,35 @@ const Rating: React.FC<RatingProps> = ({
   ratingType = 'sub-rating',
   headingId,
   headingLevel = null,
+  error = false,
+  warningCodes = [],
 }) => {
-  let ratingInt: string = '0';
-  let ratingDecimal: string = '0';
+  const [animatedWidth, setAnimatedWidth] = useState('0%');
+  const animatedValue = useCountAnimation(rating);
+
+  useEffect(() => {
+    // Start animation after component mount
+    const timer = setTimeout(() => {
+      setAnimatedWidth(rating === 'n/a' ? '0%' : `${rating}%`);
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [rating]);
+
+  let ratingInt = '0';
+  let ratingDecimal = '0';
 
   if (rating !== 'n/a' && isNumber(rating)) {
-    [ratingInt, ratingDecimal] = rating.toFixed(1).toString().split('.');
+    [ratingInt, ratingDecimal] = animatedValue.toFixed(1).toString().split('.');
   } else if (rating === 'n/a') {
     ratingInt = 'n/a';
   }
 
   const styleSuffix = rating === 'n/a' ? 'na' : Math.ceil(Number(rating) / 20) * 20;
   const isMax = rating === 'n/a' || Number(rating) >= 100;
-  const barWidth = rating === 'n/a' ? '0%' : `${rating}%`;
   const ratingId = headingId || `rating-${title.toLowerCase().replace(/\s+/g, '-')}`;
   const ratingValue = rating === 'n/a' ? 'Not available' : `${rating}%`;
+  const hasWarnings = warningCodes && warningCodes.length > 0;
 
   const renderTitle = () => {
     const titleClasses = 'rating__title display-5 text-left user-select-none';
@@ -53,9 +105,16 @@ const Rating: React.FC<RatingProps> = ({
     );
   };
 
+  const getRatingClasses = () => {
+    let classes = `rating rating--${ratingType}`;
+    if (error) classes += ' rating--error';
+    if (hasWarnings) classes += ' rating--warning';
+    return classes;
+  };
+
   return (
     <div
-      className={`rating rating--${ratingType}`}
+      className={getRatingClasses()}
       role="group"
       aria-labelledby={ratingId}
     >
@@ -105,12 +164,18 @@ const Rating: React.FC<RatingProps> = ({
       >
         <div
           className={`rating__bar--${styleSuffix} rating__bar`}
-          style={{ width: barWidth }}
+          style={{
+            width: animatedWidth,
+            transition: 'width 200ms ease-out',
+          }}
           aria-hidden="true"
         />
         <div
           className={`rating__bar--${styleSuffix} rating__bar-indicator`}
-          style={{ left: barWidth }}
+          style={{
+            left: animatedWidth,
+            transition: 'left 200ms ease-out',
+          }}
           aria-hidden="true"
         />
       </div>

@@ -46,6 +46,7 @@ const AdvancedSearch = () => {
   const [, setFormData] = useRecoilState(currentFilterState);
   const searchRef = useRef(null);
   const router = useRouter();
+  const [isMapArea, setIsMapArea] = useState(false);
 
   const [searchResorts, { loading, error, data }] = useLazyQuery(SEARCH_RESORTS);
 
@@ -59,6 +60,28 @@ const AdvancedSearch = () => {
     { label: 'Oceania', value: 'OC' },
     { label: 'Africa', value: 'AF' },
   ];
+
+  // Check if current filter is a map area
+  useEffect(() => {
+    if (router.query.filters) {
+      try {
+        const filters = JSON.parse(router.query.filters);
+        const hasMapArea = filters.locationType?.mapArea;
+        setIsMapArea(!!hasMapArea);
+
+        if (hasMapArea) {
+          setQuery('Map area');
+          setShowSuggestions(false);
+          setShowRegionSelect(false);
+        } else if (!filters.locationType?.countryId && !filters.locationType?.continentId) {
+          setQuery('');
+        }
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+      } catch (error) {
+        console.error('Error parsing filters:', error);
+      }
+    }
+  }, [router.query.filters]);
 
   const updateQuery = useCallback((newLocationData) => {
     console.log('updateQuery called with:', newLocationData);
@@ -85,6 +108,11 @@ const AdvancedSearch = () => {
 
   const handleInputChange = (e) => {
     const newQuery = e.target.value;
+    // Don't allow changing the input if it's currently showing map area
+    if (isMapArea) {
+      return;
+    }
+
     setQuery(newQuery);
     if (newQuery.length > 2) {
       searchResorts({ variables: { query: newQuery, perPage: 400 } });
@@ -97,6 +125,24 @@ const AdvancedSearch = () => {
   };
 
   const handleInputFocus = () => {
+    // If it's a map area, clear the filters when focusing
+    if (isMapArea) {
+      const currentFilters = router.query.filters ? JSON.parse(router.query.filters) : {};
+      const updatedQuery = {
+        ...router.query,
+        filters: JSON.stringify({
+          ...currentFilters,
+          locationType: {},
+        }),
+        page: '1',
+      };
+      router.push({
+        pathname: '/resorts',
+        query: updatedQuery,
+      }, undefined, { scroll: false });
+      setIsMapArea(false);
+    }
+
     setQuery('');
     setShowRegionSelect(true);
     setShowSuggestions(false);
@@ -107,6 +153,7 @@ const AdvancedSearch = () => {
 
     setShowSuggestions(false);
     setShowRegionSelect(false);
+    setIsMapArea(false);
 
     if (item.type === 'resort') {
       const url = `/resort/${item.url_segment}`;
@@ -134,7 +181,7 @@ const AdvancedSearch = () => {
   };
 
   const handleRegionSelect = useCallback((region) => {
-    console.log('handleRegionSelect called with:', region);
+    setIsMapArea(false);
 
     let newLocationData;
     if (region.value === 'worldwide') {
@@ -232,7 +279,7 @@ const AdvancedSearch = () => {
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           placeholder="Where to?"
-          className="resort-search__input"
+          className={`resort-search__input ${isMapArea ? 'map-area-active' : ''}`}
         />
       </div>
       {(showSuggestions || showRegionSelect) && (

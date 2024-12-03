@@ -21,6 +21,7 @@ const RegionSelectSearch = ({ onSelect }) => {
         ? formData.locationType.continentId
         : [formData.locationType.continentId]);
     } else {
+      // No filters
       setSelectedContinents([]);
     }
     setInitialLoading(false);

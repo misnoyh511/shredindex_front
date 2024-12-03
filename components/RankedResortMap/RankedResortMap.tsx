@@ -3,49 +3,13 @@ import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 import useWindowDimensions from '../../hooks/getWindowDimensions';
 import breakpoints from '../../src/js/components/config/breakpoints';
 import { useRouter } from 'next/router';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { debounce } from 'lodash';
 import useQueryResortsMap from '../../hooks/useQueryResortsMap';
 import { CSpinner } from '@coreui/react';
 import { MAP_STYLES } from '@/RankedResortMap/GoogleMapStyles';
 import ResortPopup from '@/RankedResortMap/RankedResortMapPopup';
 import ResortMarker from '@/RankedResortMap/RankedResortMapMarker';
-
-interface Location {
-  latitude: string;
-  longitude: string;
-}
-
-interface Resort {
-  id: string;
-  location: Location;
-  [key: string]: unknown; // Replace 'any' with 'unknown' for better type safety
-}
-
-interface ApiFilters {
-  groupedType: string[];
-  locationType: {
-    mapArea?: {
-      north: number;
-      south: number;
-      east: number;
-      west: number;
-    };
-    countryId?: string;
-    continentId?: string;
-  };
-}
-
-interface QueryResult {
-  resorts?: {
-    data: Resort[];
-  };
-}
-
-interface PixelOffset {
-  x: number;
-  y: number;
-}
+import { Resort, ApiFilters, QueryResult, PixelOffset } from '../../types/googleMapTypes';
 
 const RankedResortMap: React.FC = () => {
   const router = useRouter();
@@ -58,6 +22,7 @@ const RankedResortMap: React.FC = () => {
   const isMobileTablet = width <= breakpoints.md;
   const userInteractionRef = useRef(false);
   const shouldUpdateFiltersRef = useRef(false);
+  const isAutoFitRef = useRef(false);
   const previousResortsRef = useRef<Resort[]>([]);
   const previousQueryRef = useRef('');
   const previousLocationTypeRef = useRef<ApiFilters['locationType'] | null>(null);
@@ -161,7 +126,7 @@ const RankedResortMap: React.FC = () => {
 
   // Function to update filters with Map Area
   const updateFiltersForMapArea = useCallback((bounds: google.maps.LatLngBounds) => {
-    if (!bounds || !shouldUpdateFiltersRef.current) return;
+    if (!bounds || !shouldUpdateFiltersRef.current || isAutoFitRef.current) return;
 
     const ne = bounds.getNorthEast();
     const sw = bounds.getSouthWest();
@@ -204,6 +169,7 @@ const RankedResortMap: React.FC = () => {
   const fitBoundsToResorts = useCallback(() => {
     if (!map || !resorts.length) return;
 
+    isAutoFitRef.current = true;
     const bounds = new google.maps.LatLngBounds();
     let validBounds = false;
 
@@ -221,6 +187,11 @@ const RankedResortMap: React.FC = () => {
       map.setOptions({ maxZoom: 10 });
       map.fitBounds(bounds, padding);
     }
+
+    // Use setTimeout to ensure isAutoFitRef is reset after the bounds_changed event is triggered
+    setTimeout(() => {
+      isAutoFitRef.current = false;
+    }, 1000);
   }, [map, resorts]);
 
   // Handle location type changes
@@ -266,17 +237,21 @@ const RankedResortMap: React.FC = () => {
     if (!map || !isMapReady) return;
 
     const dragStartListener = map.addListener('dragstart', () => {
-      userInteractionRef.current = true;
-      shouldUpdateFiltersRef.current = true;
+      if (!isAutoFitRef.current) {
+        userInteractionRef.current = true;
+        shouldUpdateFiltersRef.current = true;
+      }
     });
 
     const zoomChangedListener = map.addListener('zoom_changed', () => {
-      userInteractionRef.current = true;
-      shouldUpdateFiltersRef.current = true;
+      if (!isAutoFitRef.current) {
+        userInteractionRef.current = true;
+        shouldUpdateFiltersRef.current = true;
+      }
     });
 
     const boundsChangedListener = map.addListener('bounds_changed', () => {
-      if (userInteractionRef.current && shouldUpdateFiltersRef.current) {
+      if (!isAutoFitRef.current && userInteractionRef.current && shouldUpdateFiltersRef.current) {
         const bounds = map.getBounds();
         if (bounds) {
           debouncedUpdateFilters(bounds);

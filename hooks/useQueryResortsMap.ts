@@ -37,6 +37,19 @@ export const QUERY_RESORTS_MAP = gql`
             content_type
           }
         }
+        ratingScores {
+          name
+          value
+        }
+        numerics {
+          name
+          value
+          type {
+            name
+            unit
+            max_value
+          }
+        }
         total_score {
           id
           title
