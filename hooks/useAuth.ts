@@ -12,25 +12,7 @@ export const useAuth = () => {
   const intervalRef = useRef<NodeJS.Timeout>();
 
   const API_URL = process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
-
-  // Helper function to get the appropriate callback URL based on environment
-  const getCallbackUrl = (provider: string) => {
-    const isDevelopment = process.env.NODE_ENV === 'development';
-
-    const callbackUrls: Record = {
-      'google': isDevelopment
-        ? process.env.NEXT_DEVELOPMENT_GOOGLE_CALLBACK_URL
-        : process.env.NEXT_PUBLIC_GOOGLE_CALLBACK_URL,
-      'facebook': isDevelopment
-        ? process.env.NEXT_DEVELOPMENT_FACEBOOK_CALLBACK_URL
-        : process.env.NEXT_PUBLIC_FACEBOOK_CALLBACK_URL,
-      'x': isDevelopment
-        ? process.env.NEXT_DEVELOPMENT_X_CALLBACK_URL
-        : process.env.NEXT_PUBLIC_X_CALLBACK_URL,
-    };
-
-    return callbackUrls[provider];
-  };
+  const BACKEND_URL = process.env.NEXT_DEVELOPMENT_API_URL || process.env.NEXT_PUBLIC_API_URL;
 
   const graphqlRequest = async (query: string, variables = {}) => {
     const response = await fetch(API_URL, {
@@ -123,25 +105,13 @@ export const useAuth = () => {
       setLoading(true);
       setError(null);
 
-      const callbackUrl = getCallbackUrl(provider);
-      console.log('Callback URL for provider:', provider, callbackUrl); // Debug log
-
-      if (!callbackUrl) {
-        throw new Error(`Missing callback URL configuration for provider: ${provider}`);
-      }
-
-      const { data } = await graphqlRequest(MUTATIONS.OAUTH_LOGIN, {
-        provider,
-        callbackUrl,
-      });
-
-      console.log(`${provider} OAuth redirect URL:`, data.oauthRedirect.url);
-
       const width = 375;
       const height = 500;
       const left = window.screen.width / 2 - width / 2;
       const top = window.screen.height / 2 - height / 2;
 
+      const redirectUrl = `${BACKEND_URL}/auth/${provider}/redirect`;
+      
       if (popupRef.current) {
         popupRef.current.close();
       }
@@ -151,7 +121,7 @@ export const useAuth = () => {
       }
 
       popupRef.current = window.open(
-        data.oauthRedirect.url,
+        redirectUrl,
         'OAuth Login',
         `width=${width},height=${height},top=${top},left=${left},location=yes,toolbar=no,menubar=no`,
       );
@@ -177,7 +147,7 @@ export const useAuth = () => {
             if (code) {
               clearInterval(intervalRef.current);
               popupRef.current.close();
-              oauth_callback(code);
+              oauth_callback(code, provider);
             }
           }
         } catch (e) {
@@ -193,18 +163,18 @@ export const useAuth = () => {
     }
   };
 
-  const oauth_callback = async (code: string) => {
+  const oauth_callback = async (code: string, provider: string) => {
     try {
       setLoading(true);
       setError(null);
 
       const { data } = await graphqlRequest(MUTATIONS.OAUTH_CALLBACK, {
-        input: { code },
+        input: { code, provider },
       });
 
       if (data?.exchangeToken?.token) {
         localStorage.setItem('token', data.exchangeToken.token);
-        localStorage.setItem('userIdentifier', data.exchangeToken.user.email);
+        localStorage.setItem('userIdentifier', data.exchangeToken.user.email ?? data.exchangeToken.user.username);
         setUser({
           ...data.exchangeToken.user,
           shredProfile: data.exchangeToken.shredProfile,

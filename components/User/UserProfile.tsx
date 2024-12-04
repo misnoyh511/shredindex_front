@@ -51,7 +51,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
     setLoading(true);
     setError(null);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/graphql';
+    const API_URL = process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
 
     // Only include fields that have values
     const profileData = Object.entries(formState).reduce((acc, [key, value]) => {
