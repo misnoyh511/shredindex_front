@@ -103,8 +103,7 @@ const Accommodation: React.FC<AffiliateUrl> = ({ affiliateUrl }) => {
               className="carousel__image-item border-radius-medium position-relative"
               src={LuxuryAccomodation}
               alt="Preview of available accommodation options"
-              layout="fill"
-              objectFit="fill"
+              fill={true}
               priority
             />
           </Link>

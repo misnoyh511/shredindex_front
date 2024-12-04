@@ -70,7 +70,7 @@ const RankedResortList: React.FC<RankedResortListProps> = ({ cardLimit }) => {
 
   if (loading) {
     return (
-      <div className="ranked-resort-list">
+      <div className="ranked-resort-list mt-4">
         {/*<div className="ranked-resort-list__filters-wrap col-sm-12 w-100">*/}
         {/*  <RankedResortFilterMenuSkeleton />*/}
         {/*</div>*/}
@@ -100,7 +100,7 @@ const RankedResortList: React.FC<RankedResortListProps> = ({ cardLimit }) => {
   }
 
   return (
-    <div className="ranked-resort-list">
+    <div className="ranked-resort-list mt-4">
       <div className="ranked-resort-list__result-count-wrap col-sm-12 w-100">
         <RankedResortResultCount total={total} currentPage={currentPage} lastPage={lastPage} />
       </div>

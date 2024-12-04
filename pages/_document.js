@@ -58,7 +58,6 @@ const Document = () => {
         />
 
         {/* Meta tags for performance */}
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta httpEquiv="x-dns-prefetch-control" content="on"/>
       </Head>
       <body>
