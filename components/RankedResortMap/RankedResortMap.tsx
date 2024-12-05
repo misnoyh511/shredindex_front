@@ -54,7 +54,7 @@ const RankedResortMap: React.FC = () => {
   const isNewQuery = currentQuery !== previousQueryRef.current;
 
   // Query using URL-based filters
-  const { loading, data, error } = useQueryResortsMap(30, 1, apiFilters) as {
+  const { loading, data, error } = useQueryResortsMap(13, 1, apiFilters) as {
     loading: boolean;
     data?: QueryResult;
     error?: Error;
