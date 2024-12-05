@@ -33,7 +33,7 @@ export const useAuth = () => {
     console.log('GraphQL Response:', data);
 
     if (data.errors) {
-      throw new Error(data.errors[0].message);
+      throw new Error(data.errors[0].extensions.debugMessage);
     }
 
     return data;
