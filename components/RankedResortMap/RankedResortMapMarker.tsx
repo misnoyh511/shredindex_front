@@ -95,13 +95,31 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
 
   const { displayValue, backgroundColor, unit: displayUnit } = formatValue(value, maxValue, unit);
 
+  // Calculate z-index based on value
+  let zIndex = 1;
+  if (value !== 'n/a' && typeof value === 'number') {
+    // Scale the value to a range between 1 and 1000 for z-index
+    if (maxValue) {
+      // For numerics, scale based on maxValue
+      zIndex = Math.floor((value / maxValue) * 1000);
+    } else {
+      // For ratings and total score (0-100 scale)
+      zIndex = Math.floor(value * 10);
+    }
+  }
+
+  // If selected, add 1000 to ensure it's always on top
+  if (isSelected) {
+    zIndex += 1000;
+  }
+
   return (
     <div
       onClick={onClick}
       className="position-relative"
       style={{
         transform: 'translate(-50%, -50%)',
-        zIndex: isSelected ? 2 : 1,
+        zIndex,
       }}
     >
       <div
