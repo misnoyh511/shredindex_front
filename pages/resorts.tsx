@@ -1,10 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { CContainer, CRow, CCol } from '@coreui/react';
 import RankedResortList from '../components/RankedResortList/RankedResortList';
 import ResortsParallaxBackground from '../components/ResortsParallaxBackground/ResortsParallaxBackground';
 import RankedResortFilterMenu from '@/RankedResortFilterMenu/RankedResortFilterMenu';
 import RankedResortMap from '../components/RankedResortMap/RankedResortMap';
-import { currentFilterState } from '../atoms/filterState';
+import { currentFilterState, currentOrderByState   } from '../atoms/filterState';
 import { useRecoilState } from 'recoil';
 import { FormData } from '../types/filterTypes';
 import useWindowDimensions from '../hooks/getWindowDimensions';
@@ -12,6 +12,7 @@ import breakpoints from '../src/js/components/config/breakpoints';
 
 const Resorts: React.FC = () => {
   const [formData] = useRecoilState<FormData>(currentFilterState);
+  const [orderBy] = useRecoilState(currentOrderByState);
   const { width } = useWindowDimensions();
   const isMobileTablet = width <= breakpoints.md;
   const isTablet = width > breakpoints.sm && width <= breakpoints.md;
@@ -21,7 +22,6 @@ const Resorts: React.FC = () => {
     if (isTablet) return 'half';
     return 'full';
   });
-  const [isAtTop, setIsAtTop] = useState(true);
   const sheetRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const dragStartY = useRef(0);
@@ -34,19 +34,15 @@ const Resorts: React.FC = () => {
     }
   }, [isTablet]);
 
-  const handleScroll = useCallback(() => {
-    if (contentRef.current) {
-      setIsAtTop(contentRef.current.scrollTop === 0);
-    }
-  }, []);
-
+  // Scroll the content div to top when formData changes
   useEffect(() => {
-    const currentRef = contentRef.current;
-    if (currentRef) {
-      currentRef.addEventListener('scroll', handleScroll);
-      return () => currentRef.removeEventListener('scroll', handleScroll);
+    if (contentRef.current) {
+      contentRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     }
-  }, [handleScroll]);
+  }, [formData, orderBy]);
 
   const handleDragStart = (e: React.TouchEvent) => {
     dragStartY.current = e.touches[0].clientY;
@@ -142,6 +138,7 @@ const Resorts: React.FC = () => {
 
           {/* Content */}
           <div
+            className={'ranked-resort-list-card-holder'}
             ref={contentRef}
             style={{
               height: 'calc(100% - 40px)',
@@ -152,7 +149,6 @@ const Resorts: React.FC = () => {
                 display: 'none',
               },
             }}
-            onScroll={handleScroll}
           >
             <RankedResortList cardLimit={5} />
           </div>
@@ -162,6 +158,7 @@ const Resorts: React.FC = () => {
             <>
               {sheetPosition === 'peek' ? (
                 <div
+                  className={'ranked-resort-list-map-list-pills'}
                   style={{
                     position: 'fixed',
                     bottom: '32px',
@@ -185,32 +182,30 @@ const Resorts: React.FC = () => {
                   <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View List</span>
                 </div>
               ) : (
-                isAtTop === false && (
-                  <div
-                    style={{
-                      position: 'fixed',
-                      bottom: '32px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: '#343a40',
-                      borderRadius: '24px',
-                      padding: '8px 16px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                      zIndex: 2000,
-                    }}
-                    onClick={handleViewMap}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View Map</span>
-                  </div>
-                )
+                <div
+                  style={{
+                    position: 'fixed',
+                    bottom: '32px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: '#343a40',
+                    borderRadius: '24px',
+                    padding: '8px 16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    zIndex: 2000,
+                  }}
+                  onClick={handleViewMap}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View Map</span>
+                </div>
               )}
             </>
           )}

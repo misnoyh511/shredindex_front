@@ -9,7 +9,7 @@ import { CSpinner } from '@coreui/react';
 import { MAP_STYLES } from '@/RankedResortMap/GoogleMapStyles';
 import ResortPopup from '@/RankedResortMap/RankedResortMapPopup';
 import ResortMarker from '@/RankedResortMap/RankedResortMapMarker';
-import { Resort, ApiFilters, QueryResult, PixelOffset } from '../../types/googleMapTypes';
+import { Resort, ApiFilters, PixelOffset } from '../../types/googleMapTypes';
 
 const RankedResortMap: React.FC = () => {
   const router = useRouter();
@@ -39,9 +39,10 @@ const RankedResortMap: React.FC = () => {
 
     try {
       const filters = JSON.parse(router.query.filters as string);
+      const { orderBy: _, ...filterData } = filters; // Remove orderBy from filters
       return {
-        groupedType: Array.isArray(filters.groupedType) ? filters.groupedType : [],
-        locationType: filters.locationType || {},
+        groupedType: Array.isArray(filterData.groupedType) ? filterData.groupedType : [],
+        locationType: filterData.locationType || {},
       };
     } catch (error) {
       console.error('Error parsing filters from URL:', error);
@@ -49,16 +50,33 @@ const RankedResortMap: React.FC = () => {
     }
   }, [router.query.filters]);
 
+  // Get orderBy with total_score as default
+  const orderBy = useMemo(() => {
+    if (!router.query.orderBy) {
+      return {
+        type_name: 'total_score',
+        direction: 'desc',
+      };
+    }
+
+    try {
+      return JSON.parse(router.query.orderBy as string);
+    } catch (error) {
+      console.error('Error parsing orderBy from URL:', error);
+      // Fallback to default if parsing fails
+      return {
+        type_name: 'total_score',
+        direction: 'desc',
+      };
+    }
+  }, [router.query.orderBy]);
+
   // Track if this is a new query
   const currentQuery = JSON.stringify(apiFilters);
   const isNewQuery = currentQuery !== previousQueryRef.current;
 
   // Query using URL-based filters
-  const { loading, data, error } = useQueryResortsMap(13, 1, apiFilters) as {
-    loading: boolean;
-    data?: QueryResult;
-    error?: Error;
-  };
+  const { loading, data, error } = useQueryResortsMap(13, 1, apiFilters, orderBy);
 
   // Map configuration
   const defaultCenter = useMemo(() => ({ lat: 40, lng: -100 }), []);
@@ -327,7 +345,7 @@ const RankedResortMap: React.FC = () => {
 
             {selectedResort && isMobileTablet && (
               <ResortPopup
-                resort={selectedResort}
+                url_segment={selectedResort?.url_segment}
                 onClose={() => setSelectedResort(null)}
                 containerRef={mapContainerRef}
               />
@@ -344,7 +362,7 @@ const RankedResortMap: React.FC = () => {
                 getPixelPositionOffset={getPixelPositionOffset}
               >
                 <ResortPopup
-                  resort={selectedResort}
+                  url_segment={selectedResort?.url_segment}
                   onClose={() => setSelectedResort(null)}
                   containerRef={mapContainerRef}
                 />

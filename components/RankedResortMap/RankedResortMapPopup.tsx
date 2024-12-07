@@ -1,20 +1,67 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import {
   CButton,
   CCard,
   CCardBody,
   CCardFooter,
+  CSpinner,
 } from '@coreui/react';
 import { CIcon } from '@coreui/icons-react';
 import { cilX } from '@coreui/icons';
 import RankedResortMapPopupImageCarousel from '@/RankedResortMap/RankedResortMapPopupImageCarousel';
 
-const ResortPopup = ({ resort, onClose, containerRef }) => {
-  const cardRef = useRef(null);
+interface ResortPopupProps {
+  url_segment: string;
+  onClose: () => void;
+  containerRef: React.RefObject<HTMLDivElement>;
+}
+
+const QUERY_RESORT_POPUP = gql`
+  query ResortPopup($url_segment: String!) {
+    resortByUrlSegment(url_segment: $url_segment) {
+      id
+      title
+      url_segment
+      resort_images {
+        id
+        name
+        alt
+        sort_order
+        image {
+          path
+          content_type
+        }
+      }
+      total_score {
+        value
+      }
+      location {
+        city
+        state {
+          name
+        }
+        country {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const ResortPopup: React.FC<ResortPopupProps> = ({ url_segment, onClose, containerRef }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
   const mouseDownPosRef = useRef({ x: 0, y: 0 });
   const startTimeRef = useRef(0);
   const [position, setPosition] = useState({ isTop: false });
   const [isMobile, setIsMobile] = useState(false);
+
+  // Fetch resort data
+  const { loading, error, data } = useQuery(QUERY_RESORT_POPUP, {
+    variables: { url_segment },
+  });
+
+  const resort = data?.resortByUrlSegment;
 
   useEffect(() => {
     const checkMobile = () => {
@@ -33,8 +80,8 @@ const ResortPopup = ({ resort, onClose, containerRef }) => {
     if (!cardRef.current || !containerRef?.current || isMobile) return;
 
     const updatePosition = () => {
-      const container = containerRef.current.getBoundingClientRect();
-      const card = cardRef.current.getBoundingClientRect();
+      const container = containerRef.current!.getBoundingClientRect();
+      const card = cardRef.current!.getBoundingClientRect();
       const markerY = container.height / 2;
 
       let isTop = false;
@@ -54,18 +101,18 @@ const ResortPopup = ({ resort, onClose, containerRef }) => {
   }, [containerRef, isMobile]);
 
   useEffect(() => {
-    const handleMouseDown = (event) => {
+    const handleMouseDown = (event: MouseEvent) => {
       mouseDownPosRef.current = { x: event.clientX, y: event.clientY };
       startTimeRef.current = Date.now();
     };
 
-    const handleMouseUp = (event) => {
+    const handleMouseUp = (event: MouseEvent) => {
       const distanceX = Math.abs(event.clientX - mouseDownPosRef.current.x);
       const distanceY = Math.abs(event.clientY - mouseDownPosRef.current.y);
       const timeElapsed = Date.now() - startTimeRef.current;
       const isClick = distanceX < 10 && distanceY < 10 && timeElapsed < 200;
 
-      if (isClick && cardRef.current && !cardRef.current.contains(event.target)) {
+      if (isClick && cardRef.current && !cardRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -81,9 +128,27 @@ const ResortPopup = ({ resort, onClose, containerRef }) => {
     };
   }, [onClose, isMobile]);
 
-  const handlePopupClick = (event) => {
+  const handlePopupClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center p-4">
+        <CSpinner />
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !resort) {
+    return (
+      <div className="text-danger p-4">
+        Error loading resort details
+      </div>
+    );
+  }
 
   if (isMobile) {
     return (
@@ -103,7 +168,7 @@ const ResortPopup = ({ resort, onClose, containerRef }) => {
             <div className="flex-shrink-0" style={{ width: '100px', height: '75px' }}>
               <RankedResortMapPopupImageCarousel
                 key={resort.id}
-                images={resort?.resort_images}
+                images={resort.resort_images}
               />
             </div>
 
@@ -167,7 +232,7 @@ const ResortPopup = ({ resort, onClose, containerRef }) => {
         <div className="position-relative">
           <RankedResortMapPopupImageCarousel
             key={resort.id}
-            images={resort?.resort_images}
+            images={resort.resort_images}
           />
 
           <div className="position-absolute top-0 end-0 d-flex gap-2 p-2">

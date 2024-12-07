@@ -77,6 +77,7 @@ export interface Resort {
   location: Location;
   total_score: Score;
   ratingScores: RatingScore[];
+  keyInsight: Numeric[];
   numerics: Numeric[];
   generics: Generic[];
   highlights: Score[];
