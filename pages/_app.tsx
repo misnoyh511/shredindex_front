@@ -46,6 +46,7 @@ export const layouts = {
   privacy: dynamic(() => import('./privacy-policy'), { ssr: true }),
   terms: dynamic(() => import('./terms-and-conditions'), { ssr: true }),
   home: dynamic(() => import('./../components/Home/home'), { ssr: true }),
+  404: dynamic(() => import('./404'), { ssr: true }),
 };
 
 const InitializeRecoilState = () => {

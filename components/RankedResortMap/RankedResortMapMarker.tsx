@@ -69,24 +69,17 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
   const currentFilter = useRecoilValue(currentOrderByState);
   const orderByType = currentFilter?.type_name || 'total_score';
 
-  // Get the value based on the current filter
+  // Get the value from keyInsight or total_score
   let value, maxValue, unit;
 
   if (orderByType === 'total_score') {
-    value = resort.total_score?.value;
+    value = resort?.total_score?.value;
   } else {
-    // Check ratingScores first
-    const ratingScore = resort.ratingScores?.find(s => s.name === orderByType);
-    if (ratingScore) {
-      value = ratingScore.value;
-    } else {
-      // Check numerics if not found in ratingScores
-      const numeric = resort.numerics?.find(n => n.name === orderByType);
-      if (numeric) {
-        value = numeric.value;
-        maxValue = numeric.type?.max_value;
-        unit = numeric.type?.unit;
-      }
+    const insight = resort?.keyInsight;
+    if (insight) {
+      value = insight.value;
+      maxValue = insight.type?.max_value;
+      unit = insight.type?.unit;
     }
   }
 
@@ -95,13 +88,30 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
 
   const { displayValue, backgroundColor, unit: displayUnit } = formatValue(value, maxValue, unit);
 
+  // Calculate z-index based on value
+  let zIndex = 1;
+  if (value !== 'n/a' && typeof value === 'number') {
+    if (maxValue) {
+      // For numerics, scale based on maxValue
+      zIndex = Math.floor((value / maxValue) * 1000);
+    } else {
+      // For ratings and total score (0-100 scale)
+      zIndex = Math.floor(value * 10);
+    }
+  }
+
+  // If selected, add 1000 to ensure it's always on top
+  if (isSelected) {
+    zIndex += 1000;
+  }
+
   return (
     <div
       onClick={onClick}
       className="position-relative"
       style={{
         transform: 'translate(-50%, -50%)',
-        zIndex: isSelected ? 2 : 1,
+        zIndex,
       }}
     >
       <div
@@ -146,7 +156,7 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
           className={`text-truncate ${value === 'n/a' ? 'text-white' : 'text-dark'} user-select-none`}
           style={{ maxWidth: '80px', fontSize: '0.9rem' }}
         >
-          {resort.title}
+          {resort?.title}
         </span>
       </div>
     </div>
@@ -154,11 +164,10 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
 }, (prevProps, nextProps) => {
   return (
     prevProps.isSelected === nextProps.isSelected &&
-    prevProps.resort.id === nextProps.resort.id &&
-    prevProps.resort.total_score?.value === nextProps.resort.total_score?.value &&
-    prevProps.resort.title === nextProps.resort.title &&
-    JSON.stringify(prevProps.resort.ratingScores) === JSON.stringify(nextProps.resort.ratingScores) &&
-    JSON.stringify(prevProps.resort.numerics) === JSON.stringify(nextProps.resort.numerics)
+    prevProps.resort?.id === nextProps.resort?.id &&
+    prevProps.resort?.total_score?.value === nextProps.resort?.total_score?.value &&
+    prevProps.resort?.title === nextProps.resort.title &&
+    JSON.stringify(prevProps.resort.keyInsight) === JSON.stringify(nextProps.resort.keyInsight)
   );
 });
 

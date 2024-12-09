@@ -31,11 +31,16 @@ export const QUERY_RESORTS = gql`
           title
           value
         }
-        ratingScores {
-          id
+        keyInsight(type_name: $orderBy) {
           name
           title
           value
+          source
+          type {
+            name
+            unit
+            max_value
+          }
         }
         numerics {
           id

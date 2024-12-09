@@ -4,6 +4,7 @@
     "shredindex.app.BECOMEA": "Become a",
     "shredindex.app.PROMEMBER": "Pro Member",
     "shredindex.app.N/A": "n/a",
+    "shredindex.home.LIFESTYLES": "Find resorts that match your style",
     "shredindex.home.RESORTSIN": "resorts in",
     "shredindex.home.COUNTRIES": "countries",
     "shredindex.home.COUNTRIES": " If you ski one resort a day, it’ll take  16.7 years to shred them all",
@@ -150,6 +151,6 @@
     "shredindex.statistics.STATISTICS": "Statistics",
     "shredindex.statistics.NOSTATISTICSAVALIABLE": "No statistics available",
     "shredindex.images.NOIMAGESAVALIBLE": "No images available",
-    "shredindex.statistics.KEYINSIGHTS": "Key insights",
+    "shredindex.statistics.KEYINSIGHT": "Key insight",
     "shredindex.generics.FEATURES": "Features"
 }

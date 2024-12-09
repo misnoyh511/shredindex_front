@@ -26,8 +26,8 @@ const HomeLifeStyles: React.FC = () => {
       <div className="home-lifestyles-title mb-4">
         <h4>
           <FormattedMessage
-            id="shredindex.filter.LIFESTYLES"
-            defaultMessage="Lifestyles"
+            id="shredindex.home.LIFESTYLES"
+            defaultMessage="Find Resorts That Match Your Style"
           />
         </h4>
       </div>

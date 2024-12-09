@@ -13,37 +13,14 @@ export const QUERY_RESORTS_MAP = gql`
         affiliate_url
         location {
           id
-          city
           latitude
           longitude
-          country {
-            id
-            code
-            name
-          }
-          state {
-            id
-            code
-            name
-          }
         }
-        resort_images {
-          id
+        keyInsight(type_name: $orderBy) {
           name
-          alt
-          sort_order
-          image {
-            path
-            content_type
-          }
-        }
-        ratingScores {
-          name
+          title
           value
-        }
-        numerics {
-          name
-          value
+          source
           type {
             name
             unit

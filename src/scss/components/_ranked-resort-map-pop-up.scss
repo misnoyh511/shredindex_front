@@ -1,0 +1,103 @@
+@import 'variables';
+
+.resort-popup {
+  // Mobile styles
+  &--mobile {
+    font-family: "Plus Jakarta Sans" !important;
+
+    position: fixed;
+    bottom: 14rem;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0 1rem 1rem;
+
+    &__content {
+      display: flex;
+    }
+
+    &__thumbnail-wrapper {
+      min-width: 120px;
+      max-width: 120px;
+      height: 8rem;
+    }
+
+    &__info {
+      padding: 0 0 0 0.75rem;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0; // Add this to enable text truncation
+      width: 100%;
+    }
+
+    &--mobile__header {
+      width: -webkit-fill-available !important;
+      overflow: hidden;
+      display: flex;
+    }
+
+    & .header {
+      width: -webkit-fill-available;
+      min-width: 0;
+      overflow: hidden !important;
+      display: block;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  // Desktop styles
+  &--desktop {
+    font-family: "Plus Jakarta Sans" !important;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    z-index: 1000;
+
+    &.top {
+      top: 100%;
+      margin-top: 20px;
+    }
+
+    &.bottom {
+      bottom: 100%;
+      margin-bottom: 20px;
+    }
+
+    &__close-button-wrapper {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+  }
+
+  // Shared styles
+  &__image-carousel {
+    height: 8rem;
+
+    @include media-breakpoint-down(md) {
+      height: -webkit-fill-available;
+    }
+
+    .flickity-viewport {
+      height: 100%;
+    }
+
+    .flickity-prev-next-button {
+      &.previous {
+        left: 0;
+      }
+      &.next {
+        right: 0;
+      }
+    }
+  }
+}

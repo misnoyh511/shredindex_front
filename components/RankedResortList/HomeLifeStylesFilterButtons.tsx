@@ -29,25 +29,30 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
   const { loading, error } = useQueryOrderBy();
 
   const handleLifestyleChange = (lifestyle) => {
+    // Batch the synchronous state updates first
     const newFormData = {
       type_name: lifestyle.key || defaultType.key,
       direction: formData?.direction || defaultDirection,
     };
 
     setFormData(newFormData);
+    setLifeStyle(lifestyle.label || defaultType.label);
 
+    // Update URL without awaiting
     const updatedQuery = {
       ...router.query,
       orderBy: JSON.stringify(newFormData),
-      page: '1', // Reset to the first page when filters change
+      page: '1',
     };
 
+    // Use shallow routing for faster URL updates
     router.push({
       pathname: router.pathname,
       query: updatedQuery,
-    }, undefined, { scroll: false });
-
-    setLifeStyle(lifestyle.label || defaultType.label);
+    }, undefined, {
+      scroll: false,
+      shallow: true,
+    });
   };
 
   const getButtonVariant = (lifestyle) => {

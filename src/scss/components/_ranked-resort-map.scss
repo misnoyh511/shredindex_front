@@ -1,16 +1,70 @@
+.map-wrapper {
+  position: relative;
+  height: 100%;
+  padding-bottom: 2rem;
+  padding-top: 0;
+
+  @include media-breakpoint-up(md) {
+    padding-top: 2rem;
+  }
+}
+
 .sticky-resort-map {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
+  overflow: hidden;
 
-  .text-dark {
+  @include media-breakpoint-up(md) {
+    height: calc(100vh - 80px);
+    top: 2rem;
+  }
+
+  & .text-dark {
     color: $gray-200 !important;
   }
 }
 
-/* Ensure the parent container allows scrolling */
+.map-container {
+  width: 100%;
+  height: calc(100vh - 80px);
+  position: sticky;
+  top: 0;
+
+  &--mobile {
+    height: 100%;
+  }
+}
+
+.map-loading,
+.map-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: $dark;
+  border-radius: 2rem;
+}
+
+.map-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main content scrolling */
 .main-content,
 .content-wrapper,
 .page-wrapper {
@@ -19,27 +73,7 @@
   height: 100vh;
 }
 
-.map-pop-up-image {
-  height: 8rem; /* Default height for larger screens */
-
-  .flickity-viewport {
-    height: 100%
-  }
-
-
-  @media screen and (max-width: 767px) {
-    height: -webkit-fill-available;
-  }
-
-  & .flickity-prev-next-button.previous {
-    left: 0;
-  }
-  & .flickity-prev-next-button.next {
-    right: 0;
-  }
-}
-
-
+/* Gradient backgrounds */
 .bg-success-gradient {
   background: linear-gradient(45deg, var(--cui-success) 0%, #2dce89 100%);
 }
@@ -56,6 +90,7 @@
   background: linear-gradient(45deg, var(--cui-danger) 0%, #f5365c 100%);
 }
 
+/* Transitions and hover effects */
 .transition-all {
   transition: all 0.2s ease-in-out;
 }

@@ -52,7 +52,7 @@ const RankedResortMapPopupImageCarousel: React.FC<ResortCardImageCarouselProps> 
   );
 
   return (
-    <div className="map-pop-up-image">
+    <div className="resort-popup__image-carousel">
       <Flickity
         ref={flickityRef}
         className="carousel w-100 h-100 gray-300-bg border-radius-medium position-relative"

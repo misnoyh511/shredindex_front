@@ -6,10 +6,10 @@ import { useRouter } from 'next/router';
 import { debounce } from 'lodash';
 import useQueryResortsMap from '../../hooks/useQueryResortsMap';
 import { CSpinner } from '@coreui/react';
-import { MAP_STYLES } from '@/RankedResortMap/GoogleMapStyles';
-import ResortPopup from '@/RankedResortMap/RankedResortMapPopup';
+import ResortPopup from '@/RankedResortMap/RankedResortMapPopup/RankedResortMapPopup';
 import ResortMarker from '@/RankedResortMap/RankedResortMapMarker';
-import { Resort, ApiFilters, QueryResult, PixelOffset } from '../../types/googleMapTypes';
+import { Resort, ApiFilters, PixelOffset } from '../../types/googleMapTypes';
+import { googleMapsOptions } from '@/js/components/config/google-maps-options';
 
 const RankedResortMap: React.FC = () => {
   const router = useRouter();
@@ -39,9 +39,10 @@ const RankedResortMap: React.FC = () => {
 
     try {
       const filters = JSON.parse(router.query.filters as string);
+      const { orderBy: _, ...filterData } = filters;
       return {
-        groupedType: Array.isArray(filters.groupedType) ? filters.groupedType : [],
-        locationType: filters.locationType || {},
+        groupedType: Array.isArray(filterData.groupedType) ? filterData.groupedType : [],
+        locationType: filterData.locationType || {},
       };
     } catch (error) {
       console.error('Error parsing filters from URL:', error);
@@ -49,61 +50,36 @@ const RankedResortMap: React.FC = () => {
     }
   }, [router.query.filters]);
 
-  // Track if this is a new query
+  // Get orderBy with total_score as default
+  const orderBy = useMemo(() => {
+    if (!router.query.orderBy) {
+      return {
+        type_name: 'total_score',
+        direction: 'desc',
+      };
+    }
+
+    try {
+      return JSON.parse(router.query.orderBy as string);
+    } catch (error) {
+      console.error('Error parsing orderBy from URL:', error);
+      return {
+        type_name: 'total_score',
+        direction: 'desc',
+      };
+    }
+  }, [router.query.orderBy]);
+
   const currentQuery = JSON.stringify(apiFilters);
   const isNewQuery = currentQuery !== previousQueryRef.current;
 
-  // Query using URL-based filters
-  const { loading, data, error } = useQueryResortsMap(30, 1, apiFilters) as {
-    loading: boolean;
-    data?: QueryResult;
-    error?: Error;
-  };
+  const { loading, data, error } = useQueryResortsMap(13, 1, apiFilters, orderBy);
 
-  // Map configuration
-  const defaultCenter = useMemo(() => ({ lat: 40, lng: -100 }), []);
-  const defaultZoom = useMemo(() => 4, []);
-  const mapOptions: google.maps.MapOptions = useMemo(() => ({
-    disableDefaultUI: true,
-    disableDoubleClickZoom: true,
-    zoomControl: false,
-    clickableIcons: false,
-    minZoom: 2,
-    maxZoom: 15,
-    gestureHandling: 'greedy',
-    restriction: {
-      latLngBounds: {
-        north: 85,
-        south: -85,
-        west: -180,
-        east: 180,
-      },
-      strictBounds: true,
-    },
-    styles: MAP_STYLES,
-  }), []);
+  const defaultCenter = useMemo(() => ({ lat: 10, lng: -110 }), []);
+  const defaultZoom = useMemo(() => 2, []);
+  const mapOptions: google.maps.MapOptions = useMemo(() => (googleMapsOptions), []);
 
-  const mapContainerStyle = useMemo(() => ({
-    width: '100%',
-    height: isMobileTablet ? '100%' : 'calc(100vh - 80px)',
-    position: 'sticky' as const,
-    top: 0,
-  }), [isMobileTablet]);
-
-  const wrapperStyle = useMemo(() => ({
-    position: 'relative' as const,
-    height: '100%',
-    paddingBottom: '2rem',
-    paddingTop: isMobileTablet ? '0rem' : '2rem',
-  }), [isMobileTablet]);
-
-  const stickyContainerStyle = useMemo(() => ({
-    position: 'sticky' as const,
-    top: isMobileTablet ? '0rem' : '2rem',
-    left: '0',
-    right: '0',
-    height: isMobileTablet ? '100%' : 'calc(100vh - 80px)',
-  }), [isMobileTablet]);
+  const mapContainerClass = isMobileTablet ? 'map-container map-container--mobile' : 'map-container';
 
   // Process resorts data
   const resorts = useMemo(() => {
@@ -117,14 +93,12 @@ const RankedResortMap: React.FC = () => {
     });
   }, [data]);
 
-  // Update display resorts smoothly
   useEffect(() => {
     if (resorts.length > 0) {
       setDisplayResorts(resorts);
     }
   }, [resorts]);
 
-  // Function to update filters with Map Area
   const updateFiltersForMapArea = useCallback((bounds: google.maps.LatLngBounds) => {
     if (!bounds || !shouldUpdateFiltersRef.current || isAutoFitRef.current) return;
 
@@ -143,7 +117,6 @@ const RankedResortMap: React.FC = () => {
       },
     };
 
-    // Update URL with new filters
     const newQuery = {
       ...router.query,
       filters: JSON.stringify(newFilters),
@@ -156,7 +129,7 @@ const RankedResortMap: React.FC = () => {
   }, [apiFilters, router]);
 
   const debouncedUpdateFilters = useMemo(
-    () => debounce(updateFiltersForMapArea, 500),
+    () => debounce(updateFiltersForMapArea, 10),
     [updateFiltersForMapArea],
   );
 
@@ -165,7 +138,6 @@ const RankedResortMap: React.FC = () => {
     setIsMapReady(true);
   }, []);
 
-  // Function to fit bounds based on resorts
   const fitBoundsToResorts = useCallback(() => {
     if (!map || !resorts.length) return;
 
@@ -188,13 +160,11 @@ const RankedResortMap: React.FC = () => {
       map.fitBounds(bounds, padding);
     }
 
-    // Use setTimeout to ensure isAutoFitRef is reset after the bounds_changed event is triggered
     setTimeout(() => {
       isAutoFitRef.current = false;
     }, 1000);
   }, [map, resorts]);
 
-  // Handle location type changes
   useEffect(() => {
     if (!map || !isMapReady) return;
 
@@ -214,7 +184,6 @@ const RankedResortMap: React.FC = () => {
     previousLocationTypeRef.current = currentLocationType;
   }, [apiFilters.locationType, map, isMapReady, fitBoundsToResorts]);
 
-  // Effect for handling resort updates and new queries
   useEffect(() => {
     if (!map || !isMapReady) return;
 
@@ -232,7 +201,6 @@ const RankedResortMap: React.FC = () => {
     previousResortsRef.current = resorts;
   }, [map, resorts, isMapReady, fitBoundsToResorts, isNewQuery, currentQuery]);
 
-  // Effect for handling map interaction
   useEffect(() => {
     if (!map || !isMapReady) return;
 
@@ -266,7 +234,6 @@ const RankedResortMap: React.FC = () => {
     };
   }, [map, isMapReady, debouncedUpdateFilters]);
 
-  // Cleanup
   useEffect(() => {
     return () => {
       debouncedUpdateFilters.cancel();
@@ -280,24 +247,24 @@ const RankedResortMap: React.FC = () => {
 
   if (!isLoaded) {
     return (
-      <div className="d-flex align-items-center justify-content-center h-100 bg-dark border-radius-large">
+      <div className="map-loading">
         <div className="text-medium-emphasis">Loading map...</div>
       </div>
     );
   }
 
   return (
-    <div style={wrapperStyle}>
-      <div style={stickyContainerStyle} className={`sticky-resort-map overflow-hidden ${isMobileTablet ? '' : 'border-radius-large'}`}>
+    <div className="map-wrapper">
+      <div className={`sticky-resort-map ${isMobileTablet ? '' : 'border-radius-large'}`}>
         <div className="h-100">
           {error && (
-            <div className="d-flex align-items-center justify-content-center h-100 bg-dark">
+            <div className="map-error">
               <div className="text-danger">Error loading resorts. Please try again.</div>
             </div>
           )}
 
           <GoogleMap
-            mapContainerStyle={mapContainerStyle}
+            mapContainerClassName={mapContainerClass}
             center={defaultCenter}
             zoom={defaultZoom}
             options={mapOptions}
@@ -327,7 +294,7 @@ const RankedResortMap: React.FC = () => {
 
             {selectedResort && isMobileTablet && (
               <ResortPopup
-                resort={selectedResort}
+                url_segment={selectedResort?.url_segment}
                 onClose={() => setSelectedResort(null)}
                 containerRef={mapContainerRef}
               />
@@ -344,7 +311,7 @@ const RankedResortMap: React.FC = () => {
                 getPixelPositionOffset={getPixelPositionOffset}
               >
                 <ResortPopup
-                  resort={selectedResort}
+                  url_segment={selectedResort?.url_segment}
                   onClose={() => setSelectedResort(null)}
                   containerRef={mapContainerRef}
                 />
@@ -353,7 +320,7 @@ const RankedResortMap: React.FC = () => {
           </GoogleMap>
 
           {loading && (
-            <div className="position-absolute top-0 start-0 w-100 mt-4 d-flex align-items-center justify-content-center">
+            <div className="map-loading-overlay">
               <CSpinner />
             </div>
           )}
