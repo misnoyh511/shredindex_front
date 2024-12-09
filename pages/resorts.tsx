@@ -4,7 +4,7 @@ import RankedResortList from '../components/RankedResortList/RankedResortList';
 import ResortsParallaxBackground from '../components/ResortsParallaxBackground/ResortsParallaxBackground';
 import RankedResortFilterMenu from '@/RankedResortFilterMenu/RankedResortFilterMenu';
 import RankedResortMap from '../components/RankedResortMap/RankedResortMap';
-import { currentFilterState, currentOrderByState   } from '../atoms/filterState';
+import { currentFilterState, currentOrderByState } from '../atoms/filterState';
 import { useRecoilState } from 'recoil';
 import { FormData } from '../types/filterTypes';
 import useWindowDimensions from '../hooks/getWindowDimensions';
@@ -27,14 +27,12 @@ const Resorts: React.FC = () => {
   const dragStartY = useRef(0);
   const dragStartHeight = useRef(0);
 
-  // Update sheet position when device type changes
   useEffect(() => {
     if (isTablet) {
       setSheetPosition('half');
     }
   }, [isTablet]);
 
-  // Scroll the content div to top when formData changes
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollTo({
@@ -55,15 +53,8 @@ const Resorts: React.FC = () => {
     const deltaY = e.touches[0].clientY - dragStartY.current;
     const isDraggingUp = deltaY < 0;
 
-    // If on tablet, disable drag
-    if (isTablet) {
-      return;
-    }
-
-    // On mobile, only allow upward dragging
-    if (!isDraggingUp) {
-      return;
-    }
+    if (isTablet) return;
+    if (!isDraggingUp) return;
 
     const DRAG_THRESHOLD = window.innerHeight * 0.1;
 
@@ -82,10 +73,7 @@ const Resorts: React.FC = () => {
   };
 
   const getSheetHeight = () => {
-    if (isTablet) {
-      return '50vh';
-    }
-
+    if (isTablet) return '50vh';
     switch (sheetPosition) {
       case 'full':
         return 'calc(100vh - 5rem)';
@@ -98,113 +86,54 @@ const Resorts: React.FC = () => {
 
   if (isMobileTablet) {
     return (
-      <div style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      <div className="resorts-mobile">
         <ResortsParallaxBackground/>
 
-        {/* Filter Menu */}
-        <div className="ranked-resort-list__filters-wrap z-3 position-relative">
+        <div className="ranked-resort-list__filters-wrap">
           <RankedResortFilterMenu filterQuantity={activeFilterCount}/>
         </div>
 
-        {/* Map */}
-        <div style={{ height: '100%', width: '100%' }}>
+        <div className="resorts-mobile__map">
           <RankedResortMap filters={formData}/>
         </div>
 
-        {/* Draggable Resort List */}
         <div
           ref={sheetRef}
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            height: getSheetHeight(),
-            transition: 'height 300ms ease',
-            touchAction: 'none',
-            zIndex: 2,
-            backgroundColor: 'rgb(29, 46, 57)',
-            borderTop: 'solid rgb(40, 60, 73)',
-            borderTopLeftRadius: '16px',
-            borderTopRightRadius: '16px',
-            padding: '0 16px',
-          }}
+          className={`resorts-mobile__sheet ${sheetPosition}`}
+          style={{ height: getSheetHeight() }}
           onTouchStart={handleDragStart}
           onTouchMove={handleDrag}
         >
-          {/* Drag handle at top */}
-          <div className="mb-2" style={{ width: '100%', height: '20px', textAlign: 'center' }}>
-            <div style={{ width: '48px', height: '8px', background: '#6c757d', margin: '8px auto', borderRadius: '2px' }}></div>
+          <div className="resorts-mobile__drag-handle">
+            <div className="drag-indicator"></div>
           </div>
 
-          {/* Content */}
-          <div
-            className={'ranked-resort-list-card-holder'}
-            ref={contentRef}
-            style={{
-              height: 'calc(100% - 40px)',
-              overflow: 'auto',
-              msOverflowStyle: 'none',
-              scrollbarWidth: 'none',
-              '::-webkit-scrollbar': {
-                display: 'none',
-              },
-            }}
-          >
+          <div className="ranked-resort-list-card-holder" ref={contentRef}>
             <RankedResortList cardLimit={5} />
           </div>
 
-          {/* Navigation pills - Only show on mobile, not tablet */}
           {!isTablet && (
             <>
               {sheetPosition === 'peek' ? (
                 <div
-                  className={'ranked-resort-list-map-list-pills'}
-                  style={{
-                    position: 'fixed',
-                    bottom: '32px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: '#343a40',
-                    borderRadius: '24px',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                    zIndex: 2000,
-                  }}
+                  className="navigation-pill view-list"
                   onClick={() => setSheetPosition('full')}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 6h18M3 12h18M3 18h18"/>
                   </svg>
-                  <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View List</span>
+                  <span>View List</span>
                 </div>
               ) : (
                 <div
-                  style={{
-                    position: 'fixed',
-                    bottom: '32px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: '#343a40',
-                    borderRadius: '24px',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                    zIndex: 2000,
-                  }}
+                  className="navigation-pill view-map"
                   onClick={handleViewMap}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
-                  <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>View Map</span>
+                  <span>View Map</span>
                 </div>
               )}
             </>

@@ -1,5 +1,7 @@
 // types/resortTypes.ts
 
+import React from 'react';
+
 export interface Country {
   id: string;
   code: string;
@@ -88,4 +90,10 @@ export interface Resort {
 
 export interface AffiliateUrl {
   affiliateUrl: string;
+}
+
+export interface ResortPopupProps {
+  url_segment: string;
+  onClose: () => void;
+  containerRef: React.RefObject<HTMLDivElement>;
 }

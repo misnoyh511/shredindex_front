@@ -1,4 +1,4 @@
-export const MAP_STYLES = [
+export const googleMapStyles = [
   {
     elementType: 'geometry',
     stylers: [

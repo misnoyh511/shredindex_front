@@ -1,0 +1,89 @@
+@import 'variables';
+
+.resorts-mobile {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+&__map {
+    height: 100%;
+    width: 100%;
+  }
+
+&__sheet {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: height 300ms ease;
+    touch-action: none;
+    z-index: 2;
+    background-color: rgb(29, 46, 57);
+    border-top: solid rgb(40, 60, 73);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding: 0 16px;
+  }
+
+&__drag-handle {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+
+  .drag-indicator {
+      width: 48px;
+      height: 8px;
+      background: #6c757d;
+      margin: 8px auto;
+      border-radius: 2px;
+    }
+  }
+
+.ranked-resort-list {
+  &__filters-wrap {
+      z-index: 3;
+      position: relative;
+    }
+  }
+
+.ranked-resort-list-card-holder {
+    height: calc(100% - 40px);
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+.navigation-pill {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(#16252f, #101d25) !important;
+    border-radius: 24px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 2000;
+
+    span {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Desktop styles
+.resorts {
+  .ranked-resort-list__filters-wrap {
+    padding: 0;
+    width: 100%;
+  }
+}
