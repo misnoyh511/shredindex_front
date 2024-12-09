@@ -7,7 +7,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
-      uri: process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT, // Your GraphQL endpoint
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT, // Your GraphQL endpoint
     }),
     cache: new InMemoryCache(),
   });

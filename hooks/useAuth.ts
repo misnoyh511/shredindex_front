@@ -1,4 +1,5 @@
 import { useRecoilState, useResetRecoilState } from 'recoil';
+import Cookies from 'js-cookie';
 import { userState, authLoadingState, authErrorState } from '../atoms/authAtoms';
 import { MUTATIONS } from '../graphql/auth';
 import { useEffect, useCallback, useRef } from 'react';
@@ -11,16 +12,16 @@ export const useAuth = () => {
   const popupRef = useRef<Window | null>(null);
   const intervalRef = useRef<NodeJS.Timeout>();
 
-  const API_URL = process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
-  const BACKEND_URL = process.env.NEXT_DEVELOPMENT_API_URL || process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const graphqlRequest = async (query: string, variables = {}) => {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(localStorage.getItem('token') && {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        ...(Cookies.get('token') && {
+          Authorization: `Bearer ${Cookies.get('token')}`,
         }),
       },
       body: JSON.stringify({
@@ -30,10 +31,24 @@ export const useAuth = () => {
     });
 
     const data = await response.json();
-    console.log('GraphQL Response:', data);
 
     if (data.errors) {
-      throw new Error(data.errors[0].extensions.debugMessage);
+      const predefinedErrorMessages = [
+        "Login failed: Invalid credentials",
+        "Failed to create user: The first name field is required.",
+        "Failed to create user: The username has already been taken.",
+        "Failed to create user: The email field is required.",
+        "Failed to create user: The email field must be a valid email address.",
+        "Failed to create user: The password field is required.",
+        "Failed to create user: The password field must be at least 8 characters."
+      ];
+    
+      const matchedErrorMessage = predefinedErrorMessages.find(errorMessage =>
+        errorMessage === data.errors[0].extensions?.debugMessage || 
+        errorMessage === data.errors[0].message
+      ) || 'An unexpected error occurred';
+    
+      throw new Error(matchedErrorMessage);
     }
 
     return data;
@@ -42,8 +57,8 @@ export const useAuth = () => {
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const identifier = localStorage.getItem('userIdentifier');
+      const token = Cookies.get('token');
+      const identifier = Cookies.get('userIdentifier');
 
       if (token && identifier) {
         const { data } = await graphqlRequest(MUTATIONS.AUTHENTICATED_USER, {
@@ -63,8 +78,8 @@ export const useAuth = () => {
       }
     } catch (err) {
       console.error('Auth check failed:', err);
-      localStorage.removeItem('token');
-      localStorage.removeItem('userIdentifier');
+      Cookies.remove('token');
+      Cookies.remove('userIdentifier');
       resetUser();
     } finally {
       setLoading(false);
@@ -84,8 +99,8 @@ export const useAuth = () => {
       });
 
       if (data?.login?.token) {
-        localStorage.setItem('token', data.login.token);
-        localStorage.setItem('userIdentifier', data.login.user.email);
+        Cookies.set('token', data.login.token, { secure: true });        
+        Cookies.set('userIdentifier', data.login.user.email, { secure: true });
         setUser({
           ...data.login.user,
           shredProfile: data.login.shredProfile,
@@ -173,8 +188,8 @@ export const useAuth = () => {
       });
 
       if (data?.exchangeToken?.token) {
-        localStorage.setItem('token', data.exchangeToken.token);
-        localStorage.setItem('userIdentifier', data.exchangeToken.user.email ?? data.exchangeToken.user.username);
+        Cookies.set('token', data.exchangeToken.token, { secure: true });
+        Cookies.set('userIdentifier', data.exchangeToken.user.email ?? data.exchangeToken.user.username, { secure: true });
         setUser({
           ...data.exchangeToken.user,
           shredProfile: data.exchangeToken.shredProfile,
@@ -198,8 +213,8 @@ export const useAuth = () => {
       });
 
       if (data?.createUser?.token) {
-        localStorage.setItem('token', data.createUser.token);
-        localStorage.setItem('userIdentifier', data.createUser.user.email);
+        Cookies.set('token', data.createUser.token, { secure: true });
+        Cookies.set('userIdentifier', data.createUser.user.email, { secure: true });
         setUser({
           ...data.createUser.user,
           shredProfile: data.createUser.shredProfile,
@@ -217,7 +232,7 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       setLoading(true);
-      const identifier = localStorage.getItem('userIdentifier');
+      const identifier = Cookies.get('userIdentifier');
       if (identifier) {
         await graphqlRequest(MUTATIONS.LOGOUT, {
           data: { email: identifier },
@@ -226,8 +241,8 @@ export const useAuth = () => {
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userIdentifier');
+      Cookies.remove('token');
+      Cookies.remove('userIdentifier');
       resetUser();
       setLoading(false);
     }
@@ -235,7 +250,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get('token');
       if (token && !user) {
         checkAuth();
       }

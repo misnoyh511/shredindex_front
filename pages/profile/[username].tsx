@@ -14,7 +14,7 @@ interface ProfilePageProps {
 
 export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (context) => {
   const { username } = context.params as { username: string };
-  const API_URL = process.env.NEXT_DEVELOPMENT_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const API_URL  = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
 
   try {
     // Changed from mutation to query for fetching user profile
