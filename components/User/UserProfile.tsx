@@ -10,6 +10,7 @@ import ResortsParallaxBackground from '@/ResortsParallaxBackground/ResortsParall
 import Image from 'next/image';
 import EditProfileModal from '../EditProfileModel/EditProfileModel';
 import { MUTATIONS } from '../../graphql/auth';
+import Cookies from 'js-cookie';
 
 interface UserProfileProps {
   userProfileData: UserProfileType;
@@ -51,7 +52,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
     setLoading(true);
     setError(null);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/graphql';
+    const API_URL = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
 
     // Only include fields that have values
     const profileData = Object.entries(formState).reduce((acc, [key, value]) => {
@@ -82,7 +83,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
         body: JSON.stringify({
           query: MUTATIONS.UPDATE_PROFILE,
@@ -98,7 +99,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userProfileData, isOwner }) =
       const data = await response.json();
 
       if (data.errors) {
-        throw new Error(data.errors[0].message);
+        throw new Error(data.errors[0].extensions.debugMessage);
       }
 
       if (data.data?.updateProfile) {
