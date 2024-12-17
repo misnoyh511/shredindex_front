@@ -108,19 +108,15 @@ const ResortMarker = memo(({ resort, isSelected, onClick }: ResortMarkerProps) =
   return (
     <div
       onClick={onClick}
-      className="position-relative"
+      className="marker-wrap position-relative"
       style={{
-        transform: 'translate(-50%, -50%)',
         zIndex,
       }}
     >
       <div
-        className="d-inline-flex align-items-center rounded-pill shadow-sm"
+        className={`marker d-inline-flex align-items-center rounded-pill shadow-sm ${isSelected ? 'active' : ''}`}
         style={{
-          padding: '0.375rem 0.75rem',
           backgroundColor,
-          border: isSelected ? '2px solid var(--cui-info)' : '1px solid var(--cui-border-color-translucent)',
-          transition: 'all 0.2s ease-in-out',
         }}
       >
         {/* Score */}

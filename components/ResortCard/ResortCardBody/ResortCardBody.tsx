@@ -69,7 +69,7 @@ const ResortCardBody: React.FC<ResortCardBodyProps> = ({
             <NumericList
               labelMessageId="shredindex.statistics.Statistics"
               label="Statistics"
-              numerics={numerics}
+              numerics={numerics.filter(name => name.name !== keyInsight?.name)}
             />
           </div>
         </div>

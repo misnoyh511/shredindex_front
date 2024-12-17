@@ -102,6 +102,9 @@ const RankedResortMap: React.FC = () => {
   const updateFiltersForMapArea = useCallback((bounds: google.maps.LatLngBounds) => {
     if (!bounds || !shouldUpdateFiltersRef.current || isAutoFitRef.current) return;
 
+    // Don't update if we have location filters
+    if (apiFilters.locationType.continent || apiFilters.locationType.country) return;
+
     const ne = bounds.getNorthEast();
     const sw = bounds.getSouthWest();
 
@@ -129,7 +132,7 @@ const RankedResortMap: React.FC = () => {
   }, [apiFilters, router]);
 
   const debouncedUpdateFilters = useMemo(
-    () => debounce(updateFiltersForMapArea, 10),
+    () => debounce(updateFiltersForMapArea, 300),
     [updateFiltersForMapArea],
   );
 
@@ -162,8 +165,8 @@ const RankedResortMap: React.FC = () => {
 
     setTimeout(() => {
       isAutoFitRef.current = false;
-    }, 1000);
-  }, [map, resorts]);
+    }, 1500);
+  }, [map, resorts, apiFilters.locationType]);
 
   useEffect(() => {
     if (!map || !isMapReady) return;
@@ -176,13 +179,65 @@ const RankedResortMap: React.FC = () => {
       currentLocationType?.mapArea && previousLocationType?.mapArea;
 
     if (hasLocationChange && !isMapAreaChange) {
+      // Clear any pending updates
+      debouncedUpdateFilters.cancel();
+
+      // Reset interaction flags
       userInteractionRef.current = false;
       shouldUpdateFiltersRef.current = false;
+
       fitBoundsToResorts();
     }
 
     previousLocationTypeRef.current = currentLocationType;
-  }, [apiFilters.locationType, map, isMapReady, fitBoundsToResorts]);
+  }, [apiFilters.locationType, map, isMapReady, fitBoundsToResorts, debouncedUpdateFilters]);
+
+  useEffect(() => {
+    if (!map || !isMapReady) return;
+
+    let isDragging = false;
+    let isSettling = false;
+
+    const dragStartListener = map.addListener('dragstart', () => {
+      if (!isAutoFitRef.current) {
+        isDragging = true;
+        userInteractionRef.current = true;
+        shouldUpdateFiltersRef.current = true;
+      }
+    });
+
+    const dragEndListener = map.addListener('dragend', () => {
+      if (isDragging && !isAutoFitRef.current) {
+        isSettling = true;
+        isDragging = false;
+      }
+    });
+
+    const idleListener = map.addListener('idle', () => {
+      if (isSettling && !isDragging && !isAutoFitRef.current) {
+        const bounds = map.getBounds();
+        if (bounds) {
+          debouncedUpdateFilters(bounds);
+        }
+        isSettling = false;
+      }
+    });
+
+    const zoomChangedListener = map.addListener('zoom_changed', () => {
+      if (!isAutoFitRef.current && !isDragging) {
+        userInteractionRef.current = true;
+        shouldUpdateFiltersRef.current = true;
+        isSettling = true;
+      }
+    });
+
+    return () => {
+      google.maps.event.removeListener(dragStartListener);
+      google.maps.event.removeListener(dragEndListener);
+      google.maps.event.removeListener(idleListener);
+      google.maps.event.removeListener(zoomChangedListener);
+    };
+  }, [map, isMapReady, debouncedUpdateFilters]);
 
   useEffect(() => {
     if (!map || !isMapReady) return;
@@ -200,39 +255,6 @@ const RankedResortMap: React.FC = () => {
 
     previousResortsRef.current = resorts;
   }, [map, resorts, isMapReady, fitBoundsToResorts, isNewQuery, currentQuery]);
-
-  useEffect(() => {
-    if (!map || !isMapReady) return;
-
-    const dragStartListener = map.addListener('dragstart', () => {
-      if (!isAutoFitRef.current) {
-        userInteractionRef.current = true;
-        shouldUpdateFiltersRef.current = true;
-      }
-    });
-
-    const zoomChangedListener = map.addListener('zoom_changed', () => {
-      if (!isAutoFitRef.current) {
-        userInteractionRef.current = true;
-        shouldUpdateFiltersRef.current = true;
-      }
-    });
-
-    const boundsChangedListener = map.addListener('bounds_changed', () => {
-      if (!isAutoFitRef.current && userInteractionRef.current && shouldUpdateFiltersRef.current) {
-        const bounds = map.getBounds();
-        if (bounds) {
-          debouncedUpdateFilters(bounds);
-        }
-      }
-    });
-
-    return () => {
-      google.maps.event.removeListener(dragStartListener);
-      google.maps.event.removeListener(zoomChangedListener);
-      google.maps.event.removeListener(boundsChangedListener);
-    };
-  }, [map, isMapReady, debouncedUpdateFilters]);
 
   useEffect(() => {
     return () => {

@@ -3,8 +3,8 @@
 .resort-popup {
   // Mobile styles
   &--mobile {
+    box-shadow: 0px 0px 10px #15252f !important;
     font-family: "Plus Jakarta Sans" !important;
-
     position: fixed;
     bottom: 14rem;
     left: 0;
@@ -51,13 +51,14 @@
 
   // Desktop styles
   &--desktop {
+    box-shadow: 0px 0px 5px #15252f !important;
     font-family: "Plus Jakarta Sans" !important;
-
     position: absolute;
-    left: 50%;
+    left: -50%;
     transform: translateX(-50%);
-    width: 320px;
-    z-index: 1000;
+    width: 16rem;
+    height: 8rem;
+    z-index: 2000;
 
     &.top {
       top: 100%;
@@ -75,7 +76,12 @@
       right: 0;
       display: flex;
       gap: 0.5rem;
-      padding: 0.5rem;
+      padding: 1rem;
+
+      & .rounded-circle {
+        width: 2rem;
+        height: 2rem;
+      }
     }
   }
 

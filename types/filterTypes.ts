@@ -184,14 +184,61 @@ export const StatisticTypeFilters = [
 
 // Score-based filters for qualitative aspects of resorts
 export const ScoreTypeFilters = [
-  'expert_terrain',          // Rating for expert-level terrain
-  'intermediate_terrain',    // Rating for intermediate-level terrain
-  'beginner_terrain',       // Rating for beginner-level terrain
-  'snow_quality',           // Rating for typical snow conditions
-  'uncrowded',              // Rating for how uncrowded the resort typically is
-  'affordability',          // Rating for overall cost and value
-  'tree_skiing',            // Rating for tree skiing opportunities
-  'apres',                  // Rating for after-ski activities
+// Very High Priority
+  'expert_terrain_score',    // Quality of expert terrain
+  'beginner_terrain_score',  // Quality of beginner terrain
+  'snow_quality',             // Quality of snow conditions
+
+  'family_friendly',          // Family-friendly amenities
+  'seasonal_worker',          // Seasonal employment opportunities
+  'uncrowded',               // Lower crowd levels
+  'affordability',            // Cost-effectiveness
+  'backcountry',             // Backcountry access
+  'fresh_tracks',            // Access to untracked snow
+  'terrain_park',            // Terrain park facilities
+  // 'co-working',              // Co-working facilities
+  // 'average_annual_snowfall', // Annual snowfall amount
+  'cultural_experience',     // Cultural experience opportunities
+  // 'sand_skiing',             // Sand skiing opportunities
+
+  // Medium Priority
+  'slackcountry',            // Side-country access
+  'nearby_sled_/_snowmobile_access', // Snowmobile accessibility
+  'ski-in_ski-out',          // Ski-in/ski-out access
+  'housing_availability',     // Housing options
+  'apres',                   // After-ski activities
+  'night_life',              // Nightlife options
+  'longest_run',             // Length of longest run
+  'base_elevation',          // Base elevation
+  'restaurants_and_cafes',   // Dining options
+  'snow_reliability',        // Snow reliability
+  'off-piste',              // Off-piste opportunities
+  'tree_skiing',            // Tree skiing opportunities
+
+  // Low Priority
+  'connectivity',            // Internet connectivity
+  'summer_activities',        // Summer activity options
+  'money_saving_potential',   // Potential for saving money
+  'avalanche_safety',        // Avalanche safety measures
+  'lift_access',             // Lift accessibility
+  'livability',              // Long-term living conditions
+  'job_availability',        // Job market
+  'local_language_inessential', // Need for local language
+  'lgbt_friendly',           // LGBT-friendliness
+  'positive_vibes',          // General atmosphere
+  'camper_friendly',         // Camping facilities
+  'number_of_runs',          // Number of runs
+  'customer_service',        // Quality of customer service
+  'day_care',               // Day care facilities
+
+  // Very Low Priority
+  'english_level',           // English language prevalence
+  'snow_making',            // Snow-making capabilities
+  'international_ratio',      // International visitor ratio
+  'gender_ratio',            // Gender balance
+  'navigation_signage',      // Quality of signage
+  'parking_accessibility',    // Parking facilities
+  'cannabis_friendly',        // Cannabis accessibility
 ] as const;
 
 // Type aliases for strict typing

@@ -3,9 +3,10 @@ const flickityOptions = {
   wrapAround: true,
   prevNextButtons: true,
   fullscreen: true,
+  dragThreshold: 20,
   selectedAttraction: 0.2,
   accessibility: true,
-  friction: 0.8,
+  friction: 1,
   arrowShape: {
     x0: 20,
     x1: 50,
