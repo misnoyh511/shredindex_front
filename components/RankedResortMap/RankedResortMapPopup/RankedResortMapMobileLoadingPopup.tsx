@@ -18,9 +18,8 @@ const RankedResortMapMobileLoadingPopup: React.FC<LoadingPopupProps> = ({ onClos
     <div className="resort-popup--mobile">
       <CCard ref={cardRef} className="shadow border-radius-medium overflow-hidden">
         <div className="resort-popup--mobile__content">
-          {/* Image carousel placeholder */}
           <div className="resort-popup--mobile__thumbnail-wrapper position-relative">
-            <div className="skeleton-image h-100">
+            <div className="skeleton-image carousel__image-wrapper w-100 h-100">
               <ResortImageLoading/>
             </div>
           </div>

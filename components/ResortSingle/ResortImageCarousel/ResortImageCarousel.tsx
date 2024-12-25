@@ -53,7 +53,7 @@ const ResortImageCarousel: React.FC<ResortImageCarouselProps> = ({ images = [] }
       <Image
         className="carousel__image-item border-radius-medium position-relative"
         src={image.image.path}
-        alt={image.name || ''}
+        alt={image.alt || ''}
         fill={true}
       />
     </div>
