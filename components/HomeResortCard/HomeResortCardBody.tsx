@@ -5,6 +5,7 @@ import NumericList from '../NumericList/NumericList';
 import ShareButton from '../ShareButton/ShareButton';
 import Link from 'next/link';
 import { Resort, Score } from '../../types/resortTypes';
+import ResortCardKeyInsight from '@/ResortCardKeyInsight/ResortCardKeyInsight';
 
 interface HomeResortCardBodyProps {
   resort: Resort;
@@ -25,6 +26,7 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
     affiliate_url,
     location,
     description,
+    keyInsight,
     numerics,
     highlights,
     lowlights,
@@ -60,6 +62,9 @@ const HomeResortCardBody: React.FC<HomeResortCardBodyProps> = ({
         )}
       </div>
     </div>
+    {keyInsight && (
+      <ResortCardKeyInsight key={'keyInsight'} keyInsight={keyInsight} />
+    )}
     <div className="resort-card__content-wrap">
       {numerics?.length > 1 && (
         <div className="resort-card__content-1 mb-2 d-flex">

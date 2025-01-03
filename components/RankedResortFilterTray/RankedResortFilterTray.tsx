@@ -14,8 +14,7 @@ import RankedResortFilters from '../RankedResortFilters/RankedResortFilters';
 import { currentFilterState } from '../../atoms/filterState';
 import { FormData, FilterGroup, FilterType } from '../../types/filterTypes';
 import { showFilterTrayState } from '../../atoms/showFilterTray';
-
-
+import { trackFilter, EventAction, EventCategory, event } from '../../lib/gtag';
 
 const RankedResortFilterTray: React.FC = () => {
   const [visible, setVisible] = useRecoilState(showFilterTrayState);
@@ -53,6 +52,19 @@ const RankedResortFilterTray: React.FC = () => {
     // Use the current formData to create activeFilters
     const activeFilters = transformFilters(formData.groupedType);
 
+    // Track filter application
+    activeFilters.forEach(filter => {
+      trackFilter(filter.type_name, filter.value);
+    });
+
+    // Track total number of filters applied
+    event({
+      action: EventAction.FILTER,
+      category: EventCategory.FILTER,
+      label: 'total_filters_applied',
+      value: activeFilters.length,
+    });
+
     // Create a map of active filters for easy lookup and update
     const activeFilterMap = new Map(
       activeFilters.map(filter => [`${filter.type_name}:${filter.operator}`, filter]),
@@ -73,8 +85,6 @@ const RankedResortFilterTray: React.FC = () => {
       pathname: router.pathname,
       query: updatedQuery,
     }, undefined, { scroll: false });
-
-    // The formData is already up-to-date, so we don't need to update it here
 
     handleClose();
   }, [formData, router, handleClose]);
@@ -113,6 +123,14 @@ const RankedResortFilterTray: React.FC = () => {
 
 
   const resetFilters = useCallback(() => {
+    // Track filter reset
+    event({
+      action: 'reset',
+      category: EventCategory.FILTER,
+      label: 'clear_all_filters',
+      value: 1,
+    });
+
     resetFilterState();
     setFilterKey((prevKey) => prevKey + 1);
     localStorage.removeItem('currentFilterState');
@@ -128,7 +146,7 @@ const RankedResortFilterTray: React.FC = () => {
 
     const resetFormData: FormData = {
       groupedType: resetGroupedType,
-      locationType: {},  // Reset locationType only
+      locationType: {},
     };
 
     setFormData(resetFormData);
@@ -145,8 +163,8 @@ const RankedResortFilterTray: React.FC = () => {
     }, undefined, { scroll: false });
   }, [formData, setFormData, resetFilterState, router]);
 
-  const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
-    localStorage.setItem('filterTrayScroll', event.currentTarget.scrollTop.toString());
+  const handleScroll = useCallback((cb: React.UIEvent<HTMLDivElement>) => {
+    localStorage.setItem('filterTrayScroll', cb.currentTarget.scrollTop.toString());
   }, []);
 
   const setInitialScroll = useCallback((ref: HTMLDivElement | null) => {
@@ -181,10 +199,20 @@ const RankedResortFilterTray: React.FC = () => {
         <RankedResortFilters key={filterKey} />
       </CModalBody>
       <CModalFooter className="justify-content-between">
-        <CButton className="text-white" shape="rounded-pill" color="secondary" onClick={resetFilters}>
+        <CButton
+          className="text-white"
+          shape="rounded-pill"
+          color="secondary"
+          onClick={resetFilters}
+        >
           Clear All
         </CButton>
-        <CButton className="text-white" shape="rounded-pill" color="warning" onClick={onSubmit}>
+        <CButton
+          className="text-white"
+          shape="rounded-pill"
+          color="warning"
+          onClick={onSubmit}
+        >
           View
         </CButton>
       </CModalFooter>

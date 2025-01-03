@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { gql, ApolloError } from '@apollo/client';
@@ -7,6 +7,7 @@ import ResortSingle from '@/ResortSingle/ResortSingle';
 import { Resort } from '../../types/resortTypes';
 import { QUERY_RESORTS_URL } from '../../hooks/useQueryResortsUrl';
 import { MetaTags } from '../../components/MetaTags/MetaTags';
+import { trackResortView, pageview } from '../../lib/gtag';
 
 const QUERY_RESORT = gql`
   query ResortByURLSegment($url_segment: String!) {
@@ -157,6 +158,17 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
 
 const ResortPage: React.FC<ResortPageProps> = ({ resortData, error }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    // Track page view when component mounts or route changes
+    if (!router.isFallback && resortData) {
+      // Track specific resort view
+      trackResortView(resortData.title);
+
+      // Track page view
+      pageview(new URL(window.location.href));
+    }
+  }, [router.isFallback, resortData, router.asPath]);
 
   if (router.isFallback) {
     return (

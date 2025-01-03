@@ -14,7 +14,7 @@ const lifestyles = [
   { key: 'family_friendly', name: 'family_friendly', label: 'Family' },
   { key: 'shops', name: 'shops', label: 'Luxury' },
   { key: 'expert_terrain_score', name: 'expert_terrain_score', label: 'Extreme' },
-  { key: 'average_annual_snowfall', name: 'average_annual_snowfall', label: 'Powder' },
+  { key: 'snow_quality', name: 'snow_quality', label: 'Powder' },
   { key: 'total_score', name: 'helicopter', label: 'Helicopter' },
   { key: 'affordability', name: 'affordability', label: 'Affordable' },
 ] as const;

@@ -1,10 +1,29 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 import React from 'react';
+import { GA_TRACKING_ID } from '../lib/gtag';
 
 const Document = () => {
   return (
     <Html lang="en">
       <Head>
+        {/* Google Analytics */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+
         {/* Preload fonts with highest priority */}
         <link
           rel="preload"
@@ -30,6 +49,10 @@ const Document = () => {
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://www.googletagmanager.com"
         />
 
         {/* Load actual font styles */}
