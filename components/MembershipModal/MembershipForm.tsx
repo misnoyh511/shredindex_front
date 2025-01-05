@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CButton } from '@coreui/react';
 import { useStripe, useElements, CardElement, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import { useRouter } from 'next/router';
+import PaymentSuccess from '@/MembershipModal/PaymentSuccess';
+import Cookies from 'js-cookie';
 
 interface MembershipFormProps {
   username: string;
@@ -10,15 +11,70 @@ interface MembershipFormProps {
   handleSignUp: () => void;
 }
 
+const CREATE_SUBSCRIPTION_MUTATION = `
+  mutation CreateSubscription($input: CreateSubscriptionInput!) {
+    createSubscription(input: $input) {
+      user {
+        id
+        username
+        email
+      }
+      token
+      shredProfile {
+        member_tier
+        stripe_customer_id
+      }
+      message
+    }
+  }
+`;
+
 const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handleLogin, handleSignUp }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const router = useRouter();
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
   const [paymentRequest, setPaymentRequest] = useState<stripe.paymentRequest.PaymentRequest | null>(null);
   const [paymentRequestSupported, setPaymentRequestSupported] = useState(false);
   const [paymentInProgress, setPaymentInProgress] = useState(false);
+
+  const processPayment = async (paymentMethodId: string, email: string, name: string) => {
+    try {
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(Cookies.get('token') && {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          }),
+        },
+        body: JSON.stringify({
+          query: CREATE_SUBSCRIPTION_MUTATION,
+          variables: {
+            input: {
+              paymentMethodId,
+              email,
+              name,
+            },
+          },
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        throw new Error(result.errors[0].message);
+      }
+
+      return result.data.createSubscription;
+
+    } catch (error) {
+      console.error('Payment error:', error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     if (stripe && user) {
@@ -27,7 +83,7 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
         currency: 'usd',
         total: {
           label: 'Pro Membership',
-          amount: 900, // $9.00 in cents
+          amount: 9900,
         },
         requestPayerName: true,
         requestPayerEmail: true,
@@ -39,45 +95,28 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
           setPaymentRequestSupported(true);
 
           pr.on('paymentmethod', async (event) => {
-            // Process the payment
             try {
               const { paymentMethod } = event;
-
-              // Send paymentMethod to your server
-              const response = await fetch('/api/create-subscription', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  paymentMethodId: paymentMethod.id,
-                  email: event.payerEmail,
-                  name: event.payerName,
-                }),
-              });
-
-              const subscriptionResult = await response.json();
+              const subscriptionResult = await processPayment(
+                paymentMethod.id,
+                event.payerEmail || user.email,
+                event.payerName || user.username,
+              );
 
               if (subscriptionResult.error) {
-                // Report to the browser that the payment failed
                 event.complete('fail');
                 setErrorMessage(subscriptionResult.error);
                 return;
               }
 
               event.complete('success');
-              setVisible(false);
-              router.push('/payment-success'); // Adjust route as needed
-
+              setShowSuccess(true);
             } catch (error) {
               console.error('Payment Request error:', error);
               event.complete('fail');
-              setErrorMessage('An error occurred during payment');
+              setErrorMessage(error.message);
             }
           });
-
-        } else {
-          setPaymentRequestSupported(false);
         }
       });
     }
@@ -94,50 +133,25 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
     const cardElement = elements.getElement(CardElement);
 
     try {
-      // Create Payment Method
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
+      const { error } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement!,
         billing_details: {
           name: user.username,
-          email: 'user@example.com', // Replace with user's email
+          email: user.email,
         },
       });
 
       if (error) {
         setErrorMessage(error.message || 'An error occurred while creating payment method');
-        setPaymentInProgress(false);
         return;
       }
 
-      // Send PaymentMethod to backend to create Subscription
-      const response = await fetch('/api/create-subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          paymentMethodId: paymentMethod.id,
-          email: 'user@example.com', // Replace with user's email
-          name: user.username,
-        }),
-      });
-
-      const subscriptionResult = await response.json();
-
-      if (subscriptionResult.error) {
-        setErrorMessage(subscriptionResult.error);
-        setPaymentInProgress(false);
-        return;
-      }
-
-      // Handle successful subscription
-      setVisible(false);
-      router.push('/payment-success'); // Adjust route as needed
+      setShowSuccess(true);
 
     } catch (error) {
       console.error('Payment error:', error);
-      setErrorMessage('An error occurred during payment');
+      setErrorMessage(error.message);
     } finally {
       setPaymentInProgress(false);
     }
@@ -145,11 +159,26 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
 
   return (
     <div className="membership-body-wrap">
+      {showSuccess ? (
+        <PaymentSuccess
+          username={user.username}
+          onClose={() => {
+            setVisible(false);
+            // Any additional cleanup or redirection you want to do
+          }}
+        />
+      ) : (
+        <>
       <h3>Upgrade to Pro Membership</h3>
       <p>Get access to more filter options, visible maps, and our forthcoming weather feature.</p>
-      <p><strong>$9 USD yearly</strong></p>
+          <p><strong><span className={'text-decoration-line-through text-secondary'}>$199 USD</span> <span className={'text-primary'}>50% off!</span></strong></p>
+          <p>
+            <strong>$99 USD Lifetime Access</strong> <br />
+            <small className="text-muted mb-3">No subscription bs</small>
+          </p>
 
-      {errorMessage && <div style={{ color: 'red', marginBottom: '1rem' }}>{errorMessage}</div>}
+
+          {errorMessage && <div style={{ color: 'red', marginBottom: '1rem' }}>{errorMessage}</div>}
 
       {user ? (
         // User is logged in
@@ -193,6 +222,8 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
             Sign Up
           </CButton>
         </div>
+      )}
+        </>
       )}
     </div>
   );
