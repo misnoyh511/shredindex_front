@@ -2,9 +2,7 @@ import React, { useMemo } from 'react';
 import { CForm, CRow, CButton } from '@coreui/react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import {
-  cilBaby,
-} from '@coreui/icons';
+import { cilBaby } from '@coreui/icons';
 import PropTypes from 'prop-types';
 import { currentOrderByState } from '../../atoms/filterState';
 import useQueryOrderBy from '../../hooks/useQueryOrderBy';
@@ -29,7 +27,7 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
   const { loading, error } = useQueryOrderBy();
 
   const handleLifestyleChange = (lifestyle) => {
-    // Batch the synchronous state updates first
+    // Handle orderBy state
     const newFormData = {
       type_name: lifestyle.key || defaultType.key,
       direction: formData?.direction || defaultDirection,
@@ -38,14 +36,54 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
     setFormData(newFormData);
     setLifeStyle(lifestyle.label || defaultType.label);
 
-    // Update URL without awaiting
+    // Parse existing filters
+    const currentFilters = router.query.filters
+      ? JSON.parse(router.query.filters as string)
+      : { groupedType: [], locationType: {} };
+
+    let updatedFilters;
+    if (lifestyle.name === 'helicopter') {
+      // For helicopter, add/toggle the helicopter filter
+      const hasHelicopterFilter = currentFilters.groupedType.some(
+        filter => filter.type_name === 'helicopter',
+      );
+
+      if (!hasHelicopterFilter) {
+        // Add helicopter filter
+        updatedFilters = {
+          ...currentFilters,
+          groupedType: [
+            ...currentFilters.groupedType,
+            {
+              type_name: 'helicopter',
+              operator: '=',
+              value: 'yes',
+            },
+          ],
+        };
+      }
+    } else {
+      // For other lifestyles, remove helicopter filter if it exists
+      updatedFilters = {
+        ...currentFilters,
+        groupedType: currentFilters.groupedType.filter(
+          filter => filter.type_name !== 'helicopter',
+        ),
+      };
+    }
+
+    // Update URL
     const updatedQuery = {
       ...router.query,
       orderBy: JSON.stringify(newFormData),
       page: '1',
     };
 
-    // Use shallow routing for faster URL updates
+    // Only include filters if they exist
+    if (updatedFilters) {
+      updatedQuery.filters = JSON.stringify(updatedFilters);
+    }
+
     router.push({
       pathname: router.pathname,
       query: updatedQuery,
@@ -93,7 +131,7 @@ const HomeLifeStylesFilterButtons = ({ setLifeStyle }) => {
       </CForm>
     );
   }
-  if (error) return <p>Error</p>;
+  if (error) return <p>Error has occured</p>;
 
   return (
     <CForm>
