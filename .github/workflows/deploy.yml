@@ -11,38 +11,38 @@ jobs:
     environment: develop  # Specify the environment
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Create .env files
-      run: |
-        chmod +x scripts/deploy.sh
-        ./scripts/deploy.sh
-      env:
-        GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
-        NEXT_PUBLIC_MAPBOX_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPBOX_API_KEY }}
-        NEXT_PUBLIC_MAPBOX_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_STYLE }}
-        NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
-        NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-        NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
-        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-        NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}
+      - name: Create .env files
+        run: |
+          chmod +x scripts/deploy.sh
+          ./scripts/deploy.sh
+        env:
+          GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
+          NEXT_PUBLIC_MAPBOX_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPBOX_API_KEY }}
+          NEXT_PUBLIC_MAPBOX_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_STYLE }}
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}
 
-    - name: Build and push Frontend Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
 
             server {
               listen 80;
-              server_name snowmadlist.com shredindex.com;
+              server_name snowmadlist.com www.snowmadlist.com shredindex.com www.shredindex.com;
               location / {
                   proxy_pass http://localhost:3000;
                   proxy_set_header Host \$host;
@@ -111,7 +111,18 @@ jobs:
             sudo systemctl restart nginx
 
             # Obtain SSL certificates with Certbot
-            sudo certbot --nginx -d snowmadlist.com -d shredindex.com -d www.shredindex.com --non-interactive --agree-tos -m thomas.andrew.hansen@gmail.com
+
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo certbot delete --cert-name snowmadlist.com --non-interactive || true
+            sudo certbot delete --cert-name shredindex.com --non-interactive || true
+
+            # Now obtain fresh certificates
+            sudo certbot --nginx \
+            -d snowmadlist.com -d www.snowmadlist.com \
+            -d shredindex.com -d www.shredindex.com \
+            --non-interactive --agree-tos \
+            -m thomas.andrew.hansen@gmail.com \
+            --redirect
 
             # Restart Nginx to apply the SSL configuration
             sudo systemctl restart nginx
