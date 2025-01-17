@@ -124,5 +124,7 @@ jobs:
             -m thomas.andrew.hansen@gmail.com \
             --redirect
 
+            sudo chown -R www-data:www-data /etc/letsencrypt
+
             # Restart Nginx to apply the SSL configuration
             sudo systemctl restart nginx
