@@ -83,7 +83,7 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
         currency: 'usd',
         total: {
           label: 'Pro Membership',
-          amount: 9900,
+          amount: 19900,
         },
         requestPayerName: true,
         requestPayerEmail: true,
@@ -171,9 +171,9 @@ const MembershipForm: React.FC<MembershipFormProps> = ({ user, setVisible, handl
         <>
       <h3>Upgrade to Pro Membership</h3>
       <p>Get access to more filter options, visible maps, and our forthcoming weather feature.</p>
-          <p><strong><span className={'text-decoration-line-through text-secondary'}>$199 USD</span> <span className={'text-primary'}>50% off!</span></strong></p>
+          <p><strong><span className={'text-decoration-line-through text-secondary'}>$299 USD</span> <span className={'text-primary'}>33% off!</span></strong></p>
           <p>
-            <strong>$99 USD Lifetime Access</strong> <br />
+            <strong>$199 USD Lifetime Access</strong> <br />
             <small className="text-muted mb-3">No subscription bs</small>
           </p>
 
