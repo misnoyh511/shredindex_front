@@ -1,9 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import { Resort } from '../../types/resortTypes';
+import DefaultImage from '../../public/ShredIndexMetaImage.jpg';
 
-const DEFAULT_IMAGE = '../../images/ShredIndexMetaImage.jpg';
-const MAX_DESCRIPTION_LENGTH = 200;
+const DEFAULT_IMAGE = DefaultImage;
+const MAX_DESCRIPTION_LENGTH = 205;
 const SITE_NAME = 'Your Ski Resort Guide';
 
 interface MetaTagsProps {
@@ -12,7 +13,7 @@ interface MetaTagsProps {
 
 export const MetaTags: React.FC<MetaTagsProps> = ({ resortData }) => {
   // Get base URL from environment or fallback to default
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://snowmadlist.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://shredindex.com';
 
   console.log('MetaTags', resortData);
 

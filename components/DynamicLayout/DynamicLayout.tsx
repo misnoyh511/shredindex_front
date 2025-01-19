@@ -27,7 +27,7 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
       <Head>
         <meta charSet="utf-8"/>
         <title>Shred Index</title>
-        <meta name="description" content="Shred Index - Snow resort rankings"/>
+        <meta name="description" content="Shred Index - Ski resort rankings"/>
       </Head>
       <Component
         url={url}

@@ -1,9 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import DefaultImage from '../../public/ShredIndexMetaImage.jpg';
 
-const SITE_NAME = 'SnowMadList';
-const DEFAULT_IMAGE = '/images/ShredIndexMetaImage.jpg';
+const SITE_NAME = 'ShredIndex';
+const DEFAULT_IMAGE = DefaultImage;
 
 const lifestyles = [
   { key: 'family_friendly', name: 'family_friendly', label: 'Family', description: 'Perfect for families with children, featuring easy slopes and comprehensive ski schools' },
@@ -47,7 +48,7 @@ interface HomeMetaTagsProps {
 }
 
 const MetaTagsFallback = () => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://snowmadlist.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://shredindex.com';
 
   return (
     <Head>
@@ -60,7 +61,7 @@ const MetaTagsFallback = () => {
 };
 
 const HomeMetaTagsContent: React.FC<HomeMetaTagsProps> = ({ currentLifestyle, resortData = {} }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://snowmadlist.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://shredindex.com';
 
   const generateMetadata = () => {
     const currentLifestyleData = lifestyles.find(l => l.label === currentLifestyle);
@@ -107,8 +108,8 @@ const HomeMetaTagsContent: React.FC<HomeMetaTagsProps> = ({ currentLifestyle, re
 
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@SnowMadList" />
-      <meta name="twitter:creator" content="@SnowMadList" />
+      <meta name="twitter:site" content="@ShredIndex" />
+      <meta name="twitter:creator" content="@ShredIndex" />
       <meta name="twitter:title" content={metadata.title} />
       <meta name="twitter:description" content={metadata.description} />
       <meta name="twitter:image" content={metadata.images[0].url} />
