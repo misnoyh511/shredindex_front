@@ -97,39 +97,42 @@ export const MetaTags: React.FC<MetaTagsProps> = ({ resortData }) => {
     <Head>
       {/* Essential Meta Tags */}
       <title>{metadata.title}</title>
-      <meta name="description" content={metadata.description} />
-      <link rel="canonical" href={metadata.url} />
+      <meta name="description" content={metadata.description}/>
+      <link rel="canonical" href={metadata.url}/>
 
       {/* Additional SEO Meta Tags */}
-      <meta name="keywords" content={`ski resort, ${metadata.location?.city || ''}, ${metadata.location?.state || ''}, skiing, snowboarding, winter sports`} />
+      <meta name="keywords"
+            content={`ski resort, ${metadata.location?.city || ''}, ${metadata.location?.state || ''}, skiing, snowboarding, winter sports`}/>
       {metadata.location?.latitude && metadata.location?.longitude && (
-        <meta name="geo.position" content={`${metadata.location.latitude};${metadata.location.longitude}`} />
+        <meta name="geo.position" content={`${metadata.location.latitude};${metadata.location.longitude}`}/>
       )}
-      {locationString && <meta name="geo.placename" content={locationString} />}
-      <meta name="robots" content="index, follow, max-image-preview:large" />
+      {locationString && <meta name="geo.placename" content={locationString}/>}
+      <meta name="robots" content="index, follow, max-image-preview:large"/>
 
       {/* Open Graph Meta Tags */}
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:title" content={metadata.title} />
-      <meta property="og:description" content={metadata.description} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={metadata.url} />
+      <meta property="og:site_name" content={SITE_NAME}/>
+      <meta property="og:title" content={metadata.title}/>
+      <meta property="og:description" content={metadata.description}/>
+      <meta property="og:type" content="website"/>
+      <meta property="og:url" content={metadata.url}/>
       {metadata.images.map((image, index) => (
         <React.Fragment key={`og:image:${index}`}>
-          <meta property="og:image" content={image.url} />
-          {image.alt && <meta property="og:image:alt" content={image.alt} />}
+          <meta property="og:image" content={image.url}/>
+          {image.alt && <meta property="og:image:alt" content={image.alt}/>}
         </React.Fragment>
       ))}
+      <meta property="og:image:width" content="1200"/>
+      <meta property="og:image:height" content="630"/>
 
       {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@YourTwitterHandle" />
-      <meta name="twitter:title" content={metadata.title} />
-      <meta name="twitter:description" content={metadata.description} />
+      <meta name="twitter:card" content="summary_large_image"/>
+      <meta name="twitter:site" content="@YourTwitterHandle"/>
+      <meta name="twitter:title" content={metadata.title}/>
+      <meta name="twitter:description" content={metadata.description}/>
       {metadata.images[0] && (
         <>
-          <meta name="twitter:image" content={metadata.images[0].url} />
-          {metadata.images[0].alt && <meta name="twitter:image:alt" content={metadata.images[0].alt} />}
+          <meta name="twitter:image" content={metadata.images[0].url}/>
+          {metadata.images[0].alt && <meta name="twitter:image:alt" content={metadata.images[0].alt}/>}
         </>
       )}
 

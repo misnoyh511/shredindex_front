@@ -88,31 +88,34 @@ const HomeMetaTagsContent: React.FC<HomeMetaTagsProps> = ({ currentLifestyle, re
     <Head>
       {/* Essential Meta Tags */}
       <title>{metadata.title}</title>
-      <meta name="description" content={metadata.description} />
-      <link rel="canonical" href={metadata.url} />
+      <meta name="description" content={metadata.description}/>
+      <link rel="canonical" href={metadata.url}/>
 
       {/* Additional SEO Meta Tags */}
-      <meta name="keywords" content={`ski resorts, ${lifestyles.map(l => `${l.label.toLowerCase()} ski resorts, ${l.label.toLowerCase()} skiing`).join(', ')}, ski reviews, resort comparison`} />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta name="keywords"
+            content={`ski resorts, ${lifestyles.map(l => `${l.label.toLowerCase()} ski resorts, ${l.label.toLowerCase()} skiing`).join(', ')}, ski reviews, resort comparison`}/>
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
 
       {/* Open Graph Meta Tags */}
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:title" content={metadata.title} />
-      <meta property="og:description" content={metadata.description} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={metadata.url} />
-      <meta property="og:image" content={metadata.images[0].url} />
-      <meta property="og:image:alt" content={metadata.images[0].alt} />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:site_name" content={SITE_NAME}/>
+      <meta property="og:title" content={metadata.title}/>
+      <meta property="og:description" content={metadata.description}/>
+      <meta property="og:type" content="website"/>
+      <meta property="og:url" content={metadata.url}/>
+      <meta property="og:image" content={metadata.images[0].url}/>
+      <meta property="og:image:alt" content={metadata.images[0].alt}/>
+      <meta property="og:image:width" content="1200"/>
+      <meta property="og:image:height" content="630"/>
+      <meta property="og:locale" content="en_US"/>
 
       {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@ShredIndex" />
-      <meta name="twitter:creator" content="@ShredIndex" />
-      <meta name="twitter:title" content={metadata.title} />
-      <meta name="twitter:description" content={metadata.description} />
-      <meta name="twitter:image" content={metadata.images[0].url} />
-      <meta name="twitter:image:alt" content={metadata.images[0].alt} />
+      <meta name="twitter:card" content="summary_large_image"/>
+      <meta name="twitter:site" content="@ShredIndex"/>
+      <meta name="twitter:creator" content="@ShredIndex"/>
+      <meta name="twitter:title" content={metadata.title}/>
+      <meta name="twitter:description" content={metadata.description}/>
+      <meta name="twitter:image" content={metadata.images[0].url}/>
+      <meta name="twitter:image:alt" content={metadata.images[0].alt}/>
 
       {/* Schema.org JSON-LD */}
       <script
