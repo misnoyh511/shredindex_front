@@ -4,7 +4,7 @@ import { Resort } from '../../types/resortTypes';
 import DefaultImage from '../../public/ShredIndexMetaImage.jpg';
 
 const DEFAULT_IMAGE = DefaultImage;
-const MAX_DESCRIPTION_LENGTH = 205;
+const MAX_DESCRIPTION_LENGTH = 210;
 const SITE_NAME = 'Your Ski Resort Guide';
 
 interface MetaTagsProps {
