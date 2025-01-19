@@ -1,10 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 import { Resort } from '../../types/resortTypes';
-import DefaultImage from '../../public/ShredIndexMetaImage.jpg';
 
-const DEFAULT_IMAGE = DefaultImage;
-const MAX_DESCRIPTION_LENGTH = 210;
+const DEFAULT_IMAGE = '/ShredIndexMetaImage.jpg';
+const MAX_DESCRIPTION_LENGTH = 206;
 const SITE_NAME = 'Your Ski Resort Guide';
 
 interface MetaTagsProps {
@@ -46,16 +45,20 @@ export const MetaTags: React.FC<MetaTagsProps> = ({ resortData }) => {
       ? `${cleanDescription.substring(0, MAX_DESCRIPTION_LENGTH)}${cleanDescription.length > MAX_DESCRIPTION_LENGTH ? '...' : ''}`
       : `Discover ${resortData.title} ski resort in ${locationStr}. Read reviews and get detailed information about this stunning winter destination.`;
 
-    // Process images
-    const images = resortData.resort_images
-      ?.filter(img => img?.image?.path)
-      .map(img => ({
-        url: img.image.path.startsWith('http') ? img.image.path : `${baseUrl}${img.image.path}`,
-        alt: img.alt || `${resortData.title} ski resort - ${img.name}`,
-      })) || [{
-      url: `${baseUrl}${DEFAULT_IMAGE}`,
-      alt: `${resortData.title} ski resort`,
-    }];
+    // Process all resort images
+    const images = resortData.resort_images?.length
+      ? resortData.resort_images
+        .filter(img => img?.image?.path)
+        .map(img => ({
+          url: img.image.path.startsWith('http')
+            ? img.image.path
+            : `${process.env.NEXT_PUBLIC_API_URL}${img.image.path}`,
+          alt: img.alt || `${resortData.title} ski resort - ${img.name || 'view'}`,
+        }))
+      : [{
+        url: `${baseUrl}${DEFAULT_IMAGE}`,
+        alt: `${resortData.title} ski resort`,
+      }];
 
     // Format reviews
     const reviews = resortData.comments?.map(comment => ({

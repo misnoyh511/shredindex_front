@@ -15,11 +15,9 @@ declare global {
   }
 }
 
-export const NEXT_PUBLIC_GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
-
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: URL): void => {
-  window.gtag('config', NEXT_PUBLIC_GA_TRACKING_ID, {
+  window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID as string, {
     page_path: url,
   });
 };
@@ -120,7 +118,7 @@ export const trackShare = (resortName: string, platform: string): void => {
 export const initGA = (): void => {
   const script = document.createElement('script');
   script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GA_TRACKING_ID}`;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`;
   document.head.appendChild(script);
 
   window.dataLayer = window.dataLayer || [];
@@ -128,5 +126,5 @@ export const initGA = (): void => {
     window.dataLayer.push(args);
   }
   gtag('js', new Date());
-  gtag('config', NEXT_PUBLIC_GA_TRACKING_ID);
+  gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID);
 };

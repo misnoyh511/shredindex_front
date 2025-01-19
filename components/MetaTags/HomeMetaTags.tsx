@@ -1,10 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import DefaultImage from '../../public/ShredIndexMetaImage.jpg';
 
 const SITE_NAME = 'ShredIndex';
-const DEFAULT_IMAGE = DefaultImage;
+const DEFAULT_IMAGE = '/ShredIndexMetaImage.jpg';
 
 const lifestyles = [
   { key: 'family_friendly', name: 'family_friendly', label: 'Family', description: 'Perfect for families with children, featuring easy slopes and comprehensive ski schools' },
