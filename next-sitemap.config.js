@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://snowmadlist.com',
+  siteUrl: 'https://shredindex.com',
   generateRobotsTxt: true,
   changefreq: 'daily',
   priority: 0.7,

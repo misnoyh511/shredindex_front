@@ -5,10 +5,9 @@ const Document = () => {
   return (
     <Html lang="en">
       <Head>
-        {/* Google Analytics */}
         <script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
+          src={'https://www.googletagmanager.com/gtag/js?id=G-KZ1ZQC1V1B'}
         />
         <script
           dangerouslySetInnerHTML={{
@@ -16,7 +15,7 @@ const Document = () => {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+              gtag('config', 'G-KZ1ZQC1V1B', {
                 page_path: window.location.pathname,
               });
             `,
@@ -29,17 +28,6 @@ const Document = () => {
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
           as="style"
         />
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
-          as="style"
-        />
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-          as="style"
-        />
-
         {/* Establish early connections */}
         <link
           rel="preconnect"
@@ -55,18 +43,6 @@ const Document = () => {
         />
 
         {/* Load actual font styles */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
-          rel="stylesheet"
-          media="print"
-          onLoad="this.media='all'"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-          rel="stylesheet"
-          media="print"
-          onLoad="this.media='all'"
-        />
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
           rel="stylesheet"

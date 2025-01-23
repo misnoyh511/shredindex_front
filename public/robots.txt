@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://snowmadlist.com
+Host: https://shredindex.com
 
 # Sitemaps
-Sitemap: https://snowmadlist.com/sitemap.xml
+Sitemap: https://shredindex.com/sitemap.xml
