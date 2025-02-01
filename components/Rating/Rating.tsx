@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import isNumber from '../../utils/helperFunctions';
 import { TypeIcon } from '@/Icons/TypeIcon';
+import { SvgIcon } from '@/Icons/SvgIcon';
+import TotalScore from '../../icons/total-score.svg';
 
 interface RatingProps {
   name?: string | null;
@@ -12,6 +14,42 @@ interface RatingProps {
   error?: boolean;
   warningCodes?: string[];
 }
+
+interface RenderRatingIconProps {
+  name: string | null;
+  ratingType?: 'sub-rating' | string;
+  className?: string;
+  size?: string;
+}
+
+const renderRatingIcon = ({
+  name,
+  ratingType = 'sub-rating',
+  className = 'rating__icon',
+  size = '1.45rem',
+}: RenderRatingIconProps) => {
+  if (name === 'total_score') {
+    return (
+      <SvgIcon
+        svgContent={TotalScore}
+        className={`${className} w-100 h-100 mt-4`}
+        size={size}
+      />
+    );
+  }
+
+  if (name && ratingType === 'sub-rating') {
+    return (
+      <TypeIcon
+        className={className}
+        typeName={name}
+        size={size}
+      />
+    );
+  }
+
+  return null;
+};
 
 const useCountAnimation = (targetValue: number | string | 'n/a', duration: number = 200) => {
   const [count, setCount] = useState(0);
@@ -148,9 +186,7 @@ const Rating: React.FC<RatingProps> = ({
           className={`rating__icon--${styleSuffix} user-select-none rating__type`}
           aria-hidden="true"
         >
-          {name && ratingType === 'sub-rating' && (
-            <TypeIcon className="rating__icon" typeName={name} size={'1.45rem'}/>
-          )}
+          {renderRatingIcon({ name })}
         </span>
         {renderTitle()}
       </div>

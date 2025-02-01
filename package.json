@@ -133,6 +133,7 @@
     "@coreui/react": "^5.4.0",
     "@coreui/utils": "^2.0.2",
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
+    "@next/third-parties": "^15.1.6",
     "@react-google-maps/api": "^2.20.3",
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.8.0",
