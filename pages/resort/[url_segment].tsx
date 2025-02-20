@@ -92,11 +92,56 @@ interface ResortPageProps {
   initialApolloState: unknown;
 }
 
+// Helper function to normalize URL segments
+const normalizeUrlSegment = (url_segment: string) => {
+  // First decode in case it's already encoded
+  const decoded = decodeURIComponent(url_segment);
+  // Then encode it properly
+  return encodeURIComponent(decoded);
+};
+
+// Helper function to wait
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Fetch resort data with retry mechanism
+const fetchResortWithRetry = async (apolloClient: any, url_segment: string, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      console.log(`\n[Resort: ${url_segment}] Attempt ${i + 1} of ${retries}`);
+      const normalizedUrl = normalizeUrlSegment(url_segment);
+      console.log(`\n[Resort: ${url_segment}] Using normalized URL: ${normalizedUrl}`);
+
+      const { data } = await apolloClient.query({
+        query: QUERY_RESORT,
+        variables: { url_segment: normalizedUrl },
+      });
+
+      if (!data || !data.resortByUrlSegment) {
+        console.log(`\n[Resort: ${url_segment}] No data found on attempt ${i + 1}`);
+        // If this is a "no data found" situation, don't retry - return null
+        return null;
+      }
+
+      console.log(`\n[Resort: ${url_segment}] ✓ Success on attempt ${i + 1}`);
+      return data;
+    } catch (error) {
+      console.log(`\n[Resort: ${url_segment}] ✗ Failed attempt ${i + 1} of ${retries}`);
+      if (i === retries - 1) throw error;
+      const waitTime = 1000 * (i + 1);
+      console.log(`\n[Resort: ${url_segment}] Waiting ${waitTime}ms before retry...`);
+      await wait(waitTime); // Exponential backoff
+    }
+  }
+  throw new Error(`Failed to fetch after ${retries} retries`);
+};
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = initializeApollo();
 
   try {
     const { data } = await apolloClient.query({ query: QUERY_RESORTS_URL });
+    console.log('\n[Static Paths] Found', data?.getAllResortUrlSegments?.length || 0, 'resorts to process');
+
     const paths = data?.getAllResortUrlSegments?.map((url_segment: string) => ({
       params: { url_segment },
     })) || [];
@@ -118,12 +163,18 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
   const apolloClient = initializeApollo();
 
   try {
-    const { data } = await apolloClient.query({
-      query: QUERY_RESORT,
-      variables: { url_segment: params?.url_segment },
-    });
+    const data = await fetchResortWithRetry(apolloClient, params?.url_segment as string);
 
-    if (!data || !data.resortByUrlSegment) {
+    if (data === null) {
+      console.log(`\n[Resort: ${params?.url_segment}] ✗ Resort not found after query`);
+      return {
+        notFound: true,
+        revalidate: 60,
+      };
+    }
+
+    if (!data.resortByUrlSegment) {
+      console.log(`\n[Resort: ${params?.url_segment}] ✗ No resort data in response`);
       return {
         notFound: true,
         revalidate: 60,
@@ -138,7 +189,7 @@ export const getStaticProps: GetStaticProps<ResortPageProps> = async ({ params }
       revalidate: 3600,
     };
   } catch (error) {
-    console.error('Error fetching resort data:', error);
+    console.error(`Error fetching resort data for URL: ${params?.url_segment}`, error);
 
     let errorMessage = 'An unknown error occurred';
     if (error instanceof ApolloError || error instanceof Error) {
