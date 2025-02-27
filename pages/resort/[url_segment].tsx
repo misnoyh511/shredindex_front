@@ -92,14 +92,6 @@ interface ResortPageProps {
   initialApolloState: unknown;
 }
 
-// Helper function to normalize URL segments
-const normalizeUrlSegment = (url_segment: string) => {
-  // First decode in case it's already encoded
-  const decoded = decodeURIComponent(url_segment);
-  // Then encode it properly
-  return encodeURIComponent(decoded);
-};
-
 // Helper function to wait
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -108,12 +100,10 @@ const fetchResortWithRetry = async (apolloClient: any, url_segment: string, retr
   for (let i = 0; i < retries; i++) {
     try {
       console.log(`\n[Resort: ${url_segment}] Attempt ${i + 1} of ${retries}`);
-      const normalizedUrl = normalizeUrlSegment(url_segment);
-      console.log(`\n[Resort: ${url_segment}] Using normalized URL: ${normalizedUrl}`);
 
       const { data } = await apolloClient.query({
         query: QUERY_RESORT,
-        variables: { url_segment: normalizedUrl },
+        variables: { url_segment: url_segment },
       });
 
       if (!data || !data.resortByUrlSegment) {
