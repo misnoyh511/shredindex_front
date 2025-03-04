@@ -4,22 +4,23 @@ import {
   CDropdownMenu,
   CDropdownItem,
   CDropdownToggle,
+  CSpinner,
 } from '@coreui/react';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { showLoginTray } from '../../atoms/showLoginTray';
 import { showMembershipTray } from '../../atoms/showMembershipTray';
-import UserAvatar from '@/UserAvatar/UserAvatar';
+import UserAvatar from '@/UserAvatar/UserAvatar'; // Adjust path as needed
 import { useAuth } from '../../hooks/useAuth';
 
-const UserProfileMenu: React.FC = () => {
+const UserProfileMenu = () => {
   const { user, logout, loading } = useAuth();
   const [membershipVisible, setMembershipVisible] = useRecoilState(showMembershipTray);
   const [, setShowLoginState] = useRecoilState(showLoginTray);
   const [mounted, setMounted] = useState(false);
-
   const router = useRouter();
 
+  // Handle client-side mounting to prevent SSR hydration issues
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -39,17 +40,17 @@ const UserProfileMenu: React.FC = () => {
     }
   };
 
-  // Return null on server-side to prevent hydration issues
+  // Don't render anything during SSR to prevent hydration mismatches
   if (!mounted) {
     return null;
   }
 
+  // Show loading state with spinner
   if (loading) {
     return (
-      <div className="user-button-menu" onClick={() => setShowLoginState('login')}>
-        <div className={'custom-avatar relative rounded-full overflow-hidden'}>
-          <div className="w-full h-full object-cover skeleton" />
-        </div>
+      <div className="user-button-menu d-flex align-items-center">
+        <CSpinner size="sm" color="primary" className="me-2" />
+        <span>Loading</span>
       </div>
     );
   }
@@ -57,15 +58,18 @@ const UserProfileMenu: React.FC = () => {
   // Show login button if no user
   if (!user) {
     return (
-      <div className="user-button-menu" onClick={() => setShowLoginState('login')}>
+      <div
+        className="user-button-menu cursor-pointer"
+        onClick={() => setShowLoginState('login')}
+      >
         Login
       </div>
     );
   }
 
-  // Optional chaining for all profile access
+  // User is logged in, show the dropdown
   return (
-    <CDropdown className="user-button-menu" variant="nav-item" alignment={'end'}>
+    <CDropdown className="user-button-menu" variant="nav-item" alignment="end">
       <CDropdownToggle caret={false}>
         <UserAvatar
           src={user?.shredProfile?.profile_picture || undefined}
@@ -80,14 +84,10 @@ const UserProfileMenu: React.FC = () => {
           View Profile ({user.username})
         </CDropdownItem>
         {user?.shredProfile?.preferred_sport && (
-          <CDropdownItem>
-            Sport: {user.shredProfile.preferred_sport}
-          </CDropdownItem>
+          <CDropdownItem>Sport: {user.shredProfile.preferred_sport}</CDropdownItem>
         )}
         {user?.shredProfile?.skill_level && (
-          <CDropdownItem>
-            Skill Level: {user.shredProfile.skill_level}
-          </CDropdownItem>
+          <CDropdownItem>Skill Level: {user.shredProfile.skill_level}</CDropdownItem>
         )}
         <CDropdownItem onClick={handleLogout}>Logout</CDropdownItem>
       </CDropdownMenu>
