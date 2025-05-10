@@ -71,28 +71,55 @@ jobs:
               sudo apt install -y certbot python3-certbot-nginx
             fi
 
-            # Deploy Frontend
-            docker pull ${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest
-            if [ $(docker ps -q -f name=shredindex-frontend) ]; then
-              docker stop shredindex-frontend
-              docker rm shredindex-frontend
+            # --- Frontend Deployment ---
+            IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest"
+            CONTAINER_NAME="shredindex-frontend"
+          
+            echo "Pulling latest frontend image: $IMAGE_NAME"
+            docker pull $IMAGE_NAME
+          
+            echo "Stopping and removing existing container: $CONTAINER_NAME (if any)"
+            if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
+              docker stop $CONTAINER_NAME
             fi
-
-            docker run -d --restart unless-stopped --name shredindex-frontend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest
-
-            # Clean up unused images
+            if [ $(docker ps -aq -f name=$CONTAINER_NAME) ]; then # Check all containers (stopped or running)
+              docker rm $CONTAINER_NAME
+            fi
+          
+            # Check if port 3000 is in use by something else (more robust check)
+            if sudo lsof -i:3000 -t >/dev/null; then
+                echo "ERROR: Port 3000 is already in use by another process. Please investigate."
+                # Optionally, try to kill it if you are sure, but this is risky
+                # sudo fuser -k 3000/tcp
+                exit 1 # Exit if port is in use by something unexpected
+            fi
+          
+            echo "Running new frontend container: $CONTAINER_NAME"
+            docker run -d --restart unless-stopped --name $CONTAINER_NAME -p 3000:3000 $IMAGE_NAME
+          
+            echo "Cleaning up unused Docker images"
             docker image prune -f
-
-            # Create Nginx virtual host configuration
+          
+            # --- Nginx Configuration ---
+            NGINX_CONF_AVAILABLE="/etc/nginx/sites-available/shredindex-frontend.conf"
+            NGINX_CONF_ENABLED="/etc/nginx/sites-enabled/shredindex-frontend.conf"
+            SERVER_NAMES_LINE="server_name snowmadlist.com www.snowmadlist.com shredindex.com www.shredindex.com;"
+          
+            # Create Nginx config if it doesn't exist, or update server_name if it does
+            # This approach is slightly more idempotent for the server_name part.
+            # For full idempotency, tools like Ansible are better.
+            echo "Configuring Nginx virtual host"
             sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
-
-            sudo tee /etc/nginx/sites-available/shredindex-frontend.conf > /dev/null <<EOT
-
+          
+            # Create a basic HTTP-only config first for Certbot
+            sudo tee $NGINX_CONF_AVAILABLE > /dev/null <<EOT
             server {
               listen 80;
-              server_name snowmadlist.com www.snowmadlist.com shredindex.com www.shredindex.com;
+              listen [::]:80;
+              ${SERVER_NAMES_LINE}
+          
               location / {
-                  proxy_pass http://localhost:3000;
+                  proxy_pass http://localhost:3000; # Your Docker container
                   proxy_set_header Host \$host;
                   proxy_set_header X-Real-IP \$remote_addr;
                   proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -102,29 +129,56 @@ jobs:
               }
             }
             EOT
-
-            # Enable the virtual host configuration
-            sudo ln -s /etc/nginx/sites-available/shredindex-frontend.conf /etc/nginx/sites-enabled/
-
-            # Test and restart Nginx to apply changes
-            sudo nginx -t
-            sudo systemctl restart nginx
-
-            # Obtain SSL certificates with Certbot
-
-            sudo rm -f /etc/nginx/sites-enabled/default
-            sudo certbot delete --cert-name snowmadlist.com --non-interactive || true
-            sudo certbot delete --cert-name shredindex.com --non-interactive || true
-
-            # Now obtain fresh certificates
+          
+            # Remove default Nginx config if it exists and conflicts
+            if [ -L /etc/nginx/sites-enabled/default ]; then
+              echo "Removing default Nginx config symlink"
+              sudo rm -f /etc/nginx/sites-enabled/default
+            fi
+          
+            # Ensure our site is enabled (create symlink if it doesn't exist)
+            if [ ! -L $NGINX_CONF_ENABLED ]; then
+              echo "Enabling Nginx site: shredindex-frontend"
+              sudo ln -s $NGINX_CONF_AVAILABLE $NGINX_CONF_ENABLED
+            elif [ "$(readlink -f $NGINX_CONF_ENABLED)" != "$NGINX_CONF_AVAILABLE" ]; then
+              # Symlink exists but points elsewhere, relink it
+              echo "Relinking Nginx site: shredindex-frontend"
+              sudo rm -f $NGINX_CONF_ENABLED
+              sudo ln -s $NGINX_CONF_AVAILABLE $NGINX_CONF_ENABLED
+            fi
+            
+            echo "Testing Nginx configuration..."
+            if ! sudo nginx -t; then
+              echo "Nginx configuration test failed after setting up HTTP. Exiting."
+              exit 1
+            fi
+            echo "Reloading Nginx to apply HTTP configuration..."
+            sudo systemctl reload nginx # Use reload instead of restart if possible for less disruption
+          
+            # --- SSL Certificate Management with Certbot ---
+            # No need to delete certs every time. Certbot handles renewal.
+            # Only run Certbot if certificates don't exist or are near expiry.
+            # For simplicity in a CI/CD, running it to ensure certs are up-to-date is common.
+            echo "Requesting/Renewing SSL certificates with Certbot..."
             sudo certbot --nginx \
-            -d snowmadlist.com -d www.snowmadlist.com \
-            -d shredindex.com -d www.shredindex.com \
-            --non-interactive --agree-tos \
-            -m thomas.andrew.hansen@gmail.com \
-            --redirect
-
-            sudo chown -R www-data:www-data /etc/letsencrypt
-
-            # Restart Nginx to apply the SSL configuration
-            sudo systemctl restart nginx
+              -d snowmadlist.com -d www.snowmadlist.com \
+              -d shredindex.com -d www.shredindex.com \
+              --non-interactive --agree-tos \
+              -m thomas.andrew.hansen@gmail.com \
+              --redirect \
+              --keep-until-expiring # This option tells Certbot to only act if renewal is needed or certs are missing
+          
+            # Test Nginx config again AFTER Certbot might have changed it
+            echo "Testing Nginx configuration after Certbot..."
+            if ! sudo nginx -t; then
+              echo "Nginx configuration test failed after Certbot. Exiting."
+              # You might want to attempt to revert Nginx config here or alert heavily
+              exit 1
+            fi
+          
+            # Certbot's --nginx flag should reload/restart Nginx if it makes changes.
+            # A final reload/restart can be a good safety measure.
+            echo "Reloading/Restarting Nginx to apply SSL configuration..."
+            sudo systemctl reload nginx || sudo systemctl restart nginx
+          
+            echo "Deployment script finished."
