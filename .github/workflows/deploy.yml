@@ -161,7 +161,7 @@ jobs:
                   proxy_buffering off;
               }
             }
-EOT
+            EOT
 
             if [ -L /etc/nginx/sites-enabled/default ]; then
               echo "Removing default Nginx config symlink..."
