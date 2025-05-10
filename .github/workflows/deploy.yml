@@ -1,50 +1,44 @@
-name: Combined CI/CD Pipeline on Docker Contabo
+name: Combined CI/CD Pipeline for Frontend
 
 on:
   push:
     branches:
       - develop
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
-    environment: develop  # Specify the environment
-
+    environment: develop
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Create .env files
+      - name: Create .env file for build
         run: |
-          # Ensure scripts directory and deploy.sh exist and are executable
-          if [ -d "scripts" ] && [ -f "scripts/deploy.sh" ]; then
-            chmod +x scripts/deploy.sh
-            ./scripts/deploy.sh
-          else
-            echo "Warning: scripts/deploy.sh not found, .env files might not be created as expected for build."
-            # If .env.local is committed or not needed at build time, this might be fine.
-            # Otherwise, ensure your NEXT_PUBLIC_ variables are passed as build ARGs
-            # and handled by your Dockerfile if this script is meant to create .env.local
-          fi
+          echo "Creating .env.local for build..."
+          echo "NEXT_PUBLIC_GA_TRACKING_ID=${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}" > .env.local
+          echo "NEXT_PUBLIC_MAPBOX_API_KEY=${{ secrets.NEXT_PUBLIC_MAPBOX_API_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_MAPBOX_STYLE=${{ secrets.NEXT_PUBLIC_MAPBOX_STYLE }}" >> .env.local
+          echo "NEXT_PUBLIC_GRAPHQL_ENDPOINT=${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}" >> .env.local
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env.local
+          # Ensure your scripts/deploy.sh is not strictly needed if this replaces its .env creation role
+          # Or call it if it does more:
+          # if [ -f "scripts/deploy.sh" ]; then chmod +x scripts/deploy.sh && ./scripts/deploy.sh; fi
         env:
+          # Pass all secrets needed by scripts/deploy.sh or for direct .env.local creation
           NEXT_PUBLIC_GA_TRACKING_ID: ${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}
           NEXT_PUBLIC_MAPBOX_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPBOX_API_KEY }}
-          NEXT_PUBLIC_MAPBOX_STYLE: ${{ secrets.NEXT_PUBLIC_MAPBOX_STYLE }}
-          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+          # ... other secrets ...
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-          NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }} # Note: Stripe SECRET key should not be NEXT_PUBLIC_
 
       - name: Build and push Frontend Docker image
         uses: docker/build-push-action@v6
@@ -52,9 +46,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest
-          # Pass build arguments to Dockerfile if .env.local isn't created by deploy.sh
-          # or if you prefer to use build args directly
-          build-args: |
+          build-args: | # Pass relevant ARGs to Dockerfile
             NEXT_PUBLIC_GA_TRACKING_ID=${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}
             NEXT_PUBLIC_MAPBOX_API_KEY=${{ secrets.NEXT_PUBLIC_MAPBOX_API_KEY }}
             NEXT_PUBLIC_MAPBOX_STYLE=${{ secrets.NEXT_PUBLIC_MAPBOX_STYLE }}
@@ -62,15 +54,13 @@ jobs:
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
             NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-            # NEXT_PUBLIC_STRIPE_SECRET_KEY should NOT be passed as a build-arg to the frontend
 
   deploy:
     runs-on: ubuntu-latest
-    environment: develop  # Specify the environment
+    environment: develop
     needs: [build-frontend]
-
     steps:
-      - name: SSH into DigitalOcean Droplet instance # Updated name for clarity
+      - name: SSH into DigitalOcean Droplet instance
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -78,153 +68,107 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            echo "Starting deployment script on server..."
+            set -e # Exit on error
+            echo "Starting deployment script on server $(date)..."
 
-            # Ensure essential tools are installed
-            if ! command -v nginx &> /dev/null || ! command -v certbot &> /dev/null || ! command -v lsof &> /dev/null; then
-              echo "Installing Nginx, Certbot, and lsof..."
-              sudo apt update -y
-              sudo apt install -y nginx certbot python3-certbot-nginx lsof
+            # Ensure Nginx, Certbot, lsof, psmisc (for fuser) are installed
+            if ! command -v nginx &> /dev/null || ! command -v certbot &> /dev/null || ! command -v lsof &> /dev/null || ! command -v fuser &> /dev/null; then
+              echo "Installing prerequisites..."
+              sudo apt-get update -y
+              sudo apt-get install -y nginx certbot python3-certbot-nginx lsof psmisc
               sudo systemctl enable nginx
-              sudo systemctl start nginx # Start if not already running
+              sudo systemctl start nginx
             fi
 
-            # --- Frontend Deployment ---
             IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/shredindex-frontend:latest"
             CONTAINER_NAME="shredindex-frontend"
             APP_PORT="3000"
 
-            echo "Pulling latest frontend image: $IMAGE_NAME"
+            echo "Pulling image: $IMAGE_NAME"
             docker pull "$IMAGE_NAME"
 
-            echo "Stopping and removing existing container: $CONTAINER_NAME (if any)..."
-            if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-              docker stop "$CONTAINER_NAME"
-            fi
-            if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-              docker rm "$CONTAINER_NAME"
-            fi
+            echo "Stopping and removing existing container: $CONTAINER_NAME..."
+            docker stop "$CONTAINER_NAME" || true # Allow failure if not running
+            docker rm -f "$CONTAINER_NAME" || true  # Force remove, allow failure if not existing
+            sleep 2 # Give a moment for port to release
 
-            echo "Checking if port $APP_PORT is in use..."
-            if sudo lsof -i:$APP_PORT -t >/dev/null; then
-                echo "ERROR: Port $APP_PORT is already in use. Attempting to find and kill process..."
-                # Try to kill the process using the port. Use with caution.
-                # This assumes that if the port is in use, it's a leftover from a previous failed deployment of this app.
-                sudo fuser -k "$APP_PORT/tcp" || echo "fuser failed or port already free."
-                sleep 2 # Give a moment for the port to be released
-                if sudo lsof -i:$APP_PORT -t >/dev/null; then
-                  echo "ERROR: Port $APP_PORT is still in use after attempting to kill process. Exiting."
-                  exit 1
-                fi
-                echo "Port $APP_PORT is now free."
-            else
-                echo "Port $APP_PORT is free."
+            echo "Checking if port $APP_PORT is in use before starting new container..."
+            if sudo lsof -iTCP:"$APP_PORT" -sTCP:LISTEN -t >/dev/null; then
+              echo "Port $APP_PORT is still in use. Attempting to kill..."
+              sudo fuser -k -n tcp "$APP_PORT" || echo "fuser: Port $APP_PORT was not in use or fuser failed."
+              sleep 2
+              if sudo lsof -iTCP:"$APP_PORT" -sTCP:LISTEN -t >/dev/null; then
+                echo "ERROR: Port $APP_PORT could not be freed. Exiting."
+                exit 1
+              fi
             fi
 
-            echo "Running new frontend container: $CONTAINER_NAME on port $APP_PORT..."
-            docker run -d --restart unless-stopped --name "$CONTAINER_NAME" -p "$APP_PORT:$APP_PORT" "$IMAGE_NAME"
-            sleep 5 # Give container a few seconds to start before Nginx proxies to it
+            echo "Running new container $CONTAINER_NAME..."
+            docker run -d --restart unless-stopped --name "$CONTAINER_NAME" -p "0.0.0.0:$APP_PORT:$APP_PORT" "$IMAGE_NAME"
+            echo "Waiting for container to start..."
+            sleep 10 # Give Next.js app time to initialize
 
-            echo "Cleaning up unused Docker images..."
-            docker image prune -a -f # Prune all unused images, not just dangling
-
-            # --- Nginx Configuration ---
             NGINX_CONF_AVAILABLE="/etc/nginx/sites-available/shredindex-frontend.conf"
             NGINX_CONF_ENABLED="/etc/nginx/sites-enabled/shredindex-frontend.conf"
-            SERVER_NAMES="snowmadlist.com www.snowmadlist.com shredindex.com www.shredindex.com" # No semicolon needed here
+            SERVER_NAMES="snowmadlist.com www.snowmadlist.com shredindex.com www.shredindex.com"
+            ACME_CHALLENGE_ROOT="/var/www/letsencrypt_challenges"
 
-            echo "Configuring Nginx virtual host for HTTP..."
-            sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
-
+            echo "Resetting Nginx config for domains to HTTP only..."
+            # This step is crucial: OVERWRITE the site config with a basic HTTP one.
+            # This ensures any previous SSL settings by Certbot for these domains in this file are removed.
+            sudo mkdir -p /etc/nginx/sites-available "$ACME_CHALLENGE_ROOT"
+            sudo chown www-data:www-data "$ACME_CHALLENGE_ROOT"
             sudo tee "$NGINX_CONF_AVAILABLE" > /dev/null <<EOT
             server {
               listen 80;
               listen [::]:80;
               server_name ${SERVER_NAMES};
 
-              # Location for Let's Encrypt ACME challenge (optional but good practice)
-              # location ~ /.well-known/acme-challenge/ {
-              #   allow all;
-              #   root /var/www/html; # Ensure this path exists or use another valid path
-              # }
-
+              location /.well-known/acme-challenge/ {
+                allow all;
+                root ${ACME_CHALLENGE_ROOT};
+              }
               location / {
-                  proxy_pass http://localhost:${APP_PORT}; # Use variable for port
+                  proxy_pass http://localhost:${APP_PORT};
                   proxy_set_header Host \$host;
                   proxy_set_header X-Real-IP \$remote_addr;
                   proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
                   proxy_set_header X-Forwarded-Proto \$scheme;
-                  proxy_http_version 1.1;
-                  proxy_set_header Upgrade \$http_upgrade;
-                  proxy_set_header Connection "upgrade";
-                  client_max_body_size 128M;
-                  proxy_buffering off;
               }
             }
             EOT
-
-            if [ -L /etc/nginx/sites-enabled/default ]; then
-              echo "Removing default Nginx config symlink..."
-              sudo rm -f /etc/nginx/sites-enabled/default
+            # Remove default site if it exists
+            if [ -L "/etc/nginx/sites-enabled/default" ]; then
+              sudo rm -f "/etc/nginx/sites-enabled/default"
             fi
-
-            echo "Ensuring Nginx site '$NGINX_CONF_AVAILABLE' is enabled at '$NGINX_CONF_ENABLED'..."
-            if [ -e "$NGINX_CONF_ENABLED" ] && [ "$(readlink -f "$NGINX_CONF_ENABLED")" != "$NGINX_CONF_AVAILABLE" ]; then
+            # Ensure our config is symlinked, remove if it was pointing elsewhere
+            if [ -L "$NGINX_CONF_ENABLED" ] && [ "$(readlink -f "$NGINX_CONF_ENABLED")" != "$NGINX_CONF_AVAILABLE" ]; then
                 sudo rm -f "$NGINX_CONF_ENABLED"
             fi
             if [ ! -L "$NGINX_CONF_ENABLED" ]; then
                 sudo ln -s "$NGINX_CONF_AVAILABLE" "$NGINX_CONF_ENABLED"
             fi
-            
+
             echo "Testing Nginx configuration (HTTP setup)..."
             if ! sudo nginx -t; then
-              echo "Nginx configuration test failed after setting up HTTP. Printing Nginx configs..."
-              echo "--- $NGINX_CONF_AVAILABLE ---"
+              echo "Nginx config test failed (HTTP setup). Dumping current config."
               sudo cat "$NGINX_CONF_AVAILABLE"
-              echo "--- /etc/nginx/nginx.conf ---"
-              sudo cat /etc/nginx/nginx.conf
-              echo "---------------------------"
               exit 1
             fi
+            echo "Reloading Nginx..."
+            sudo systemctl reload nginx || sudo systemctl restart nginx
 
-            echo "Reloading Nginx to apply HTTP configuration..."
-            if ! sudo systemctl reload nginx; then
-                echo "Nginx reload failed, attempting restart..."
-                if ! sudo systemctl restart nginx; then
-                  echo "Nginx restart also failed. Exiting."
-                  exit 1
-                fi
-            fi
-            sudo systemctl status nginx --no-pager # Show status
-
-            # --- SSL Certificate Management with Certbot ---
-            echo "Requesting/Renewing SSL certificates with Certbot..."
-            # Convert SERVER_NAMES to -d domain1 -d domain2 format for certbot
-            CERTBOT_DOMAINS=$(echo "${SERVER_NAMES}" | sed 's/ / -d /g' | sed 's/^/-d /')
-
+            echo "Running Certbot..."
+            CERTBOT_DOMAINS_FLAGS=$(echo "${SERVER_NAMES}" | sed 's/ / -d /g' | sed 's/^/-d /')
             sudo certbot --nginx \
-              ${CERTBOT_DOMAINS} \
+              ${CERTBOT_DOMAINS_FLAGS} \
               --non-interactive --agree-tos \
               -m thomas.andrew.hansen@gmail.com \
               --redirect \
               --keep-until-expiring \
-              --deploy-hook "sudo systemctl reload nginx" # Tell certbot to reload nginx after successful renewal/issuance
+              --deploy-hook "sudo systemctl reload nginx"
 
-            # Test Nginx config again AFTER Certbot might have changed it
-            echo "Testing Nginx configuration after Certbot..."
-            if ! sudo nginx -t; then
-              echo "Nginx configuration test failed after Certbot. Printing Nginx configs..."
-              echo "--- $NGINX_CONF_AVAILABLE ---"
-              sudo cat "$NGINX_CONF_AVAILABLE" # Show the config Certbot modified
-              echo "--- /etc/nginx/nginx.conf ---"
-              sudo cat /etc/nginx/nginx.conf
-              echo "---------------------------"
-              exit 1
-            fi
-
-            # Certbot's --deploy-hook should handle the reload.
-            # A final status check for Nginx.
-            echo "Checking Nginx status after Certbot..."
-            sudo systemctl status nginx --no-pager || echo "Nginx status check indicates issues."
-            
-            echo "Deployment script finished."
+            echo "Final Nginx test and status check..."
+            sudo nginx -t
+            sudo systemctl status nginx --no-pager
+            echo "Deployment finished."
