@@ -55,6 +55,10 @@ const nextConfig = {
         hostname: 'localhost',
       },
       {
+        protocol: 'http',
+        hostname: 'backend.shredindex.com',
+      },
+      {
         protocol: 'https',
         hostname: 'backend.shredindex.com',
       },
